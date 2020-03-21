@@ -5,6 +5,7 @@ import javax.security.auth.login.LoginException;
 import org.bukkit.Bukkit;
 
 import fr.leomelki.loupgarou.MainLg;
+import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceJoinEvent;
@@ -52,6 +53,7 @@ public class DiscordManager extends ListenerAdapter {
     	}
     	
 	    DefaultShardManagerBuilder builder = new DefaultShardManagerBuilder();
+	    builder.setStatus(OnlineStatus.ONLINE);
 	    builder.setToken(main.getConfig().getString("token"));
 	    builder.addEventListeners(this);
 		this.shard = builder.build();
@@ -67,8 +69,6 @@ public class DiscordManager extends ListenerAdapter {
 		
 		if(this.selectedChannel == null) {
 			Bukkit.broadcastMessage("§9§lDISCORD > §cAucun salon discord correspondant");
-			this.shard.shutdown();
-			this.shard = null;
 			return;
 		}
 	}
