@@ -24,10 +24,12 @@ public class DiscordManager extends ListenerAdapter {
 	private VoiceChannel selectedChannel;
 	private JDA jda;
 	
+	private final List<String> unknowns;
 	private final List<Member> deads;
 	private boolean allMuted;
 
 	public DiscordManager(MainLg main) {
+		this.unknowns = new ArrayList<String>();
 		this.deads = new ArrayList<Member>();
 		try {
 			this.setup(main);
@@ -117,6 +119,11 @@ public class DiscordManager extends ListenerAdapter {
 					return;
 				}
 			}
+		}
+		
+		if(!this.unknowns.contains(playerName)) {
+			this.unknowns.add(playerName);
+			Bukkit.broadcastMessage("§9§lDISCORD > §cJoueur inconnu sur discord : " + playerName);
 		}
 	}
 	
