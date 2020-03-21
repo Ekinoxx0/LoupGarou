@@ -1,6 +1,5 @@
 package fr.leomelki.loupgarou.discord;
 
-import javax.annotation.Nonnull;
 import javax.security.auth.login.LoginException;
 
 import org.bukkit.Bukkit;
@@ -54,8 +53,7 @@ public class DiscordManager extends ListenerAdapter {
 	
 	@Override
     public void onGuildVoiceJoin(GuildVoiceJoinEvent e) {
-    	if(e.getChannelJoined() == this.selectedChannel) {
-    		
-    	}
+    	if(e.getChannelJoined().getIdLong() != this.selectedChannel.getIdLong()) return;
+    	
     }
 }
