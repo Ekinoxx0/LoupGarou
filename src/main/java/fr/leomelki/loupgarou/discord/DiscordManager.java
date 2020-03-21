@@ -63,18 +63,7 @@ public class DiscordManager extends ListenerAdapter {
 			e.printStackTrace();
 		}
 
-		Bukkit.broadcastMessage("Guilds : ");
-		for(Guild g : this.jda.getGuilds()) {
-			Bukkit.broadcastMessage(g.getIdLong() + " -> " + g.getName());
-			for(GuildChannel c : g.getChannels()) {
-				Bukkit.broadcastMessage(" - " + c.getIdLong() + " -> " + c.getName());
-			}
-		}
-		
-
-		Bukkit.broadcastMessage("List : ");
 		for(VoiceChannel voice : this.jda.getVoiceChannels()) {
-			Bukkit.broadcastMessage(voice.getId() + " -> " + voice.getName());
 			if(voice.getIdLong() == main.getConfig().getLong("channel_discord")) {
 				this.selectedChannel = voice;
 				break;
