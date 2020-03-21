@@ -98,7 +98,7 @@ public class DiscordManager extends ListenerAdapter {
 
 	public void setMuted(String playerName, boolean muted) {
 		for(Member m : this.selectedChannel.getMembers()) {
-			if(m.getNickname().toLowerCase().contains(playerName.toLowerCase())) {
+			if(m.getEffectiveName().toLowerCase().contains(playerName.toLowerCase())) {
 				m.mute(muted);
 				if(muted)
 					this.deads.add(m);
