@@ -31,11 +31,15 @@ public class DiscordManager extends ListenerAdapter {
 	}
 
 	private void setup(MainLg main) throws LoginException, IllegalArgumentException {
-    	if(!main.getConfig().contains("token"))
+    	if(!main.getConfig().contains("token")) {
     		main.getConfig().set("token", DEFAULT_VALUE_CONFIG);
+    		main.saveConfig();
+    	}
     	
-    	if(!main.getConfig().contains("channel_discord"))
+    	if(!main.getConfig().contains("channel_discord")) {
     		main.getConfig().set("channel_discord", DEFAULT_CHANNEL_CONFIG);
+    		main.saveConfig();
+    	}
     	
     	if(main.getConfig().getString("token").equals(DEFAULT_VALUE_CONFIG)) {
 			Bukkit.broadcastMessage("§9§lDISCORD > §cAucune config de token discord.");
