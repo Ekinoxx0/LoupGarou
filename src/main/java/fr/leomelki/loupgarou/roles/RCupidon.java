@@ -258,6 +258,9 @@ public class RCupidon extends Role{
 				player.sendMessage("§d\u2764 "+player.getName()+" §6» §f"+e.getMessage().substring(1));
 				player.getCache().<LGPlayer>get("inlove").sendMessage("§d\u2764 "+player.getName()+" §6» §f"+e.getMessage().substring(1));
 				e.setCancelled(true);
+			} else if(!e.isCancelled()) {
+				player.sendMessage("§6» §cVous n'avez aucun chat privé");
+				e.setCancelled(true);
 			}
 		}
 	}

@@ -94,9 +94,12 @@ public class DiscordManager extends ListenerAdapter {
 	
 	@Override
     public void onGuildVoiceJoin(GuildVoiceJoinEvent e) {
-    	if(e.getChannelJoined().getIdLong() != this.selectedChannel.getIdLong()) return;
+    	if(e.getChannelJoined().getIdLong() == this.selectedChannel.getIdLong()) {
+        	e.getEntity().mute(this.allMuted).submit();
+    	} else if(e.getChannelLeft().getIdLong() == this.selectedChannel.getIdLong()) {
+        	e.getEntity().mute(false).submit();
+    	}
     	
-    	e.getEntity().mute(this.allMuted).submit();
     }
 	
 	@Override

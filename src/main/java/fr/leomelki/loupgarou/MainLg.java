@@ -172,7 +172,7 @@ public class MainLg extends JavaPlugin{
 				LGPlayer player = LGPlayer.thePlayer(event.getPlayer());
 				if(player.getGame() != null && player.getGame().isStarted()) {
 					WrapperPlayServerUpdateHealth health = new WrapperPlayServerUpdateHealth(event.getPacket());
-					health.setFood(6);
+					health.setFood(20);
 				}
 			}
 		});
@@ -233,6 +233,10 @@ public class MainLg extends JavaPlugin{
 					LGPlayer.thePlayer(Bukkit.getPlayer(args[1])).getGame().broadcastMessage("§cLa partie a été arrêtée de force !");
 					return true;
 				}else if(args[0].equalsIgnoreCase("start")) {
+					if(args.length != 2) {
+						sender.sendMessage("§aVous avez bien démarré une nouvelle partie !");
+						return true;
+					}
 					sender.sendMessage("§aVous avez bien démarré une nouvelle partie !");
 					LGPlayer.thePlayer(Bukkit.getPlayer(args[1])).getGame().updateStart();
 					return true;

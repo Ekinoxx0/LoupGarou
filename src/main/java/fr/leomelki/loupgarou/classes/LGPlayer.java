@@ -305,9 +305,11 @@ public class LGPlayer {
 				if(lgp != this && lgp.getPlayer() != null)
 					lgp.getPlayer().hidePlayer(getPlayer());
 		muted = true;
+		MainLg.getInstance().getDiscord().setMutedChannel(muted);
 	}
 	public void resetMuted() {
 		muted = false;
+		MainLg.getInstance().getDiscord().setMutedChannel(muted);
 	}
 	
 	@Getter private LGChat chat;
@@ -353,10 +355,10 @@ public class LGPlayer {
 			getPlayer().stopSound(sound.getSound());
 	}
 	
-	long lastChoose;
+	private long lastChoose;
 	public void chooseAction() {
 		long now = System.currentTimeMillis();
-		if(lastChoose+200 < now) {
+		if(lastChoose+2000 < now) {
 			if(chooseCallback != null)
 				chooseCallback.callback(getPlayerOnCursor(getGame().getInGame()));
 			lastChoose = now;
