@@ -53,7 +53,9 @@ public class DiscordManager extends ListenerAdapter {
 	}
 	
 	@Override
-    public void onGuildVoiceJoin(@Nonnull GuildVoiceJoinEvent event) {
-    	
+    public void onGuildVoiceJoin(GuildVoiceJoinEvent e) {
+    	if(e.getChannelJoined() == this.selectedChannel) {
+    		
+    	}
     }
 }
