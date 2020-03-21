@@ -280,8 +280,9 @@ public class LGGame implements Listener{
 		//Registering roles
 		List<?> original = MainLg.getInstance().getConfig().getList("spawns");
 		List<Object> list = new ArrayList<Object>(original);
+		int i = 0;
 		for(LGPlayer lgp : getInGame()) {
-			List<Double> location = (List<Double>) list.remove(random.nextInt(list.size()));
+			List<Double> location = (List<Double>) list.remove(i++);
 			Player p = lgp.getPlayer();
 			p.setWalkSpeed(0);
 			p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 99999, 180, false, false));
