@@ -1,5 +1,6 @@
 package fr.leomelki.loupgarou.listeners;
 
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -23,6 +24,7 @@ public class CancelListener implements Listener{
 	}
 	@EventHandler
 	public void onMove(PlayerMoveEvent e) {
+		if(e.getPlayer().getGameMode() == GameMode.CREATIVE) return;
 		LGPlayer lgp = LGPlayer.thePlayer(e.getPlayer());
 		if(lgp.getGame() != null && lgp.getGame().isStarted() && e.getFrom().distanceSquared(e.getTo()) > 0.001)
 			e.setTo(e.getFrom());
@@ -57,15 +59,18 @@ public class CancelListener implements Listener{
 	}
 	@EventHandler
 	public void onDrop(PlayerDropItemEvent e) {
+		if(e.getPlayer().getGameMode() == GameMode.CREATIVE) return;
 		e.setCancelled(true);
 	}
 	@EventHandler
 	public void onClickInventory(InventoryClickEvent e) {
+		if(e.getWhoClicked().getGameMode() == GameMode.CREATIVE) return;
 		if(LGPlayer.thePlayer((Player)e.getWhoClicked()).getGame() != null)
 			e.setCancelled(true);
 	}
 	@EventHandler
 	public void onClickInventory(PlayerSwapHandItemsEvent e) {
+		if(e.getPlayer().getGameMode() == GameMode.CREATIVE) return;
 		if(LGPlayer.thePlayer(e.getPlayer()).getGame() != null)
 			e.setCancelled(true);
 	}
