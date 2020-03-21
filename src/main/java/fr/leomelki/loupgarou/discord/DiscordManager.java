@@ -5,6 +5,8 @@ import javax.security.auth.login.LoginException;
 import org.bukkit.Bukkit;
 
 import fr.leomelki.loupgarou.MainLg;
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.GuildChannel;
@@ -14,14 +16,13 @@ import net.dv8tion.jda.api.events.guild.voice.GuildVoiceJoinEvent;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceLeaveEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
-import net.dv8tion.jda.api.sharding.ShardManager;
 
 public class DiscordManager extends ListenerAdapter {
 	private static final String DEFAULT_VALUE_CONFIG = "TOKEN_DISCORD";
 	private static final long DEFAULT_CHANNEL_CONFIG = -1L;
 	
 	private VoiceChannel selectedChannel;
-	private ShardManager shard;
+	private JDA jda;
 	
 	private boolean allMuted;
 
@@ -54,14 +55,11 @@ public class DiscordManager extends ListenerAdapter {
     		return;
     	}
     	
-	    DefaultShardManagerBuilder builder = new DefaultShardManagerBuilder();
-	    builder.setStatus(OnlineStatus.ONLINE);
-	    builder.setToken(main.getConfig().getString("token"));
-	    builder.addEventListeners(this);
-		this.shard = builder.build();
+		this.jda = new JDABuilder(main.getConfig().getString("token")).build();
+	    this.jda.addEventListener(this);
 
 		Bukkit.broadcastMessage("Guilds : ");
-		for(Guild g : this.shard.getGuilds()) {
+		for(Guild g : this.jda.getGuilds()) {
 			Bukkit.broadcastMessage(g.getIdLong() + " -> " + g.getName());
 			for(GuildChannel c : g.getChannels()) {
 				Bukkit.broadcastMessage(" - " + c.getIdLong() + " -> " + c.getName());
@@ -70,7 +68,7 @@ public class DiscordManager extends ListenerAdapter {
 		
 
 		Bukkit.broadcastMessage("List : ");
-		for(VoiceChannel voice : this.shard.getVoiceChannels()) {
+		for(VoiceChannel voice : this.jda.getVoiceChannels()) {
 			Bukkit.broadcastMessage(voice.getId() + " -> " + voice.getName());
 			if(voice.getIdLong() == main.getConfig().getLong("channel_discord")) {
 				this.selectedChannel = voice;
@@ -85,7 +83,7 @@ public class DiscordManager extends ListenerAdapter {
 	}
 	
 	public void setMutedChannel(boolean allMuted) {
-		if(this.shard == null || this.selectedChannel == null) return;
+		if(this.jda == null || this.selectedChannel == null) return;
 		if(this.allMuted == allMuted) return;
 		
 		this.allMuted = allMuted;
