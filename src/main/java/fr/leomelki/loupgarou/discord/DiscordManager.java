@@ -36,7 +36,7 @@ public class DiscordManager extends ListenerAdapter {
     		main.saveConfig();
     	}
     	
-    	if(!main.getConfig().contains("channel_discord")) {
+    	if(!main.getConfig().contains("channel_discord") || !main.getConfig().isLong("channel_discord")) {
     		main.getConfig().set("channel_discord", DEFAULT_CHANNEL_CONFIG);
     		main.saveConfig();
     	}
