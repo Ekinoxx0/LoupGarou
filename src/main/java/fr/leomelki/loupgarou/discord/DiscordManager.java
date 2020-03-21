@@ -15,6 +15,7 @@ import net.dv8tion.jda.api.sharding.ShardManager;
 
 public class DiscordManager extends ListenerAdapter {
 	private static final String DEFAULT_VALUE_CONFIG = "TOKEN_DISCORD";
+	private static final String DEFAULT_CHANNEL_CONFIG = "CHANNEL_DISCORD";
 	
 	private VoiceChannel selectedChannel;
 	private ShardManager shard;
@@ -32,9 +33,17 @@ public class DiscordManager extends ListenerAdapter {
 	private void setup(MainLg main) throws LoginException, IllegalArgumentException {
     	if(!main.getConfig().contains("token"))
     		main.getConfig().set("token", DEFAULT_VALUE_CONFIG);
-    			
+    	
+    	if(!main.getConfig().contains("channel_discord"))
+    		main.getConfig().set("channel_discord", DEFAULT_CHANNEL_CONFIG);
+    	
     	if(main.getConfig().getString("token").equals(DEFAULT_VALUE_CONFIG)) {
 			Bukkit.broadcastMessage("§9§lDISCORD > §cAucune config de token discord.");
+    		return;
+    	}
+    	
+    	if(main.getConfig().getString("channel_discord").equals(DEFAULT_CHANNEL_CONFIG)) {
+			Bukkit.broadcastMessage("§9§lDISCORD > §cAucune config de channel discord.");
     		return;
     	}
     	
@@ -44,7 +53,7 @@ public class DiscordManager extends ListenerAdapter {
 		this.shard = builder.build();
 		
 		for(VoiceChannel voice : this.shard.getVoiceChannels()) {
-			if(voice.getName().contains("Loup")) {
+			if(voice.getName().equals(main.getConfig().getString("channel_discord"))) {
 				this.selectedChannel = voice;
 				break;
 			}

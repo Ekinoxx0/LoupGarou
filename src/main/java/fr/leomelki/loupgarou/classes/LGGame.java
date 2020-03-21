@@ -560,6 +560,7 @@ public class LGGame implements Listener{
 	
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onGameEnd(LGGameEndEvent e) {
+		MainLg.getInstance().getDiscord().setMutedChannel(false);
 		if(e.getGame() == this && e.getWinType() == LGWinType.VILLAGEOIS)
 			for(LGPlayer lgp : getInGame())
 				if(lgp.getRoleType() == RoleType.VILLAGER)
