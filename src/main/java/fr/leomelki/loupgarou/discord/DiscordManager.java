@@ -73,6 +73,8 @@ public class DiscordManager extends ListenerAdapter {
 		if(this.selectedChannel == null) {
 			Bukkit.broadcastMessage("§9§lDISCORD > §cAucun salon discord correspondant");
 			return;
+		} else {
+			Bukkit.broadcastMessage("§9§lDISCORD > §4Lien prêt : " + this.selectedChannel.getName());
 		}
 	}
 	
