@@ -7,15 +7,12 @@ import org.bukkit.Bukkit;
 import fr.leomelki.loupgarou.MainLg;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
-import net.dv8tion.jda.api.OnlineStatus;
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.GuildChannel;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceJoinEvent;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceLeaveEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 
 public class DiscordManager extends ListenerAdapter {
 	private static final String DEFAULT_VALUE_CONFIG = "TOKEN_DISCORD";
@@ -107,4 +104,23 @@ public class DiscordManager extends ListenerAdapter {
     	if(e.getChannelLeft().getIdLong() != this.selectedChannel.getIdLong()) return;
     	e.getEntity().mute(false).submit();
     }
+
+	public void setMuted(String playerName, boolean muted) {
+		for(Member m : this.selectedChannel.getMembers()) {
+			if(m.getNickname().contains(playerName)) {
+				m.mute(muted);
+				return;
+			}
+		}
+
+		for(Member m : this.selectedChannel.getMembers()) {
+			for(Role r : m.getRoles()) {
+				if(r.getName().equals(playerName)) {
+					m.mute(muted);
+					return;
+				}
+			}
+		}
+		
+	}
 }

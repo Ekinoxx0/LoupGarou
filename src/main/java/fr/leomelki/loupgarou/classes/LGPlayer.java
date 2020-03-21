@@ -305,11 +305,11 @@ public class LGPlayer {
 				if(lgp != this && lgp.getPlayer() != null)
 					lgp.getPlayer().hidePlayer(getPlayer());
 		muted = true;
-		MainLg.getInstance().getDiscord().setMutedChannel(muted);
+		MainLg.getInstance().getDiscord().setMuted(player.getName(), muted);
 	}
 	public void resetMuted() {
 		muted = false;
-		MainLg.getInstance().getDiscord().setMutedChannel(muted);
+		MainLg.getInstance().getDiscord().setMuted(player.getName(), muted);
 	}
 	
 	@Getter private LGChat chat;
