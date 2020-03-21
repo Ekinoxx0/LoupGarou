@@ -458,6 +458,8 @@ public class LGGame implements Listener{
 		broadcastSpacer();
 		broadcastMessage("§9----------- §lNuit n°"+night+"§9 -----------");
 		broadcastMessage("§8§oLa nuit tombe sur le village...");
+		MainLg.getInstance().getDiscord().setMutedChannel(true);
+		
 		for(LGPlayer player : getAlive())
 			player.leaveChat();
 		for(LGPlayer player : getInGame()) {
@@ -636,6 +638,7 @@ public class LGGame implements Listener{
 		broadcastSpacer();
 		broadcastMessage("§9----------- §lJour n°"+night+"§9 -----------");
 		broadcastMessage("§8§oLe jour se lève sur le village...");
+		MainLg.getInstance().getDiscord().setMutedChannel(false);
 		
 		for(LGPlayer p : getInGame()) {
 			p.stopAudio(LGSound.AMBIANT_NIGHT);

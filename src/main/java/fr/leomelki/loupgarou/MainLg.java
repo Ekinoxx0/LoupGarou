@@ -1,6 +1,5 @@
 package fr.leomelki.loupgarou;
 
-
 import java.io.File;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
@@ -81,7 +80,6 @@ import fr.leomelki.loupgarou.roles.RVoyante;
 import fr.leomelki.loupgarou.roles.Role;
 import lombok.Getter;
 import lombok.Setter;
-import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 
 public class MainLg extends JavaPlugin{
 	private static MainLg instance;
@@ -98,7 +96,6 @@ public class MainLg extends JavaPlugin{
 		if(!new File(getDataFolder(), "config.yml").exists()) {//Créer la config
 			FileConfiguration config = getConfig();
 			config.set("spawns", new ArrayList<List<Double>>());
-			config.set("token", DiscordManager.DEFAULT_VALUE_CONFIG);
 			for(String role : roles.keySet())//Nombre de participant pour chaque rôle
 				config.set("role."+role, 1);
 			saveConfig();
