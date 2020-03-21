@@ -55,8 +55,10 @@ public class DiscordManager extends ListenerAdapter {
 	    builder.setToken(main.getConfig().getString("token"));
 	    builder.addEventListeners(this);
 		this.shard = builder.build();
-		
+
+		Bukkit.broadcastMessage("List : ");
 		for(VoiceChannel voice : this.shard.getVoiceChannels()) {
+			Bukkit.broadcastMessage(voice.getId() + " -> " + voice.getName());
 			if(voice.getIdLong() == main.getConfig().getLong("channel_discord")) {
 				this.selectedChannel = voice;
 				break;
@@ -64,7 +66,7 @@ public class DiscordManager extends ListenerAdapter {
 		}
 		
 		if(this.selectedChannel == null) {
-			Bukkit.broadcastMessage("§9§lDISCORD > §cAucun salon discord contenant le mot : \'Loup\'");
+			Bukkit.broadcastMessage("§9§lDISCORD > §cAucun salon discord correspondant");
 			this.shard.shutdown();
 			this.shard = null;
 			return;

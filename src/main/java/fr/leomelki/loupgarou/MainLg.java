@@ -103,7 +103,6 @@ public class MainLg extends JavaPlugin{
 		loadConfig();
 
 	    this.discord = new DiscordManager(this);
-		MainLg.getInstance().getDiscord().setMutedChannel(false);
 		
 		Bukkit.getPluginManager().registerEvents(new JoinListener(), this);
 		Bukkit.getPluginManager().registerEvents(new CancelListener(), this);
