@@ -57,6 +57,11 @@ public class DiscordManager extends ListenerAdapter {
     	
 		this.jda = new JDABuilder(main.getConfig().getString("token")).build();
 	    this.jda.addEventListener(this);
+	    try {
+			this.jda.awaitReady();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 
 		Bukkit.broadcastMessage("Guilds : ");
 		for(Guild g : this.jda.getGuilds()) {
