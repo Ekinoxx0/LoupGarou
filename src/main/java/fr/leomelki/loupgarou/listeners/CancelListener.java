@@ -4,6 +4,7 @@ import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
@@ -11,6 +12,7 @@ import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.player.PlayerSwapHandItemsEvent;
@@ -19,6 +21,12 @@ import org.bukkit.event.weather.WeatherChangeEvent;
 import fr.leomelki.loupgarou.classes.LGPlayer;
 
 public class CancelListener implements Listener{
+
+    @EventHandler
+    public void onPlayerInteract(PlayerInteractEvent e) {
+        if (e.getAction() == Action.PHYSICAL)
+        	e.setCancelled(true);
+    }
 	@EventHandler
 	public void onBreak(BlockBreakEvent e) {
 		if(e.getPlayer().getGameMode() == GameMode.CREATIVE) return;
