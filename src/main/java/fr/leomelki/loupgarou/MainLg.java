@@ -44,6 +44,7 @@ import fr.leomelki.com.comphenix.packetwrapper.WrapperPlayServerUpdateTime;
 import fr.leomelki.loupgarou.classes.LGGame;
 import fr.leomelki.loupgarou.classes.LGPlayer;
 import fr.leomelki.loupgarou.classes.LGWinType;
+import fr.leomelki.loupgarou.discord.DiscordManager;
 import fr.leomelki.loupgarou.events.LGSkinLoadEvent;
 import fr.leomelki.loupgarou.events.LGUpdatePrefixEvent;
 import fr.leomelki.loupgarou.listeners.CancelListener;
@@ -80,6 +81,7 @@ import fr.leomelki.loupgarou.roles.RVoyante;
 import fr.leomelki.loupgarou.roles.Role;
 import lombok.Getter;
 import lombok.Setter;
+import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 
 public class MainLg extends JavaPlugin{
 	private static MainLg instance;
@@ -87,6 +89,7 @@ public class MainLg extends JavaPlugin{
 	@Getter private static String prefix = ""/*"§7[§9Loup-Garou§7] "*/;
 	
 	@Getter @Setter private LGGame currentGame;//Because for now, only one game will be playable on one server (flemme)
+	@Getter private DiscordManager discord;
 	
 	@Override
 	public void onEnable() {
@@ -95,12 +98,15 @@ public class MainLg extends JavaPlugin{
 		if(!new File(getDataFolder(), "config.yml").exists()) {//Créer la config
 			FileConfiguration config = getConfig();
 			config.set("spawns", new ArrayList<List<Double>>());
+			config.set("token", DiscordManager.DEFAULT_VALUE_CONFIG);
 			for(String role : roles.keySet())//Nombre de participant pour chaque rôle
 				config.set("role."+role, 1);
 			saveConfig();
 		}
 		loadConfig();
-		Bukkit.getConsoleSender().sendMessage("/");
+
+	    this.discord = new DiscordManager(this);
+		
 		Bukkit.getPluginManager().registerEvents(new JoinListener(), this);
 		Bukkit.getPluginManager().registerEvents(new CancelListener(), this);
 		Bukkit.getPluginManager().registerEvents(new VoteListener(), this);
@@ -130,7 +136,7 @@ public class MainLg extends JavaPlugin{
 						event.setCancelled(true);
 			}
 		}
-	);
+		);
 		protocolManager.addPacketListener(new PacketAdapter(this, ListenerPriority.NORMAL, PacketType.Play.Server.PLAYER_INFO) {
 			@Override
 			public void onPacketSending(PacketEvent event) {

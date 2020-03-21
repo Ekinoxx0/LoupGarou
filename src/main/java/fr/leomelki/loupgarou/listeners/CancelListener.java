@@ -4,6 +4,7 @@ import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
@@ -18,6 +19,11 @@ import org.bukkit.event.weather.WeatherChangeEvent;
 import fr.leomelki.loupgarou.classes.LGPlayer;
 
 public class CancelListener implements Listener{
+	@EventHandler
+	public void onBreak(BlockBreakEvent e) {
+		if(e.getPlayer().getGameMode() == GameMode.CREATIVE) return;
+		e.setCancelled(true);
+	}
 	@EventHandler
 	public void onPluie(WeatherChangeEvent e) {
 		e.setCancelled(true);
@@ -46,16 +52,11 @@ public class CancelListener implements Listener{
 		e.setDeathMessage("");
 		e.setKeepInventory(true);
 	}
-/*	@EventHandler
-	public void onAchievement(PlayerAchievementAwardedEvent e) {
-		e.setCancelled(true);
-	}*/
 	@EventHandler
 	public void onEntitySpawn(EntitySpawnEvent e) {
 		e.setCancelled(true);
 		//ERREUR : LE LGN PEUT NE PAS AVOIR SON MENU SI IL A LE CHAT OUVERT PAR EX..AVOIR.
 		//SI QQN VOIT PLUS SON PERSO -> sneak
-		//TODO : REMPLACER LE MUTE / UNNMUTE PAR UN SYSTEME DE CHAT AVEC UNE LISTE DES PARTICIPANTS DU CHAT DEDANS (ET DU COUP DES SUR CLASSES DE CHAT QUI OVERRIDE LA FONCTION QUI FORMATTE LES MESSAGES DU COUP POSSIBILITE DUTILISER CA POUR FAIRE UN SYSTEME SUR DISCORD (ET FAIRE UN TYPE DE SALON NOCHAT QUAND ON PEUT PAS PARLER))
 	}
 	@EventHandler
 	public void onDrop(PlayerDropItemEvent e) {
