@@ -1,5 +1,8 @@
 package fr.leomelki.loupgarou.discord;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.security.auth.login.LoginException;
 
 import org.bukkit.Bukkit;
@@ -21,9 +24,11 @@ public class DiscordManager extends ListenerAdapter {
 	private VoiceChannel selectedChannel;
 	private JDA jda;
 	
+	private final List<Member> deads;
 	private boolean allMuted;
 
 	public DiscordManager(MainLg main) {
+		this.deads = new ArrayList<Member>();
 		try {
 			this.setup(main);
 		} catch(Exception ex) {
@@ -88,27 +93,15 @@ public class DiscordManager extends ListenerAdapter {
 			ex.printStackTrace();
 		}
 	}
-	
-	@Override
-    public void onGuildVoiceJoin(GuildVoiceJoinEvent e) {
-    	if(e.getChannelJoined().getIdLong() == this.selectedChannel.getIdLong()) {
-        	e.getEntity().mute(this.allMuted).submit();
-    	} else if(e.getChannelLeft().getIdLong() == this.selectedChannel.getIdLong()) {
-        	e.getEntity().mute(false).submit();
-    	}
-    	
-    }
-	
-	@Override
-    public void onGuildVoiceLeave(GuildVoiceLeaveEvent e) {
-    	if(e.getChannelLeft().getIdLong() != this.selectedChannel.getIdLong()) return;
-    	e.getEntity().mute(false).submit();
-    }
 
 	public void setMuted(String playerName, boolean muted) {
 		for(Member m : this.selectedChannel.getMembers()) {
-			if(m.getNickname().contains(playerName)) {
+			if(m.getNickname().toLowerCase().contains(playerName.toLowerCase())) {
 				m.mute(muted);
+				if(muted)
+					this.deads.add(m);
+				else
+					this.deads.remove(m);
 				return;
 			}
 		}
@@ -117,10 +110,31 @@ public class DiscordManager extends ListenerAdapter {
 			for(Role r : m.getRoles()) {
 				if(r.getName().equals(playerName)) {
 					m.mute(muted);
+					if(muted)
+						this.deads.add(m);
+					else
+						this.deads.remove(m);
 					return;
 				}
 			}
 		}
-		
 	}
+	
+	@Override
+    public void onGuildVoiceJoin(GuildVoiceJoinEvent e) {
+    	if(e.getChannelJoined() != null && e.getChannelJoined().getIdLong() == this.selectedChannel.getIdLong()) {
+        	e.getEntity().mute(this.allMuted).submit();
+        	for(Member m : this.deads)
+        		if(m.getIdLong() == e.getEntity().getIdLong())
+        			m.mute(true).submit();
+    	} else if(e.getChannelLeft() != null && e.getChannelLeft().getIdLong() == this.selectedChannel.getIdLong()) {
+        	e.getEntity().mute(false).submit();
+    	}
+    }
+	
+	@Override
+    public void onGuildVoiceLeave(GuildVoiceLeaveEvent e) {
+    	if(e.getChannelLeft() != null && e.getChannelLeft().getIdLong() != this.selectedChannel.getIdLong()) return;
+    	e.getEntity().mute(false).submit();
+    }
 }
