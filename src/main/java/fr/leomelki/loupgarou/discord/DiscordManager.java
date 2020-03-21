@@ -15,7 +15,7 @@ import net.dv8tion.jda.api.sharding.ShardManager;
 
 public class DiscordManager extends ListenerAdapter {
 	private static final String DEFAULT_VALUE_CONFIG = "TOKEN_DISCORD";
-	private static final String DEFAULT_CHANNEL_CONFIG = "CHANNEL_DISCORD";
+	private static final long DEFAULT_CHANNEL_CONFIG = -1L;
 	
 	private VoiceChannel selectedChannel;
 	private ShardManager shard;
@@ -46,7 +46,7 @@ public class DiscordManager extends ListenerAdapter {
     		return;
     	}
     	
-    	if(main.getConfig().getString("channel_discord").equals(DEFAULT_CHANNEL_CONFIG)) {
+    	if(main.getConfig().getLong("channel_discord") == DEFAULT_CHANNEL_CONFIG) {
 			Bukkit.broadcastMessage("§9§lDISCORD > §cAucune config de channel discord.");
     		return;
     	}
@@ -57,7 +57,7 @@ public class DiscordManager extends ListenerAdapter {
 		this.shard = builder.build();
 		
 		for(VoiceChannel voice : this.shard.getVoiceChannels()) {
-			if(voice.getName().equals(main.getConfig().getString("channel_discord"))) {
+			if(voice.getIdLong() == main.getConfig().getLong("channel_discord")) {
 				this.selectedChannel = voice;
 				break;
 			}
