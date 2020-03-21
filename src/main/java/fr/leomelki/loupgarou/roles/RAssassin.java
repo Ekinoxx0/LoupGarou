@@ -11,8 +11,8 @@ import fr.leomelki.loupgarou.events.LGEndCheckEvent;
 import fr.leomelki.loupgarou.events.LGGameEndEvent;
 import fr.leomelki.loupgarou.events.LGNightEndEvent;
 import fr.leomelki.loupgarou.events.LGNightPlayerPreKilledEvent;
-import fr.leomelki.loupgarou.events.LGPyromaneGasoilEvent;
 import fr.leomelki.loupgarou.events.LGPlayerKilledEvent.Reason;
+import fr.leomelki.loupgarou.events.LGPyromaneGasoilEvent;
 import fr.leomelki.loupgarou.events.LGRoleTurnEndEvent;
 
 public class RAssassin extends Role{

@@ -8,7 +8,6 @@ import fr.leomelki.loupgarou.classes.LGGame;
 import fr.leomelki.loupgarou.classes.LGPlayer;
 import fr.leomelki.loupgarou.classes.LGPlayer.LGChooseCallback;
 import fr.leomelki.loupgarou.events.LGDayEndEvent;
-import fr.leomelki.loupgarou.events.LGNightStart;
 import fr.leomelki.loupgarou.events.LGVoteEvent;
 
 public class RCorbeau extends Role{

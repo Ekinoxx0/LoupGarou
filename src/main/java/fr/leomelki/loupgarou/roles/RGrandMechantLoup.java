@@ -1,21 +1,10 @@
 package fr.leomelki.loupgarou.roles;
 
-import java.util.Arrays;
-
-import org.bukkit.Material;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import fr.leomelki.loupgarou.classes.LGGame;
 import fr.leomelki.loupgarou.classes.LGPlayer;
 import fr.leomelki.loupgarou.classes.LGPlayer.LGChooseCallback;
-import fr.leomelki.loupgarou.classes.LGWinType;
-import fr.leomelki.loupgarou.events.LGEndCheckEvent;
-import fr.leomelki.loupgarou.events.LGGameEndEvent;
 import fr.leomelki.loupgarou.events.LGPlayerKilledEvent;
 import fr.leomelki.loupgarou.events.LGPlayerKilledEvent.Reason;
 

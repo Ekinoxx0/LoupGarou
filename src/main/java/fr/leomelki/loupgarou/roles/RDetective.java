@@ -1,39 +1,8 @@
 package fr.leomelki.loupgarou.roles;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.entity.EntityType;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
-
-import com.comphenix.protocol.wrappers.EnumWrappers.ItemSlot;
-import com.comphenix.protocol.wrappers.WrappedDataWatcher;
-import com.comphenix.protocol.wrappers.WrappedDataWatcher.WrappedDataWatcherObject;
-import com.comphenix.protocol.wrappers.WrappedWatchableObject;
-
-import fr.leomelki.com.comphenix.packetwrapper.WrapperPlayServerEntityDestroy;
-import fr.leomelki.com.comphenix.packetwrapper.WrapperPlayServerEntityEquipment;
-import fr.leomelki.com.comphenix.packetwrapper.WrapperPlayServerEntityLook;
-import fr.leomelki.com.comphenix.packetwrapper.WrapperPlayServerEntityMetadata;
-import fr.leomelki.com.comphenix.packetwrapper.WrapperPlayServerSpawnEntityLiving;
-import fr.leomelki.loupgarou.MainLg;
 import fr.leomelki.loupgarou.classes.LGGame;
 import fr.leomelki.loupgarou.classes.LGPlayer;
 import fr.leomelki.loupgarou.classes.LGPlayer.LGChooseCallback;
-import fr.leomelki.loupgarou.classes.LGWinType;
-import fr.leomelki.loupgarou.events.LGEndCheckEvent;
-import fr.leomelki.loupgarou.events.LGGameEndEvent;
-import fr.leomelki.loupgarou.events.LGPlayerGotKilledEvent;
-import fr.leomelki.loupgarou.events.LGPlayerKilledEvent;
-import fr.leomelki.loupgarou.events.LGPlayerKilledEvent.Reason;
-import fr.leomelki.loupgarou.events.LGUpdatePrefixEvent;
 
 public class RDetective extends Role{
 	public RDetective(LGGame game) {

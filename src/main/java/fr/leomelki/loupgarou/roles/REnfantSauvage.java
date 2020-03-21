@@ -9,7 +9,6 @@ import fr.leomelki.loupgarou.classes.LGGame;
 import fr.leomelki.loupgarou.classes.LGPlayer;
 import fr.leomelki.loupgarou.classes.LGPlayer.LGChooseCallback;
 import fr.leomelki.loupgarou.events.LGPlayerKilledEvent;
-import fr.leomelki.loupgarou.events.LGPlayerKilledEvent.Reason;
 
 public class REnfantSauvage extends Role{
 	public REnfantSauvage(LGGame game) {

@@ -22,13 +22,13 @@ import fr.leomelki.com.comphenix.packetwrapper.WrapperPlayServerHeldItemSlot;
 import fr.leomelki.loupgarou.MainLg;
 import fr.leomelki.loupgarou.classes.LGGame;
 import fr.leomelki.loupgarou.classes.LGPlayer;
-import fr.leomelki.loupgarou.classes.LGWinType;
 import fr.leomelki.loupgarou.classes.LGPlayer.LGChooseCallback;
+import fr.leomelki.loupgarou.classes.LGWinType;
 import fr.leomelki.loupgarou.events.LGEndCheckEvent;
 import fr.leomelki.loupgarou.events.LGGameEndEvent;
 import fr.leomelki.loupgarou.events.LGPlayerKilledEvent;
-import fr.leomelki.loupgarou.events.LGPyromaneGasoilEvent;
 import fr.leomelki.loupgarou.events.LGPlayerKilledEvent.Reason;
+import fr.leomelki.loupgarou.events.LGPyromaneGasoilEvent;
 
 public class RPyromane extends Role{
 	static ItemStack[] items = new ItemStack[9];

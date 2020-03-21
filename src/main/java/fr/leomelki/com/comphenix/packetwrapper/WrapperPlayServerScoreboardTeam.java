@@ -21,13 +21,13 @@ package fr.leomelki.com.comphenix.packetwrapper;
 import java.util.Collection;
 import java.util.List;
 
+import org.bukkit.ChatColor;
+
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.reflect.IntEnum;
 import com.comphenix.protocol.utility.MinecraftReflection;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
-
-import org.bukkit.ChatColor;
 
 public class WrapperPlayServerScoreboardTeam extends AbstractPacket {
 	public static final PacketType TYPE =

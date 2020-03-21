@@ -10,11 +10,9 @@ import fr.leomelki.loupgarou.classes.LGWinType;
 import fr.leomelki.loupgarou.events.LGDayEndEvent;
 import fr.leomelki.loupgarou.events.LGEndCheckEvent;
 import fr.leomelki.loupgarou.events.LGGameEndEvent;
-import fr.leomelki.loupgarou.events.LGMayorVoteEvent;
-import fr.leomelki.loupgarou.events.LGNightStart;
 import fr.leomelki.loupgarou.events.LGPlayerGotKilledEvent;
-import fr.leomelki.loupgarou.events.LGVoteEvent;
 import fr.leomelki.loupgarou.events.LGPlayerKilledEvent.Reason;
+import fr.leomelki.loupgarou.events.LGVoteEvent;
 
 public class RAnge extends Role{
 	public RAnge(LGGame game) {
