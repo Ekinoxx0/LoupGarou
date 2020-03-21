@@ -7,6 +7,7 @@ import org.bukkit.Bukkit;
 import fr.leomelki.loupgarou.MainLg;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.GuildChannel;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceJoinEvent;
@@ -62,7 +63,11 @@ public class DiscordManager extends ListenerAdapter {
 		Bukkit.broadcastMessage("Guilds : ");
 		for(Guild g : this.shard.getGuilds()) {
 			Bukkit.broadcastMessage(g.getIdLong() + " -> " + g.getName());
+			for(GuildChannel c : g.getChannels()) {
+				Bukkit.broadcastMessage(" - " + c.getIdLong() + " -> " + c.getName());
+			}
 		}
+		
 
 		Bukkit.broadcastMessage("List : ");
 		for(VoiceChannel voice : this.shard.getVoiceChannels()) {
