@@ -22,6 +22,7 @@ import fr.leomelki.loupgarou.events.LGPlayerKilledEvent.Reason;
 
 public class JoinListener implements Listener{
 	
+	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onJoin(PlayerJoinEvent e) {
 		Player p = e.getPlayer();
@@ -67,8 +68,11 @@ public class JoinListener implements Listener{
 			LGPlayer lgp = LGPlayer.thePlayer(p);
 			lgp.showView();
 			lgp.join(MainLg.getInstance().getCurrentGame());
-		}else if(e.getStatus() == Status.DECLINED || e.getStatus() == Status.FAILED_DOWNLOAD)
+		} else if(e.getStatus() == Status.DECLINED) {
+			Bukkit.broadcastMessage(MainLg.getPrefix()+"§c" + e.getPlayer().getName() + " a refusé le ressources pack. ("+e.getStatus()+")");
+		} else if(e.getStatus() == Status.FAILED_DOWNLOAD) {
 			e.getPlayer().kickPlayer(MainLg.getPrefix()+"§cIl vous faut le resourcepack pour jouer ! ("+e.getStatus()+")");
+		}
 	}
 	@EventHandler
 	public void onLeave(PlayerQuitEvent e) {
@@ -79,7 +83,7 @@ public class JoinListener implements Listener{
 			if(lgp.getRole() != null && !lgp.isDead())
 				lgp.getGame().kill(lgp, Reason.DISCONNECTED, true);
 			lgp.getGame().getInGame().remove(lgp);
-			System.out.println("rem > "+lgp.getGame().getInGame());
+			System.out.println("rem > " + lgp.getGame().getInGame());
 			lgp.getGame().checkLeave();
 		}
 		LGPlayer.removePlayer(p);

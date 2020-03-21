@@ -55,8 +55,9 @@ public class RBouffon extends Role{
 		return 15;
 	}
 
+	 @SuppressWarnings("unchecked")
 	public void onNightTurn(Runnable callback) {
-		 ArrayList<LGPlayer> players = (ArrayList<LGPlayer>) needToPlay.clone();
+		ArrayList<LGPlayer> players = (ArrayList<LGPlayer>) needToPlay.clone();
 		 new Runnable() {
 			
 			@Override

@@ -46,9 +46,10 @@ public abstract class Role implements Listener{
 	 * @return Timeout in second for this role
 	 */
 	public abstract int getTimeout();
-	
+
+	 @SuppressWarnings("unchecked")
 	public void onNightTurn(Runnable callback) {
-		 ArrayList<LGPlayer> players = (ArrayList<LGPlayer>) getPlayers().clone();
+		ArrayList<LGPlayer> players = (ArrayList<LGPlayer>) getPlayers().clone();
 		 new Runnable() {
 			
 			@Override

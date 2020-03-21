@@ -145,6 +145,7 @@ public class RPretre extends Role{
 		player.sendMessage("§6Tu n'as rien fait cette nuit.");
 	}
 
+	@SuppressWarnings("deprecation")
 	private void hidePlayers(LGPlayer player) {
 		if(player.getPlayer() != null) {
 			for(LGPlayer lgp : getGame().getInGame())
@@ -236,6 +237,7 @@ public class RPretre extends Role{
 		}
 	}
 	
+	@SuppressWarnings("deprecation")
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onDayStart(LGPreDayStartEvent e) {
 		if(e.getGame() == getGame())

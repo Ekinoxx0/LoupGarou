@@ -244,7 +244,6 @@ public class RCupidon extends Role{
 			if(winners.size() == 2) {
 				LGPlayer player1 = winners.get(0),
 						 player2 = winners.get(1);
-				boolean winEnCouple = (player1.getRoleType() == RoleType.LOUP_GAROU) != (player2.getRoleType() == RoleType.LOUP_GAROU) || player1.getRoleWinType() == RoleWinType.SEUL || player2.getRoleWinType() == RoleWinType.SEUL;
 				if(player1.getCache().get("inlove") == player2 && /*player1.isABadGuy() != player2.isABadGuy()*/ (player1.getRoleType() == RoleType.LOUP_GAROU) != (player2.getRoleType() == RoleType.LOUP_GAROU))
 					e.setWinType(LGWinType.COUPLE);
 			}

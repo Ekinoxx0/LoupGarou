@@ -68,6 +68,7 @@ import fr.leomelki.loupgarou.utils.VariousUtils;
 import lombok.Getter;
 import lombok.Setter;
 
+@SuppressWarnings({"deprecation","unchecked"})
 public class LGGame implements Listener{
 	@Getter private final SecureRandom random = new SecureRandom();
 	@Getter private final int maxPlayers;
@@ -190,7 +191,6 @@ public class LGGame implements Listener{
 		}
 	}
 	
-	@SuppressWarnings("deprecation")
 	public boolean tryToJoin(LGPlayer lgp) {
 		if(ended)return false;
 		if(!started && inGame.size() < maxPlayers) {//Si la partie n'a pas démarrée et qu'il reste de la place

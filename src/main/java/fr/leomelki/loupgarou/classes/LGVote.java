@@ -40,6 +40,7 @@ import net.minecraft.server.v1_15_R1.EntityArmorStand;
 import net.minecraft.server.v1_15_R1.IChatBaseComponent;
 import net.minecraft.server.v1_15_R1.PacketPlayOutEntityMetadata;
 
+@SuppressWarnings("unchecked")
 public class LGVote {
 	@Getter LGPlayer choosen;
 	private int timeout, initialTimeout, littleTimeout;
@@ -51,6 +52,7 @@ public class LGVote {
 	private int votesSize = 0;
 	private LGPlayer mayor;
 	private ArrayList<LGPlayer> latestTop = new ArrayList<LGPlayer>();
+	@SuppressWarnings("unused")
 	private final boolean positiveVote, randomIfEqual;
 	@Getter private boolean mayorVote;
     private boolean ended;
@@ -164,7 +166,6 @@ public class LGVote {
 						VariousUtils.setWarning(player.getPlayer(), false);
 
 				for(int i = 0;i<choosable.size();i++) {
-					LGPlayer lgp = choosable.get(i);
 					showArrow(mayor, null, -mayor.getPlayer().getEntityId()-i);
 				}
 				//Choix au hasard d'un joueur si personne n'a été désigné
@@ -187,7 +188,6 @@ public class LGVote {
 									VariousUtils.setWarning(player.getPlayer(), false);
 
 							for(int i = 0;i<choosable.size();i++) {
-								LGPlayer lgp = choosable.get(i);
 								showArrow(mayor, null, -mayor.getPlayer().getEntityId()-i);
 							}
 							game.cancelWait();
@@ -226,7 +226,6 @@ public class LGVote {
 			votesSize = 999;
 			game.wait(littleTimeout, initialTimeout, this::end, generator);
 		}
-		String italic = game.isDay() ? "" : "§o";
 		boolean changeVote = false;
 		if(voter.getCache().has("vote")) {//On enlève l'ancien vote
 			LGPlayer devoted = voter.getCache().get("vote");

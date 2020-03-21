@@ -2,6 +2,7 @@ package fr.leomelki.loupgarou.utils;
 
 import java.util.HashMap;
 
+@SuppressWarnings("unchecked")
 public class VariableCache {
 	private HashMap<String, Object> cache = new HashMap<String, Object>();
 	public boolean getBoolean(String key) {
