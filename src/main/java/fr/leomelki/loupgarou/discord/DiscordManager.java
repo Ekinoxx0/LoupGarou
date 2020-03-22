@@ -78,7 +78,7 @@ public class DiscordManager extends ListenerAdapter {
 			Bukkit.broadcastMessage("§9§lDISCORD > §cAucun salon discord correspondant");
 			return;
 		} else {
-			Bukkit.broadcastMessage("§9§lDISCORD > §4Lien prêt : " + this.selectedChannel.getName());
+			Bukkit.broadcastMessage("§9§lDISCORD > §2Lien prêt : " + this.selectedChannel.getName());
 		}
 	}
 	
