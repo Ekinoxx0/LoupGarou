@@ -109,10 +109,12 @@ public class DiscordManager extends ListenerAdapter {
 		for(Member m : this.selectedChannel.getMembers()) {
 			if(m.getEffectiveName().toLowerCase().contains(playerName.toLowerCase())) {
 				m.mute(muted);
-				if(muted)
+				if(muted) {
 					this.deads.add(m);
-				else
+				} else {
+
 					this.deads.remove(m);
+				}
 				return;
 			}
 		}
@@ -121,10 +123,11 @@ public class DiscordManager extends ListenerAdapter {
 			for(Role r : m.getRoles()) {
 				if(r.getName().equals(playerName)) {
 					m.mute(muted);
-					if(muted)
+					if(muted) {
 						this.deads.add(m);
-					else
+					} else {
 						this.deads.remove(m);
+					}
 					return;
 				}
 			}
