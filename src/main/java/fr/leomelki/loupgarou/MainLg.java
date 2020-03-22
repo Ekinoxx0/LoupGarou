@@ -267,6 +267,18 @@ public class MainLg extends JavaPlugin{
 						getCurrentGame().nextNight();
 					}
 					return true;
+				}else if(args[0].equalsIgnoreCase("quick")) {
+					sender.sendMessage("§aQuick timer");
+					if(getCurrentGame() != null) {
+						getCurrentGame().setWaitTicks(20 * 20);
+					}
+					return true;
+				}else if(args[0].equalsIgnoreCase("veryquick")) {
+					sender.sendMessage("§aVery Quick timer");
+					if(getCurrentGame() != null) {
+						getCurrentGame().setWaitTicks(20 * 5);
+					}
+					return true;
 				}else if(args[0].equalsIgnoreCase("nextDay")) {
 					sender.sendMessage("§aVous êtes passé à la prochaine journée");
 					if(getCurrentGame() != null) {
