@@ -642,7 +642,6 @@ public class LGGame implements Listener{
 		broadcastSpacer();
 		broadcastMessage("§9----------- §lJour n°"+night+"§9 -----------");
 		broadcastMessage("§8§oLe jour se lève sur le village...");
-		MainLg.getInstance().getDiscord().setMutedChannel(false);
 		
 		for(LGPlayer p : getInGame()) {
 			p.stopAudio(LGSound.AMBIANT_NIGHT);
@@ -676,6 +675,7 @@ public class LGGame implements Listener{
 		deaths.clear();
 		if(died == 0)
 			broadcastMessage("§9Étonnamment, personne n'est mort cette nuit.");
+		MainLg.getInstance().getDiscord().setMutedChannel(false);
 
 		day = true;
 		for(LGPlayer player : getInGame())

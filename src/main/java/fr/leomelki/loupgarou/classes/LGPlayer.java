@@ -265,19 +265,19 @@ public class LGPlayer {
 	}
 	public boolean canSelectDead;
 	public LGPlayer getPlayerOnCursor(List<LGPlayer> list) {
-		Location loc = getPlayer().getLocation();
+		Location pointedLoc = getPlayer().getLocation();
 		System.out.println("hit > "+blacklistedChoice.size()+" > "+blacklistedChoice+" > "+list);
-		if(loc.getPitch() > 60)
+		if(pointedLoc.getPitch() > 80)
 			if(blacklistedChoice.contains(this))
 				return null;
 			else
 				return this;
 		for(int i = 0;i<50;i++) {
-			loc.add(loc.getDirection());
-			for(LGPlayer player : list) {
-				if(player != this && !blacklistedChoice.contains(player) && (!player.isDead() || canSelectDead) && VariousUtils.distanceSquaredXZ(loc, player.getPlayer().getLocation()) < 0.35 && Math.abs(loc.getY()-player.getPlayer().getLocation().getY()) < 2) {
-					System.out.println("detect");
-					return player;
+			pointedLoc.add(pointedLoc.getDirection());
+			for(LGPlayer targetedPlayer : list) {
+				if(targetedPlayer != this && !blacklistedChoice.contains(targetedPlayer) && (!targetedPlayer.isDead() || canSelectDead) && 
+					VariousUtils.distanceSquaredXZ(pointedLoc, targetedPlayer.getPlayer().getLocation()) < 0.35 && Math.abs(pointedLoc.getY()-targetedPlayer.getPlayer().getLocation().getY()) < 2) {
+					return targetedPlayer;
 				}
 			}
 		}
