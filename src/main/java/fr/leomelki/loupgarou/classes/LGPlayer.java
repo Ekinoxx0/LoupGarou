@@ -358,7 +358,7 @@ public class LGPlayer {
 	private long lastChoose;
 	public void chooseAction() {
 		long now = System.currentTimeMillis();
-		if(lastChoose+2000 < now) {
+		if(lastChoose+200 < now) {
 			if(chooseCallback != null)
 				chooseCallback.callback(getPlayerOnCursor(getGame().getInGame()));
 			lastChoose = now;

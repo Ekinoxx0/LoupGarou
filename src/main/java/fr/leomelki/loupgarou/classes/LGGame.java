@@ -282,24 +282,30 @@ public class LGGame implements Listener{
 		List<Object> list = new ArrayList<Object>(original);
 		
 		if(list.size() < getInGame().size()) {
-			Bukkit.broadcastMessage("Pas assez de spawn");
+			Bukkit.broadcastMessage("§cPas assez de spawn !");
 			return;
 		}
-		int i = 0;
-		for(LGPlayer lgp : getInGame()) {
-			List<Double> location = (List<Double>) list.remove(i++);
-			Player p = lgp.getPlayer();
-			p.setWalkSpeed(0);
-			p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 99999, 180, false, false));
-			lgp.setPlace(original.indexOf(location));
-			placements.put(lgp.getPlace(), lgp);
-			p.teleport(new Location(p.getWorld(), location.get(0)+0.5, location.get(1), location.get(2)+0.5, location.get(3).floatValue(), location.get(4).floatValue()));
-			WrapperPlayServerUpdateHealth update = new WrapperPlayServerUpdateHealth();
-			update.setFood(20);
-			update.setFoodSaturation(1);
-			update.setHealth(20);
-			update.sendPacket(p);
-			lgp.getScoreboard().getLine(0).setDisplayName("§6Attribution des rôles...");
+		
+		try {
+			int i = 0;
+			for(LGPlayer lgp : getInGame()) {
+				List<Double> location = (List<Double>) list.remove(i++);
+				Player p = lgp.getPlayer();
+				p.setWalkSpeed(0);
+				p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 99999, 180, false, false));
+				lgp.setPlace(original.indexOf(location));
+				placements.put(lgp.getPlace(), lgp);
+				p.teleport(new Location(p.getWorld(), location.get(0)+0.5, location.get(1), location.get(2)+0.5, location.get(3).floatValue(), location.get(4).floatValue()));
+				WrapperPlayServerUpdateHealth update = new WrapperPlayServerUpdateHealth();
+				update.setFood(20);
+				update.setFoodSaturation(1);
+				update.setHealth(20);
+				update.sendPacket(p);
+				lgp.getScoreboard().getLine(0).setDisplayName("§6Attribution des rôles...");
+			}
+		} catch(Exception ex) {
+			Bukkit.broadcastMessage("§4§lUne erreur est survenue lors de la tp aux spawns... Regardez la console !");
+			ex.printStackTrace();
 		}
 		
 		try {
@@ -838,7 +844,7 @@ public class LGGame implements Listener{
 			vote.start(getAlive(), getInGame(), ()->{
 				isPeopleVote = false;
 				if(vote.getChoosen() == null || (vote.isMayorVote() && getMayor() == null))
-					broadcastMessage(/*getMayor() != null ? "§9Le maire a décidé de gracier les accusés." : */"§9Personne n'est mort aujourd'hui.");
+					broadcastMessage(getMayor() != null ? "§9Le maire a décidé de gracier les accusés." : "§9Personne n'est mort aujourd'hui.");
 				else {
 					LGPlayerKilledEvent killEvent = new LGPlayerKilledEvent(this, vote.getChoosen(), Reason.VOTE);
 					Bukkit.getPluginManager().callEvent(killEvent);
