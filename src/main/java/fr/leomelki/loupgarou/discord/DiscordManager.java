@@ -89,14 +89,23 @@ public class DiscordManager extends ListenerAdapter {
 		this.allMuted = allMuted;
 		
 		try {
-			for(Member m : this.selectedChannel.getMembers())
-				m.mute(this.allMuted).submit();
+			for(Member m : this.selectedChannel.getMembers()) {
+				boolean b = false;
+				for(Member dead : this.deads) {
+					if(dead.getIdLong() == m.getIdLong()) {
+						b = true;
+					}
+				}
+				m.mute(this.allMuted || b).submit();
+			}
 		} catch(Exception ex) {
 			ex.printStackTrace();
 		}
 	}
 
 	public void setMuted(String playerName, boolean muted) {
+		if(playerName == null) return;
+		
 		for(Member m : this.selectedChannel.getMembers()) {
 			if(m.getEffectiveName().toLowerCase().contains(playerName.toLowerCase())) {
 				m.mute(muted);
