@@ -301,9 +301,9 @@ public class MainLg extends JavaPlugin{
 						int index = 0;
 						int total = 0;
 						for(String role : getRoles().keySet()) {
-							if(getConfig().getInt("role."+role) <= 0) {
-								total += getConfig().getInt("role."+role);
-								sender.sendMessage(prefix+"  §e- "+ index++ +" - §6"+role+" §e> "+getConfig().getInt("role."+role));
+							if(MainLg.getInstance().getConfig().getInt("role."+role) <= 0) {
+								total += MainLg.getInstance().getConfig().getInt("role."+role);
+								sender.sendMessage(prefix+"  §e- "+ index++ +" - §6"+role+" §e> "+MainLg.getInstance().getConfig().getInt("role."+role));
 							}
 						}
 						sender.sendMessage("\n"+prefix+" §7Écrivez §8§o/lg role set <role_id/role_name> <nombre>§7 pour définir le nombre de joueurs qui devrons avoir ce rôle.");
