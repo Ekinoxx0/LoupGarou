@@ -269,6 +269,7 @@ public class LGGame implements Listener{
 			}
 	}
 	public void start() {
+		MainLg.getInstance().getDiscord().clearDead();
 		if(startingTask != null) {
 			startingTask.cancel();
 			startingTask = null;
@@ -650,6 +651,7 @@ public class LGGame implements Listener{
 	}
 	public void endNight() {
 		if(ended)return;
+		MainLg.getInstance().getDiscord().setMutedChannel(false);
 		broadcastSpacer();
 		broadcastMessage("§9----------- §lJour n°"+night+"§9 -----------");
 		broadcastMessage("§8§oLe jour se lève sur le village...");
@@ -686,6 +688,7 @@ public class LGGame implements Listener{
 		deaths.clear();
 		if(died == 0)
 			broadcastMessage("§9Étonnamment, personne n'est mort cette nuit.");
+		
 		MainLg.getInstance().getDiscord().setMutedChannel(false);
 
 		day = true;

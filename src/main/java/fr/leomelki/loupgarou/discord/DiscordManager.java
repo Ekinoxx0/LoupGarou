@@ -37,6 +37,10 @@ public class DiscordManager extends ListenerAdapter {
 			ex.printStackTrace();
 		}
 	}
+	
+	public void clearDead() {
+		this.deads.clear();
+	}
 
 	private void setup(MainLg main) throws LoginException, IllegalArgumentException {
     	if(!main.getConfig().contains("token")) {
