@@ -280,6 +280,11 @@ public class LGGame implements Listener{
 		//Registering roles
 		List<?> original = MainLg.getInstance().getConfig().getList("spawns");
 		List<Object> list = new ArrayList<Object>(original);
+		
+		if(list.size() < getInGame().size()) {
+			Bukkit.broadcastMessage("Pas assez de spawn");
+			return;
+		}
 		int i = 0;
 		for(LGPlayer lgp : getInGame()) {
 			List<Double> location = (List<Double>) list.remove(i++);
