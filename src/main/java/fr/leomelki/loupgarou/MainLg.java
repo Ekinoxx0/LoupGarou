@@ -290,12 +290,24 @@ public class MainLg extends JavaPlugin{
 					}
 					return true;
 				}else if(args[0].equalsIgnoreCase("roles")) {
-					if(args.length == 1 || args[1].equalsIgnoreCase("list")) {
+					if(args.length == 1 || args[1].equalsIgnoreCase("all")) {
 						sender.sendMessage(prefix+"§6Voici la liste des rôles:");
 						int index = 0;
 						for(String role : getRoles().keySet())
 							sender.sendMessage(prefix+"  §e- "+index+++" - §6"+role+" §e> "+MainLg.getInstance().getConfig().getInt("role."+role));
 						sender.sendMessage("\n"+prefix+" §7Écrivez §8§o/lg role set <role_id/role_name> <nombre>§7 pour définir le nombre de joueurs qui devrons avoir ce rôle.");
+					}else if(args.length == 1 || args[1].equalsIgnoreCase("list")) {
+						sender.sendMessage(prefix+"§6Voici la liste des rôles:");
+						int index = 0;
+						int total = 0;
+						for(String role : getRoles().keySet()) {
+							if(getConfig().getInt("role."+role) <= 0) {
+								total += getConfig().getInt("role."+role);
+								sender.sendMessage(prefix+"  §e- "+ index++ +" - §6"+role+" §e> "+getConfig().getInt("role."+role));
+							}
+						}
+						sender.sendMessage("\n"+prefix+" §7Écrivez §8§o/lg role set <role_id/role_name> <nombre>§7 pour définir le nombre de joueurs qui devrons avoir ce rôle.");
+						sender.sendMessage("\n"+prefix+" §9Total : " + total);
 					} else {
 						if(args[1].equalsIgnoreCase("set") && args.length == 4) {
 							String role = null;
