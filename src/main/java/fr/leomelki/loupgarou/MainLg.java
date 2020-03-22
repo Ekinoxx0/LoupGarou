@@ -369,13 +369,13 @@ public class MainLg extends JavaPlugin{
 		if(args.length > 1) {
 			if(args[0].equalsIgnoreCase("roles"))
 				if(args.length == 2)
-					return getStartingList(args[1], "list", "set");
+					return getStartingList(args[1], "list", "set", "all");
 				else if(args.length == 3 && args[1].equalsIgnoreCase("set"))
 					return getStartingList(args[2], getRoles().keySet().toArray(new String[getRoles().size()]));
 				else if(args.length == 4)
 					return Arrays.asList("0", "1", "2", "3", "4", "5", "6", "7", "8", "9");
 		}else if(args.length == 1)
-			return getStartingList(args[0], "addSpawn", "end", "start", "nextNight", "nextDay", "reloadConfig", "roles", "joinAll", "reloadPacks");
+			return getStartingList(args[0], "addSpawn", "quick", "veryquick", "end", "start", "nextNight", "nextDay", "reloadConfig", "roles", "joinAll", "reloadPacks");
 		return new ArrayList<String>(0);
 	}
 	private List<String> getStartingList(String startsWith, String... list){
