@@ -268,15 +268,15 @@ public class MainLg extends JavaPlugin{
 					}
 					return true;
 				}else if(args[0].equalsIgnoreCase("quick")) {
-					sender.sendMessage("§aQuick timer");
 					if(getCurrentGame() != null) {
 						getCurrentGame().setWaitTicks(20 * 20);
+						sender.sendMessage("§aQuick timer");
 					}
 					return true;
 				}else if(args[0].equalsIgnoreCase("veryquick")) {
-					sender.sendMessage("§aVery Quick timer");
 					if(getCurrentGame() != null) {
 						getCurrentGame().setWaitTicks(20 * 5);
+						sender.sendMessage("§aVery Quick timer");
 					}
 					return true;
 				}else if(args[0].equalsIgnoreCase("nextDay")) {

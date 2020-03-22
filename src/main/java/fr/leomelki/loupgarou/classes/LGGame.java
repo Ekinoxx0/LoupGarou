@@ -585,6 +585,8 @@ public class LGGame implements Listener{
 	boolean ended;
 	public void endGame(LGWinType winType) {
 		if(ended)return;
+		MainLg.getInstance().getDiscord().clearDead();
+		MainLg.getInstance().getDiscord().setMutedChannel(false);
 		
 		ArrayList<LGPlayer> winners = new ArrayList<LGPlayer>();
 		LGGameEndEvent event = new LGGameEndEvent(this, winType, winners);
