@@ -523,6 +523,8 @@ public class LGGame implements Listener{
 			
 			broadcastMessage(String.format(reason.getMessage(), killed.getName())+", il était "+killed.getRole().getName()+(killed.getCache().getBoolean("infected") ? " §c§l(Infecté)" : "")+"§4.");
 			
+			MainLg.getInstance().getDiscord().setMuted(killed.getName(), true);
+			
 			//Lightning effect
 			killed.getPlayer().getWorld().strikeLightningEffect(killed.getPlayer().getLocation());
 			
@@ -610,6 +612,7 @@ public class LGGame implements Listener{
 		
 		for(LGPlayer lgp : getInGame())
 			if(lgp.getPlayer().isOnline()) {
+				MainLg.getInstance().getDiscord().setMuted(lgp.getName(), false);
 				LGPlayer.removePlayer(lgp.getPlayer());
 				WrapperPlayServerScoreboardTeam team = new WrapperPlayServerScoreboardTeam();
 				team.setMode(1);
