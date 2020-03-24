@@ -58,7 +58,7 @@ public class MainLg extends JavaPlugin{
 	@Getter private HashMap<String, Constructor<? extends Role>> roles = new HashMap<String, Constructor<? extends Role>>();
 	@Getter private static String prefix = "";
 	
-	@Getter @Setter private LGGame currentGame;//Because for now, only one game will be playable on one server (flemme)
+	@Getter @Setter private LGGame currentGame;
 	@Getter private DiscordManager discord;
 	
 	@Override

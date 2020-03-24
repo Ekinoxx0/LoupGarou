@@ -210,7 +210,7 @@ public class LGGame implements Listener{
 			
 			lgp.setScoreboard(null);
 			
-			for(LGPlayer other : getInGame()) {
+			for(LGPlayer other : this.getInGame()) {
 				other.updatePrefix();
 				if(lgp != other) {
 					lgp.getPlayer().hidePlayer(other.getPlayer());
@@ -266,6 +266,8 @@ public class LGGame implements Listener{
 			}else if(startingTask != null) {
 				startingTask.cancel();
 				broadcastMessage("§c§oLe démarrage de la partie a été annulé car une personne l'a quittée !");
+			} else if(inGame.size() != maxPlayers) {
+				broadcastMessage("§cDémarrage impossible car le nombre de joueur ne correspond pas aux rôles");
 			}
 	}
 	public void start() {
@@ -602,6 +604,8 @@ public class LGGame implements Listener{
 		
 		broadcastMessage(winType.getMessage());
 		for(LGPlayer lgp : getInGame()) {
+			MainLg.getInstance().getDiscord().setMuted(lgp.getName(), false);
+			lgp.setDead(false);
 			lgp.leaveChat();
 			lgp.joinChat(spectatorChat);
 			
@@ -626,7 +630,6 @@ public class LGGame implements Listener{
 		
 		for(LGPlayer lgp : getInGame())
 			if(lgp.getPlayer().isOnline()) {
-				MainLg.getInstance().getDiscord().setMuted(lgp.getName(), false);
 				LGPlayer.removePlayer(lgp.getPlayer());
 				WrapperPlayServerScoreboardTeam team = new WrapperPlayServerScoreboardTeam();
 				team.setMode(1);

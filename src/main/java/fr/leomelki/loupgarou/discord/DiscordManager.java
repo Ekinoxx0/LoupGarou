@@ -25,12 +25,12 @@ public class DiscordManager extends ListenerAdapter {
 	private JDA jda;
 	
 	private final List<String> unknowns;
-	private final List<Member> deads;
+	private final List<Member> personalMutes;
 	private boolean allMuted;
 
 	public DiscordManager(MainLg main) {
 		this.unknowns = new ArrayList<String>();
-		this.deads = new ArrayList<Member>();
+		this.personalMutes = new ArrayList<Member>();
 		try {
 			this.setup(main);
 		} catch(Exception ex) {
@@ -39,7 +39,7 @@ public class DiscordManager extends ListenerAdapter {
 	}
 	
 	public void clearDead() {
-		this.deads.clear();
+		this.personalMutes.clear();
 	}
 
 	private void setup(MainLg main) throws LoginException, IllegalArgumentException {
@@ -82,7 +82,7 @@ public class DiscordManager extends ListenerAdapter {
 			Bukkit.broadcastMessage("§9§lDISCORD > §cAucun salon discord correspondant");
 			return;
 		} else {
-			Bukkit.broadcastMessage("§9§lDISCORD > §2Lien prêt : " + this.selectedChannel.getName());
+			Bukkit.broadcastMessage("§9§lDISCORD > §aLien prêt");
 		}
 	}
 	
@@ -95,12 +95,12 @@ public class DiscordManager extends ListenerAdapter {
 		try {
 			for(Member m : this.selectedChannel.getMembers()) {
 				boolean b = false;
-				for(Member dead : this.deads) {
+				for(Member dead : this.personalMutes) {
 					if(dead.getIdLong() == m.getIdLong()) {
 						b = true;
 					}
 				}
-				m.mute(this.allMuted || b).submit();
+				m.mute(this.allMuted || b).queue();
 			}
 		} catch(Exception ex) {
 			ex.printStackTrace();
@@ -114,10 +114,9 @@ public class DiscordManager extends ListenerAdapter {
 			if(m.getEffectiveName().toLowerCase().contains(playerName.toLowerCase())) {
 				m.mute(muted);
 				if(muted) {
-					this.deads.add(m);
+					this.personalMutes.add(m);
 				} else {
-
-					this.deads.remove(m);
+					this.personalMutes.remove(m);
 				}
 				return;
 			}
@@ -128,9 +127,9 @@ public class DiscordManager extends ListenerAdapter {
 				if(r.getName().equals(playerName)) {
 					m.mute(muted);
 					if(muted) {
-						this.deads.add(m);
+						this.personalMutes.add(m);
 					} else {
-						this.deads.remove(m);
+						this.personalMutes.remove(m);
 					}
 					return;
 				}
@@ -147,19 +146,19 @@ public class DiscordManager extends ListenerAdapter {
     public void onGuildVoiceJoin(GuildVoiceJoinEvent e) {
     	if(e.getChannelJoined() != null && e.getChannelJoined().getIdLong() == this.selectedChannel.getIdLong()) {
     		boolean b = this.allMuted;
-        	for(Member m : this.deads)
+        	for(Member m : this.personalMutes)
         		if(m.getIdLong() == e.getEntity().getIdLong())
         			b = true;
         	
-        	e.getEntity().mute(b).submit();
+        	e.getEntity().mute(b).queue();
     	} else if(e.getChannelLeft() != null && e.getChannelLeft().getIdLong() == this.selectedChannel.getIdLong()) {
-        	e.getEntity().mute(false).submit();
+        	e.getEntity().mute(false).queue();
     	}
     }
 	
 	@Override
     public void onGuildVoiceLeave(GuildVoiceLeaveEvent e) {
     	if(e.getChannelLeft() != null && e.getChannelLeft().getIdLong() != this.selectedChannel.getIdLong()) return;
-    	e.getEntity().mute(false).submit();
+    	e.getEntity().mute(false).queue();
     }
 }

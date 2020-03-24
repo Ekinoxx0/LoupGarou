@@ -52,9 +52,15 @@ public class LGPlayer {
 		}
 		return lgp;
 	}
+	
 	public static LGPlayer removePlayer(Player player) {
 		return cachedPlayers.remove(player);//.remove();
 	}
+	
+	public static void reset() {
+		cachedPlayers.clear();
+	}
+	
 	@Getter @Setter private int place;
 	@Getter private Player player;
 	@Getter @Setter private boolean dead;

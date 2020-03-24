@@ -101,6 +101,23 @@ public class CommandLG implements CommandExecutor, TabCompleter {
 					mainLg.loadConfig();
 					return true;
 					
+				case "deaddiscord":
+					mainLg.getDiscord().clearDead();
+					break;
+					
+				case "debugresetpl":
+					LGPlayer.reset();
+					sender.sendMessage("§aDebug reset player list");
+					break;
+					
+				case "muteall":
+					mainLg.getDiscord().setMutedChannel(true);
+					break;
+					
+				case "unmuteall":
+					mainLg.getDiscord().setMutedChannel(false);
+					break;
+					
 				case "joinall":
 					for(Player p : Bukkit.getOnlinePlayers())
 						Bukkit.getPluginManager().callEvent(new PlayerQuitEvent(p, "joinall"));
