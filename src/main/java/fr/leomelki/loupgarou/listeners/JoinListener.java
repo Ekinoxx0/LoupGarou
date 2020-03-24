@@ -26,6 +26,7 @@ public class JoinListener implements Listener{
 	@EventHandler
 	public void onJoin(PlayerJoinEvent e) {
 		Player p = e.getPlayer();
+		Bukkit.broadcastMessage("§2+ §7" + p.getName());
 		
 		WrapperPlayServerScoreboardTeam myTeam = new WrapperPlayServerScoreboardTeam();
 		myTeam.setName(p.getName());
@@ -78,6 +79,7 @@ public class JoinListener implements Listener{
 	@EventHandler
 	public void onLeave(PlayerQuitEvent e) {
 		Player p = e.getPlayer();
+		e.setQuitMessage("§c- §7" + p.getName());
 		LGPlayer lgp = LGPlayer.thePlayer(p);
 		if(lgp.getGame() != null) {
 			lgp.leaveChat();

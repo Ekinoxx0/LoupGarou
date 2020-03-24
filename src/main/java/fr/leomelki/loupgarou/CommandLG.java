@@ -3,22 +3,38 @@ package fr.leomelki.loupgarou;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 
+import com.comphenix.protocol.wrappers.EnumWrappers.ItemSlot;
+import com.comphenix.protocol.wrappers.WrappedDataWatcher;
+import com.comphenix.protocol.wrappers.WrappedDataWatcher.WrappedDataWatcherObject;
+import com.comphenix.protocol.wrappers.WrappedWatchableObject;
+
+import fr.leomelki.com.comphenix.packetwrapper.WrapperPlayServerEntityDestroy;
+import fr.leomelki.com.comphenix.packetwrapper.WrapperPlayServerEntityEquipment;
+import fr.leomelki.com.comphenix.packetwrapper.WrapperPlayServerEntityLook;
+import fr.leomelki.com.comphenix.packetwrapper.WrapperPlayServerEntityMetadata;
+import fr.leomelki.com.comphenix.packetwrapper.WrapperPlayServerSpawnEntityLiving;
 import fr.leomelki.loupgarou.classes.LGPlayer;
 import fr.leomelki.loupgarou.classes.LGWinType;
+import net.minecraft.server.v1_15_R1.IChatBaseComponent;
 
 public class CommandLG implements CommandExecutor, TabCompleter {
 
@@ -210,8 +226,18 @@ public class CommandLG implements CommandExecutor, TabCompleter {
 					}
 					return true;
 					
+				case "showspawns":
+					Player pSP = (Player)sender;
+					List<List<Double>> listPos = (List<List<Double>>) mainLg.getConfig().getList("spawns");
+					
+					for(List<Double> l : listPos) {
+						Location sel = new Location(pSP.getWorld(), l.get(0), l.get(1), l.get(2));
+						showArrow(pSP, sel, 10);
+					}
+					break;
+					
 				case "roles":
-					if(args.length == 1 || args[1].equalsIgnoreCase("all")) {
+					if(args[1].equalsIgnoreCase("all")) {
 						sender.sendMessage(MainLg.getPrefix()+"§6Voici la liste des rôles:");
 						int index = 0;
 						for(String role : mainLg.getRoles().keySet())
@@ -222,7 +248,7 @@ public class CommandLG implements CommandExecutor, TabCompleter {
 						int index = 0;
 						int total = 0;
 						for(String role : mainLg.getRoles().keySet()) {
-							if(MainLg.getInstance().getConfig().getInt("role."+role) <= 0) {
+							if(MainLg.getInstance().getConfig().getInt("role."+role) > 0) {
 								total += MainLg.getInstance().getConfig().getInt("role."+role);
 								sender.sendMessage(MainLg.getPrefix()+"  §e- "+ index++ +" - §6"+role+" §e> "+MainLg.getInstance().getConfig().getInt("role."+role));
 							}
@@ -301,7 +327,7 @@ public class CommandLG implements CommandExecutor, TabCompleter {
 				else if(args.length == 4)
 					return Arrays.asList("0", "1", "2", "3", "4", "5", "6", "7", "8", "9");
 		}else if(args.length == 1)
-			return getStartingList(args[0], "clearallspawn", "addspawn", "removespawn", "quick", "veryquick", "end", "start", "nextnight", "nextday", "reloadconfig", "roles", "joinall", "reloadpacks");
+			return getStartingList(args[0], "hidecompo", "deaddiscord", "clearallspawn", "addspawn", "removespawn", "quick", "veryquick", "end", "start", "nextnight", "nextday", "reloadconfig", "roles", "joinall", "reloadpacks", "showspawns");
 		return new ArrayList<String>(0);
 	}
 	
@@ -314,6 +340,65 @@ public class CommandLG implements CommandExecutor, TabCompleter {
 			if(s.toLowerCase().startsWith(startsWith))
 				returnlist.add(s);
 		return returnlist;
+	}
+
+	WrappedDataWatcherObject invisible = new WrappedDataWatcherObject(0, WrappedDataWatcher.Registry.get(Byte.class)),
+							 noGravity = new WrappedDataWatcherObject(5, WrappedDataWatcher.Registry.get(Boolean.class)),
+							 customNameVisible = new WrappedDataWatcherObject(3, WrappedDataWatcher.Registry.get(Boolean.class)),
+							 customName = new WrappedDataWatcherObject(2, WrappedDataWatcher.Registry.get(IChatBaseComponent.class)),
+							 item = new WrappedDataWatcherObject(7, WrappedDataWatcher.Registry.get(net.minecraft.server.v1_15_R1.ItemStack.class));
+	private void showArrow(Player p, Location loc, int time) {
+		final int entityId = new Random().nextInt(500000) + 10000;
+		if(loc != null) {
+			WrapperPlayServerSpawnEntityLiving spawn = new WrapperPlayServerSpawnEntityLiving();
+			spawn.setEntityID(entityId);
+			spawn.setType(EntityType.DROPPED_ITEM);
+			spawn.setX(loc.getX());
+			spawn.setY(loc.getY()+1.3);
+			spawn.setZ(loc.getZ());
+			spawn.setHeadPitch(0);
+			Location toLoc = p.getLocation();
+			double diffX = loc.getX()-toLoc.getX(),
+				   diffZ = loc.getZ()-toLoc.getZ();
+			float yaw = 180-((float) Math.toDegrees(Math.atan2(diffX, diffZ)));
+			
+			spawn.setYaw(yaw);
+			spawn.sendPacket(p);
+			
+			WrapperPlayServerEntityMetadata meta = new WrapperPlayServerEntityMetadata();
+			meta.setEntityID(entityId);
+			meta.setMetadata(Arrays.asList(new WrappedWatchableObject(invisible, (byte)0x20), new WrappedWatchableObject(noGravity, true)));
+			meta.sendPacket(p);
+			
+			WrapperPlayServerEntityLook look = new WrapperPlayServerEntityLook();
+			look.setEntityID(entityId);
+			look.setPitch(0);
+			look.setYaw(yaw);
+			look.sendPacket(p);
+			
+			new BukkitRunnable() {
+				
+				@Override
+				public void run() {
+					WrapperPlayServerEntityEquipment equip = new WrapperPlayServerEntityEquipment();
+					equip.setEntityID(entityId);
+					equip.setSlot(ItemSlot.HEAD);
+			        ItemStack skull = new ItemStack(Material.EMERALD);
+					equip.setItem(skull);
+					equip.sendPacket(p);
+				}
+			}.runTaskLater(MainLg.getInstance(), 2);
+			
+			new BukkitRunnable() {
+				
+				@Override
+				public void run() {
+					WrapperPlayServerEntityDestroy destroy = new WrapperPlayServerEntityDestroy();
+					destroy.setEntityIds(new int[] {entityId});
+					destroy.sendPacket(p);
+				}
+			}.runTaskLater(MainLg.getInstance(), time * 20);
+		}
 	}
 	
 	

@@ -5,12 +5,10 @@ fr\leomelki\loupgarou\roles\RBouffon$2.class
 fr\leomelki\loupgarou\roles\RPyromane$2.class
 fr\leomelki\loupgarou\roles\RDetective$1.class
 fr\leomelki\loupgarou\roles\RSurvivant$1.class
-fr\leomelki\loupgarou\MainLg$2.class
 fr\leomelki\loupgarou\roles\RPretre$1.class
 fr\leomelki\loupgarou\roles\RGarde$1.class
 fr\leomelki\loupgarou\roles\RMedium$1.class
 fr\leomelki\loupgarou\roles\RChasseur$3.class
-fr\leomelki\loupgarou\MainLg$5.class
 fr\leomelki\loupgarou\roles\REnfantSauvageLG$1.class
 fr\leomelki\loupgarou\roles\RPirate$1.class
 fr\leomelki\loupgarou\classes\LGGame$7$1.class
@@ -19,16 +17,13 @@ fr\leomelki\loupgarou\roles\RSurvivant$2.class
 fr\leomelki\loupgarou\roles\RPyromane$1.class
 fr\leomelki\loupgarou\classes\LGVote$1.class
 fr\leomelki\loupgarou\roles\RSorciere$1.class
-fr\leomelki\loupgarou\MainLg$1.class
 fr\leomelki\loupgarou\classes\LGGame$5.class
 fr\leomelki\loupgarou\roles\RPirate$2.class
 fr\leomelki\loupgarou\roles\Role$1.class
 fr\leomelki\loupgarou\classes\LGGame$6.class
 fr\leomelki\loupgarou\roles\RLoupGarouBlanc$1.class
-fr\leomelki\loupgarou\MainLg$3.class
 fr\leomelki\loupgarou\roles\RChasseur$2.class
 fr\leomelki\loupgarou\roles\RPretre$2.class
-fr\leomelki\loupgarou\MainLg$6.class
 fr\leomelki\loupgarou\classes\LGVote$4.class
 fr\leomelki\loupgarou\roles\RChienLoup$1.class
 fr\leomelki\loupgarou\roles\RCorbeau$2.class
@@ -46,7 +41,6 @@ fr\leomelki\loupgarou\roles\RDictateur$1.class
 fr\leomelki\loupgarou\roles\RLoupGarouNoir$1.class
 fr\leomelki\loupgarou\classes\LGGame$9.class
 fr\leomelki\loupgarou\classes\LGGame$2.class
-fr\leomelki\loupgarou\MainLg$4.class
 fr\leomelki\loupgarou\roles\RVoyante$1.class
 fr\leomelki\loupgarou\roles\RChasseur$1.class
 fr\leomelki\loupgarou\roles\RDictateur$2.class
