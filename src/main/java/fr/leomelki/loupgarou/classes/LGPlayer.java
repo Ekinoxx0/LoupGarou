@@ -136,6 +136,8 @@ public class LGPlayer {
 			getPlayer().setWalkSpeed(0.2f);
 	//		sendMessage("§2Vous venez de rejoindre une partie de Loup-Garou. §aBon jeu!");
 			return true;
+		} else {
+			sendMessage("§cVous n'avez pas rejoint de partie... (Plein ou déjà démarrer)");
 		}
 		return false;
 	}

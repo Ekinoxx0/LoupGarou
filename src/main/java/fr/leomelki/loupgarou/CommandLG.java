@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -34,9 +35,17 @@ public class CommandLG implements CommandExecutor, TabCompleter {
 				sender.sendMessage(MainLg.getPrefix()+"§4Erreur: Vous n'avez pas la permission...");
 				return true;
 			}
+			
 			if(args.length >= 1) {
 				
 				switch(args[0].toLowerCase()) {
+				
+				case "clearallspawn":
+					mainLg.getConfig().set("spawns", new ArrayList<Object>());
+					mainLg.saveConfig();
+					mainLg.loadConfig();
+					sender.sendMessage(MainLg.getPrefix()+"§cTous les spawns ont été supprimés.");
+					break;
 				
 				case "addspawn":
 					Player player = (Player)sender;
@@ -47,6 +56,29 @@ public class CommandLG implements CommandExecutor, TabCompleter {
 					mainLg.loadConfig();
 					sender.sendMessage(MainLg.getPrefix()+"§aLa position a bien été ajoutée !");
 					return true;
+					
+				case "removespawn":
+					Player p1 = (Player)sender;
+					List<List<Double>> list1 = (List<List<Double>>) mainLg.getConfig().getList("spawns");
+					
+					boolean finded = false;
+					for(List<Double> l : list1) {
+						Location sel = new Location(p1.getWorld(), l.get(0), l.get(1), l.get(2));
+						if(p1.getLocation().distance(sel) < 1) {
+							list1.remove(l);
+							finded = true;
+						}
+					}
+					
+					if(finded) {
+						mainLg.saveConfig();
+						mainLg.loadConfig();
+						sender.sendMessage(MainLg.getPrefix()+"§aLa position a bien été supprimée !");
+					} else {
+						sender.sendMessage(MainLg.getPrefix()+"§cAucune position ici.");
+					}
+					
+					break;
 					
 				case "end":
 					LGPlayer.thePlayer(Bukkit.getPlayer(args[1])).getGame().cancelWait();
@@ -74,6 +106,17 @@ public class CommandLG implements CommandExecutor, TabCompleter {
 						Bukkit.getPluginManager().callEvent(new PlayerQuitEvent(p, "joinall"));
 					for(Player p : Bukkit.getOnlinePlayers())
 						Bukkit.getPluginManager().callEvent(new PlayerJoinEvent(p, "joinall"));
+					
+					int playablePlayers = 0;
+					for(Player p : Bukkit.getOnlinePlayers())
+						if(p.getGameMode() != GameMode.SPECTATOR) playablePlayers++;
+					
+					if(playablePlayers > mainLg.getCurrentGame().getMaxPlayers()) {
+						sender.sendMessage(MainLg.getPrefix()+"§cPas assez de rôle pour contenir tous les joueurs");
+					} else if(playablePlayers < mainLg.getCurrentGame().getMaxPlayers()) {
+						sender.sendMessage(MainLg.getPrefix()+"§cTrop de rôle pour le nombre de joueur en ligne...");
+					}
+
 					return true;
 						
 				case "reloadpacks":
@@ -210,7 +253,7 @@ public class CommandLG implements CommandExecutor, TabCompleter {
 				else if(args.length == 4)
 					return Arrays.asList("0", "1", "2", "3", "4", "5", "6", "7", "8", "9");
 		}else if(args.length == 1)
-			return getStartingList(args[0], "addSpawn", "quick", "veryquick", "end", "start", "nextNight", "nextDay", "reloadConfig", "roles", "joinAll", "reloadPacks");
+			return getStartingList(args[0], "clearallspawn", "addspawn", "removespawn", "quick", "veryquick", "end", "start", "nextnight", "nextday", "reloadconfig", "roles", "joinall", "reloadpacks");
 		return new ArrayList<String>(0);
 	}
 	
