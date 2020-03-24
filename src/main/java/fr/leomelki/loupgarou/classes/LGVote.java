@@ -213,6 +213,12 @@ public class LGVote {
 			}	
 		};
 	}
+	
+	public void quick(int newTimeout) {
+		votesSize = 999;
+		game.wait(newTimeout, initialTimeout, this::end, generator);
+	}
+	
 	public void vote(LGPlayer voter, LGPlayer voted) {
 		if(voted == voter.getCache().get("vote"))
 			voted = null;
@@ -223,8 +229,7 @@ public class LGVote {
 			votesSize--;
 		
 		if(votesSize == participants.size() && timeout > littleTimeout) {
-			votesSize = 999;
-			game.wait(littleTimeout, initialTimeout, this::end, generator);
+			this.quick(littleTimeout);
 		}
 		boolean changeVote = false;
 		if(voter.getCache().has("vote")) {//On enlève l'ancien vote

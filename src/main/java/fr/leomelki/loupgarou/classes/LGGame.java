@@ -213,9 +213,11 @@ public class LGGame implements Listener{
 			lgp.setScoreboard(null);
 			
 			for(LGPlayer other : this.getInGame()) {
-				if(other.getPlayer() == null) 
+				if(other.getPlayer() == null) {
 					Bukkit.broadcastMessage("§cça risque pas de fonctionner si y'a un joueur déco... #55231");
-				
+					this.getInGame().remove(other);
+				}
+					
 				other.updatePrefix();
 				if(lgp != other) {
 					lgp.getPlayer().hidePlayer(other.getPlayer());

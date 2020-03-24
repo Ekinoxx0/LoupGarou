@@ -172,10 +172,12 @@ public class CommandLG implements CommandExecutor, TabCompleter {
 					
 				case "muteall":
 					mainLg.getDiscord().setMutedChannel(true);
+					sender.sendMessage("§aMute all discord");
 					break;
 					
 				case "unmuteall":
 					mainLg.getDiscord().setMutedChannel(false);
+					sender.sendMessage("§aUnmute all discord");
 					break;
 					
 				case "joinall":
@@ -227,14 +229,14 @@ public class CommandLG implements CommandExecutor, TabCompleter {
 					
 				case "quick":
 					if(mainLg.getCurrentGame() != null) {
-						mainLg.getCurrentGame().setWaitTicks(20 * 20);
+						mainLg.getCurrentGame().getVote().quick(20);
 						sender.sendMessage("§aQuick timer");
 					}
 					return true;
 					
 				case "veryquick":
 					if(mainLg.getCurrentGame() != null) {
-						mainLg.getCurrentGame().setWaitTicks(20 * 5);
+						mainLg.getCurrentGame().getVote().quick(5);
 						sender.sendMessage("§aVery Quick timer");
 					}
 					return true;
@@ -340,7 +342,7 @@ public class CommandLG implements CommandExecutor, TabCompleter {
 				else if(args.length == 4)
 					return Arrays.asList("0", "1", "2", "3", "4", "5", "6", "7", "8", "9");
 		}else if(args.length == 1)
-			return getStartingList(args[0], "hidecompo", "deaddiscord", "clearallspawn", "addspawn", "removespawn", "quick", "veryquick", "end", "start", "nextnight", "nextday", "reloadconfig", "roles", "joinall", "reloadpacks", "showspawns");
+			return getStartingList(args[0], "muteall", "unmuteall", "hidecompo", "deaddiscord", "clearallspawn", "addspawn", "removespawn", "quick", "veryquick", "end", "start", "nextnight", "nextday", "reloadconfig", "roles", "joinall", "reloadpacks", "showspawns");
 		return new ArrayList<String>(0);
 	}
 	
