@@ -6,6 +6,7 @@ import java.util.List;
 import javax.security.auth.login.LoginException;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 import fr.leomelki.loupgarou.MainLg;
 import net.dv8tion.jda.api.JDA;
@@ -109,37 +110,22 @@ public class DiscordManager extends ListenerAdapter {
 
 	public void setMuted(String playerName, boolean muted) {
 		if(playerName == null) return;
+		Member m = this.getMemberFromName(playerName);
 		
-		for(Member m : this.selectedChannel.getMembers()) {
-			if(m.getEffectiveName().toLowerCase().contains(playerName.toLowerCase())) {
-				m.mute(muted);
-				if(muted) {
-					this.personalMutes.add(m);
-				} else {
-					this.personalMutes.remove(m);
-				}
-				return;
+		if(m != null) {
+			m.mute(muted);
+			if(muted) {
+				this.personalMutes.add(m);
+			} else {
+				this.personalMutes.remove(m);
 			}
-		}
-
-		for(Member m : this.selectedChannel.getMembers()) {
-			for(Role r : m.getRoles()) {
-				if(r.getName().equals(playerName)) {
-					m.mute(muted);
-					if(muted) {
-						this.personalMutes.add(m);
-					} else {
-						this.personalMutes.remove(m);
-					}
-					return;
-				}
+		} else {
+			if(!this.unknowns.contains(playerName)) {
+				this.unknowns.add(playerName);
+				Bukkit.broadcastMessage("§9§lDISCORD > §cJoueur inconnu sur discord : " + playerName);
 			}
 		}
 		
-		if(!this.unknowns.contains(playerName)) {
-			this.unknowns.add(playerName);
-			Bukkit.broadcastMessage("§9§lDISCORD > §cJoueur inconnu sur discord : " + playerName);
-		}
 	}
 	
 	@Override
@@ -161,4 +147,25 @@ public class DiscordManager extends ListenerAdapter {
     	if(e.getChannelLeft() != null && e.getChannelLeft().getIdLong() != this.selectedChannel.getIdLong()) return;
     	e.getEntity().mute(false).queue();
     }
+	
+	public Member getMemberFromName(String playerName) {
+		if(playerName == null) return null;
+		
+		for(Member m : this.selectedChannel.getMembers()) {
+			if(m.getEffectiveName().toLowerCase().contains(playerName.toLowerCase())) {
+				return m;
+			}
+		}
+
+		for(Member m : this.selectedChannel.getMembers()) {
+			for(Role r : m.getRoles()) {
+				if(r.getName().equals(playerName)) {
+					return m;
+				}
+			}
+		}
+		
+		return null;
+	}
+
 }

@@ -27,6 +27,7 @@ public class JoinListener implements Listener{
 	public void onJoin(PlayerJoinEvent e) {
 		Player p = e.getPlayer();
 		Bukkit.broadcastMessage("§2+ §7" + p.getName());
+		p.teleport(p.getWorld().getSpawnLocation());
 		
 		WrapperPlayServerScoreboardTeam myTeam = new WrapperPlayServerScoreboardTeam();
 		myTeam.setName(p.getName());
