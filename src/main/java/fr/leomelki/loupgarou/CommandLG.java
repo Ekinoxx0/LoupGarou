@@ -35,7 +35,10 @@ public class CommandLG implements CommandExecutor, TabCompleter {
 				return true;
 			}
 			if(args.length >= 1) {
-				if(args[0].equalsIgnoreCase("addspawn")) {
+				
+				switch(args[0].toLowerCase()) {
+				
+				case "addspawn":
 					Player player = (Player)sender;
 					Location loc = player.getLocation();
 					List<Object> list = (List<Object>) mainLg.getConfig().getList("spawns");
@@ -44,12 +47,14 @@ public class CommandLG implements CommandExecutor, TabCompleter {
 					mainLg.loadConfig();
 					sender.sendMessage(MainLg.getPrefix()+"§aLa position a bien été ajoutée !");
 					return true;
-				}else if(args[0].equalsIgnoreCase("end")) {
+					
+				case "end":
 					LGPlayer.thePlayer(Bukkit.getPlayer(args[1])).getGame().cancelWait();
 					LGPlayer.thePlayer(Bukkit.getPlayer(args[1])).getGame().endGame(LGWinType.EQUAL);
 					LGPlayer.thePlayer(Bukkit.getPlayer(args[1])).getGame().broadcastMessage("§cLa partie a été arrêtée de force !");
 					return true;
-				}else if(args[0].equalsIgnoreCase("start")) {
+					
+				case "start":
 					if(args.length != 2) {
 						sender.sendMessage("§aVous avez bien démarré une nouvelle partie !");
 						return true;
@@ -57,24 +62,28 @@ public class CommandLG implements CommandExecutor, TabCompleter {
 					sender.sendMessage("§aVous avez bien démarré une nouvelle partie !");
 					LGPlayer.thePlayer(Bukkit.getPlayer(args[1])).getGame().updateStart();
 					return true;
-				}else if(args[0].equalsIgnoreCase("reloadconfig")) {
+				
+				case "reloadconfig":
 					sender.sendMessage("§aVous avez bien reload la config !");
 					sender.sendMessage("§7§oSi vous avez changé les rôles, écriver §8§o/lg joinall§7§o !");
 					mainLg.loadConfig();
 					return true;
-				}else if(args[0].equalsIgnoreCase("joinall")) {
+					
+				case "joinall":
 					for(Player p : Bukkit.getOnlinePlayers())
 						Bukkit.getPluginManager().callEvent(new PlayerQuitEvent(p, "joinall"));
 					for(Player p : Bukkit.getOnlinePlayers())
 						Bukkit.getPluginManager().callEvent(new PlayerJoinEvent(p, "joinall"));
 					return true;
-				}else if(args[0].equalsIgnoreCase("reloadPacks")) {
+						
+				case "reloadpacks":
 					for(Player p : Bukkit.getOnlinePlayers())
 						Bukkit.getPluginManager().callEvent(new PlayerQuitEvent(p, "reloadPacks"));
 					for(Player p : Bukkit.getOnlinePlayers())
 						Bukkit.getPluginManager().callEvent(new PlayerJoinEvent(p, "reloadPacks"));
 					return true;
-				}else if(args[0].equalsIgnoreCase("nextNight")) {
+					
+				case "nextnight":
 					sender.sendMessage("§aVous êtes passé à la prochaine nuit");
 					if(mainLg.getCurrentGame() != null) {
 						mainLg.getCurrentGame().broadcastMessage("§2§lLe passage à la prochaine nuit a été forcé !");
@@ -84,19 +93,8 @@ public class CommandLG implements CommandExecutor, TabCompleter {
 						mainLg.getCurrentGame().nextNight();
 					}
 					return true;
-				}else if(args[0].equalsIgnoreCase("quick")) {
-					if(mainLg.getCurrentGame() != null) {
-						mainLg.getCurrentGame().setWaitTicks(20 * 20);
-						sender.sendMessage("§aQuick timer");
-					}
-					return true;
-				}else if(args[0].equalsIgnoreCase("veryquick")) {
-					if(mainLg.getCurrentGame() != null) {
-						mainLg.getCurrentGame().setWaitTicks(20 * 5);
-						sender.sendMessage("§aVery Quick timer");
-					}
-					return true;
-				}else if(args[0].equalsIgnoreCase("nextDay")) {
+					
+				case "nextday":
 					sender.sendMessage("§aVous êtes passé à la prochaine journée");
 					if(mainLg.getCurrentGame() != null) {
 						mainLg.getCurrentGame().broadcastMessage("§2§lLe passage à la prochaine journée a été forcé !");
@@ -106,7 +104,22 @@ public class CommandLG implements CommandExecutor, TabCompleter {
 						mainLg.getCurrentGame().endNight();
 					}
 					return true;
-				}else if(args[0].equalsIgnoreCase("roles")) {
+					
+				case "quick":
+					if(mainLg.getCurrentGame() != null) {
+						mainLg.getCurrentGame().setWaitTicks(20 * 20);
+						sender.sendMessage("§aQuick timer");
+					}
+					return true;
+					
+				case "veryquick":
+					if(mainLg.getCurrentGame() != null) {
+						mainLg.getCurrentGame().setWaitTicks(20 * 5);
+						sender.sendMessage("§aVery Quick timer");
+					}
+					return true;
+					
+				case "roles":
 					if(args.length == 1 || args[1].equalsIgnoreCase("all")) {
 						sender.sendMessage(MainLg.getPrefix()+"§6Voici la liste des rôles:");
 						int index = 0;
@@ -170,11 +183,15 @@ public class CommandLG implements CommandExecutor, TabCompleter {
 						}
 					}
 					return true;
+					
+					default:
+						sender.sendMessage(MainLg.getPrefix()+"§4Erreur: §cCommande incorrecte.");
+						sender.sendMessage(MainLg.getPrefix()+"§4Essayez /lg §caddSpawn/end/start/nextNight/nextDay/reloadConfig/roles/reloadPacks/joinAll");
+						return true;
+					
 				}
+				
 			}
-			sender.sendMessage(MainLg.getPrefix()+"§4Erreur: §cCommande incorrecte.");
-			sender.sendMessage(MainLg.getPrefix()+"§4Essayez /lg §caddSpawn/end/start/nextNight/nextDay/reloadConfig/roles/reloadPacks/joinAll");
-			return true;
 		}
 		return false;
 	}

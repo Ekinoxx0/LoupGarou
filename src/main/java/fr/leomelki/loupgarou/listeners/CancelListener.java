@@ -27,15 +27,18 @@ public class CancelListener implements Listener{
         if (e.getAction() == Action.PHYSICAL)
         	e.setCancelled(true);
     }
+    
 	@EventHandler
 	public void onBreak(BlockBreakEvent e) {
 		if(e.getPlayer().getGameMode() == GameMode.CREATIVE) return;
 		e.setCancelled(true);
 	}
+	
 	@EventHandler
 	public void onPluie(WeatherChangeEvent e) {
 		e.setCancelled(true);
 	}
+	
 	@EventHandler
 	public void onMove(PlayerMoveEvent e) {
 		if(e.getPlayer().getGameMode() == GameMode.CREATIVE) return;
@@ -43,29 +46,35 @@ public class CancelListener implements Listener{
 		if(lgp.getGame() != null && lgp.getGame().isStarted() && e.getFrom().distanceSquared(e.getTo()) > 0.001)
 			e.setTo(e.getFrom());
 	}
+	
 	@EventHandler
 	public void onDamage(EntityDamageEvent e) {
 		e.setCancelled(true);
 	}
+	
 	@EventHandler
 	public void onFood(FoodLevelChangeEvent e) {
 		e.setFoodLevel(20);
 	}
+	
 	@EventHandler
 	public void onRespawn(PlayerRespawnEvent e) {
 		e.setRespawnLocation(e.getPlayer().getLocation());
 	}
+	
 	@EventHandler
 	public void onRespawn(PlayerDeathEvent e) {
 		e.setDeathMessage("");
 		e.setKeepInventory(true);
 	}
+	
 	@EventHandler
 	public void onEntitySpawn(EntitySpawnEvent e) {
 		e.setCancelled(true);
 		//ERREUR : LE LGN PEUT NE PAS AVOIR SON MENU SI IL A LE CHAT OUVERT PAR EX..AVOIR.
 		//SI QQN VOIT PLUS SON PERSO -> sneak
 	}
+	
 	@EventHandler
 	public void onDrop(PlayerDropItemEvent e) {
 		if(e.getPlayer().getGameMode() == GameMode.CREATIVE) return;
