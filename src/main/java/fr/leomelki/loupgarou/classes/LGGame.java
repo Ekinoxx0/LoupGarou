@@ -213,6 +213,9 @@ public class LGGame implements Listener{
 			lgp.setScoreboard(null);
 			
 			for(LGPlayer other : this.getInGame()) {
+				if(other.getPlayer() == null) 
+					Bukkit.broadcastMessage("§cça risque pas de fonctionner si y'a un joueur déco... #55231");
+				
 				other.updatePrefix();
 				if(lgp != other) {
 					lgp.getPlayer().hidePlayer(other.getPlayer());
@@ -397,9 +400,9 @@ public class LGGame implements Listener{
 		
 		HashMap<Role, IndexedRole> roles_ = new HashMap<>();
 		for(LGPlayer lgp : getAlive())
-			if(roles_.containsKey(lgp.getRole()))
+			if(lgp.getRole() != null && roles_.containsKey(lgp.getRole()))
 				roles_.get(lgp.getRole()).increase();
-			else
+			else if(lgp.getRole() != null)
 				roles_.put(lgp.getRole(), new IndexedRole(lgp.getRole()));
 		ArrayList<IndexedRole> roles = new ArrayList<IndexedRole>(roles_.values());
 		roles.sort((a, b)->{
