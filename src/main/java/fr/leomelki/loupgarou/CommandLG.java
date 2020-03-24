@@ -14,6 +14,8 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import fr.leomelki.loupgarou.classes.LGPlayer;
 import fr.leomelki.loupgarou.classes.LGWinType;
@@ -103,6 +105,31 @@ public class CommandLG implements CommandExecutor, TabCompleter {
 					
 				case "deaddiscord":
 					mainLg.getDiscord().clearDead();
+					break;
+
+				case "hidecompo":
+					mainLg.getCurrentGame().setHideRoleScoreboard(!mainLg.getCurrentGame().isHideRoleScoreboard());
+					if(mainLg.getCurrentGame().isHideRoleScoreboard()) {
+						sender.sendMessage("§cComposition cachée");
+					} else {
+						sender.sendMessage("§9Composition affichée");
+					}
+					break;
+					
+				case "spec":
+					if(args.length == 2) {
+						Player spec = Bukkit.getPlayer(args[1]);
+						spec.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 99999, 255, true));
+						LGPlayer lgp = LGPlayer.thePlayer(spec);
+						lgp.setDead(true);
+						lgp.joinChat(mainLg.getCurrentGame().getDayChat());
+						lgp.setMuted();
+						
+						lgp.setGame(mainLg.getCurrentGame());
+						mainLg.getCurrentGame().getInGame().add(lgp);
+					} else {
+						sender.sendMessage(MainLg.getPrefix()+"§4Essayez /lg §cspec <JOUEUR>");
+					}
 					break;
 					
 				case "debugresetpl":

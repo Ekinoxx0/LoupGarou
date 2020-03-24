@@ -51,6 +51,7 @@ public class JoinListener implements Listener{
 			p.getPlayer().setResourcePack("http://leomelki.fr/mcgames/ressourcepacks/v29/loup_garou.zip");
 		else {
 			LGPlayer lgp = LGPlayer.thePlayer(e.getPlayer());
+			lgp.setDead(false);
 			lgp.showView();
 			lgp.join(MainLg.getInstance().getCurrentGame());
 		}

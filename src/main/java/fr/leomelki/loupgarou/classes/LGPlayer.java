@@ -302,12 +302,7 @@ public class LGPlayer {
 	@Getter
 	boolean muted;
 	
-	public void die() {
-		setMuted();
-	}
-	
-	
-	private void setMuted() {
+	public void setMuted() {
 		if(player != null)
 			for(LGPlayer lgp : getGame().getInGame())
 				if(lgp != this && lgp.getPlayer() != null)

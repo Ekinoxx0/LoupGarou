@@ -83,6 +83,8 @@ public class LGGame implements Listener{
 	@Getter public long time = 0;
 	@Getter private HashMap<Integer, LGPlayer> placements = new HashMap<Integer, LGPlayer>();
 	
+	@Getter @Setter public boolean hideRoleScoreboard;
+	
 	@Getter private LGChat spectatorChat = new LGChat((sender, message) -> {
 		return "§7"+sender.getName()+" §6» §f"+message;
 	});
@@ -382,6 +384,17 @@ public class LGGame implements Listener{
 		nextNight(10);
 	}
 	public void updateRoleScoreboard() {
+		if(hideRoleScoreboard) {
+			for(LGPlayer lgp : getInGame()) {
+				for (int i = 0; i < 15; i++)
+					lgp.getScoreboard().getLine(15).delete();
+				
+				lgp.getScoreboard().getLine(15).setDisplayName("§cComposition cachée...");
+			}
+			
+			return;
+		}
+		
 		HashMap<Role, IndexedRole> roles_ = new HashMap<>();
 		for(LGPlayer lgp : getAlive())
 			if(roles_.containsKey(lgp.getRole()))
@@ -519,7 +532,7 @@ public class LGGame implements Listener{
 	public boolean kill(LGPlayer killed, Reason reason, boolean endGame) {
 		if(killed.getPlayer() != null){
 			killed.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 999999, 1, false, false));
-			killed.die();
+			killed.setMuted();
 			
 			for(LGPlayer lgp : getInGame())
 				if(lgp == killed) {
