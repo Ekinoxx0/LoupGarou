@@ -83,6 +83,10 @@ public class CommandLG implements CommandExecutor, TabCompleter {
 					break;
 					
 				case "end":
+					if(args.length != 2) {
+						sender.sendMessage("§cManque un argument...");
+						return true;
+					}
 					LGPlayer.thePlayer(Bukkit.getPlayer(args[1])).getGame().cancelWait();
 					LGPlayer.thePlayer(Bukkit.getPlayer(args[1])).getGame().endGame(LGWinType.EQUAL);
 					LGPlayer.thePlayer(Bukkit.getPlayer(args[1])).getGame().broadcastMessage("§cLa partie a été arrêtée de force !");
@@ -90,7 +94,7 @@ public class CommandLG implements CommandExecutor, TabCompleter {
 					
 				case "start":
 					if(args.length != 2) {
-						sender.sendMessage("§aVous avez bien démarré une nouvelle partie !");
+						sender.sendMessage("§cManque un argument...");
 						return true;
 					}
 					sender.sendMessage("§aVous avez bien démarré une nouvelle partie !");
