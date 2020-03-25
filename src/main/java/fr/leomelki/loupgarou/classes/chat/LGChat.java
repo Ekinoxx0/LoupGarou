@@ -3,6 +3,7 @@ package fr.leomelki.loupgarou.classes.chat;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import fr.leomelki.loupgarou.MainLg;
 import fr.leomelki.loupgarou.classes.LGPlayer;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -18,23 +19,23 @@ public class LGChat {
 	}
 
 	public void sendMessage(LGPlayer sender, String message) {
-		System.out.println("sendmessage of "+sender.getName()+" "+this);
+		MainLg.debug("sendmessage of "+sender.getName()+" "+this);
 		String sendMessage = getViewers().get(sender).send(sender, message);
 		for(Entry<LGPlayer, LGChatCallback> entry : viewers.entrySet()) {
-			System.out.println("   to "+entry.getKey().getName());
+			MainLg.debug("   to "+entry.getKey().getName());
 			entry.getKey().sendMessage(sendMessage != null ? sendMessage : entry.getValue().receive(sender, message));
 		}
 	}
 
 	public void join(LGPlayer player, LGChatCallback callback) {
-		System.out.println("join "+player.getName()+" ! "+this);
+		MainLg.debug("join "+player.getName()+" ! "+this);
 		if(getViewers().containsKey(player))
 			getViewers().replace(player, callback);
 		else
 			getViewers().put(player, callback);
 	}
 	public void leave(LGPlayer player) {
-		System.out.println("leave "+player.getName()+" ! "+this);
+		MainLg.debug("leave "+player.getName()+" ! "+this);
 		getViewers().remove(player);
 	}
 }

@@ -64,7 +64,7 @@ public abstract class Role implements Listener{
 					try {
 						Role.this.onNightTurnTimeout(player);
 					}catch(Exception err) {
-						System.out.println("Error when timeout role");
+						MainLg.debug("Error when timeout role");
 						err.printStackTrace();
 					}
 					this.run();
@@ -78,7 +78,7 @@ public abstract class Role implements Listener{
 		}.run();
 	}
 	public void join(LGPlayer player, boolean sendMessage) {
-		System.out.println(player.getName()+" est "+getName());
+		MainLg.debug(player.getName()+" est "+getName());
 		players.add(player);
 		if(player.getRole() == null)
 			player.setRole(this);

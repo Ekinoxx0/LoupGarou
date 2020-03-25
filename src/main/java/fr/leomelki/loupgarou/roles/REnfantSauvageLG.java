@@ -4,6 +4,7 @@ import java.util.Comparator;
 
 import org.bukkit.potion.PotionEffectType;
 
+import fr.leomelki.loupgarou.MainLg;
 import fr.leomelki.loupgarou.classes.LGCustomItems;
 import fr.leomelki.loupgarou.classes.LGGame;
 import fr.leomelki.loupgarou.classes.LGPlayer;
@@ -61,7 +62,7 @@ public class REnfantSauvageLG extends Role{
 	@Override
 	public void join(LGPlayer player, boolean sendMessage) {
 		super.join(player, sendMessage);
-		System.out.println(player.getName()+" a rejoint les LG (Enfant Sauvage)");
+		MainLg.debug(player.getName()+" a rejoint les LG (Enfant Sauvage)");
 		player.setRole(this);
 		LGCustomItems.updateItem(player);
 		RLoupGarou lgRole = null;
@@ -81,7 +82,7 @@ public class REnfantSauvageLG extends Role{
 		}
 		
 		lgRole.join(player, false);
-		System.out.println(player.getName()+" -> Enfant Sauvage -> Camp trouvé & join");
+		MainLg.debug(player.getName()+" -> Enfant Sauvage -> Camp trouvé & join");
 		for(LGPlayer lgp : lgRole.getPlayers())
 			if(lgp != player)
 				lgp.sendMessage("§7§l"+player.getName()+"§6 a rejoint les §c§lLoups-Garous§6.");

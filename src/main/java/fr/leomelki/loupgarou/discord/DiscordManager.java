@@ -6,7 +6,6 @@ import java.util.List;
 import javax.security.auth.login.LoginException;
 
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 
 import fr.leomelki.loupgarou.MainLg;
 import net.dv8tion.jda.api.JDA;

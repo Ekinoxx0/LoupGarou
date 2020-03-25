@@ -59,6 +59,15 @@ public class CommandLG implements CommandExecutor, TabCompleter {
 				
 				switch(args[0].toLowerCase()) {
 				
+				case "debug":
+					Player d = (Player) sender;
+					if(MainLg.getDEBUGS().contains(d)) {
+						MainLg.getDEBUGS().remove(d);
+					}else {
+						MainLg.getDEBUGS().add(d);
+					}
+					break;
+				
 				case "clearallspawn":
 					mainLg.getConfig().set("spawns", new ArrayList<Object>());
 					mainLg.saveConfig();

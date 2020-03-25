@@ -3,6 +3,7 @@ package fr.leomelki.loupgarou.roles;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 
+import fr.leomelki.loupgarou.MainLg;
 import fr.leomelki.loupgarou.classes.LGGame;
 import fr.leomelki.loupgarou.classes.LGPlayer;
 import fr.leomelki.loupgarou.classes.LGPlayer.LGChooseCallback;
@@ -86,7 +87,7 @@ public class RAssassin extends Role{
 	@EventHandler
 	public void onTour(LGRoleTurnEndEvent e) {
 		if(e.getGame() == getGame()) {
-			System.out.println(e.getPreviousRole());
+			MainLg.debug(e.getPreviousRole().getName());
 			if(e.getPreviousRole() instanceof RLoupGarou) {
 				for(LGPlayer lgp : getGame().getAlive())
 					if(lgp.getCache().getBoolean("assassin_protected")) {

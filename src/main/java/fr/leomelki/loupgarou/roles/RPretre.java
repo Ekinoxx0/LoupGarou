@@ -126,7 +126,7 @@ public class RPretre extends Role{
 					meta.setEntityID(lgp.getPlayer().getEntityId());
 					meta.setMetadata(Arrays.asList(new WrappedWatchableObject(invisible, (byte)0)));
 					meta.sendPacket(player.getPlayer());
-					System.out.println("Spawning "+lgp.getName()+" for prêtre ("+player.getName()+")");
+					MainLg.debug("Spawning "+lgp.getName()+" for prêtre ("+player.getName()+")");
 				}
 			}else
 				player.getPlayer().hidePlayer(lgp.getPlayer());

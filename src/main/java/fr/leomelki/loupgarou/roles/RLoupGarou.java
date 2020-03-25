@@ -8,6 +8,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 
 import fr.leomelki.com.comphenix.packetwrapper.WrapperPlayServerScoreboardTeam;
+import fr.leomelki.loupgarou.MainLg;
 import fr.leomelki.loupgarou.classes.LGCustomSkin;
 import fr.leomelki.loupgarou.classes.LGGame;
 import fr.leomelki.loupgarou.classes.LGPlayer;
@@ -117,7 +118,7 @@ public class RLoupGarou extends Role{
 				boolean equal = false;
 				for(Entry<LGPlayer, List<LGPlayer>> entry : vote.getVotes().entrySet())
 					if(entry.getValue().size() > max) {
-						System.out.println(entry.getKey()+" has "+entry.getValue().size()+" vote(s)");
+						MainLg.debug(entry.getKey()+" has "+entry.getValue().size()+" vote(s)");
 						equal = false;
 						max = entry.getValue().size();
 						choosen = entry.getKey();
@@ -129,7 +130,7 @@ public class RLoupGarou extends Role{
 					for(Entry<LGPlayer, List<LGPlayer>> entry : vote.getVotes().entrySet())
 						if(entry.getValue().size() == max && entry.getKey().getRoleType() != RoleType.LOUP_GAROU)
 							choosable.add(entry.getKey());
-					System.out.println("Random choice for LG (removed lg from vote)");
+					MainLg.debug("Random choice for LG (removed lg from vote)");
 					if(choosable.size() > 0)
 						choosen = choosable.get(getGame().getRandom().nextInt(choosable.size()));
 				}
@@ -176,7 +177,7 @@ public class RLoupGarou extends Role{
 	public void onUpdatePrefix (LGUpdatePrefixEvent e) {
 		if(e.getGame() == getGame())
 			if(getPlayers().contains(e.getTo()) && getPlayers().contains(e.getPlayer())) {
-				System.out.println("Prefix of "+e.getPlayer().getName()+" updated (lg) for "+e.getTo().getName());
+				MainLg.debug("Prefix of "+e.getPlayer().getName()+" updated (lg) for "+e.getTo().getName());
 				e.setPrefix(e.getPrefix()+"§c");
 			}
 	}

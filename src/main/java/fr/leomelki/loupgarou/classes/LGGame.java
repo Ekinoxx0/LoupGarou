@@ -183,11 +183,11 @@ public class LGGame implements Listener{
 	}
 	
 	public void kill(LGPlayer player, Reason reason) {
-		System.out.println("Kill "+player.getName()+" ("+player.getRole()+") for "+reason+" ("+(!deaths.containsValue(player) && !player.isDead())+")");
+		MainLg.debug("Kill "+player.getName()+" ("+player.getRole()+") for "+reason+" ("+(!deaths.containsValue(player) && !player.isDead())+")");
 		if(!deaths.containsValue(player) && !player.isDead()){
 			LGNightPlayerPreKilledEvent event = new LGNightPlayerPreKilledEvent(this, player, reason);
 			Bukkit.getPluginManager().callEvent(event);
-			System.out.println("Mort de "+player.getName()+" cancel:"+event.isCancelled());
+			MainLg.debug("Mort de "+player.getName()+" cancel:"+event.isCancelled());
 			if(!event.isCancelled())
 				deaths.put(event.getReason(), player);
 		}
@@ -526,7 +526,11 @@ public class LGGame implements Listener{
 						if(role.getTurnOrder() == -1 || !role.hasPlayersLeft())
 							this.run();
 						else {
-							broadcastMessage("§9"+role.getBroadcastedTask());
+							if(!hideRoleScoreboard) {
+								broadcastMessage("§9"+role.getBroadcastedTask());
+							} else {
+								broadcastMessage("§9Quelqu'un fait que chose...");
+							}
 							role.onNightTurn(run);
 						}
 					}
@@ -907,7 +911,7 @@ public class LGGame implements Listener{
 		Bukkit.getPluginManager().callEvent(event);
 		if(doEndGame && event.getWinType() != LGWinType.NONE)
 			endGame(event.getWinType());
-		System.out.println("Endgame check result > "+event.getWinType()+" ("+doEndGame+")");
+		MainLg.debug("Endgame check result > "+event.getWinType()+" ("+doEndGame+")");
 		return event.getWinType() != LGWinType.NONE;
 	}
 }

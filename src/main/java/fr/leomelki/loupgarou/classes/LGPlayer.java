@@ -274,7 +274,7 @@ public class LGPlayer {
 	public boolean canSelectDead;
 	public LGPlayer getPlayerOnCursor(List<LGPlayer> list) {
 		Location pointedLoc = getPlayer().getLocation();
-		System.out.println("hit > "+blacklistedChoice.size()+" > "+blacklistedChoice+" > "+list);
+		MainLg.debug("hit > "+blacklistedChoice.size()+" > "+blacklistedChoice+" > "+list);
 		if(pointedLoc.getPitch() > 80)
 			if(blacklistedChoice.contains(this))
 				return null;

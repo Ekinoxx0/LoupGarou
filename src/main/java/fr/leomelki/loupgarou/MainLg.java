@@ -54,7 +54,8 @@ import lombok.Setter;
 
 public class MainLg extends JavaPlugin{
 	
-	private static MainLg instance;
+	@Getter private static MainLg instance;
+	@Getter private final static List<Player> DEBUGS = new ArrayList<Player>();
 	@Getter private HashMap<String, Constructor<? extends Role>> roles = new HashMap<String, Constructor<? extends Role>>();
 	@Getter private static String prefix = "";
 	
@@ -91,19 +92,19 @@ public class MainLg extends JavaPlugin{
 		new ProtocolListener(this);
 	
 	}
+	
 	public void loadConfig() {
 		int players = 0;
 		for(String role : roles.keySet())
 			players += getConfig().getInt("role."+role);
-		currentGame = new LGGame(players);
+		this.currentGame = new LGGame(players);
 	}
+	
 	@Override
 	public void onDisable() {
 		ProtocolLibrary.getProtocolManager().removePacketListeners(this);
 	}
-	public static MainLg getInstance() {
-		return instance;
-	}
+	
 	private void loadRoles() {
 		try {
 			roles.put("LoupGarou", RLoupGarou.class.getConstructor(LGGame.class));
@@ -134,6 +135,14 @@ public class MainLg extends JavaPlugin{
 			roles.put("EnfantSauvage", REnfantSauvage.class.getConstructor(LGGame.class));
 		} catch (NoSuchMethodException | SecurityException e) {
 			e.printStackTrace();
+		}
+	}
+	
+	public static void debug(String s) {
+		System.out.println(s);
+		for(Player p : DEBUGS) {
+			if(p != null)
+				p.sendMessage("§7" + s);
 		}
 	}
 }
