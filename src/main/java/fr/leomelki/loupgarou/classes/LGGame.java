@@ -392,7 +392,7 @@ public class LGGame implements Listener{
 		if(hideRoleScoreboard) {
 			for(LGPlayer lgp : getInGame()) {
 				for (int i = 0; i < 15; i++)
-					lgp.getScoreboard().getLine(15).delete();
+					lgp.getScoreboard().getLine(i).delete();
 				
 				lgp.getScoreboard().getLine(15).setDisplayName("§cComposition cachée...");
 			}
