@@ -69,6 +69,10 @@ public class MainLg extends JavaPlugin{
 		if(!new File(getDataFolder(), "config.yml").exists()) {//Créer la config
 			FileConfiguration config = getConfig();
 			config.set("spawns", new ArrayList<List<Double>>());
+			config.set("hideRole", false);
+			config.set("hideVote", false);
+			config.set("hideVoteExtra", false);
+			
 			for(String role : roles.keySet())//Nombre de participant pour chaque rôle
 				config.set("role."+role, 1);
 			saveConfig();
@@ -94,10 +98,26 @@ public class MainLg extends JavaPlugin{
 	}
 	
 	public void loadConfig() {
+    	if(!getConfig().contains("hideRole")) {
+    		getConfig().set("hideRole", false);
+    		saveConfig();
+    	}
+    	if(!getConfig().contains("hideVote")) {
+    		getConfig().set("hideVote", false);
+    		saveConfig();
+    	}
+    	if(!getConfig().contains("hideVoteExtra")) {
+    		getConfig().set("hideVoteExtra", false);
+    		saveConfig();
+    	}
+		
 		int players = 0;
 		for(String role : roles.keySet())
 			players += getConfig().getInt("role."+role);
 		this.currentGame = new LGGame(players);
+		this.currentGame.setHideRole(getConfig().isBoolean("hideRole"));
+		this.currentGame.setHideVote(getConfig().isBoolean("hideVote"));
+		this.currentGame.setHideVoteExtra(getConfig().isBoolean("hideVoteExtra"));
 	}
 	
 	@Override

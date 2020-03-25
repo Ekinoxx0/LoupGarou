@@ -155,7 +155,9 @@ public class LGVote {
 				if(!choosable.contains(player))
 					blackListed.add(player);
 				else {
-					VariousUtils.setWarning(player.getPlayer(), true);
+					if(!this.game.isHideVoteExtra()) {
+						VariousUtils.setWarning(player.getPlayer(), true);
+					}
 					//player.sendMessage("§4§lVous êtes un des principaux suspects ! Défendez vous !");
 					//player.sendTitle("§4§lDéfendez vous !", "§cVous êtes l'un des principaux suspects", 100);
 				}
@@ -273,9 +275,11 @@ public class LGVote {
 				voter.sendMessage("§6Tu as annulé ton vote.");
 			}
 			
-			for(LGPlayer player : viewers)
-				if(player != voter)
-					player.sendMessage(message);
+			if(this.game.isHideVote()) {
+				for(LGPlayer player : viewers)
+					if(player != voter)
+						player.sendMessage(message);
+			}
 		}
 	}
 	
@@ -328,10 +332,12 @@ public class LGVote {
 	        datawatcher.register(az, Optional.ofNullable(IChatBaseComponent.ChatSerializer.a("{\"text\":\"§6§l"+votesNbr+"§e vote"+(votesNbr > 1 ? "s" : "")+"\"}")));
 	        datawatcher.register(aA, true);
 			PacketPlayOutEntityMetadata meta = new PacketPlayOutEntityMetadata(entityId, datawatcher, true);
-			
-			for(LGPlayer lgp : viewers) {
-				spawn.sendPacket(lgp.getPlayer());
-				((CraftPlayer)lgp.getPlayer()).getHandle().playerConnection.sendPacket(meta);
+
+			if(!this.game.isHideVoteExtra()) {
+				for(LGPlayer lgp : viewers) {
+					spawn.sendPacket(lgp.getPlayer());
+					((CraftPlayer)lgp.getPlayer()).getHandle().playerConnection.sendPacket(meta);
+				}
 			}
 			
 			
@@ -373,6 +379,7 @@ public class LGVote {
 							 customName = new WrappedDataWatcherObject(2, WrappedDataWatcher.Registry.get(IChatBaseComponent.class)),
 							 item = new WrappedDataWatcherObject(7, WrappedDataWatcher.Registry.get(net.minecraft.server.v1_15_R1.ItemStack.class));
 	private void showVoting(LGPlayer to, LGPlayer ofWho) {
+		if(!this.game.isHideVoteExtra()) return;
 		int entityId = -to.getPlayer().getEntityId();
 		WrapperPlayServerEntityDestroy destroy = new WrapperPlayServerEntityDestroy();
 		destroy.setEntityIds(new int[] {entityId});

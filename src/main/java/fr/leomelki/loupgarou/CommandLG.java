@@ -158,8 +158,8 @@ public class CommandLG implements CommandExecutor, TabCompleter {
 					break;
 
 				case "hidecompo":
-					mainLg.getCurrentGame().setHideRoleScoreboard(!mainLg.getCurrentGame().isHideRoleScoreboard());
-					if(mainLg.getCurrentGame().isHideRoleScoreboard()) {
+					mainLg.getCurrentGame().setHideRole(!mainLg.getCurrentGame().isHideRole());
+					if(mainLg.getCurrentGame().isHideRole()) {
 						sender.sendMessage("§cComposition cachée");
 					} else {
 						sender.sendMessage("§9Composition affichée");

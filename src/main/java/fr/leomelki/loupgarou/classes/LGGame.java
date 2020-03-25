@@ -83,7 +83,9 @@ public class LGGame implements Listener{
 	@Getter public long time = 0;
 	@Getter private HashMap<Integer, LGPlayer> placements = new HashMap<Integer, LGPlayer>();
 	
-	@Getter @Setter public boolean hideRoleScoreboard;
+	@Getter @Setter public boolean hideRole;
+	@Getter @Setter public boolean hideVote;
+	@Getter @Setter public boolean hideVoteExtra;
 	
 	@Getter private LGChat spectatorChat = new LGChat((sender, message) -> {
 		return "§7"+sender.getName()+" §6» §f"+message;
@@ -389,7 +391,7 @@ public class LGGame implements Listener{
 		nextNight(10);
 	}
 	public void updateRoleScoreboard() {
-		if(hideRoleScoreboard) {
+		if(hideRole) {
 			for(LGPlayer lgp : getInGame()) {
 				for (int i = 0; i < 15; i++)
 					lgp.getScoreboard().getLine(i).delete();
@@ -526,7 +528,7 @@ public class LGGame implements Listener{
 						if(role.getTurnOrder() == -1 || !role.hasPlayersLeft())
 							this.run();
 						else {
-							if(!hideRoleScoreboard) {
+							if(!hideRole) {
 								broadcastMessage("§9"+role.getBroadcastedTask());
 							} else {
 								broadcastMessage("§9Quelqu'un fait que chose...");
