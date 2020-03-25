@@ -529,7 +529,7 @@ public class LGGame implements Listener{
 							if(!hideRole) {
 								broadcastMessage("§9"+role.getBroadcastedTask());
 							} else {
-								broadcastMessage("§9Quelqu'un fait que chose...");
+								broadcastMessage("§9Quelqu'un fait quelque chose...");
 							}
 							role.onNightTurn(run);
 						}

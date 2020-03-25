@@ -59,6 +59,12 @@ public class CommandLG implements CommandExecutor, TabCompleter {
 				
 				switch(args[0].toLowerCase()) {
 				
+				case "status":
+					sender.sendMessage(MainLg.getPrefix() + (mainLg.getCurrentGame().isHideRole() ? "§aHideRole actif" : "§cHideRole inactif"));
+					sender.sendMessage(MainLg.getPrefix() + (mainLg.getCurrentGame().isHideVote() ? "§aHideVote actif" : "§cHideVote inactif"));
+					sender.sendMessage(MainLg.getPrefix() + (mainLg.getCurrentGame().isHideVoteExtra() ? "§aHideVoteExtra actif" : "§cHideVoteExtra inactif"));
+					break;
+				
 				case "debug":
 					Player d = (Player) sender;
 					if(MainLg.getDEBUGS().contains(d)) {
@@ -271,7 +277,7 @@ public class CommandLG implements CommandExecutor, TabCompleter {
 					
 				case "quick":
 					if(mainLg.getCurrentGame() != null) {
-						if(mainLg.getCurrentGame().getVote() != null) {
+						if(mainLg.getCurrentGame().getVote() == null) {
 							mainLg.getCurrentGame().getVote().quick(20);
 							sender.sendMessage("§aQuick timer");
 						} else {
@@ -284,7 +290,7 @@ public class CommandLG implements CommandExecutor, TabCompleter {
 					
 				case "veryquick":
 					if(mainLg.getCurrentGame() != null) {
-						if(mainLg.getCurrentGame().getVote() != null) {
+						if(mainLg.getCurrentGame().getVote() == null) {
 							mainLg.getCurrentGame().getVote().quick(5);
 							sender.sendMessage("§aVery Quick timer");
 						} else {

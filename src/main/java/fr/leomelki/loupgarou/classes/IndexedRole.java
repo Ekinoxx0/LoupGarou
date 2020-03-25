@@ -8,7 +8,8 @@ import lombok.RequiredArgsConstructor;
 public class IndexedRole {
 	@Getter private final Role role;
 	@Getter private int number = 1;
+	
 	public void increase() {
-		number++;
+		this.number++;
 	}
 }
