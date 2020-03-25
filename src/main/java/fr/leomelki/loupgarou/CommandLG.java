@@ -58,7 +58,11 @@ public class CommandLG implements CommandExecutor, TabCompleter {
 			if(args.length >= 1) {
 				
 				switch(args[0].toLowerCase()) {
-				
+
+				case "menu":
+					new RoleMenu().openMenu((Player) sender);
+					break;
+					
 				case "status":
 					sender.sendMessage(MainLg.getPrefix() + (mainLg.getCurrentGame().isHideRole() ? "§aHideRole actif" : "§cHideRole inactif"));
 					sender.sendMessage(MainLg.getPrefix() + (mainLg.getCurrentGame().isHideVote() ? "§aHideVote actif" : "§cHideVote inactif"));
