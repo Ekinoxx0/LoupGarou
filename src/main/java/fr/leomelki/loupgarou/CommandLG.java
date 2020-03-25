@@ -157,8 +157,30 @@ public class CommandLG implements CommandExecutor, TabCompleter {
 					mainLg.getDiscord().clearDead();
 					break;
 
+				case "hidevoteextra":
+					mainLg.getCurrentGame().setHideVoteExtra(!mainLg.getCurrentGame().isHideVoteExtra());
+					mainLg.getConfig().set("hideVoteExtra", mainLg.getCurrentGame().isHideVoteExtra());
+					if(mainLg.getCurrentGame().isHideVoteExtra()) {
+						sender.sendMessage("§cComposition cachée");
+					} else {
+						sender.sendMessage("§9Composition affichée");
+					}
+					break;
+
+				case "hidevote":
+					mainLg.getCurrentGame().setHideVote(!mainLg.getCurrentGame().isHideVote());
+					mainLg.getConfig().set("hideVote", mainLg.getCurrentGame().isHideVote());
+					if(mainLg.getCurrentGame().isHideVote()) {
+						sender.sendMessage("§cVote cachée");
+					} else {
+						sender.sendMessage("§9Vote affichés");
+					}
+					break;
+
+				case "hiderole":
 				case "hidecompo":
 					mainLg.getCurrentGame().setHideRole(!mainLg.getCurrentGame().isHideRole());
+					mainLg.getConfig().set("hideRole", mainLg.getCurrentGame().isHideRole());
 					if(mainLg.getCurrentGame().isHideRole()) {
 						sender.sendMessage("§cComposition cachée");
 					} else {
@@ -371,7 +393,7 @@ public class CommandLG implements CommandExecutor, TabCompleter {
 				else if(args.length == 4)
 					return Arrays.asList("0", "1", "2", "3", "4", "5", "6", "7", "8", "9");
 		}else if(args.length == 1)
-			return getStartingList(args[0], "muteall", "checkdiscord", "unmuteall", "hidecompo", "deaddiscord", "clearallspawn", "addspawn", "removespawn", 
+			return getStartingList(args[0], "muteall", "hidevote", "hidevoteextra", "checkdiscord", "unmuteall", "hidecompo", "deaddiscord", "clearallspawn", "addspawn", "removespawn", 
 					"quick", "veryquick", "end", "start", "nextnight", "nextday", "reloadconfig", "roles", "joinall", "reloadpacks", "showspawns", "debug", "debugresetpl", "spec");
 		return new ArrayList<String>(0);
 	}
