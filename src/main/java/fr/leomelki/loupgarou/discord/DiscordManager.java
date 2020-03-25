@@ -8,6 +8,7 @@ import javax.security.auth.login.LoginException;
 import org.bukkit.Bukkit;
 
 import fr.leomelki.loupgarou.MainLg;
+import lombok.Getter;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Member;
@@ -21,7 +22,7 @@ public class DiscordManager extends ListenerAdapter {
 	private static final String DEFAULT_VALUE_CONFIG = "TOKEN_DISCORD";
 	private static final long DEFAULT_CHANNEL_CONFIG = -1L;
 	
-	private VoiceChannel selectedChannel;
+	private @Getter VoiceChannel selectedChannel;
 	private JDA jda;
 	
 	private final List<String> unknowns;

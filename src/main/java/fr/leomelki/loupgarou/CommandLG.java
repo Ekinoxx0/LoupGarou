@@ -135,12 +135,20 @@ public class CommandLG implements CommandExecutor, TabCompleter {
 					
 				case "checkdiscord":
 					sender.sendMessage("§9Check discord :");
+					List<Member> knowns = new ArrayList<Member>();
 					for(Player target : Bukkit.getOnlinePlayers()) {
 						Member m = mainLg.getDiscord().getMemberFromName(target.getName());
 						if(m == null) {
-							sender.sendMessage("§7 - §c" + target.getName() + " inconnu");
+							sender.sendMessage("§7 *IG* §c" + target.getName());
 						} else {
-							sender.sendMessage("§7 - §a" + target.getName() + "");
+							sender.sendMessage("§7 *IG* §a" + target.getName());
+							knowns.add(m);
+						}
+					}
+					
+					for(Member i : mainLg.getDiscord().getSelectedChannel().getMembers()) {
+						if(!knowns.contains(i)) {
+							sender.sendMessage("§7 *DCD* §c" + i.getEffectiveName());
 						}
 					}
 					break;
@@ -351,7 +359,8 @@ public class CommandLG implements CommandExecutor, TabCompleter {
 				else if(args.length == 4)
 					return Arrays.asList("0", "1", "2", "3", "4", "5", "6", "7", "8", "9");
 		}else if(args.length == 1)
-			return getStartingList(args[0], "muteall", "unmuteall", "hidecompo", "deaddiscord", "clearallspawn", "addspawn", "removespawn", "quick", "veryquick", "end", "start", "nextnight", "nextday", "reloadconfig", "roles", "joinall", "reloadpacks", "showspawns");
+			return getStartingList(args[0], "muteall", "checkdiscord", "unmuteall", "hidecompo", "deaddiscord", "clearallspawn", "addspawn", "removespawn", 
+					"quick", "veryquick", "end", "start", "nextnight", "nextday", "reloadconfig", "roles", "joinall", "reloadpacks", "showspawns", "debug", "debugresetpl", "spec");
 		return new ArrayList<String>(0);
 	}
 	
