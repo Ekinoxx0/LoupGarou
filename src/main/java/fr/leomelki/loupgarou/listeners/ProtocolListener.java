@@ -134,9 +134,7 @@ public class ProtocolListener {
 			public void onPacketSending(PacketEvent event) {
 				LGPlayer player = LGPlayer.thePlayer(event.getPlayer());
 				if(player.getGame() != null) {
-					if(player.getGame().isHideVoteExtra() || player.getGame().isHideVote()) {
-						event.setCancelled(true);
-					}
+					event.setCancelled(player.getGame().isHideVoteExtra() || player.getGame().isHideVote());
 				}
 			}
 		});

@@ -379,7 +379,7 @@ public class LGVote {
 							 customName = new WrappedDataWatcherObject(2, WrappedDataWatcher.Registry.get(IChatBaseComponent.class)),
 							 item = new WrappedDataWatcherObject(7, WrappedDataWatcher.Registry.get(net.minecraft.server.v1_15_R1.ItemStack.class));
 	private void showVoting(LGPlayer to, LGPlayer ofWho) {
-		if(!this.game.isHideVoteExtra()) return;
+		if(this.game.isHideVoteExtra()) return;
 		int entityId = -to.getPlayer().getEntityId();
 		WrapperPlayServerEntityDestroy destroy = new WrapperPlayServerEntityDestroy();
 		destroy.setEntityIds(new int[] {entityId});
