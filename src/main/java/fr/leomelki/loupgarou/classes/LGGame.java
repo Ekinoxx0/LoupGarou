@@ -395,8 +395,6 @@ public class LGGame implements Listener{
 			for(LGPlayer lgp : getInGame()) {
 				for (int i = 0; i < 15; i++)
 					lgp.getScoreboard().getLine(i).delete();
-				
-				lgp.getScoreboard().getLine(15).setDisplayName("§cComposition cachée...");
 			}
 			
 			return;
