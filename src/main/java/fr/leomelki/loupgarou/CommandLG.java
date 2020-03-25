@@ -160,16 +160,18 @@ public class CommandLG implements CommandExecutor, TabCompleter {
 				case "hidevoteextra":
 					mainLg.getCurrentGame().setHideVoteExtra(!mainLg.getCurrentGame().isHideVoteExtra());
 					mainLg.getConfig().set("hideVoteExtra", mainLg.getCurrentGame().isHideVoteExtra());
+					mainLg.saveConfig();
 					if(mainLg.getCurrentGame().isHideVoteExtra()) {
-						sender.sendMessage("§cComposition cachée");
+						sender.sendMessage("§cVote extra cachée");
 					} else {
-						sender.sendMessage("§9Composition affichée");
+						sender.sendMessage("§9Vote extra affichée");
 					}
 					break;
 
 				case "hidevote":
 					mainLg.getCurrentGame().setHideVote(!mainLg.getCurrentGame().isHideVote());
 					mainLg.getConfig().set("hideVote", mainLg.getCurrentGame().isHideVote());
+					mainLg.saveConfig();
 					if(mainLg.getCurrentGame().isHideVote()) {
 						sender.sendMessage("§cVote cachée");
 					} else {
@@ -181,6 +183,7 @@ public class CommandLG implements CommandExecutor, TabCompleter {
 				case "hidecompo":
 					mainLg.getCurrentGame().setHideRole(!mainLg.getCurrentGame().isHideRole());
 					mainLg.getConfig().set("hideRole", mainLg.getCurrentGame().isHideRole());
+					mainLg.saveConfig();
 					if(mainLg.getCurrentGame().isHideRole()) {
 						sender.sendMessage("§cComposition cachée");
 					} else {

@@ -275,7 +275,7 @@ public class LGVote {
 				voter.sendMessage("§6Tu as annulé ton vote.");
 			}
 			
-			if(this.game.isHideVote()) {
+			if(!this.game.isHideVote()) {
 				for(LGPlayer player : viewers)
 					if(player != voter)
 						player.sendMessage(message);
