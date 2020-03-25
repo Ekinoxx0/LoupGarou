@@ -129,6 +129,17 @@ public class ProtocolListener {
 				}
 			}
 		});
+		protocolManager.addPacketListener(new PacketAdapter(mainLg, ListenerPriority.NORMAL, PacketType.Play.Server.ANIMATION) {
+			@Override
+			public void onPacketSending(PacketEvent event) {
+				LGPlayer player = LGPlayer.thePlayer(event.getPlayer());
+				if(player.getGame() != null) {
+					if(player.getGame().isHideVoteExtra() || player.getGame().isHideVote()) {
+						event.setCancelled(true);
+					}
+				}
+			}
+		});
 	}
 
 }

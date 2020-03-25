@@ -246,15 +246,27 @@ public class CommandLG implements CommandExecutor, TabCompleter {
 					
 				case "quick":
 					if(mainLg.getCurrentGame() != null) {
-						mainLg.getCurrentGame().getVote().quick(20);
-						sender.sendMessage("§aQuick timer");
+						if(mainLg.getCurrentGame().getVote() != null) {
+							mainLg.getCurrentGame().getVote().quick(20);
+							sender.sendMessage("§aQuick timer");
+						} else {
+							sender.sendMessage("§cNo vote");
+						}
+					} else {
+						sender.sendMessage("§cNo game");
 					}
 					return true;
 					
 				case "veryquick":
 					if(mainLg.getCurrentGame() != null) {
-						mainLg.getCurrentGame().getVote().quick(5);
-						sender.sendMessage("§aVery Quick timer");
+						if(mainLg.getCurrentGame().getVote() != null) {
+							mainLg.getCurrentGame().getVote().quick(5);
+							sender.sendMessage("§aVery Quick timer");
+						} else {
+							sender.sendMessage("§cNo vote");
+						}
+					} else {
+						sender.sendMessage("§cNo game");
 					}
 					return true;
 					

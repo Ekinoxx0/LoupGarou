@@ -92,8 +92,10 @@ public class RCorbeau extends Role{
 						@Override
 						public void run() {
 							getGame().getVote().vote(new LGPlayer("§a§lLe corbeau"), lg);
-							getGame().getVote().vote(new LGPlayer("§a§lLe corbeau"), lg);//fix
-							getGame().broadcastMessage("§7§l"+lg.getName()+"§6 a reçu la visite du "+getName()+"§6.");
+							getGame().getVote().vote(new LGPlayer("§a§lLe corbeau"), lg);
+							if(!e.getGame().isHideVoteExtra()) {
+								getGame().broadcastMessage("§7§l"+lg.getName()+"§6 a reçu la visite du "+getName()+"§6.");
+							}
 						}
 					}.runTask(MainLg.getInstance());
 					
