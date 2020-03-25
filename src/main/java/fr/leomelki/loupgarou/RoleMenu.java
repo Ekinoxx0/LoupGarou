@@ -18,9 +18,9 @@ public class RoleMenu {
 	public void openMenu(Player p) {
 		InteractInventory ii = new InteractInventory(Bukkit.createInventory(p, 3 * 9, ""));
 		
+		int i = 0;
 		int total = 0;
 		for(String role : MainLg.getInstance().getRoles().keySet()) {
-			if(MainLg.getInstance().getConfig().getInt("role."+role) > 0) {
 				total += MainLg.getInstance().getConfig().getInt("role."+role);
 				
 				ii.registerItem(
@@ -30,26 +30,38 @@ public class RoleMenu {
 									"§7" + MainLg.getInstance().getConfig().getInt("role."+role)
 									))
 							.build(), 
-						3*9-1, true, new InventoryCall() {
+						i, true, new InventoryCall() {
 							
 							@Override
 							public void click(HumanEntity human, ItemStack item, ClickType clickType) {
+								int nb = MainLg.getInstance().getConfig().getInt("role."+role);
+								int modif = 0;
+								
 								switch(clickType) {
+								
 								case RIGHT:
 								case LEFT:
 								case MIDDLE:
+									modif = +1;
 									break;
+									
 								case SHIFT_LEFT:
 								case SHIFT_RIGHT:
+									modif = -1;
 									break;
+									
 								default:
 									p.sendMessage("§7Clic inconnu.");
 									break;
-								
 								}
+								
+								p.sendMessage(MainLg.getPrefix()+"§6Il y aura §e" + (nb + modif) + " §6"+role);
+								MainLg.getInstance().getConfig().set("role."+role, nb + modif);
+								MainLg.getInstance().saveConfig();
+								MainLg.getInstance().loadConfig();
 							}
 						});
-			}
+				i++;
 		}
 		
 		ii.registerItem(
