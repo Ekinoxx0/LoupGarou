@@ -74,7 +74,7 @@ public class RLoupGarou extends Role{
 	
 	@Getter private LGChat chat = new LGChat((sender, message) -> {
 		return "§c"+sender.getName()+" §6» §f"+message;
-	});
+	}, "LG");
 
 	boolean showSkins = false;
 	LGVote vote;

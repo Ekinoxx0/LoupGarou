@@ -89,10 +89,10 @@ public class LGGame implements Listener{
 	
 	@Getter private LGChat spectatorChat = new LGChat((sender, message) -> {
 		return "§7"+sender.getName()+" §6» §f"+message;
-	});
+	}, "SPEC");
 	@Getter private LGChat dayChat = new LGChat((sender, message) -> {
 		return "§e"+sender.getName()+" §6» §f"+message;
-	});
+	}, "DAY");
 	
 	
 	public LGGame(int maxPlayers) {
@@ -189,7 +189,6 @@ public class LGGame implements Listener{
 		if(!deaths.containsValue(player) && !player.isDead()){
 			LGNightPlayerPreKilledEvent event = new LGNightPlayerPreKilledEvent(this, player, reason);
 			Bukkit.getPluginManager().callEvent(event);
-			MainLg.debug("Mort de "+player.getName()+" cancel:"+event.isCancelled());
 			if(!event.isCancelled())
 				deaths.put(event.getReason(), player);
 		}
@@ -911,7 +910,7 @@ public class LGGame implements Listener{
 		Bukkit.getPluginManager().callEvent(event);
 		if(doEndGame && event.getWinType() != LGWinType.NONE)
 			endGame(event.getWinType());
-		MainLg.debug("Endgame check result > "+event.getWinType()+" ("+doEndGame+")");
+		MainLg.debug("Endgame > "+event.getWinType()+" ("+doEndGame+")");
 		return event.getWinType() != LGWinType.NONE;
 	}
 }

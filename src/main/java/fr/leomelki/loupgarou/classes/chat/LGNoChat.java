@@ -4,7 +4,7 @@ import fr.leomelki.loupgarou.classes.LGPlayer;
 
 public class LGNoChat extends LGChat{
 	public LGNoChat() {
-		super(null);
+		super(null, "LGNoChat");
 	}
 
 	public void sendMessage(LGPlayer sender, String message) {}

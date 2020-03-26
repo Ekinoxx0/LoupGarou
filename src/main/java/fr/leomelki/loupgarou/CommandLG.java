@@ -281,11 +281,11 @@ public class CommandLG implements CommandExecutor, TabCompleter {
 					
 				case "quick":
 					if(mainLg.getCurrentGame() != null) {
-						if(mainLg.getCurrentGame().getVote() == null) {
+						if(mainLg.getCurrentGame().getVote() != null) {
 							mainLg.getCurrentGame().getVote().quick(20);
 							sender.sendMessage("§aQuick timer");
 						} else {
-							sender.sendMessage("§cNo vote");
+							sender.sendMessage("§cNo vote?");
 						}
 					} else {
 						sender.sendMessage("§cNo game");
@@ -294,7 +294,7 @@ public class CommandLG implements CommandExecutor, TabCompleter {
 					
 				case "veryquick":
 					if(mainLg.getCurrentGame() != null) {
-						if(mainLg.getCurrentGame().getVote() == null) {
+						if(mainLg.getCurrentGame().getVote() != null) {
 							mainLg.getCurrentGame().getVote().quick(5);
 							sender.sendMessage("§aVery Quick timer");
 						} else {
@@ -407,7 +407,7 @@ public class CommandLG implements CommandExecutor, TabCompleter {
 					return Arrays.asList("0", "1", "2", "3", "4", "5", "6", "7", "8", "9");
 		}else if(args.length == 1)
 			return getStartingList(args[0], "muteall", "hidevote", "hidevoteextra", "checkdiscord", "unmuteall", "hidecompo", "deaddiscord", "clearallspawn", "addspawn", "removespawn", 
-					"quick", "veryquick", "end", "start", "nextnight", "nextday", "reloadconfig", "roles", "joinall", "reloadpacks", "showspawns", "debug", "debugresetpl", "spec");
+					"quick", "veryquick", "end", "start", "nextnight", "nextday", "reloadconfig", "roles", "joinall", "reloadpacks", "showspawns", "debug", "debugresetpl", "spec", "status", "menu");
 		return new ArrayList<String>(0);
 	}
 	

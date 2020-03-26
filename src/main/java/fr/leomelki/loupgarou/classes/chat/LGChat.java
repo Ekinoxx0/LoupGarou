@@ -12,30 +12,31 @@ import lombok.RequiredArgsConstructor;
 public class LGChat {
 	@Getter private final HashMap<LGPlayer, LGChatCallback> viewers = new HashMap<LGPlayer, LGChatCallback>();
 	@Getter private final LGChatCallback defaultCallback;
+	private final String chatName;
 	
 	public static interface LGChatCallback{
 		public String receive(LGPlayer sender, String message);
 		public default String send(LGPlayer sender, String message) {return null;};
 	}
+	
 
 	public void sendMessage(LGPlayer sender, String message) {
-		MainLg.debug("sendmessage of "+sender.getName()+" "+this);
+		MainLg.debug("[" + this.chatName + "] " + sender.getName() + " : " + message);
 		String sendMessage = getViewers().get(sender).send(sender, message);
 		for(Entry<LGPlayer, LGChatCallback> entry : viewers.entrySet()) {
-			MainLg.debug("   to "+entry.getKey().getName());
 			entry.getKey().sendMessage(sendMessage != null ? sendMessage : entry.getValue().receive(sender, message));
 		}
 	}
 
 	public void join(LGPlayer player, LGChatCallback callback) {
-		MainLg.debug("join "+player.getName()+" ! "+this);
+		MainLg.debug("[" + this.chatName + "] (JOIN) " + player.getName() + " ! ");
 		if(getViewers().containsKey(player))
 			getViewers().replace(player, callback);
 		else
 			getViewers().put(player, callback);
 	}
 	public void leave(LGPlayer player) {
-		MainLg.debug("leave "+player.getName()+" ! "+this);
+		MainLg.debug("[" + this.chatName + "] (LEAVE) " + player.getName() + " ! ");
 		getViewers().remove(player);
 	}
 }

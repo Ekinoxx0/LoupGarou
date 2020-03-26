@@ -126,22 +126,19 @@ public class RChasseur extends Role{
 	@EventHandler
 	public void onEndGame(LGGameEndEvent e) {
 		if(e.getGame() != getGame())return;
-		MainLg.debug("game end "+needToPlay.size());
 		
 		if(needToPlay.size() > 0)
 			e.setCancelled(true);
 		
 		if(!e.isCancelled())return;
-		MainLg.debug("cancel");
+		
 		new Runnable() {
 			public void run() {
 				if(needToPlay.size() == 0) {
-					MainLg.debug("finish game");
 					e.getGame().checkEndGame(true);
 					return;
 				}
 				LGPlayer player = needToPlay.remove(0);
-				MainLg.debug(">>- "+player.getName());
 				onNightTurn(player, this);
 			}
 		}.run();
