@@ -141,6 +141,6 @@ public class RAssassin extends Role{
 		player.stopChoosing();
 		player.hideView();
 		//player.sendTitle("§cVous n'avez regardé aucun rôle", "§4Vous avez mis trop de temps à vous décider...", 80);
-		//player.sendMessage("§cVous n'avez pas utilisé votre pouvoir cette nuit.");
+		player.sendMessage("§cVous n'avez pas utilisé votre pouvoir cette nuit.");
 	}
 }
