@@ -1,8 +1,18 @@
 name: LoupGarou
 version: 1.0.14
-description: Permet de jouer au jeu du loup garou
+description: Plugin de loup garou
+author: Ekinoxx
+
 main: dev.loupgarou.MainLg
 depend: [ProtocolLib]
 api-version: 1.13
+
 commands:
   lg:
+    description: Gestion de la configuration et accès aux menus
+    aliases: [loup, loupgarou]
+
+permissions:
+  loupgarou.admin:
+    description: Administration du plugin
+    default: op
