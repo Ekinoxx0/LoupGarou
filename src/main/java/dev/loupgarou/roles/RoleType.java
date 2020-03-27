@@ -7,9 +7,9 @@ import lombok.Getter;
 
 @AllArgsConstructor @Getter
 public enum RoleType {
-	VILLAGER("§9", Material.TUBE_CORAL_BLOCK),
-	LOUP_GAROU("§c", Material.NETHER_WART_BLOCK),
-	NEUTRAL("§d", Material.BRAIN_CORAL_BLOCK);
+	VILLAGER("§a", Material.LIME_GLAZED_TERRACOTTA),
+	LOUP_GAROU("§c", Material.RED_GLAZED_TERRACOTTA),
+	NEUTRAL("§d", Material.PINK_GLAZED_TERRACOTTA);
 	
 	private final String color;
 	private final Material material;

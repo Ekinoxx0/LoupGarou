@@ -57,6 +57,8 @@ public class RoleMenu {
 							
 							@Override
 							public void click(HumanEntity human, ItemStack item, ClickType clickType) {
+								if(!human.hasPermission("loupgarou.admin")) return;
+								
 								int nb = MainLg.getInstance().getConfig().getInt("role."+role);
 								int modif = 0;
 								
@@ -82,6 +84,7 @@ public class RoleMenu {
 								MainLg.getInstance().getConfig().set("role."+role, nb + modif);
 								MainLg.getInstance().saveConfig();
 								MainLg.getInstance().loadConfig();
+								openMenu(p);
 							}
 						});
 				i++;

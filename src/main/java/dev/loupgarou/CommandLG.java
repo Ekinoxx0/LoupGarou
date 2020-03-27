@@ -53,6 +53,10 @@ public class CommandLG implements CommandExecutor, TabCompleter {
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if(label.equalsIgnoreCase("lg")) {
 			if(!sender.hasPermission("loupgarou.admin")) {
+				if(args.length == 1 && args[0].equalsIgnoreCase("menu")) {
+					RoleMenu.openMenu((Player) sender);
+					return true;
+				}
 				sender.sendMessage(MainLg.getPrefix()+"§4Erreur: Vous n'avez pas la permission...");
 				return true;
 			}
