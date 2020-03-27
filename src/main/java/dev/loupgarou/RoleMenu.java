@@ -52,7 +52,7 @@ public class RoleMenu {
 							.lore(Arrays.asList(
 									"§7" + MainLg.getInstance().getConfig().getInt("role."+role),
 									"",
-									"§f" + getRole(role).getDescription()
+									"§f" + optimizeLines(getRole(role).getDescription())
 									))
 							.build(), 
 						i, true, new InventoryCall() {
@@ -99,6 +99,55 @@ public class RoleMenu {
 				4*9-1, true, null);
 		
 		ii.openTo(p);
+	}
+	
+	/*
+	 */
+	
+	public static String optimizeLines(String lore) {
+		int maxWord = 5;
+		
+		int a = 0;
+		int b = 0;
+		
+		for(String s : lore.split(" ")){
+			a += s.length();
+			b++;
+			if(a >= 30){
+				maxWord--;
+			}
+			if(b >= maxWord){
+				a = 0;
+				b = 0;
+			}
+		}
+		
+		return optimizeLines(lore, maxWord);
+	}
+
+	public static String optimizeLines(String lore, int size) {
+    	int i = 0;
+    	String str = "";
+    	String[] splitlore = lore.split(" ");
+    	
+    	String color = "";
+		while(lore.substring(0, 2).startsWith("§")){
+			color += lore.substring(0, 2);
+			lore = lore.substring(2);
+		}
+    	
+    	int a = 0;
+    	for (String string : splitlore) {
+    		str += string + " ";
+    		i++;
+    		if (i >= size && a < splitlore.length-1) {
+    			i = 0;
+    			str += "\n" + color;
+    		}
+    		a++;
+    	}
+    	
+    	return str;
 	}
 	
 }
