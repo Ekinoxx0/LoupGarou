@@ -39,7 +39,7 @@ public class RoleMenu {
 	}
 	
 	public static void openMenu(Player p) {
-		InteractInventory ii = new InteractInventory(Bukkit.createInventory(p, 3 * 9, ""));
+		InteractInventory ii = new InteractInventory(Bukkit.createInventory(p, 3 * 9, "Sélection des rôles"));
 		
 		int i = 0;
 		int total = 0;
