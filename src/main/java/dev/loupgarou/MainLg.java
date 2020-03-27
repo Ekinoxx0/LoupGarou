@@ -98,26 +98,14 @@ public class MainLg extends JavaPlugin{
 	}
 	
 	public void loadConfig() {
-    	if(!getConfig().contains("hideRole")) {
-    		getConfig().set("hideRole", false);
-    		saveConfig();
-    	}
-    	if(!getConfig().contains("hideVote")) {
-    		getConfig().set("hideVote", false);
-    		saveConfig();
-    	}
-    	if(!getConfig().contains("hideVoteExtra")) {
-    		getConfig().set("hideVoteExtra", false);
-    		saveConfig();
-    	}
-		
 		int players = 0;
 		for(String role : roles.keySet())
 			players += getConfig().getInt("role."+role);
 		this.currentGame = new LGGame(players);
-		this.currentGame.setHideRole(getConfig().isBoolean("hideRole"));
-		this.currentGame.setHideVote(getConfig().isBoolean("hideVote"));
-		this.currentGame.setHideVoteExtra(getConfig().isBoolean("hideVoteExtra"));
+		
+		this.currentGame.setHideRole(getConfig().getBoolean("hideRole"));
+		this.currentGame.setHideVote(getConfig().getBoolean("hideVote"));
+		this.currentGame.setHideVoteExtra(getConfig().getBoolean("hideVoteExtra"));
 	}
 	
 	@Override

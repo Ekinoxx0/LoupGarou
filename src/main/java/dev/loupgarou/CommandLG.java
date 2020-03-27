@@ -25,6 +25,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import com.comphenix.protocol.wrappers.EnumWrappers.ItemSlot;
 import com.comphenix.protocol.wrappers.WrappedDataWatcher;
 import com.comphenix.protocol.wrappers.WrappedDataWatcher.WrappedDataWatcherObject;
+import com.comphenix.protocol.wrappers.WrappedWatchableObject;
 
 import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.classes.LGWinType;
@@ -33,9 +34,6 @@ import dev.loupgarou.packetwrapper.WrapperPlayServerEntityEquipment;
 import dev.loupgarou.packetwrapper.WrapperPlayServerEntityLook;
 import dev.loupgarou.packetwrapper.WrapperPlayServerEntityMetadata;
 import dev.loupgarou.packetwrapper.WrapperPlayServerSpawnEntityLiving;
-
-import com.comphenix.protocol.wrappers.WrappedWatchableObject;
-
 import net.dv8tion.jda.api.entities.Member;
 import net.minecraft.server.v1_15_R1.IChatBaseComponent;
 
@@ -53,7 +51,7 @@ public class CommandLG implements CommandExecutor, TabCompleter {
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if(label.equalsIgnoreCase("lg")) {
 			if(!sender.hasPermission("loupgarou.admin")) {
-				if(args.length == 1 && args[0].equalsIgnoreCase("menu")) {
+				if(args.length == 1 && args[0].equalsIgnoreCase("menu") && !MainLg.getInstance().getCurrentGame().hideRole) {
 					RoleMenu.openMenu((Player) sender);
 					return true;
 				}
