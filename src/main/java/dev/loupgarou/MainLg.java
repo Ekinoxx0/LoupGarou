@@ -3,7 +3,7 @@ package dev.loupgarou;
 import java.io.File;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -56,7 +56,7 @@ public class MainLg extends JavaPlugin{
 	
 	@Getter private static MainLg instance;
 	@Getter private final static List<Player> DEBUGS = new ArrayList<Player>();
-	@Getter private HashMap<String, Constructor<? extends Role>> roles = new HashMap<String, Constructor<? extends Role>>();
+	@Getter private LinkedHashMap<String, Constructor<? extends Role>> roles = new LinkedHashMap<String, Constructor<? extends Role>>();
 	@Getter private static String prefix = "";
 	
 	@Getter @Setter private LGGame currentGame;
@@ -117,30 +117,33 @@ public class MainLg extends JavaPlugin{
 		try {
 			roles.put("LoupGarou", RLoupGarou.class.getConstructor(LGGame.class));
 			roles.put("LoupGarouNoir", RLoupGarouNoir.class.getConstructor(LGGame.class));
-			roles.put("Garde", RGarde.class.getConstructor(LGGame.class));
-			roles.put("Sorciere", RSorciere.class.getConstructor(LGGame.class));
-			roles.put("Voyante", RVoyante.class.getConstructor(LGGame.class));
-			roles.put("Chasseur", RChasseur.class.getConstructor(LGGame.class));
-			roles.put("Villageois", RVillageois.class.getConstructor(LGGame.class));
-			roles.put("Medium", RMedium.class.getConstructor(LGGame.class));
-			roles.put("Dictateur", RDictateur.class.getConstructor(LGGame.class));
-			roles.put("Cupidon", RCupidon.class.getConstructor(LGGame.class));
-			roles.put("PetiteFille", RPetiteFille.class.getConstructor(LGGame.class));
-			roles.put("ChaperonRouge", RChaperonRouge.class.getConstructor(LGGame.class));
 			roles.put("LoupGarouBlanc", RLoupGarouBlanc.class.getConstructor(LGGame.class));
+			roles.put("GrandMechantLoup", RGrandMechantLoup.class.getConstructor(LGGame.class));
+
+			roles.put("Assassin", RAssassin.class.getConstructor(LGGame.class));
+			roles.put("Survivant", RSurvivant.class.getConstructor(LGGame.class));
 			roles.put("Bouffon", RBouffon.class.getConstructor(LGGame.class));
 			roles.put("Ange", RAnge.class.getConstructor(LGGame.class));
-			roles.put("Survivant", RSurvivant.class.getConstructor(LGGame.class));
-			roles.put("Assassin", RAssassin.class.getConstructor(LGGame.class));
-			roles.put("GrandMechantLoup", RGrandMechantLoup.class.getConstructor(LGGame.class));
-			roles.put("Corbeau", RCorbeau.class.getConstructor(LGGame.class));
-			roles.put("Detective", RDetective.class.getConstructor(LGGame.class));
-			roles.put("ChienLoup", RChienLoup.class.getConstructor(LGGame.class));
-			roles.put("Pirate", RPirate.class.getConstructor(LGGame.class));
 			roles.put("Pyromane", RPyromane.class.getConstructor(LGGame.class));
+
+			roles.put("Villageois", RVillageois.class.getConstructor(LGGame.class));
+			roles.put("Voyante", RVoyante.class.getConstructor(LGGame.class));
+			roles.put("Detective", RDetective.class.getConstructor(LGGame.class));
+			roles.put("Sorciere", RSorciere.class.getConstructor(LGGame.class));
+			roles.put("Chasseur", RChasseur.class.getConstructor(LGGame.class));
+			roles.put("Cupidon", RCupidon.class.getConstructor(LGGame.class));
+			roles.put("Corbeau", RCorbeau.class.getConstructor(LGGame.class));
+			roles.put("Garde", RGarde.class.getConstructor(LGGame.class));
+			roles.put("Medium", RMedium.class.getConstructor(LGGame.class));
+			roles.put("Dictateur", RDictateur.class.getConstructor(LGGame.class));
+			roles.put("PetiteFille", RPetiteFille.class.getConstructor(LGGame.class));
+			roles.put("ChaperonRouge", RChaperonRouge.class.getConstructor(LGGame.class));
+			roles.put("Pirate", RPirate.class.getConstructor(LGGame.class));
 			roles.put("Pretre", RPretre.class.getConstructor(LGGame.class));
 			roles.put("Faucheur", RFaucheur.class.getConstructor(LGGame.class));
+			
 			roles.put("EnfantSauvage", REnfantSauvage.class.getConstructor(LGGame.class));
+			roles.put("ChienLoup", RChienLoup.class.getConstructor(LGGame.class));
 		} catch (NoSuchMethodException | SecurityException e) {
 			e.printStackTrace();
 		}
