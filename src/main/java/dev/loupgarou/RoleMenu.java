@@ -1,6 +1,9 @@
 package dev.loupgarou;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map.Entry;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -9,13 +12,33 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
+import dev.loupgarou.classes.LGGame;
+import dev.loupgarou.roles.Role;
 import dev.loupgarou.utils.InteractInventory;
-import dev.loupgarou.utils.ItemBuilder;
 import dev.loupgarou.utils.InteractInventory.InventoryCall;
+import dev.loupgarou.utils.ItemBuilder;
 
 public class RoleMenu {
 	
-	public void openMenu(Player p) {
+	private static final LGGame fakeGame = new LGGame(0);
+	private static final HashMap<String, Role> roles = new HashMap<String, Role>();
+	
+	private static Role getRole(String name) {
+		for(Entry<String, Role> entry : roles.entrySet())
+			if(entry.getKey().equals(name))
+				return entry.getValue();
+		
+		try {
+			Role r = MainLg.getInstance().getRoles().get(name).newInstance(fakeGame);
+			roles.put(name, r);
+			return r;
+		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public static void openMenu(Player p) {
 		InteractInventory ii = new InteractInventory(Bukkit.createInventory(p, 3 * 9, ""));
 		
 		int i = 0;

@@ -62,7 +62,7 @@ public class CommandLG implements CommandExecutor, TabCompleter {
 				switch(args[0].toLowerCase()) {
 
 				case "menu":
-					new RoleMenu().openMenu((Player) sender);
+					RoleMenu.openMenu((Player) sender);
 					break;
 					
 				case "status":
