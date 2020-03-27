@@ -40,7 +40,7 @@ public class RoleMenu {
 	}
 	
 	public static void openMenu(Player p) {
-		InteractInventory ii = new InteractInventory(Bukkit.createInventory(p, 3 * 9, "Sélection des rôles"));
+		InteractInventory ii = new InteractInventory(Bukkit.createInventory(p, 4 * 9, "Sélection des rôles"));
 		
 		int i = 0;
 		int total = 0;
@@ -95,7 +95,7 @@ public class RoleMenu {
 				new ItemBuilder(Material.GOLD_NUGGET)
 					.name("§aTotal : " + total)
 					.build(), 
-				3*9-1, true, null);
+				4*9-1, true, null);
 		
 		ii.openTo(p);
 	}
