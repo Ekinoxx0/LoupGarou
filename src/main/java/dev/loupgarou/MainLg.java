@@ -49,6 +49,7 @@ import dev.loupgarou.roles.RSurvivant;
 import dev.loupgarou.roles.RVillageois;
 import dev.loupgarou.roles.RVoyante;
 import dev.loupgarou.roles.Role;
+import dev.loupgarou.utils.Updater;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -65,6 +66,8 @@ public class MainLg extends JavaPlugin{
 	@Override
 	public void onEnable() {
 		instance = this;
+		new Updater(this);
+		
 		loadRoles();
 		if(!new File(getDataFolder(), "config.yml").exists()) {//Créer la config
 			FileConfiguration config = getConfig();
