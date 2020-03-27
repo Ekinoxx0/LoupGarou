@@ -1,5 +1,5 @@
 name: LoupGarou
-version: 1.0.13
+version: 1.0.14
 description: Permet de jouer au jeu du loup garou
 main: dev.loupgarou.MainLg
 depend: [ProtocolLib]
