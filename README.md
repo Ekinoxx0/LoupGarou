@@ -1,5 +1,3 @@
-
-
 ## Table des matières
 
 - [À propos](#à-propos)
@@ -16,16 +14,17 @@
 
 ## À propos
 
-Le mode Loup-Garou est un mode inspiré du jeu de société [Les Loups-Garous de Thiercelieux](https://fr.wikipedia.org/wiki/Les_Loups-garous_de_Thiercelieux) reprenant son fonctionnement ainsi que sa manière d'être joué, à la seule différence qu'aucun maître du jeu n'est requis, le déroulement de chaque partie étant entièrement automatisé :
+Le mode Loup-Garou est un mode inspiré du jeu de société [Les Loups-Garous de Thiercelieux](https://fr.wikipedia.org/wiki/Les_Loups-garous_de_Thiercelieux) reprenant son fonctionnement ainsi que sa manière d'être joué, à la seule différence qu'aucun maître du jeu n'est requis, le déroulement de chaque partie étant entièrement automatisé.
 
-- Déroulement de la partie automatisé
-- Rôles du jeu de base, et nouveaux rôles
-- Utilisable sur n'importe quelle map
+**A noter :**
+
+- Il existe des nouveaux rôles
+- Utilisable sur n'importe quelle map sous condition d'ajouter les positions grâces aux commandes
 
 ## Installation
 
 **Minecraft 1.15.1 est requis.**  
-Déplacez simplement le plugin compilé [LoupGarou.jar](https://github.com/leomelki/LoupGarou/releases) dans le dossier `plugins` de votre serveur avant de le redémarrer.
+Déplacez simplement le plugin [LoupGarou.jar](https://github.com/Ekinoxx0/LoupGarou/releases) dans le dossier `plugins` de votre serveur avant de le redémarrer.
 
 ### Dépendances requises
 
@@ -33,23 +32,30 @@ Déplacez simplement le plugin compilé [LoupGarou.jar](https://github.com/leome
 
 ## Commandes
 
+`/lg menu` : Ouvre le menu de gestion des rôles
 `/lg roles` : Retourne la liste des rôles dans la partie  
 `/lg roles set <ID> <MONTANT>` : Définit le nombre de joueurs pour un certain rôle  
-`/lg addSpawn` : Ajoute un point de spawn (emplacement de joueur)  
+`/lg addSpawn` : Ajoute un emplacement de joueur
+`/lg removeSpawn` : Supprime un emplacement de joueur
+`/lg clearAllSpawn` : Supprime tout les emplacements de joueur
+`/lg showSpawns` : Affiche tout les emplacements de joueur
 `/lg start <PSEUDO>` : Lance la partie  
 `/lg end <PSEUDO>` : Arrête une partie  
+`/lg spec <PSEUDO>` : Ajoute un spectateur à la partie
 `/lg reloadConfig` : Recharge la configuration  
 `/lg joinAll` : À utiliser après avoir changé les rôles  
+`/lg hideVote` : Cache les messages de votes durant la partie
+`/lg hideVoteExtra` : Cache les nombres de votes durant la partie
+`/lg hideRole` : Cache la composition des rôles de la partie dans le scoreboard
 
 ## Crédits
 
-- Chef de Projet : [Shytoos](https://twitter.com/shytoos_)
-- Développement : [Leomelki](https://twitter.com/leomelki)
+- Base sur le projet de Shytoos_ et Leomelki
 - Mapping : [Cosii](https://www.youtube.com/channel/UCwyOcA41QSk590fl9L0ys8A)
 
 ## Aide
 
-Par soucis de temps, nous ne pouvons pas faire de support au cas par cas, mais vous pouvez rejoindre notre serveur [Discord](https://discord.gg/Squeezie) pour trouver de l'aide auprès de la communauté.
+Merci de créer des [issues](https://github.com/Ekinoxx0/LoupGarou/issues) en cas de bug.
 
 ### Questions fréquentes
 
@@ -72,18 +78,12 @@ D'autres rôles peuvent aussi marcher mais n'ont pas été testés avec plusieur
 
 ## Indications pour les développeurs
 
-Ce plugin LoupGarou ayant été modifiés de nombreuses fois, parfois dans des timings tendus, le code n'est pas très propre. De plus, il n'est pas documenté.  
-
 Vous devez utiliser `Lombok` et `Maven` pour modifier ce projet. 
 Vous devez aussi installer la repository `Spigot` avec [BuildTools](https://www.spigotmc.org/wiki/buildtools/).
 
-**Cependant, si l'envie vous prend de modifier ou d'utiliser la totalité ou une partie du code présent dans cette repo, merci de créditer `leomelki` et `Shytoos`.**
-
 ### Ajouter des rôles
 
-Ce plugin de Loup-Garou est organisé autour d'un système d'évènements, disponnibles dans le package `fr.leomelki.loupgarou.events`.  
-N'ayant pas le temps de les documenter, vous devriez comprendre vous-même quand ils sont appelés.
-
+Ce plugin de Loup-Garou est organisé autour d'un système d'évènements, disponnibles dans le package `dev.loupgarou.events`.  
 Pour vous aider à créer des rôles, copiez des rôles ayant déjà été créés pour ainsi les modifier.
 
 ⚠️ Ce projet a été créé de façon à ce que les rôles soient - presque - totalement indépendants du reste du code (LGGame, LGPlayer...).  
@@ -94,7 +94,3 @@ Merci de garder ça en tête lors du développement de nouveaux rôles : utilise
 `LGPlayer` : Classe utilisée pour interragir avec les joueurs et stocker leurs données, à modifier le minimum possible !  
 `LGVote` : Système gérant les votes  
 `RoleSort`: Classement de l'apparition des rôles durant la nuit.  
-
-### Publier un rôle
-
-Si vous arrivez à créer un rôle, je vous invite à faire une demande de publication dans cette repo afin de les faire partager à l'ensemble de la communauté !
