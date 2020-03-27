@@ -50,7 +50,9 @@ public class RoleMenu {
 						new ItemBuilder(getRole(role).getType().getMaterial())
 							.name(getRole(role).getType().getColor() + role)
 							.lore(Arrays.asList(
-									"§7" + MainLg.getInstance().getConfig().getInt("role."+role)
+									"§7" + MainLg.getInstance().getConfig().getInt("role."+role),
+									"",
+									"§f" + getRole(role).getDescription()
 									))
 							.build(), 
 						i, true, new InventoryCall() {
