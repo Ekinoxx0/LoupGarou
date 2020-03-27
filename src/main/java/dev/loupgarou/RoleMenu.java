@@ -51,7 +51,7 @@ public class RoleMenu {
 					
 				}
 				ii.registerItem(
-						new ItemBuilder(Material.LIGHT_GRAY_WOOL)
+						new ItemBuilder(getRole(role).getType() == RoleType.NEUTRAL ? Material.BRAIN_CORAL_BLOCK : (getRole(role).getType() == RoleType.LOUP_GAROU ? Material.NETHER_WART_BLOCK : Material.TUBE_CORAL_BLOCK))
 							.name((getRole(role).getType() == RoleType.NEUTRAL ? "§d" : (getRole(role).getType() == RoleType.LOUP_GAROU ? "§c" : "§9")) + role)
 							.lore(Arrays.asList(
 									"§7" + MainLg.getInstance().getConfig().getInt("role."+role)
@@ -92,8 +92,8 @@ public class RoleMenu {
 		}
 		
 		ii.registerItem(
-				new ItemBuilder(Material.LIGHT_GRAY_WOOL)
-					.name("§9Total : " + total)
+				new ItemBuilder(Material.GOLD_NUGGET)
+					.name("§aTotal : " + total)
 					.build(), 
 				3*9-1, true, null);
 		
