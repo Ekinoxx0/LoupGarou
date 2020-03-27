@@ -14,6 +14,7 @@ import org.bukkit.inventory.ItemStack;
 
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.roles.Role;
+import dev.loupgarou.roles.RoleType;
 import dev.loupgarou.utils.InteractInventory;
 import dev.loupgarou.utils.InteractInventory.InventoryCall;
 import dev.loupgarou.utils.ItemBuilder;
@@ -46,9 +47,12 @@ public class RoleMenu {
 		for(String role : MainLg.getInstance().getRoles().keySet()) {
 				total += MainLg.getInstance().getConfig().getInt("role."+role);
 				
+				if (getRole(role).getType() == RoleType.NEUTRAL) {
+					
+				}
 				ii.registerItem(
 						new ItemBuilder(Material.LIGHT_GRAY_WOOL)
-							.name("§9" + role)
+							.name((getRole(role).getType() == RoleType.NEUTRAL ? "§d" : (getRole(role).getType() == RoleType.LOUP_GAROU ? "§c" : "§9")) + role)
 							.lore(Arrays.asList(
 									"§7" + MainLg.getInstance().getConfig().getInt("role."+role)
 									))
