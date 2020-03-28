@@ -276,8 +276,7 @@ public class LGPlayer {
 	public boolean canSelectDead;
 	public LGPlayer getPlayerOnCursor(List<LGPlayer> list) {
 		Location pointedLoc = getPlayer().getLocation();
-		//MainLg.debug("hit > "+blacklistedChoice.size()+" > "+blacklistedChoice+" > "+list);
-		if(pointedLoc.getPitch() > 80)
+		if(pointedLoc.getPitch() > 80 || pointedLoc.getPitch() < -60)
 			if(blacklistedChoice.contains(this))
 				return null;
 			else
@@ -360,7 +359,7 @@ public class LGPlayer {
 			getPlayer().stopSound(sound.getSound());
 	}
 	
-	private long lastChoose;
+	@Getter private long lastChoose;
 	public void chooseAction() {
 		long now = System.currentTimeMillis();
 		if(lastChoose+200 < now) {

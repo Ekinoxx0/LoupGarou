@@ -863,7 +863,7 @@ public class LGGame implements Listener{
 		}
 	}
 	private void peopleVote() {
-		if(ended)return;
+		if(ended) return;
 		LGVoteEvent event = new LGVoteEvent(this);
 		Bukkit.getPluginManager().callEvent(event);
 		if(!event.isCancelled()) {

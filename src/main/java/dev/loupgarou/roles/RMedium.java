@@ -89,7 +89,9 @@ public class RMedium extends Role{
 	@EventHandler
 	public void onDay(LGPreDayStartEvent e) {
 		if(e.getGame() == getGame())
-			for(LGPlayer lgp : getPlayers())
+			for(LGPlayer lgp : getPlayers()) {
+				lgp.sendMessage("§8§oTu perds le contact avec les morts...");
 				lgp.leaveChat();
+			}
 	}
 }

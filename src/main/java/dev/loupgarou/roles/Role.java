@@ -40,8 +40,8 @@ public abstract class Role implements Listener{
 	public RoleWinType getWinType(LGPlayer lgp) {
 		return getWinType();
 	}
-	public RoleType getType() {return null;}
-	public RoleWinType getWinType() {return null;}
+	public RoleType getType() { return null; }
+	public RoleWinType getWinType() { return null; }
 	/**
 	 * @return Timeout in second for this role
 	 */
@@ -71,14 +71,15 @@ public abstract class Role implements Listener{
 				}, (currentPlayer, secondsLeft)->{
 					return currentPlayer == player ? "§9§lC'est à ton tour !" : (Role.this.game.isHideRole() ? "§6C'est au tour de quelqu'un..." : "§6C'est au tour " + getFriendlyName()) + " §6(§e"+secondsLeft+" s§6)";
 				});
-				player.sendMessage("§6"+getTask());
+				player.sendMessage("§6" + getTask());
 			//	player.sendTitle("§6C'est à vous de jouer", "§a"+getTask(), 100);
 				onNightTurn(player, this);
 			}
 		}.run();
 	}
+	 
 	public void join(LGPlayer player, boolean sendMessage) {
-		MainLg.debug(player.getName()+" est " + getName());
+		MainLg.debug(player.getName() + " est " + getName());
 		players.add(player);
 		if(player.getRole() == null)
 			player.setRole(this);
@@ -89,6 +90,7 @@ public abstract class Role implements Listener{
 			player.sendMessage("§6Description : §f"+getDescription());
 		}
 	}
+	
 	public void join(LGPlayer player) {
 		join(player, !getGame().isStarted());
 		LGCustomItems.updateItem(player);
@@ -101,6 +103,10 @@ public abstract class Role implements Listener{
 	protected void onTurnFinish(Runnable callback) {
 		callback.run();
 	}
+	
+	/**
+	 * @return En combientième ce rôle doit être appellé
+	 */
 	public int getTurnOrder() {
 		try {
 			RoleSort role = RoleSort.valueOf(getClass().getSimpleName().substring(1));
@@ -108,5 +114,5 @@ public abstract class Role implements Listener{
 		}catch(Throwable e) {
 			return -1;
 		}
-	}//En combientième ce rôle doit être appellé
+	}
 }

@@ -12,6 +12,7 @@ import java.util.StringJoiner;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
@@ -226,6 +227,12 @@ public class LGVote {
 	public void vote(LGPlayer voter, LGPlayer voted) {
 		if(voted == voter.getCache().get("vote"))
 			voted = null;
+		
+		if(System.currentTimeMillis() - voter.getLastChoose() < 3000) {
+			voter.getPlayer().playSound(voter.getPlayer().getLocation(), Sound.ENTITY_VILLAGER_NO, 1F, 1F);
+			voter.sendMessage("§cNe pas spam...");
+			return;
+		}
 		
 		if(voted != null && voter.getPlayer() != null)
 			votesSize++;

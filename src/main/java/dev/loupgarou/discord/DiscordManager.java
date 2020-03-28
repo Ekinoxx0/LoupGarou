@@ -93,6 +93,8 @@ public class DiscordManager extends ListenerAdapter {
 		
 		this.allMuted = allMuted;
 		
+		MainLg.debug("§7[DISCORD] setMutedChannel(" + allMuted + ");");
+		
 		try {
 			for(Member m : this.selectedChannel.getMembers()) {
 				boolean b = false;
@@ -113,6 +115,7 @@ public class DiscordManager extends ListenerAdapter {
 		Member m = this.getMemberFromName(playerName);
 		
 		if(m != null) {
+			MainLg.debug("§7[DISCORD] setMuted(" + playerName + "," + muted + ");");
 			m.mute(muted);
 			if(muted) {
 				this.personalMutes.add(m);
