@@ -83,7 +83,7 @@ Vous devez aussi installer la repository `Spigot` avec [BuildTools](https://www.
 
 ### Ajouter des rôles
 
-Ce plugin de Loup-Garou est organisé autour d'un système d'évènements, disponnibles dans le package `dev.loupgarou.events`.  
+Ce plugin de Loup-Garou est organisé autour d'un système d'évènements, disponibles dans le package `dev.loupgarou.events`.  
 Pour vous aider à créer des rôles, copiez des rôles ayant déjà été créés pour ainsi les modifier.
 
 ⚠️ Ce projet a été créé de façon à ce que les rôles soient - presque - totalement indépendants du reste du code (LGGame, LGPlayer...).  

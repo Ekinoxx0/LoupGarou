@@ -9,7 +9,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import dev.loupgarou.MainLg;
-import lombok.experimental.NonFinal;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -26,13 +25,16 @@ public class Updater {
 		this.currentVersion = this.parseVersion(lg.getDescription().getVersion());
 		Request request = new Request.Builder().url(URL).build();
 		
+		Response r = null;
 		try {
-			Response r = new OkHttpClient().newCall(request).execute();
+			r = new OkHttpClient().newCall(request).execute();
 			if(!r.isSuccessful()) throw new IOException("API returned code : " + r.code());
 			
 			this.parseResponse(r.body().string());
 		} catch (Exception e) {
 			lg.getLogger().log(Level.WARNING, "Unable to update plugin due to Exception : " + e.getMessage());
+		} finally {
+			if(r != null) r.close();
 		}
 	}
 	
@@ -56,27 +58,27 @@ public class Updater {
 	}
 	
 	/**
-	 * v1.2.3 = 102003
+	 * v1.2.3 = 1002003
 	 */
 	private int parseVersion(@Nonnull String v) throws IllegalArgumentException {
 		if(!v.startsWith("v"))
-			throw new IllegalArgumentException("Version doesn't validate format 'v0.0.0' : No v");
+			throw new IllegalArgumentException("Version " + v + " doesn't validate format 'v0.0.0' : No v");
 		
 		v = v.substring(1);
 		
 		if(!v.contains("."))
-			throw new IllegalArgumentException("Version doesn't validate format 'v0.0.0' : No .");
+			throw new IllegalArgumentException("Version " + v + " doesn't validate format 'v0.0.0' : No .");
 		
-		String[] nList = v.split(".");
-		int[] n = new int[nList.length];
+		String[] nList = v.split("[.]");
 		
-		if(nList.length != 3)
-			throw new IllegalArgumentException("Version doesn't validate format 'v0.0.0' : n != 3");
+		if(nList.length < 3)
+			throw new IllegalArgumentException("Version " + v + " doesn't validate format 'v0.0.0' : n < 3 (" + nList.length + ")");
 		
+		int t = 0;
 		for (int i = 0; i < nList.length; i++)
-			n[i] = Integer.parseInt(nList[i]);
+			t += Integer.parseInt(nList[i]) * Math.pow(100, ((nList.length-1) - i));
 		
-		return n[0] * 1_00_000 + n[1] * 1_000 + n[2];
+		return t;
 	}
 	
 }
