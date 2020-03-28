@@ -44,13 +44,14 @@ public class RoleMenu {
 		int i = 0;
 		int total = 0;
 		for(String role : MainLg.getInstance().getRoles().keySet()) {
-				total += MainLg.getInstance().getConfig().getInt("role."+role);
+				int nbRole = MainLg.getInstance().getConfig().getInt("role."+role);
+				total += nbRole;
 				
 				ii.registerItem(
-						new ItemBuilder(getRole(role).getType().getMaterial())
+						new ItemBuilder(nbRole > 0 ? getRole(role).getType().getMaterial() : getRole(role).getType().getNoBodyMaterial())
 							.name(getRole(role).getType().getColor() + role)
 							.lore(Arrays.asList(
-									"§7" + MainLg.getInstance().getConfig().getInt("role."+role),
+									"§7" + nbRole,
 									"",
 									"§f" + optimizeLines(getRole(role).getDescription())
 									))
@@ -61,7 +62,6 @@ public class RoleMenu {
 							public void click(HumanEntity human, ItemStack item, ClickType clickType) {
 								if(!human.hasPermission("loupgarou.admin")) return;
 								
-								int nb = MainLg.getInstance().getConfig().getInt("role."+role);
 								int modif = 0;
 								
 								switch(clickType) {
@@ -75,15 +75,17 @@ public class RoleMenu {
 								case SHIFT_LEFT:
 								case SHIFT_RIGHT:
 									modif = -1;
+									if(nbRole <= 0)
+										modif = 0;
 									break;
 									
 								default:
 									p.sendMessage("§7Clic inconnu.");
-									break;
+									return;
 								}
 								
-								p.sendMessage(MainLg.getPrefix()+"§6Il y aura §e" + (nb + modif) + " §6"+role);
-								MainLg.getInstance().getConfig().set("role."+role, nb + modif);
+								p.sendMessage(MainLg.getPrefix()+"§6Il y aura §e" + (nbRole + modif) + " §6" + role);
+								MainLg.getInstance().getConfig().set("role."+role, nbRole + modif);
 								MainLg.getInstance().saveConfig();
 								MainLg.getInstance().loadConfig();
 								openMenu(p);

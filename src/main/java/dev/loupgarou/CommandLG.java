@@ -399,7 +399,7 @@ public class CommandLG implements CommandExecutor, TabCompleter {
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
 		if(!sender.hasPermission("loupgarou.admin"))
-			return new ArrayList<String>(0);
+			return args.length == 0 ? Arrays.asList("menu") : new ArrayList<String>(0);
 		
 		if(args.length > 1) {
 			if(args[0].equalsIgnoreCase("roles"))
