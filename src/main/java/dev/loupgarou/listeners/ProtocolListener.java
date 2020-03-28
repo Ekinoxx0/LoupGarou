@@ -18,9 +18,9 @@ import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketEvent;
+import com.comphenix.protocol.wrappers.EnumWrappers.ItemSlot;
 import com.comphenix.protocol.wrappers.PlayerInfoData;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
-import com.comphenix.protocol.wrappers.EnumWrappers.ItemSlot;
 
 import dev.loupgarou.MainLg;
 import dev.loupgarou.classes.LGPlayer;
@@ -30,7 +30,6 @@ import dev.loupgarou.packetwrapper.WrapperPlayServerEntityEquipment;
 import dev.loupgarou.packetwrapper.WrapperPlayServerNamedSoundEffect;
 import dev.loupgarou.packetwrapper.WrapperPlayServerPlayerInfo;
 import dev.loupgarou.packetwrapper.WrapperPlayServerScoreboardTeam;
-import dev.loupgarou.packetwrapper.WrapperPlayServerUpdateHealth;
 import dev.loupgarou.packetwrapper.WrapperPlayServerUpdateTime;
 
 public class ProtocolListener {
@@ -89,16 +88,6 @@ public class ProtocolListener {
 				info.setData(datas);
 			}
 		});
-		protocolManager.addPacketListener(new PacketAdapter(mainLg, ListenerPriority.NORMAL, PacketType.Play.Server.UPDATE_HEALTH) {
-			@Override
-			public void onPacketSending(PacketEvent event) {
-				LGPlayer player = LGPlayer.thePlayer(event.getPlayer());
-				if(player.getGame() != null && player.getGame().isStarted()) {
-					WrapperPlayServerUpdateHealth health = new WrapperPlayServerUpdateHealth(event.getPacket());
-					health.setFood(20);
-				}
-			}
-		});
 		protocolManager.addPacketListener(new PacketAdapter(mainLg, ListenerPriority.NORMAL, PacketType.Play.Server.SCOREBOARD_TEAM) {
 			@Override
 			public void onPacketSending(PacketEvent event) {
@@ -126,15 +115,6 @@ public class ProtocolListener {
 					WrapperPlayServerEntityEquipment equip = new WrapperPlayServerEntityEquipment(event.getPacket());
 					if(equip.getSlot() == ItemSlot.OFFHAND && equip.getEntityID() != player.getPlayer().getEntityId())
 						equip.setItem(new ItemStack(Material.AIR));
-				}
-			}
-		});
-		protocolManager.addPacketListener(new PacketAdapter(mainLg, ListenerPriority.NORMAL, PacketType.Play.Server.ANIMATION) {
-			@Override
-			public void onPacketSending(PacketEvent event) {
-				LGPlayer player = LGPlayer.thePlayer(event.getPlayer());
-				if(player.getGame() != null) {
-					event.setCancelled(player.getGame().isHideVoteExtra() || player.getGame().isHideVote());
 				}
 			}
 		});

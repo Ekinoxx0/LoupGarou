@@ -10,7 +10,11 @@ import dev.loupgarou.classes.LGPlayer;
 public class VoteListener implements Listener{
 	@EventHandler
 	public void onClick(PlayerAnimationEvent e) {
+		LGPlayer lgp = LGPlayer.thePlayer(e.getPlayer());
 		if(e.getAnimationType() == PlayerAnimationType.ARM_SWING)
-			LGPlayer.thePlayer(e.getPlayer()).chooseAction();
+			lgp.chooseAction();
+		
+		if(lgp.getGame() != null)
+			e.setCancelled(lgp.getGame().isHideVoteExtra() || lgp.getGame().isHideVote());
 	}
 }

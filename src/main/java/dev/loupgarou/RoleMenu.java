@@ -125,29 +125,33 @@ public class RoleMenu {
 		return optimizeLines(lore, maxWord);
 	}
 
-	public static String optimizeLines(String lore, int size) {
+	public static String optimizeLines(String text, int nbWordPerLines) {
+    	int wordCountInLine = 0;
+    	String result = "";
+    	String[] words = text.split(" ");
+    	
+    	String currentLine = "";
     	int i = 0;
-    	String str = "";
-    	String[] splitlore = lore.split(" ");
-    	
-    	String color = "";
-		while(lore.substring(0, 2).startsWith("§")){
-			color += lore.substring(0, 2);
-			lore = lore.substring(2);
-		}
-    	
-    	int a = 0;
-    	for (String string : splitlore) {
-    		str += string + " ";
-    		i++;
-    		if (i >= size && a < splitlore.length-1) {
-    			i = 0;
-    			str += "\n" + color;
+    	for (String word : words) {
+    		currentLine += word + " ";
+    		wordCountInLine++;
+    		
+    		if (wordCountInLine >= nbWordPerLines && i < words.length-1) {
+    			result += currentLine + "\n";//Add color
+    			char color = 'f';
+    			
+    			char[] charCurrentLine = currentLine.toCharArray();
+    			for (int j = 0; j < charCurrentLine.length; j++)
+    				if(charCurrentLine[j] == '§')
+    					color = charCurrentLine[j + 1];
+    			
+    			currentLine = "§" + color;
+    			wordCountInLine = 0;
     		}
-    		a++;
+    		i++;
     	}
     	
-    	return str;
+    	return result;
 	}
 	
 }
