@@ -228,7 +228,7 @@ public class LGVote {
 		if(voted == voter.getCache().get("vote"))
 			voted = null;
 		
-		if(System.currentTimeMillis() - voter.getLastChoose() < 3000) {
+		if(System.currentTimeMillis() - voter.getLastChoose() < 3000 && this.game.isPeopleVote) {
 			voter.getPlayer().playSound(voter.getPlayer().getLocation(), Sound.ENTITY_VILLAGER_NO, 1F, 1F);
 			voter.sendMessage("§cNe pas spam...");
 			return;
