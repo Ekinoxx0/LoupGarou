@@ -207,7 +207,6 @@ public class RPretre extends Role{
 							lgp.sendMessage("§6Tu as ramené §7§l"+choosen.getName()+"§6 à la vie.");
 							lgp.sendActionBarMessage("§7§l"+choosen.getName()+"§6 sera réssucité");
 							
-							
 							ressucited.add(choosen);
 							getPlayers().remove(lgp);//Pour éviter qu'il puisse sauver plusieurs personnes.
 							choosen.sendMessage("§6Tu vas être réssucité en tant que §a§lVillageois§6.");
