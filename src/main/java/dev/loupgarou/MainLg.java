@@ -5,6 +5,7 @@ import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -153,7 +154,7 @@ public class MainLg extends JavaPlugin{
 	}
 	
 	public static void debug(String s) {
-		System.out.println(s);
+		getInstance().getLogger().log(Level.INFO, s);
 		for(Player p : DEBUGS) {
 			if(p != null)
 				p.sendMessage("§7" + s);
