@@ -112,6 +112,7 @@ public class DiscordManager extends ListenerAdapter {
 
 	public void setMuted(String playerName, boolean muted) {
 		if(playerName == null) return;
+		if(this.jda == null || this.selectedChannel == null) return;
 		Member m = this.getMemberFromName(playerName);
 		
 		if(m != null) {
@@ -153,6 +154,7 @@ public class DiscordManager extends ListenerAdapter {
 	
 	public Member getMemberFromName(String playerName) {
 		if(playerName == null) return null;
+		if(this.jda == null || this.selectedChannel == null) return null;
 		
 		for(Member m : this.selectedChannel.getMembers()) {
 			if(m.getEffectiveName().toLowerCase().contains(playerName.toLowerCase())) {
