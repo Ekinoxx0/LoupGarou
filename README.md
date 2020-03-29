@@ -85,9 +85,9 @@ Vous devez utiliser `Lombok` et `Maven` pour modifier ce projet.
 
 La version de Leomelki n'est pas strictement compatible avec cette version suite aux modifications suivantes aux events :
 
-`LGNightStart` -> `LGDayEndEvent`
-`LGDayEndEvent` -> `LGNightStartEvent`
-`LGVoteEvent` -> `LGPeopleVoteEvent`
+ - `LGNightStart` -> `LGDayEndEvent`
+ - `LGDayEndEvent` -> `LGNightStartEvent`
+ - `LGVoteEvent` -> `LGPeopleVoteEvent`
 
 ### Ajouter des rôles
 
