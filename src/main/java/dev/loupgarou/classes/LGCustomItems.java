@@ -20,10 +20,11 @@ import dev.loupgarou.MainLg;
 import dev.loupgarou.events.LGCustomItemChangeEvent;
 import dev.loupgarou.roles.utils.Role;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 public class LGCustomItems {
-	static HashMap<String, HashMap<String, Material>> mappings = new HashMap<String, HashMap<String,Material>>();
+	public static HashMap<String, HashMap<String, Material>> mappings = new HashMap<String, HashMap<String,Material>>();
 	static {
 		JSONParser parser = new JSONParser();
 		try {
@@ -46,14 +47,15 @@ public class LGCustomItems {
 		}
 	}
 	
-	public static void t() {
-		
+	public static Material getItem(@NonNull Role role) {
+		return mappings.get(role.getClass().getSimpleName().substring(1)).get("");
 	}
-
-	public static Material getItem(Role role) {
-		return mappings.get(role.getClass().getName().substring(1)).get("");
+	
+	public static Material getItemMenu(@NonNull Role role) {
+		return mappings.get(role.getClass().getSimpleName().substring(1)).get("menu");
 	}
-	public static Material getItem(LGPlayer player, List<LGCustomItemsConstraints> constraints) {
+	
+	public static Material getItem(@NonNull LGPlayer player, @NonNull List<LGCustomItemsConstraints> constraints) {
 		Bukkit.getPluginManager().callEvent(new LGCustomItemChangeEvent(player.getGame(), player, constraints));
 		
 		Collections.sort(constraints);
@@ -67,16 +69,17 @@ public class LGCustomItems {
 			sj.add(constraint.getName());
 		return mapps.get(sj.toString());
 	}
-	public static Material getItem(LGPlayer player) {
+	
+	public static Material getItem(@NonNull LGPlayer player) {
 		return getItem(player, new ArrayList<LGCustomItemsConstraints>());
 	}
 	
-	public static void updateItem(LGPlayer lgp) {
+	public static void updateItem(@NonNull LGPlayer lgp) {
 		lgp.getPlayer().getInventory().setItemInOffHand(new ItemStack(getItem(lgp)));
 		lgp.getPlayer().updateInventory();
 	}
 
-	public static void updateItem(LGPlayer lgp, List<LGCustomItemsConstraints> constraints) {
+	public static void updateItem(@NonNull LGPlayer lgp, @NonNull List<LGCustomItemsConstraints> constraints) {
 		lgp.getPlayer().getInventory().setItemInOffHand(new ItemStack(getItem(lgp, constraints)));
 		lgp.getPlayer().updateInventory();
 	}

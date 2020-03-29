@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
+import dev.loupgarou.classes.LGCustomItems;
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.roles.utils.Role;
 import dev.loupgarou.utils.InteractInventory;
@@ -43,17 +44,16 @@ public class RoleMenu {
 		
 		int i = 0;
 		int total = 0;
-		for(String role : MainLg.getInstance().getRoles().keySet()) {
-				int nbRole = MainLg.getInstance().getConfig().getInt("role."+role);
+		for(String roleName : MainLg.getInstance().getRoles().keySet()) {
+				int nbRole = MainLg.getInstance().getConfig().getInt("role."+roleName);
 				total += nbRole;
-				
 				ii.registerItem(
-						new ItemBuilder(nbRole > 0 ? getRole(role).getType().getMaterial() : getRole(role).getType().getNoBodyMaterial())
-							.name(getRole(role).getType().getColor() + role)
+						new ItemBuilder(LGCustomItems.getItemMenu(getRole(roleName)))
+							.name(getRole(roleName).getType().getColor() + roleName)
 							.lore(Arrays.asList(
 									"§7" + nbRole,
 									"",
-									"§f" + optimizeLines(getRole(role).getDescription())
+									"§f" + optimizeLines(getRole(roleName).getDescription())
 									))
 							.build(), 
 						i, true, new InventoryCall() {
@@ -71,7 +71,7 @@ public class RoleMenu {
 								case MIDDLE:
 									modif = +1;
 									break;
-									
+										
 								case SHIFT_LEFT:
 								case SHIFT_RIGHT:
 									modif = -1;
@@ -84,13 +84,13 @@ public class RoleMenu {
 									return;
 								}
 								
-								p.sendMessage(MainLg.getPrefix()+"§6Il y aura §e" + (nbRole + modif) + " §6" + role);
-								MainLg.getInstance().getConfig().set("role."+role, nbRole + modif);
+								p.sendMessage(MainLg.getPrefix()+"§6Il y aura §e" + (nbRole + modif) + " §6" + roleName);
+								MainLg.getInstance().getConfig().set("role."+roleName, nbRole + modif);
 								MainLg.getInstance().saveConfig();
 								MainLg.getInstance().loadConfig();
 								openMenu(p);
 							}
-						});
+				});
 				i++;
 		}
 		

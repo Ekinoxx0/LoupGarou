@@ -7,7 +7,8 @@
         "infecte_mort": "MOSSY_STONE_BRICK_WALL",
         "maire": "SANDSTONE",
         "maire_mort": "POLISHED_DIORITE",
-        "mort": "NETHER_BRICK_SLAB"
+        "mort": "NETHER_BRICK_SLAB",
+        "menu": "GOLD_ORE"
     },
     "Assassin": {
         "": "GRAY_CONCRETE_POWDER",
@@ -17,7 +18,8 @@
         "infecte_mort": "ACACIA_DOOR",
         "maire": "DEAD_HORN_CORAL_FAN",
         "maire_mort": "WOODEN_AXE",
-        "mort": "HOPPER"
+        "mort": "HOPPER",
+        "menu": "IRON_ORE"
     },
     "Bouffon": {
         "": "LECTERN",
@@ -27,7 +29,19 @@
         "infecte_mort": "GREEN_CONCRETE_POWDER",
         "maire": "FIRE_CORAL_BLOCK",
         "maire_mort": "STRIPPED_OAK_WOOD",
-        "mort": "DEAD_HORN_CORAL_WALL_FAN"
+        "mort": "DEAD_HORN_CORAL_WALL_FAN",
+        "menu": "COAL_ORE"
+    },
+    "Bourreau": {
+        "": "AIR",
+        "infecte": "AIR",
+        "infecte_maire": "AIR",
+        "infecte_maire_mort": "AIR",
+        "infecte_mort": "AIR",
+        "maire": "AIR",
+        "maire_mort": "AIR",
+        "mort": "AIR",
+        "menu": "CACTUS"
     },
     "ChaperonRouge": {
         "": "GRASS",
@@ -37,7 +51,8 @@
         "infecte_mort": "ORANGE_SHULKER_BOX",
         "maire": "BLUE_GLAZED_TERRACOTTA",
         "maire_mort": "YELLOW_DYE",
-        "mort": "PURPLE_TERRACOTTA"
+        "mort": "PURPLE_TERRACOTTA",
+        "menu": "GOLD_BLOCK"
     },
     "Chasseur": {
         "": "DIORITE",
@@ -47,7 +62,8 @@
         "infecte_mort": "COAL",
         "maire": "DEAD_TUBE_CORAL_BLOCK",
         "maire_mort": "MAGENTA_TERRACOTTA",
-        "mort": "CAKE"
+        "mort": "CAKE",
+        "menu": "IRON_BLOCK"
     },
     "ChienLoup": {
         "": "GRANITE_SLAB",
@@ -57,7 +73,8 @@
         "infecte_mort": "JUNGLE_PLANKS",
         "maire": "SUGAR_CANE",
         "maire_mort": "RED_BANNER",
-        "mort": "MOSSY_STONE_BRICK_SLAB"
+        "mort": "MOSSY_STONE_BRICK_SLAB",
+        "menu": "TNT"
     },
     "ChienLoupLG": {
         "": "LEATHER_HORSE_ARMOR",
@@ -67,7 +84,8 @@
         "infecte_mort": "BLAST_FURNACE",
         "maire": "PODZOL",
         "maire_mort": "SPRUCE_LOG",
-        "mort": "END_ROD"
+        "mort": "END_ROD",
+        "menu": "BOOKSHELF"
     },
     "Corbeau": {
         "": "HEAVY_WEIGHTED_PRESSURE_PLATE",
@@ -77,7 +95,8 @@
         "infecte_mort": "RED_TULIP",
         "maire": "DIAMOND_CHESTPLATE",
         "maire_mort": "SPRUCE_PLANKS",
-        "mort": "DARK_OAK_BOAT"
+        "mort": "DARK_OAK_BOAT",
+        "menu": "BRICKS"
     },
     "Cupidon": {
         "": "CHORUS_PLANT",
@@ -87,7 +106,8 @@
         "infecte_mort": "SPRUCE_SIGN",
         "maire": "YELLOW_STAINED_GLASS_PANE",
         "maire_mort": "BROWN_STAINED_GLASS_PANE",
-        "mort": "GOLDEN_BOOTS"
+        "mort": "GOLDEN_BOOTS",
+        "menu": "OBSIDIAN"
     },
     "Detective": {
         "": "GLASS_PANE",
@@ -97,7 +117,8 @@
         "infecte_mort": "RED_BED",
         "maire": "FEATHER",
         "maire_mort": "DARK_OAK_BUTTON",
-        "mort": "REDSTONE_TORCH"
+        "mort": "REDSTONE_TORCH",
+        "menu": "CRAFTING_TABLE"
     },
     "Dictateur": {
         "": "PRISMARINE_SHARD",
@@ -107,7 +128,8 @@
         "infecte_mort": "CYAN_TERRACOTTA",
         "maire": "GREEN_BED",
         "maire_mort": "SPRUCE_TRAPDOOR",
-        "mort": "DRIED_KELP_BLOCK"
+        "mort": "DRIED_KELP_BLOCK",
+        "menu": "FURNACE"
     },
     "EnfantSauvage": {
         "": "BLACK_STAINED_GLASS",
@@ -117,7 +139,8 @@
         "infecte_mort": "CHEST_MINECART",
         "maire": "ACACIA_SIGN",
         "maire_mort": "POLISHED_DIORITE_SLAB",
-        "mort": "GRAY_BANNER"
+        "mort": "GRAY_BANNER",
+        "menu": "DIAMOND_BLOCK"
     },
     "EnfantSauvageLG": {
         "": "HORN_CORAL_FAN",
@@ -127,7 +150,8 @@
         "infecte_mort": "JUNGLE_LOG",
         "maire": "YELLOW_GLAZED_TERRACOTTA",
         "maire_mort": "OXEYE_DAISY",
-        "mort": "STICK"
+        "mort": "STICK",
+        "menu": "DIAMOND_ORE"
     },
     "Faucheur": {
         "": "MOSSY_COBBLESTONE_SLAB",
@@ -137,7 +161,8 @@
         "infecte_mort": "RED_STAINED_GLASS_PANE",
         "maire": "GOLDEN_HELMET",
         "maire_mort": "BIRCH_FENCE",
-        "mort": "SKELETON_SKULL"
+        "mort": "SKELETON_SKULL",
+        "menu": "REDSTONE_ORE"
     },
     "Garde": {
         "": "BRICK_SLAB",
@@ -147,7 +172,8 @@
         "infecte_mort": "DARK_OAK_PLANKS",
         "maire": "BLACK_TERRACOTTA",
         "maire_mort": "IRON_HELMET",
-        "mort": "DIRT"
+        "mort": "DIRT",
+        "menu": "JUKEBOX"
     },
     "GrandMechantLoup": {
         "": "CHISELED_RED_SANDSTONE",
@@ -157,7 +183,8 @@
         "infecte_mort": "LIGHT_BLUE_WOOL",
         "maire": "COCOA_BEANS",
         "maire_mort": "MILK_BUCKET",
-        "mort": "PURPLE_GLAZED_TERRACOTTA"
+        "mort": "PURPLE_GLAZED_TERRACOTTA",
+        "menu": "CARVED_PUMPKIN"
     },
     "LoupGarou": {
         "": "OAK_PLANKS",
@@ -167,7 +194,8 @@
         "infecte_mort": "GOLDEN_PICKAXE",
         "maire": "TRAPPED_CHEST",
         "maire_mort": "BRICK_WALL",
-        "mort": "MELON"
+        "mort": "MELON",
+        "menu": "ICE"
     },
     "LoupGarouBlanc": {
         "": "ANDESITE",
@@ -177,7 +205,8 @@
         "infecte_mort": "DEAD_TUBE_CORAL_WALL_FAN",
         "maire": "TUBE_CORAL",
         "maire_mort": "PURPLE_CONCRETE",
-        "mort": "STONE_PICKAXE"
+        "mort": "STONE_PICKAXE",
+        "menu": "GLOWSTONE"
     },
     "LoupGarouNoir": {
         "": "SLIME_BLOCK",
@@ -187,7 +216,8 @@
         "infecte_mort": "COBBLESTONE_WALL",
         "maire": "LANTERN",
         "maire_mort": "BRAIN_CORAL_WALL_FAN",
-        "mort": "YELLOW_CARPET"
+        "mort": "YELLOW_CARPET",
+        "menu": "LILY_PAD"
     },
     "Medium": {
         "": "OAK_TRAPDOOR",
@@ -197,7 +227,8 @@
         "infecte_mort": "GRAY_SHULKER_BOX",
         "maire": "FERN",
         "maire_mort": "WHITE_TERRACOTTA",
-        "mort": "STICKY_PISTON"
+        "mort": "STICKY_PISTON",
+        "menu": "EMERALD_BLOCK"
     },
     "PetiteFille": {
         "": "SCUTE",
@@ -207,7 +238,8 @@
         "infecte_mort": "WOODEN_SHOVEL",
         "maire": "EXPERIENCE_BOTTLE",
         "maire_mort": "DARK_OAK_SIGN",
-        "mort": "STRING"
+        "mort": "STRING",
+        "menu": "BEACON"
     },
     "Pirate": {
         "": "RED_MUSHROOM_BLOCK",
@@ -217,7 +249,8 @@
         "infecte_mort": "SPAWNER",
         "maire": "DROPPER",
         "maire_mort": "COBBLESTONE_SLAB",
-        "mort": "ENDER_CHEST"
+        "mort": "ENDER_CHEST",
+        "menu": "REDSTONE_BLOCK"
     },
     "Pretre": {
         "": "SNOWBALL",
@@ -227,7 +260,8 @@
         "infecte_mort": "PINK_BANNER",
         "maire": "PRISMARINE_WALL",
         "maire_mort": "DEAD_BUBBLE_CORAL",
-        "mort": "WHITE_SHULKER_BOX"
+        "mort": "WHITE_SHULKER_BOX",
+        "menu": "ANVIL"
     },
     "Pyromane": {
         "": "BLUE_ICE",
@@ -237,7 +271,8 @@
         "infecte_mort": "PURPLE_WOOL",
         "maire": "DEAD_BUBBLE_CORAL_BLOCK",
         "maire_mort": "PINK_STAINED_GLASS",
-        "mort": "ORANGE_TULIP"
+        "mort": "ORANGE_TULIP",
+        "menu": "HAY_BLOCK"
     },
     "Sorciere": {
         "": "NETHERRACK",
@@ -247,7 +282,8 @@
         "infecte_mort": "OAK_SIGN",
         "maire": "STRIPPED_OAK_LOG",
         "maire_mort": "COMPOSTER",
-        "mort": "HORN_CORAL_BLOCK"
+        "mort": "HORN_CORAL_BLOCK",
+        "menu": "COAL_BLOCK"
     },
     "Survivant": {
         "": "SLIME_BALL",
@@ -257,7 +293,8 @@
         "infecte_mort": "POPPED_CHORUS_FRUIT",
         "maire": "CHARCOAL",
         "maire_mort": "MAGENTA_DYE",
-        "mort": "PINK_STAINED_GLASS_PANE"
+        "mort": "PINK_STAINED_GLASS_PANE",
+        "menu": "DIAMOND"
     },
     "Villageois": {
         "": "DEAD_BUSH",
@@ -267,7 +304,8 @@
         "infecte_mort": "DIAMOND_AXE",
         "maire": "LEAD",
         "maire_mort": "LIME_CONCRETE",
-        "mort": "DEAD_BRAIN_CORAL"
+        "mort": "DEAD_BRAIN_CORAL",
+        "menu": "GOLD_INGOT"
     },
     "Voyante": {
         "": "RED_CONCRETE_POWDER",
@@ -277,6 +315,7 @@
         "infecte_mort": "OAK_DOOR",
         "maire": "POPPY",
         "maire_mort": "PINK_CONCRETE_POWDER",
-        "mort": "MUSHROOM_STEM"
+        "mort": "MUSHROOM_STEM",
+        "menu": "BREAD"
     }
 }
