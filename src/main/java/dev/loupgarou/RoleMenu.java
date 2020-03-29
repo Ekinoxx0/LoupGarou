@@ -60,7 +60,7 @@ public class RoleMenu {
 							
 							@Override
 							public void click(HumanEntity human, ItemStack item, ClickType clickType) {
-								if(!human.hasPermission("loupgarou.admin")) return;
+								if(!human.hasPermission("loupgarou.cmd.menu")) return;
 								
 								int modif = 0;
 								
@@ -80,14 +80,16 @@ public class RoleMenu {
 									break;
 									
 								default:
-									p.sendMessage("§7Clic inconnu.");
 									return;
 								}
 								
-								p.sendMessage(MainLg.getPrefix()+"§6Il y aura §e" + (nbRole + modif) + " §6" + roleName);
-								MainLg.getInstance().getConfig().set("role."+roleName, nbRole + modif);
-								MainLg.getInstance().saveConfig();
-								MainLg.getInstance().loadConfig();
+								if(modif != 0) {
+									p.sendMessage(MainLg.getPrefix()+"§6Il y aura §e" + (nbRole + modif) + " §6" + roleName);
+									MainLg.getInstance().getConfig().set("role."+roleName, nbRole + modif);
+									MainLg.getInstance().saveConfig();
+									MainLg.getInstance().loadConfig();
+								}
+								
 								openMenu(p);
 							}
 				});
