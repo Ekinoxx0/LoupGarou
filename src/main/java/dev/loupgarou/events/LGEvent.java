@@ -11,14 +11,16 @@ import lombok.RequiredArgsConstructor;
  * Any event related to LG
  */
 @RequiredArgsConstructor
-public class LGEvent extends Event{
-	@Getter final LGGame game;
+public class LGEvent extends Event {
+	@Getter private final LGGame game;
 	
     private static final HandlerList handlers = new HandlerList();
+    
 	@Override
 	public HandlerList getHandlers() {
 		return handlers;
 	}
+	
     public static HandlerList getHandlerList() {
         return handlers;
     }

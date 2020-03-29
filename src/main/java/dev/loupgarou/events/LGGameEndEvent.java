@@ -18,10 +18,11 @@ import lombok.Setter;
  * Cancelling this event can have side effects !
  * @see LGEndCheckEvent
  */
-public class LGGameEndEvent extends LGEvent implements Cancellable{
+public class LGGameEndEvent extends LGEvent implements Cancellable {
 	@Getter @Setter private boolean cancelled;
 	@Getter private final LGWinType winType;
 	@Getter private final List<LGPlayer> winners;
+	
 	public LGGameEndEvent(@NonNull LGGame game, @NonNull LGWinType winType, @NonNull List<LGPlayer> winners) {
 		super(game);
 		this.winType = winType;

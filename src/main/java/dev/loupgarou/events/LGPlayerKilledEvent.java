@@ -5,20 +5,22 @@ import org.bukkit.event.Cancellable;
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
-public class LGPlayerKilledEvent extends LGEvent implements Cancellable{
-	public LGPlayerKilledEvent(LGGame game, LGPlayer killed, Reason reason) {
+public class LGPlayerKilledEvent extends LGEvent implements Cancellable {
+
+	@Getter @Setter boolean cancelled;
+    
+    @Getter @Setter @NonNull private LGPlayer killed;
+    @Getter @Setter @NonNull private Reason reason;
+    
+	public LGPlayerKilledEvent(@NonNull LGGame game, @NonNull LGPlayer killed, @NonNull Reason reason) {
 		super(game);
 		this.killed = killed;
 		this.reason = reason;
 	}
-
-	@Getter @Setter boolean cancelled;
-    
-    @Getter @Setter private LGPlayer killed;
-    @Getter @Setter private Reason reason;
 	
     @RequiredArgsConstructor
 	public static enum Reason{
@@ -40,7 +42,7 @@ public class LGPlayerKilledEvent extends LGEvent implements Cancellable{
 		
 		DONT_DIE("§7§l%s§4 est mort pour rien");
 		
-		@Getter private final String message;
+		@Getter @NonNull private final String message;
 	}
 	
 }
