@@ -71,7 +71,7 @@ public class CancelListener implements Listener{
 	@EventHandler
 	public void onPlayerItemHeld(PlayerItemHeldEvent e) {
 		if(e.getPlayer().getGameMode() == GameMode.CREATIVE) return;
-		e.setCancelled(true);
+		//e.getPlayer().getInventory().setHeldItemSlot(0);
 	}
 	
 	@EventHandler
