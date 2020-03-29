@@ -2,7 +2,6 @@ package dev.loupgarou.discord;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
 
 import javax.security.auth.login.LoginException;
 
