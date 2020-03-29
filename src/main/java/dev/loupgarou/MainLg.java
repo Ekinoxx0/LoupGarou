@@ -20,7 +20,6 @@ import dev.loupgarou.discord.DiscordManager;
 import dev.loupgarou.listeners.CancelListener;
 import dev.loupgarou.listeners.ChatListener;
 import dev.loupgarou.listeners.JoinListener;
-import dev.loupgarou.listeners.LoupGarouListener;
 import dev.loupgarou.listeners.ProtocolListener;
 import dev.loupgarou.listeners.VoteListener;
 import dev.loupgarou.roles.RAnge;
@@ -89,7 +88,6 @@ public class MainLg extends JavaPlugin{
 		Bukkit.getPluginManager().registerEvents(new CancelListener(), this);
 		Bukkit.getPluginManager().registerEvents(new VoteListener(), this);
 		Bukkit.getPluginManager().registerEvents(new ChatListener(), this);
-		Bukkit.getPluginManager().registerEvents(new LoupGarouListener(), this);
 		CommandLG cmd = new CommandLG(this);
 		Bukkit.getPluginCommand("lg").setExecutor(cmd);
 		Bukkit.getPluginCommand("lg").setTabCompleter(cmd);
