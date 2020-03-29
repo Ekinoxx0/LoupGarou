@@ -1,0 +1,282 @@
+{
+    "Ange": {
+        "": "POLISHED_GRANITE_SLAB",
+        "infecte": "BROWN_BED",
+        "infecte_maire": "DEAD_FIRE_CORAL_WALL_FAN",
+        "infecte_maire_mort": "BONE_MEAL",
+        "infecte_mort": "MOSSY_STONE_BRICK_WALL",
+        "maire": "SANDSTONE",
+        "maire_mort": "POLISHED_DIORITE",
+        "mort": "NETHER_BRICK_SLAB"
+    },
+    "Assassin": {
+        "": "GRAY_CONCRETE_POWDER",
+        "infecte": "WITHER_ROSE",
+        "infecte_maire": "ENCHANTING_TABLE",
+        "infecte_maire_mort": "RED_STAINED_GLASS",
+        "infecte_mort": "ACACIA_DOOR",
+        "maire": "DEAD_HORN_CORAL_FAN",
+        "maire_mort": "WOODEN_AXE",
+        "mort": "HOPPER"
+    },
+    "Bouffon": {
+        "": "LECTERN",
+        "infecte": "BIRCH_PLANKS",
+        "infecte_maire": "RABBIT_FOOT",
+        "infecte_maire_mort": "LAPIS_BLOCK",
+        "infecte_mort": "GREEN_CONCRETE_POWDER",
+        "maire": "FIRE_CORAL_BLOCK",
+        "maire_mort": "STRIPPED_OAK_WOOD",
+        "mort": "DEAD_HORN_CORAL_WALL_FAN"
+    },
+    "ChaperonRouge": {
+        "": "GRASS",
+        "infecte": "LIME_BANNER",
+        "infecte_maire": "STONE_SLAB",
+        "infecte_maire_mort": "EMERALD_ORE",
+        "infecte_mort": "ORANGE_SHULKER_BOX",
+        "maire": "BLUE_GLAZED_TERRACOTTA",
+        "maire_mort": "YELLOW_DYE",
+        "mort": "PURPLE_TERRACOTTA"
+    },
+    "Chasseur": {
+        "": "DIORITE",
+        "infecte": "PRISMARINE_SLAB",
+        "infecte_maire": "BLUE_CONCRETE",
+        "infecte_maire_mort": "YELLOW_WOOL",
+        "infecte_mort": "COAL",
+        "maire": "DEAD_TUBE_CORAL_BLOCK",
+        "maire_mort": "MAGENTA_TERRACOTTA",
+        "mort": "CAKE"
+    },
+    "ChienLoup": {
+        "": "GRANITE_SLAB",
+        "infecte": "PAINTING",
+        "infecte_maire": "MOSSY_COBBLESTONE",
+        "infecte_maire_mort": "END_CRYSTAL",
+        "infecte_mort": "JUNGLE_PLANKS",
+        "maire": "SUGAR_CANE",
+        "maire_mort": "RED_BANNER",
+        "mort": "MOSSY_STONE_BRICK_SLAB"
+    },
+    "ChienLoupLG": {
+        "": "LEATHER_HORSE_ARMOR",
+        "infecte": "BIRCH_BUTTON",
+        "infecte_maire": "GLASS_BOTTLE",
+        "infecte_maire_mort": "MAGENTA_CARPET",
+        "infecte_mort": "BLAST_FURNACE",
+        "maire": "PODZOL",
+        "maire_mort": "SPRUCE_LOG",
+        "mort": "END_ROD"
+    },
+    "Corbeau": {
+        "": "HEAVY_WEIGHTED_PRESSURE_PLATE",
+        "infecte": "PURPLE_STAINED_GLASS",
+        "infecte_maire": "PUFFERFISH_BUCKET",
+        "infecte_maire_mort": "WOODEN_PICKAXE",
+        "infecte_mort": "RED_TULIP",
+        "maire": "DIAMOND_CHESTPLATE",
+        "maire_mort": "SPRUCE_PLANKS",
+        "mort": "DARK_OAK_BOAT"
+    },
+    "Cupidon": {
+        "": "CHORUS_PLANT",
+        "infecte": "TRIDENT",
+        "infecte_maire": "GLOBE_BANNER_PATTERN",
+        "infecte_maire_mort": "SEA_LANTERN",
+        "infecte_mort": "SPRUCE_SIGN",
+        "maire": "YELLOW_STAINED_GLASS_PANE",
+        "maire_mort": "BROWN_STAINED_GLASS_PANE",
+        "mort": "GOLDEN_BOOTS"
+    },
+    "Detective": {
+        "": "GLASS_PANE",
+        "infecte": "MAGENTA_WOOL",
+        "infecte_maire": "CHEST",
+        "infecte_maire_mort": "GREEN_WOOL",
+        "infecte_mort": "RED_BED",
+        "maire": "FEATHER",
+        "maire_mort": "DARK_OAK_BUTTON",
+        "mort": "REDSTONE_TORCH"
+    },
+    "Dictateur": {
+        "": "PRISMARINE_SHARD",
+        "infecte": "CYAN_GLAZED_TERRACOTTA",
+        "infecte_maire": "REPEATER",
+        "infecte_maire_mort": "LIME_STAINED_GLASS_PANE",
+        "infecte_mort": "CYAN_TERRACOTTA",
+        "maire": "GREEN_BED",
+        "maire_mort": "SPRUCE_TRAPDOOR",
+        "mort": "DRIED_KELP_BLOCK"
+    },
+    "EnfantSauvage": {
+        "": "BLACK_STAINED_GLASS",
+        "infecte": "GREEN_CARPET",
+        "infecte_maire": "MAGENTA_STAINED_GLASS",
+        "infecte_maire_mort": "WHITE_STAINED_GLASS_PANE",
+        "infecte_mort": "CHEST_MINECART",
+        "maire": "ACACIA_SIGN",
+        "maire_mort": "POLISHED_DIORITE_SLAB",
+        "mort": "GRAY_BANNER"
+    },
+    "EnfantSauvageLG": {
+        "": "HORN_CORAL_FAN",
+        "infecte": "CARTOGRAPHY_TABLE",
+        "infecte_maire": "BLACK_STAINED_GLASS_PANE",
+        "infecte_maire_mort": "BROWN_MUSHROOM_BLOCK",
+        "infecte_mort": "JUNGLE_LOG",
+        "maire": "YELLOW_GLAZED_TERRACOTTA",
+        "maire_mort": "OXEYE_DAISY",
+        "mort": "STICK"
+    },
+    "Faucheur": {
+        "": "MOSSY_COBBLESTONE_SLAB",
+        "infecte": "CYAN_WOOL",
+        "infecte_maire": "PISTON",
+        "infecte_maire_mort": "LIGHT_BLUE_TERRACOTTA",
+        "infecte_mort": "RED_STAINED_GLASS_PANE",
+        "maire": "GOLDEN_HELMET",
+        "maire_mort": "BIRCH_FENCE",
+        "mort": "SKELETON_SKULL"
+    },
+    "Garde": {
+        "": "BRICK_SLAB",
+        "infecte": "GRAY_STAINED_GLASS",
+        "infecte_maire": "PURPUR_SLAB",
+        "infecte_maire_mort": "ACACIA_WOOD",
+        "infecte_mort": "DARK_OAK_PLANKS",
+        "maire": "BLACK_TERRACOTTA",
+        "maire_mort": "IRON_HELMET",
+        "mort": "DIRT"
+    },
+    "GrandMechantLoup": {
+        "": "CHISELED_RED_SANDSTONE",
+        "infecte": "LIGHT_GRAY_BED",
+        "infecte_maire": "RABBIT_HIDE",
+        "infecte_maire_mort": "YELLOW_CONCRETE",
+        "infecte_mort": "LIGHT_BLUE_WOOL",
+        "maire": "COCOA_BEANS",
+        "maire_mort": "MILK_BUCKET",
+        "mort": "PURPLE_GLAZED_TERRACOTTA"
+    },
+    "LoupGarou": {
+        "": "OAK_PLANKS",
+        "infecte": "DRAGON_BREATH",
+        "infecte_maire": "WITHER_SKELETON_SKULL",
+        "infecte_maire_mort": "DARK_OAK_LEAVES",
+        "infecte_mort": "GOLDEN_PICKAXE",
+        "maire": "TRAPPED_CHEST",
+        "maire_mort": "BRICK_WALL",
+        "mort": "MELON"
+    },
+    "LoupGarouBlanc": {
+        "": "ANDESITE",
+        "infecte": "CORNFLOWER",
+        "infecte_maire": "GRINDSTONE",
+        "infecte_maire_mort": "CYAN_DYE",
+        "infecte_mort": "DEAD_TUBE_CORAL_WALL_FAN",
+        "maire": "TUBE_CORAL",
+        "maire_mort": "PURPLE_CONCRETE",
+        "mort": "STONE_PICKAXE"
+    },
+    "LoupGarouNoir": {
+        "": "SLIME_BLOCK",
+        "infecte": "TORCH",
+        "infecte_maire": "CHORUS_FLOWER",
+        "infecte_maire_mort": "MOJANG_BANNER_PATTERN",
+        "infecte_mort": "COBBLESTONE_WALL",
+        "maire": "LANTERN",
+        "maire_mort": "BRAIN_CORAL_WALL_FAN",
+        "mort": "YELLOW_CARPET"
+    },
+    "Medium": {
+        "": "OAK_TRAPDOOR",
+        "infecte": "LIGHT_BLUE_BANNER",
+        "infecte_maire": "LIGHT_BLUE_STAINED_GLASS_PANE",
+        "infecte_maire_mort": "CYAN_SHULKER_BOX",
+        "infecte_mort": "GRAY_SHULKER_BOX",
+        "maire": "FERN",
+        "maire_mort": "WHITE_TERRACOTTA",
+        "mort": "STICKY_PISTON"
+    },
+    "PetiteFille": {
+        "": "SCUTE",
+        "infecte": "ORANGE_CONCRETE",
+        "infecte_maire": "SOUL_SAND",
+        "infecte_maire_mort": "PURPLE_SHULKER_BOX",
+        "infecte_mort": "WOODEN_SHOVEL",
+        "maire": "EXPERIENCE_BOTTLE",
+        "maire_mort": "DARK_OAK_SIGN",
+        "mort": "STRING"
+    },
+    "Pirate": {
+        "": "RED_MUSHROOM_BLOCK",
+        "infecte": "BLUE_STAINED_GLASS",
+        "infecte_maire": "STRIPPED_DARK_OAK_LOG",
+        "infecte_maire_mort": "IRON_INGOT",
+        "infecte_mort": "SPAWNER",
+        "maire": "DROPPER",
+        "maire_mort": "COBBLESTONE_SLAB",
+        "mort": "ENDER_CHEST"
+    },
+    "Pretre": {
+        "": "SNOWBALL",
+        "infecte": "ORANGE_BED",
+        "infecte_maire": "SPRUCE_LEAVES",
+        "infecte_maire_mort": "FLINT",
+        "infecte_mort": "PINK_BANNER",
+        "maire": "PRISMARINE_WALL",
+        "maire_mort": "DEAD_BUBBLE_CORAL",
+        "mort": "WHITE_SHULKER_BOX"
+    },
+    "Pyromane": {
+        "": "BLUE_ICE",
+        "infecte": "BEDROCK",
+        "infecte_maire": "STONE_BRICK_WALL",
+        "infecte_maire_mort": "GREEN_TERRACOTTA",
+        "infecte_mort": "PURPLE_WOOL",
+        "maire": "DEAD_BUBBLE_CORAL_BLOCK",
+        "maire_mort": "PINK_STAINED_GLASS",
+        "mort": "ORANGE_TULIP"
+    },
+    "Sorciere": {
+        "": "NETHERRACK",
+        "infecte": "CONDUIT",
+        "infecte_maire": "IRON_HORSE_ARMOR",
+        "infecte_maire_mort": "BIRCH_FENCE_GATE",
+        "infecte_mort": "OAK_SIGN",
+        "maire": "STRIPPED_OAK_LOG",
+        "maire_mort": "COMPOSTER",
+        "mort": "HORN_CORAL_BLOCK"
+    },
+    "Survivant": {
+        "": "SLIME_BALL",
+        "infecte": "INFESTED_COBBLESTONE",
+        "infecte_maire": "GRAY_TERRACOTTA",
+        "infecte_maire_mort": "NETHER_BRICK_FENCE",
+        "infecte_mort": "POPPED_CHORUS_FRUIT",
+        "maire": "CHARCOAL",
+        "maire_mort": "MAGENTA_DYE",
+        "mort": "PINK_STAINED_GLASS_PANE"
+    },
+    "Villageois": {
+        "": "DEAD_BUSH",
+        "infecte": "CYAN_BED",
+        "infecte_maire": "PINK_CONCRETE",
+        "infecte_maire_mort": "SUNFLOWER",
+        "infecte_mort": "DIAMOND_AXE",
+        "maire": "LEAD",
+        "maire_mort": "LIME_CONCRETE",
+        "mort": "DEAD_BRAIN_CORAL"
+    },
+    "Voyante": {
+        "": "RED_CONCRETE_POWDER",
+        "infecte": "END_STONE_BRICKS",
+        "infecte_maire": "FARMLAND",
+        "infecte_maire_mort": "WHITE_BANNER",
+        "infecte_mort": "OAK_DOOR",
+        "maire": "POPPY",
+        "maire_mort": "PINK_CONCRETE_POWDER",
+        "mort": "MUSHROOM_STEM"
+    }
+}
