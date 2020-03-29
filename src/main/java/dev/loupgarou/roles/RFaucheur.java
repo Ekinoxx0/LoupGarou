@@ -29,8 +29,12 @@ public class RFaucheur extends Role{
 		return RoleWinType.VILLAGE;
 	}
 	@Override
+	public String getColor() {
+		return "§a";
+	}
+	@Override
 	public String getName() {
-		return "§a§lFaucheur";
+		return getColor() + "§lFaucheur";
 	}
 	@Override
 	public String getFriendlyName() {

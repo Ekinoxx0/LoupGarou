@@ -30,8 +30,12 @@ public class RAnge extends Role{
 		return RoleWinType.VILLAGE;
 	}
 	@Override
+	public String getColor() {
+		return "§d";
+	}
+	@Override
 	public String getName() {
-		return "§d§lAnge";
+		return getColor() + "§lAnge";
 	}
 	@Override
 	public String getFriendlyName() {

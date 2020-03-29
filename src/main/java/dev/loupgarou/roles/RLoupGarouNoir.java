@@ -50,10 +50,15 @@ public class RLoupGarouNoir extends Role{
 	public RLoupGarouNoir(LGGame game) {
 		super(game);
 	}
+	
+	@Override
+	public String getColor() {
+		return "§c";
+	}
 
 	@Override
 	public String getName() {
-		return "§c§lLoup Noir";
+		return getColor() + "§lLoup Noir";
 	}
 
 	@Override

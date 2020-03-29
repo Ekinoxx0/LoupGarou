@@ -17,10 +17,15 @@ public class REnfantSauvage extends Role{
 	public REnfantSauvage(LGGame game) {
 		super(game);
 	}
+	
+	@Override
+	public String getColor() {
+		return "§a";
+	}
 
 	@Override
 	public String getName() {
-		return "§a§lEnfant-Sauvage";
+		return getColor() + "§lEnfant-Sauvage";
 	}
 
 	@Override

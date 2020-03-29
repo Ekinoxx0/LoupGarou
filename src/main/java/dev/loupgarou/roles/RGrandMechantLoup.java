@@ -18,8 +18,13 @@ public class RGrandMechantLoup extends Role{
 	}
 
 	@Override
+	public String getColor() {
+		return "§c";
+	}
+
+	@Override
 	public String getName() {
-		return "§c§lGrand Méchant Loup";
+		return getColor() + "§lGrand Méchant Loup";
 	}
 
 	@Override

@@ -18,8 +18,12 @@ public class RVillageois extends Role{
 		return RoleWinType.VILLAGE;
 	}
 	@Override
+	public String getColor() {
+		return "§a";
+	}
+	@Override
 	public String getName() {
-		return "§a§lVillageois";
+		return getColor() + "§lVillageois";
 	}
 	@Override
 	public String getFriendlyName() {

@@ -25,8 +25,12 @@ public class RMedium extends Role{
 		return RoleWinType.VILLAGE;
 	}
 	@Override
+	public String getColor() {
+		return "§a";
+	}
+	@Override
 	public String getName() {
-		return "§a§lMédium";
+		return getColor() + "§lMédium";
 	}
 	@Override
 	public String getFriendlyName() {

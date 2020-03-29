@@ -34,10 +34,15 @@ public class RLoupGarouBlanc extends Role{
 	public RLoupGarouBlanc(LGGame game) {
 		super(game);
 	}
+	
+	@Override
+	public String getColor() {
+		return "§c";
+	}
 
 	@Override
 	public String getName() {
-		return "§c§lLoup Blanc";
+		return getColor() + "§lLoup Blanc";
 	}
 
 	@Override

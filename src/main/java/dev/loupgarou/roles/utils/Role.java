@@ -28,6 +28,7 @@ public abstract class Role implements Listener{
 	}
 	
 
+	public abstract String getColor();
 	public abstract String getName();
 	public abstract String getFriendlyName();
 	public abstract String getShortDescription();

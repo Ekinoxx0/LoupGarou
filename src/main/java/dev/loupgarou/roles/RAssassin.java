@@ -32,8 +32,12 @@ public class RAssassin extends Role{
 		return RoleWinType.SEUL;
 	}
 	@Override
+	public String getColor() {
+		return "§1";
+	}
+	@Override
 	public String getName() {
-		return "§1§lAssassin";
+		return getColor() + "§lAssassin";
 	}
 	@Override
 	public String getFriendlyName() {

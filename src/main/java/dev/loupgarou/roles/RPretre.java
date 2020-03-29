@@ -56,10 +56,15 @@ public class RPretre extends Role{
 	public RPretre(LGGame game) {
 		super(game);
 	}
+	
+	@Override
+	public String getColor() {
+		return "§a";
+	}
 
 	@Override
 	public String getName() {
-		return "§a§lPrêtre";
+		return getColor() + "§lPrêtre";
 	}
 
 	@Override

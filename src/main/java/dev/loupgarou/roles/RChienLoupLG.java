@@ -15,11 +15,15 @@ public class RChienLoupLG extends Role{
 		super(game);
 	}
 	@Override
-	public String getName() {
+	public String getColor() {
 		for(LGPlayer lgp : getPlayers())
 			if(lgp.getPlayer() != null && lgp.getPlayer().hasPotionEffect(PotionEffectType.INVISIBILITY))
-				return "§c§lChien-Loup";
-		return (getPlayers().size() > 0 ? "§a" : "§c")+"§lChien-Loup";
+				return "§c";
+		return (getPlayers().size() > 0 ? "§a" : "§c");
+	}
+	@Override
+	public String getName() {
+		return getColor() + "§lChien-Loup";
 	}
 
 	@Override

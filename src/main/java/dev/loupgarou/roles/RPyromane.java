@@ -64,10 +64,15 @@ public class RPyromane extends Role{
 	public RPyromane(LGGame game) {
 		super(game);
 	}
+	
+	@Override
+	public String getColor() {
+		return "§6";
+	}
 
 	@Override
 	public String getName() {
-		return "§6§lPyromane";
+		return getColor() + "§lPyromane";
 	}
 
 	@Override

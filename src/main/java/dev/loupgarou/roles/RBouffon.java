@@ -30,8 +30,12 @@ public class RBouffon extends Role{
 		return RoleWinType.NONE;
 	}
 	@Override
+	public String getColor() {
+		return "§d";
+	}
+	@Override
 	public String getName() {
-		return "§d§lBouffon";
+		return getColor() + "§lBouffon";
 	}
 	@Override
 	public String getFriendlyName() {

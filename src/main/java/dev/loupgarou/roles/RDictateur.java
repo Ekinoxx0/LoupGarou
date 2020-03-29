@@ -65,8 +65,12 @@ public class RDictateur extends Role{
 		return RoleWinType.VILLAGE;
 	}
 	@Override
+	public String getColor() {
+		return "§a";
+	}
+	@Override
 	public String getName() {
-		return "§a§lDictateur";
+		return getColor() + "§lDictateur";
 	}
 	@Override
 	public String getFriendlyName() {

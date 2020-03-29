@@ -20,8 +20,12 @@ public class RDetective extends Role{
 		return RoleWinType.VILLAGE;
 	}
 	@Override
+	public String getColor() {
+		return "§a";
+	}
+	@Override
 	public String getName() {
-		return "§a§lDétective";
+		return getColor() + "§lDétective";
 	}
 	@Override
 	public String getFriendlyName() {

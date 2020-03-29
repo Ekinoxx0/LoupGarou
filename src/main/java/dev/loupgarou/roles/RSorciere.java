@@ -62,8 +62,12 @@ public class RSorciere extends Role{
 		return RoleWinType.VILLAGE;
 	}
 	@Override
+	public String getColor() {
+		return "§a";
+	}
+	@Override
 	public String getName() {
-		return "§a§lSorcière";
+		return getColor() + "§lSorcière";
 	}
 	@Override
 	public String getFriendlyName() {

@@ -25,8 +25,12 @@ public class RPetiteFille extends Role{
 		return RoleWinType.VILLAGE;
 	}
 	@Override
+	public String getColor() {
+		return "§a";
+	}
+	@Override
 	public String getName() {
-		return "§a§lPetite Fille";
+		return getColor() + "§lPetite Fille";
 	}
 	@Override
 	public String getFriendlyName() {

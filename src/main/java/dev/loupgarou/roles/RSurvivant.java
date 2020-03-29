@@ -40,8 +40,12 @@ public class RSurvivant extends Role{
 		return RoleWinType.NONE;
 	}
 	@Override
+	public String getColor() {
+		return "§d";
+	}
+	@Override
 	public String getName() {
-		return "§d§lSurvivant";
+		return getColor() + "§lSurvivant";
 	}
 	@Override
 	public String getFriendlyName() {

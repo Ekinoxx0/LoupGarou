@@ -26,8 +26,12 @@ public class RCorbeau extends Role{
 		return RoleWinType.VILLAGE;
 	}
 	@Override
+	public String getColor() {
+		return "§a";
+	}
+	@Override
 	public String getName() {
-		return "§a§lCorbeau";
+		return getColor() + "§lCorbeau";
 	}
 	@Override
 	public String getFriendlyName() {

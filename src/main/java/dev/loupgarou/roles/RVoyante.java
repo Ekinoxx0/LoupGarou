@@ -20,8 +20,12 @@ public class RVoyante extends Role{
 		return RoleWinType.VILLAGE;
 	}
 	@Override
+	public String getColor() {
+		return "§a";
+	}
+	@Override
 	public String getName() {
-		return "§a§lVoyante";
+		return getColor() + "§lVoyante";
 	}
 	@Override
 	public String getFriendlyName() {

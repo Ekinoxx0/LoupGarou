@@ -17,11 +17,16 @@ public class REnfantSauvageLG extends Role{
 		super(game);
 	}
 	@Override
-	public String getName() {
+	public String getColor() {
 		for(LGPlayer lgp : getPlayers())
 			if(lgp.getPlayer() != null && lgp.getPlayer().hasPotionEffect(PotionEffectType.INVISIBILITY))
 				return "§c§lEnfant-Sauvage";
-		return (getPlayers().size() > 0 ? "§a" : "§c")+"§lEnfant-Sauvage";
+		return (getPlayers().size() > 0 ? "§a" : "§c");
+	}
+	
+	@Override
+	public String getName() {
+		return getColor() + "§lEnfant-Sauvage";
 	}
 
 	@Override

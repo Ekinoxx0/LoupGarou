@@ -30,8 +30,12 @@ public class RChasseur extends Role{
 		return RoleWinType.VILLAGE;
 	}
 	@Override
+	public String getColor() {
+		return "§a";
+	}
+	@Override
 	public String getName() {
-		return "§a§lChasseur";
+		return getColor() + "§lChasseur";
 	}
 	@Override
 	public String getFriendlyName() {

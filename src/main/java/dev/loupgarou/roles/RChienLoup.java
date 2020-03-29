@@ -42,8 +42,13 @@ public class RChienLoup extends Role{
 	}
 
 	@Override
+	public String getColor() {
+		return "§a";
+	}
+	
+	@Override
 	public String getName() {
-		return "§a§lChien-Loup";
+		return getColor() + "§lChien-Loup";
 	}
 
 	@Override

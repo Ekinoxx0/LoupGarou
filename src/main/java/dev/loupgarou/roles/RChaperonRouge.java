@@ -27,8 +27,12 @@ public class RChaperonRouge extends Role{
 		return RoleWinType.VILLAGE;
 	}
 	@Override
+	public String getColor() {
+		return "§a";
+	}
+	@Override
 	public String getName() {
-		return "§a§lChaperon Rouge";
+		return getColor() + "§lChaperon Rouge";
 	}
 	@Override
 	public String getFriendlyName() {
