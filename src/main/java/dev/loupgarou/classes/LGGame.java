@@ -812,9 +812,9 @@ public class LGGame implements Listener{
 	public void onCustomItemChange(LGCustomItemChangeEvent e) {
 		if(e.getGame() == this) {
 			if(getMayor() == e.getPlayer())
-				e.getConstraints().add(LGCustomItemsConstraints.MAYOR.getName());
+				e.getConstraints().add(LGCustomItemsConstraints.MAYOR);
 			if(e.getPlayer().isDead())
-				e.getConstraints().add(LGCustomItemsConstraints.DEAD.getName());
+				e.getConstraints().add(LGCustomItemsConstraints.DEAD);
 		}
 	}
 	@EventHandler(priority = EventPriority.LOWEST)

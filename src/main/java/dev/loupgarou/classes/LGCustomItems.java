@@ -3,6 +3,7 @@ package dev.loupgarou.classes;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.StringJoiner;
 
 import org.bukkit.Bukkit;
@@ -11,6 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import dev.loupgarou.MainLg;
 import dev.loupgarou.events.LGCustomItemChangeEvent;
 import dev.loupgarou.roles.utils.Role;
 import lombok.Getter;
@@ -42,20 +44,22 @@ public class LGCustomItems {
 	public static Material getItem(Role role) {
 		return mappings.get(role.getClass()).get("");
 	}
-	public static Material getItem(LGPlayer player, ArrayList<String> constraints) {
+	public static Material getItem(LGPlayer player, List<LGCustomItemsConstraints> constraints) {
 		Bukkit.getPluginManager().callEvent(new LGCustomItemChangeEvent(player.getGame(), player, constraints));
 		
 		Collections.sort(constraints);
 		HashMap<String, Material> mapps = mappings.get(player.getRole().getClass());
-		if(mapps == null)
-			return Material.AIR;//Lors du développement de rôles.
+		if(mapps == null) {
+			MainLg.debug("No material specified in mappings for :" + player.getRole().getClass());
+			return Material.AIR;
+		}
 		StringJoiner sj = new StringJoiner("_");
-		for(String s : constraints)
-			sj.add(s);
+		for(LGCustomItemsConstraints constraint : constraints)
+			sj.add(constraint.getName());
 		return mapps.get(sj.toString());
 	}
 	public static Material getItem(LGPlayer player) {
-		return getItem(player, new ArrayList<String>());
+		return getItem(player, new ArrayList<LGCustomItemsConstraints>());
 	}
 	
 	public static void updateItem(LGPlayer lgp) {
@@ -63,7 +67,7 @@ public class LGCustomItems {
 		lgp.getPlayer().updateInventory();
 	}
 
-	public static void updateItem(LGPlayer lgp, ArrayList<String> constraints) {
+	public static void updateItem(LGPlayer lgp, List<LGCustomItemsConstraints> constraints) {
 		lgp.getPlayer().getInventory().setItemInOffHand(new ItemStack(getItem(lgp, constraints)));
 		lgp.getPlayer().updateInventory();
 	}

@@ -224,7 +224,7 @@ public class RLoupGarouNoir extends Role{
 	public void onCustomItemChange(LGCustomItemChangeEvent e) {
 		if(e.getGame() == getGame())
 			if(e.getPlayer().getCache().getBoolean("infected"))
-				e.getConstraints().add(LGCustomItemsConstraints.INFECTED.getName());
+				e.getConstraints().add(LGCustomItemsConstraints.INFECTED);
 	}
 	
 }
