@@ -148,13 +148,13 @@ public class LoupGarouCommand implements CommandExecutor, TabExecutor {
 			if (sub.getPermission() == null || cs.hasPermission(sub.getPermission()) || cs.hasPermission("*") || cs.hasPermission("loupgarou.*")) {
 				String s = sb.toString();
 				if (!s.contains(sub.getAliases().get(0))) {
-					sb.append(sub.getAliases().get(0) + ",");
+					sb.append(sub.getAliases().get(0) + ", ");
 				}
 			}
 		}
 
 		if (sb.length() > 2) {
-			sb.setLength(sb.length() - 2);
+			sb.setLength(sb.length() - 1);
 		}
 		sb.append(">");
 		return sb.toString();
