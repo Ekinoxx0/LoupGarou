@@ -154,7 +154,7 @@ public class LoupGarouCommand implements CommandExecutor, TabExecutor {
 		}
 
 		if (sb.length() > 2) {
-			sb.setLength(sb.length() - 1);
+			sb.setLength(sb.length() - 2);
 		}
 		sb.append(">");
 		return sb.toString();
