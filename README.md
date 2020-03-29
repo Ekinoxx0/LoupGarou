@@ -8,6 +8,7 @@
 - [Aide](#aide)
   - [Questions fréquentes](#questions-fréquentes)
 - [Indications pour les développeurs](#indications-pour-les-développeurs)
+  - [Modification de compatibilité](#modification-de-compatibilité)
   - [Ajouter des rôles](#ajouter-des-rôles)
   - [Publier un rôle](#publier-un-rôle)
  	 - [Quelques classes utiles](#quelques-classes-utiles)
@@ -78,8 +79,15 @@ D'autres rôles peuvent aussi marcher mais n'ont pas été testés avec plusieur
 
 ## Indications pour les développeurs
 
-Vous devez utiliser `Lombok` et `Maven` pour modifier ce projet. 
-Vous devez aussi installer la repository `Spigot` avec [BuildTools](https://www.spigotmc.org/wiki/buildtools/).
+Vous devez utiliser `Lombok` et `Maven` pour modifier ce projet.
+
+### Modification de compatibilité
+
+La version de Leomelki n'est pas strictement compatible avec cette version suite aux modifications suivantes aux events :
+
+`LGNightStart` -> `LGDayEndEvent`
+`LGDayEndEvent` -> `LGNightStartEvent`
+`LGVoteEvent` -> `LGPeopleVoteEvent`
 
 ### Ajouter des rôles
 
