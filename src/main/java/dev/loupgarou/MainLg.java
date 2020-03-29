@@ -122,11 +122,11 @@ public class MainLg extends JavaPlugin{
 			roles.put("LoupGarouBlanc", RLoupGarouBlanc.class.getConstructor(LGGame.class));
 			roles.put("GrandMechantLoup", RGrandMechantLoup.class.getConstructor(LGGame.class));
 
+			roles.put("Pyromane", RPyromane.class.getConstructor(LGGame.class));
 			roles.put("Assassin", RAssassin.class.getConstructor(LGGame.class));
 			roles.put("Survivant", RSurvivant.class.getConstructor(LGGame.class));
 			roles.put("Bouffon", RBouffon.class.getConstructor(LGGame.class));
 			roles.put("Ange", RAnge.class.getConstructor(LGGame.class));
-			roles.put("Pyromane", RPyromane.class.getConstructor(LGGame.class));
 
 			roles.put("Villageois", RVillageois.class.getConstructor(LGGame.class));
 			roles.put("Voyante", RVoyante.class.getConstructor(LGGame.class));

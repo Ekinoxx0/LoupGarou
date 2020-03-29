@@ -115,7 +115,7 @@ public class RoleMenu {
 		for(String s : lore.split(" ")){
 			a += s.length();
 			b++;
-			if(a >= 30){
+			if(a >= 40){
 				maxWord--;
 			}
 			if(b >= maxWord){
@@ -128,18 +128,16 @@ public class RoleMenu {
 	}
 
 	public static String optimizeLines(String text, int nbWordPerLines) {
-    	int wordCountInLine = 0;
     	String result = "";
     	String[] words = text.split(" ");
     	
     	String currentLine = "";
-    	int i = 0;
+    	int wordCountInLine = 0;
     	for (String word : words) {
     		currentLine += word + " ";
-    		wordCountInLine++;
     		
-    		if (wordCountInLine >= nbWordPerLines && i < words.length-1) {
-    			result += currentLine + "\n";//Add color
+    		if (wordCountInLine >= nbWordPerLines) {
+    			result += currentLine + "\n";
     			char color = 'f';
     			
     			char[] charCurrentLine = currentLine.toCharArray();
@@ -150,8 +148,9 @@ public class RoleMenu {
     			currentLine = "§" + color;
     			wordCountInLine = 0;
     		}
-    		i++;
+    		wordCountInLine++;
     	}
+		result += currentLine + "\n";//Add final line
     	
     	return result;
 	}
