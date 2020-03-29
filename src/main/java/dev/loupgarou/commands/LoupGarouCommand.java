@@ -84,7 +84,7 @@ public class LoupGarouCommand implements CommandExecutor, TabExecutor {
 	@Override
 	public List<String> onTabComplete(CommandSender cs, Command cmd, String label, String[] args) {
 		List<String> list = new ArrayList<>();
-		String lastarg = args[args.length - 1].toLowerCase();
+		String lastArg = args[args.length - 1].toLowerCase();
 
 		if (args.length == 1) {
 			subloop: for (SubCommand sub : subs) {
@@ -107,8 +107,8 @@ public class LoupGarouCommand implements CommandExecutor, TabExecutor {
 			}
 		}
 
-		for(String s : list)
-			if(!s.toLowerCase().startsWith(lastarg))
+		for(String s : new ArrayList<String>(list))
+			if(!s.toLowerCase().startsWith(lastArg))
 				list.remove(s);
 		
 		return list;
