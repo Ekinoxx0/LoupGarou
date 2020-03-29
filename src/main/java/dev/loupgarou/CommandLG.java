@@ -31,7 +31,6 @@ import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.classes.LGWinType;
 import dev.loupgarou.packetwrapper.WrapperPlayServerEntityDestroy;
 import dev.loupgarou.packetwrapper.WrapperPlayServerEntityEquipment;
-import dev.loupgarou.packetwrapper.WrapperPlayServerEntityLook;
 import dev.loupgarou.packetwrapper.WrapperPlayServerEntityMetadata;
 import dev.loupgarou.packetwrapper.WrapperPlayServerSpawnEntityLiving;
 import net.dv8tion.jda.api.entities.Member;
@@ -313,9 +312,11 @@ public class CommandLG implements CommandExecutor, TabCompleter {
 					Player pSP = (Player)sender;
 					List<List<Double>> listPos = (List<List<Double>>) mainLg.getConfig().getList("spawns");
 					
+					int n = 0;
 					for(List<Double> l : listPos) {
 						Location sel = new Location(pSP.getWorld(), l.get(0), l.get(1), l.get(2));
-						showArrow(pSP, sel, 10);
+						showArrow(pSP, sel, 10, n);
+						n++;
 					}
 					break;
 					
@@ -427,11 +428,8 @@ public class CommandLG implements CommandExecutor, TabCompleter {
 	}
 
 	WrappedDataWatcherObject invisible = new WrappedDataWatcherObject(0, WrappedDataWatcher.Registry.get(Byte.class)),
-							 noGravity = new WrappedDataWatcherObject(5, WrappedDataWatcher.Registry.get(Boolean.class)),
-							 customNameVisible = new WrappedDataWatcherObject(3, WrappedDataWatcher.Registry.get(Boolean.class)),
-							 customName = new WrappedDataWatcherObject(2, WrappedDataWatcher.Registry.get(IChatBaseComponent.class)),
-							 item = new WrappedDataWatcherObject(7, WrappedDataWatcher.Registry.get(net.minecraft.server.v1_15_R1.ItemStack.class));
-	private void showArrow(Player p, Location loc, int time) {
+							 noGravity = new WrappedDataWatcherObject(5, WrappedDataWatcher.Registry.get(Boolean.class));
+	private void showArrow(Player p, Location loc, int time, int n) {
 		final int entityId = new Random().nextInt(500000) + 10000;
 		if(loc != null) {
 			WrapperPlayServerSpawnEntityLiving spawn = new WrapperPlayServerSpawnEntityLiving();
@@ -451,14 +449,12 @@ public class CommandLG implements CommandExecutor, TabCompleter {
 			
 			WrapperPlayServerEntityMetadata meta = new WrapperPlayServerEntityMetadata();
 			meta.setEntityID(entityId);
-			meta.setMetadata(Arrays.asList(new WrappedWatchableObject(invisible, (byte)0x20), new WrappedWatchableObject(noGravity, true)));
+			meta.setMetadata(
+					Arrays.asList(
+							new WrappedWatchableObject(invisible, (byte)0x20), 
+							new WrappedWatchableObject(noGravity, true)
+						));
 			meta.sendPacket(p);
-			
-			WrapperPlayServerEntityLook look = new WrapperPlayServerEntityLook();
-			look.setEntityID(entityId);
-			look.setPitch(0);
-			look.setYaw(yaw);
-			look.sendPacket(p);
 			
 			new BukkitRunnable() {
 				
