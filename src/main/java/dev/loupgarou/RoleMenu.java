@@ -49,7 +49,7 @@ public class RoleMenu {
 				total += nbRole;
 				ii.registerItem(
 						new ItemBuilder(LGCustomItems.getItemMenu(getRole(roleName)))
-							.name(getRole(roleName).getType().getColor() + roleName)
+							.name(getRole(roleName).getColor() + roleName)
 							.lore(Arrays.asList(
 									"§7" + nbRole,
 									"",
