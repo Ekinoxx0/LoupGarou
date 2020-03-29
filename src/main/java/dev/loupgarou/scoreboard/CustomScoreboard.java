@@ -8,6 +8,7 @@ import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.packetwrapper.WrapperPlayServerScoreboardDisplayObjective;
 import dev.loupgarou.packetwrapper.WrapperPlayServerScoreboardObjective;
+import dev.loupgarou.packetwrapper.WrapperPlayServerScoreboardTeam.Mode;
 import dev.loupgarou.utils.RandomString;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -47,7 +48,7 @@ public class CustomScoreboard {
 	
 	public void hide() {
 		WrapperPlayServerScoreboardObjective remove = new WrapperPlayServerScoreboardObjective();
-		remove.setMode(1);
+		remove.setMode(Mode.TEAM_REMOVED);
 		remove.setName(name);
 		remove.sendPacket(player.getPlayer());
 		

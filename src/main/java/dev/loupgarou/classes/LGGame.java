@@ -25,6 +25,9 @@ import org.bukkit.scheduler.BukkitTask;
 
 import com.comphenix.protocol.wrappers.EnumWrappers.NativeGameMode;
 import com.comphenix.protocol.wrappers.EnumWrappers.PlayerInfoAction;
+import com.comphenix.protocol.wrappers.PlayerInfoData;
+import com.comphenix.protocol.wrappers.WrappedChatComponent;
+import com.comphenix.protocol.wrappers.WrappedGameProfile;
 
 import dev.loupgarou.MainLg;
 import dev.loupgarou.classes.LGCustomItems.LGCustomItemsConstraints;
@@ -41,17 +44,17 @@ import dev.loupgarou.events.LGNightPlayerPreKilledEvent;
 import dev.loupgarou.events.LGNightStart;
 import dev.loupgarou.events.LGPlayerGotKilledEvent;
 import dev.loupgarou.events.LGPlayerKilledEvent;
+import dev.loupgarou.events.LGPlayerKilledEvent.Reason;
 import dev.loupgarou.events.LGPreDayStartEvent;
 import dev.loupgarou.events.LGRoleTurnEndEvent;
 import dev.loupgarou.events.LGSkinLoadEvent;
 import dev.loupgarou.events.LGVoteEvent;
 import dev.loupgarou.events.LGVoteLeaderChange;
-import dev.loupgarou.events.LGPlayerKilledEvent.Reason;
 import dev.loupgarou.packetwrapper.WrapperPlayServerChat;
 import dev.loupgarou.packetwrapper.WrapperPlayServerExperience;
 import dev.loupgarou.packetwrapper.WrapperPlayServerPlayerInfo;
-import dev.loupgarou.packetwrapper.WrapperPlayServerScoreboardObjective;
 import dev.loupgarou.packetwrapper.WrapperPlayServerScoreboardTeam;
+import dev.loupgarou.packetwrapper.WrapperPlayServerScoreboardTeam.Mode;
 import dev.loupgarou.packetwrapper.WrapperPlayServerUpdateHealth;
 import dev.loupgarou.packetwrapper.WrapperPlayServerUpdateTime;
 import dev.loupgarou.roles.RChienLoupLG;
@@ -62,11 +65,6 @@ import dev.loupgarou.roles.utils.RoleWinType;
 import dev.loupgarou.scoreboard.CustomScoreboard;
 import dev.loupgarou.utils.MultipleValueMap;
 import dev.loupgarou.utils.VariousUtils;
-
-import com.comphenix.protocol.wrappers.PlayerInfoData;
-import com.comphenix.protocol.wrappers.WrappedChatComponent;
-import com.comphenix.protocol.wrappers.WrappedGameProfile;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -233,12 +231,6 @@ public class LGGame implements Listener{
 			
 			lgp.getPlayer().setGameMode(GameMode.ADVENTURE);
 			broadcastMessage("§7Le joueur §8"+lgp.getName()+"§7 a rejoint la partie §9(§8"+inGame.size()+"§7/§8"+maxPlayers+"§9)");
-			
-			//Reset scoreboard
-			WrapperPlayServerScoreboardObjective obj = new WrapperPlayServerScoreboardObjective();
-			obj.setName("lg_scoreboard");
-			obj.setMode(1);
-			obj.sendPacket(lgp.getPlayer());
 			
 			Bukkit.getPluginManager().callEvent(new LGGameJoinEvent(this, lgp));
 			//updateStart();
@@ -610,8 +602,6 @@ public class LGGame implements Listener{
 	boolean ended;
 	public void endGame(LGWinType winType) {
 		if(ended)return;
-		MainLg.getInstance().getDiscord().clearDead();
-		MainLg.getInstance().getDiscord().setMutedChannel(false);
 		
 		ArrayList<LGPlayer> winners = new ArrayList<LGPlayer>();
 		LGGameEndEvent event = new LGGameEndEvent(this, winType, winners);
@@ -619,6 +609,9 @@ public class LGGame implements Listener{
 
 		if(event.isCancelled())
 			return;
+		
+		MainLg.getInstance().getDiscord().clearDead();
+		MainLg.getInstance().getDiscord().setMutedChannel(false);
 		
 		ended = true;
 		//We unregister every role listener because they are unused after the game's end !
@@ -655,7 +648,7 @@ public class LGGame implements Listener{
 			if(lgp.getPlayer().isOnline()) {
 				LGPlayer.removePlayer(lgp.getPlayer());
 				WrapperPlayServerScoreboardTeam team = new WrapperPlayServerScoreboardTeam();
-				team.setMode(1);
+				team.setMode(Mode.TEAM_REMOVED);
 				team.setName("you_are");
 				team.sendPacket(lgp.getPlayer());
 				LGPlayer.thePlayer(lgp.getPlayer()).join(MainLg.getInstance().getCurrentGame());
@@ -665,7 +658,7 @@ public class LGGame implements Listener{
 			for(LGPlayer lgp : getInGame())
 				if(lgp.getPlayer().isOnline()) {
 					WrapperPlayServerScoreboardTeam team = new WrapperPlayServerScoreboardTeam();
-					team.setMode(1);
+					team.setMode(Mode.TEAM_REMOVED);
 					team.setName("you_are");
 					team.sendPacket(lgp.getPlayer());
 					LGPlayer.thePlayer(lgp.getPlayer()).join(MainLg.getInstance().getCurrentGame());

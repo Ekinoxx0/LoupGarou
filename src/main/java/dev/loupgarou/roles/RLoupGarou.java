@@ -21,6 +21,7 @@ import dev.loupgarou.events.LGSkinLoadEvent;
 import dev.loupgarou.events.LGUpdatePrefixEvent;
 import dev.loupgarou.events.LGPlayerKilledEvent.Reason;
 import dev.loupgarou.packetwrapper.WrapperPlayServerScoreboardTeam;
+import dev.loupgarou.packetwrapper.WrapperPlayServerScoreboardTeam.Mode;
 import dev.loupgarou.roles.utils.Role;
 import dev.loupgarou.roles.utils.RoleType;
 import dev.loupgarou.roles.utils.RoleWinType;
@@ -146,18 +147,6 @@ public class RLoupGarou extends Role{
 		}else
 			for(LGPlayer player : getPlayers())
 				player.sendMessage("§6Personne n'a été désigné pour mourir.");
-	}
-	
-	@EventHandler
-	public void onGameJoin(LGGameEndEvent e) {
-		if(e.getGame() == getGame()) {
-			WrapperPlayServerScoreboardTeam teamDelete = new WrapperPlayServerScoreboardTeam();
-			teamDelete.setMode(1);
-			teamDelete.setName("loup_garou_list");
-			
-			for(LGPlayer lgp : getGame().getInGame())
-				teamDelete.sendPacket(lgp.getPlayer());
-		}
 	}
 	
 	@EventHandler(priority = EventPriority.HIGHEST)

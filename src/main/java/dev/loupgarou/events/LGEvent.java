@@ -7,6 +7,9 @@ import dev.loupgarou.classes.LGGame;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * Any event related to LG
+ */
 @RequiredArgsConstructor
 public class LGEvent extends Event{
 	@Getter final LGGame game;

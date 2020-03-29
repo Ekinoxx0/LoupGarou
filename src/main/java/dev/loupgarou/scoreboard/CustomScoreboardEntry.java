@@ -6,6 +6,7 @@ import com.comphenix.protocol.wrappers.EnumWrappers.ScoreboardAction;
 
 import dev.loupgarou.packetwrapper.WrapperPlayServerScoreboardScore;
 import dev.loupgarou.packetwrapper.WrapperPlayServerScoreboardTeam;
+import dev.loupgarou.packetwrapper.WrapperPlayServerScoreboardTeam.Mode;
 import dev.loupgarou.utils.VariousUtils;
 
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
@@ -103,7 +104,7 @@ public class CustomScoreboardEntry {
 			
 			WrapperPlayServerScoreboardTeam team = new WrapperPlayServerScoreboardTeam();
 			team.setName(name);
-			team.setMode(1);
+			team.setMode(Mode.TEAM_REMOVED);
 			team.sendPacket(scoreboard.getPlayer().getPlayer());
 		}
 	}
