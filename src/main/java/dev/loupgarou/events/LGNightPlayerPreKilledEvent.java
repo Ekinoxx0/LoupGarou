@@ -1,7 +1,5 @@
 package dev.loupgarou.events;
 
-import org.bukkit.event.Cancellable;
-
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.events.LGPlayerKilledEvent.Reason;
@@ -9,10 +7,12 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 
-public class LGNightPlayerPreKilledEvent extends LGEvent implements Cancellable {
+/**
+ * Called when we need to verify if the player can be killed.
+ * If Reason is set to DONT_DIE, then the player will not be killed
+ */
+public class LGNightPlayerPreKilledEvent extends LGEvent {
 
-	@Getter @Setter private boolean cancelled;
-    
     @Getter private final LGPlayer killed;
     @Getter @Setter @NonNull private Reason reason;
     
@@ -21,5 +21,5 @@ public class LGNightPlayerPreKilledEvent extends LGEvent implements Cancellable 
 		this.killed = killed;
 		this.reason = reason;
 	}
-	
+
 }

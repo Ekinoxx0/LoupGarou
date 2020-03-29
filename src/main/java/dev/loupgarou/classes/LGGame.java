@@ -33,7 +33,7 @@ import dev.loupgarou.MainLg;
 import dev.loupgarou.classes.LGCustomItems.LGCustomItemsConstraints;
 import dev.loupgarou.classes.chat.LGChat;
 import dev.loupgarou.events.LGCustomItemChangeEvent;
-import dev.loupgarou.events.LGDayEndEvent;
+import dev.loupgarou.events.LGNightStartEvent;
 import dev.loupgarou.events.LGDayStartEvent;
 import dev.loupgarou.events.LGEndCheckEvent;
 import dev.loupgarou.events.LGGameEndEvent;
@@ -41,7 +41,7 @@ import dev.loupgarou.events.LGGameJoinEvent;
 import dev.loupgarou.events.LGMayorVoteEvent;
 import dev.loupgarou.events.LGNightEndEvent;
 import dev.loupgarou.events.LGNightPlayerPreKilledEvent;
-import dev.loupgarou.events.LGNightStart;
+import dev.loupgarou.events.LGPreDayEndEvent;
 import dev.loupgarou.events.LGPlayerGotKilledEvent;
 import dev.loupgarou.events.LGPlayerKilledEvent;
 import dev.loupgarou.events.LGPlayerKilledEvent.Reason;
@@ -189,7 +189,7 @@ public class LGGame implements Listener{
 		if(!deaths.containsValue(player) && !player.isDead()){
 			LGNightPlayerPreKilledEvent event = new LGNightPlayerPreKilledEvent(this, player, reason);
 			Bukkit.getPluginManager().callEvent(event);
-			if(!event.isCancelled())
+			if(event.getReason() != Reason.DONT_DIE)
 				deaths.put(event.getReason(), player);
 		}
 	}
@@ -381,7 +381,7 @@ public class LGGame implements Listener{
 		});
 		
 		//Start day one
-		nextNight(10);
+		nextPreNight(10);
 	}
 	public void updateRoleScoreboard() {
 		if(hideRole) {
@@ -425,16 +425,7 @@ public class LGGame implements Listener{
 		return alive;
 	}
 	
-	public void nextNight() {
-		nextNight(5);
-	}
-	public void nextNight(int timeout) {
-		if(ended)return;
-		LGNightStart event = new LGNightStart(this);
-		Bukkit.getPluginManager().callEvent(event);
-		if(event.isCancelled())
-			return;
-		
+	public void verifyMayorStillAlive() {
 		if(mayorKilled()) {//mort du maire
 			broadcastMessage("§9Le §5§lCapitaine§9 est mort, il désigne un joueur en remplaçant.");
 			getMayor().sendMessage("§6Choisis un joueur qui deviendra §5§lCapitaine§6 à son tour.");
@@ -457,9 +448,22 @@ public class LGGame implements Listener{
 			}, mayor);
 			return;
 		}
+	}
+	
+	public void nextNight() {
+		nextPreNight(5);
+	}
+	public void nextPreNight(int preNightDuration) {
+		if(ended)return;
+		LGPreDayEndEvent event = new LGPreDayEndEvent(this, preNightDuration);
+		Bukkit.getPluginManager().callEvent(event);
+		if(event.isCancelled())
+			return;
+		
+		verifyMayorStillAlive();
 		
 		new BukkitRunnable() {
-			int timeoutLeft = timeout*20;
+			int timeoutLeft = event.getDuration()*20;
 			@Override
 			public void run() {
 				if(--timeoutLeft <= 20+20*2) {
@@ -473,8 +477,8 @@ public class LGGame implements Listener{
 				}
 			}
 		}.runTaskTimer(MainLg.getInstance(), 1, 1);
-		LGGame.this.wait(timeout, this::nextNight_, (player, secondsLeft)->{
-			return "§6La nuit va tomber dans §e"+secondsLeft+" seconde"+(secondsLeft > 1 ? "s" : "");
+		LGGame.this.wait(event.getDuration(), this::nextNight_, (player, secondsLeft)->{
+			return "§6La nuit va tomber dans §e" + secondsLeft + " seconde" + (secondsLeft > 1 ? "s" : "");
 		});
 	}
 	private void nextNight_() {
@@ -493,7 +497,7 @@ public class LGGame implements Listener{
 			player.playAudio(LGSound.AMBIANT_NIGHT, 0.07);
 		}
 		day = false;
-		Bukkit.getPluginManager().callEvent(new LGDayEndEvent(this));
+		Bukkit.getPluginManager().callEvent(new LGNightStartEvent(this));
 		for(LGPlayer player : getInGame())
 			player.hideView();
 
@@ -750,28 +754,9 @@ public class LGGame implements Listener{
 		Bukkit.getPluginManager().callEvent(dayStart);
 		if(dayStart.isCancelled())
 			return;
-		if(mayorKilled()) {//mort du maire
-			broadcastMessage("§9Le §5§lCapitaine§9 est mort, il désigne un joueur en remplaçant.");
-			getMayor().sendMessage("§6Choisis un joueur qui deviendra §5§lCapitaine§6 à son tour.");
-			LGGame.this.wait(30, ()->{
-				mayor.stopChoosing();
-				setMayor(getAlive().get(random.nextInt(getAlive().size())));
-				broadcastMessage("§7§l"+mayor.getName()+"§9 devient le nouveau §5§lCapitaine§9.");
-				startDay();
-			}, (player, secondsLeft)->{
-				return "§e"+mayor.getName()+"§6 choisit qui sera le nouveau §5§lCapitaine§6 (§e"+secondsLeft+" s§6)";
-			});
-			mayor.choose((choosen)->{
-				if(choosen != null) {
-					mayor.stopChoosing();
-					cancelWait();
-					setMayor(choosen);
-					broadcastMessage("§7§l"+mayor.getName()+"§9 devient le nouveau §5§lCapitaine§9.");
-					startDay();
-				}
-			}, mayor);
-			return;
-		}
+
+		verifyMayorStillAlive();
+		
 		new BukkitRunnable() {
 			
 			@Override

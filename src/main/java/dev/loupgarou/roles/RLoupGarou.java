@@ -14,7 +14,7 @@ import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.classes.LGVote;
 import dev.loupgarou.classes.LGWinType;
 import dev.loupgarou.classes.chat.LGChat;
-import dev.loupgarou.events.LGDayEndEvent;
+import dev.loupgarou.events.LGNightStartEvent;
 import dev.loupgarou.events.LGGameEndEvent;
 import dev.loupgarou.events.LGNightEndEvent;
 import dev.loupgarou.events.LGPlayerKilledEvent.Reason;
@@ -181,7 +181,7 @@ public class RLoupGarou extends Role{
 		}
 	}
 	@EventHandler
-	public void onNight(LGDayEndEvent e) {
+	public void onNightStart(LGNightStartEvent e) {
 		if(e.getGame() == getGame()) {
 			showSkins = true;
 			for(LGPlayer player : getPlayers())

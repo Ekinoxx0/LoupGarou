@@ -7,7 +7,7 @@ import org.bukkit.event.EventHandler;
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.classes.LGWinType;
-import dev.loupgarou.events.LGDayEndEvent;
+import dev.loupgarou.events.LGNightStartEvent;
 import dev.loupgarou.events.LGEndCheckEvent;
 import dev.loupgarou.events.LGGameEndEvent;
 import dev.loupgarou.events.LGPlayerGotKilledEvent;
@@ -69,7 +69,7 @@ public class RAnge extends Role{
 	}
 	boolean vote;
 	@EventHandler
-	public void onDayEnd(LGDayEndEvent e) {
+	public void onLGNightStart(LGNightStartEvent e) {
 		if(e.getGame() == getGame()) {
 			if(getPlayers().size() > 0 && getGame().getNight() == night+1 && vote) {
 				Role villageois = null;

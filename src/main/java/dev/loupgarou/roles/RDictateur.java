@@ -21,7 +21,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import dev.loupgarou.MainLg;
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
-import dev.loupgarou.events.LGDayEndEvent;
+import dev.loupgarou.events.LGNightStartEvent;
 import dev.loupgarou.events.LGMayorVoteEvent;
 import dev.loupgarou.events.LGPlayerKilledEvent;
 import dev.loupgarou.events.LGVoteEvent;
@@ -267,7 +267,7 @@ public class RDictateur extends Role{
 	}
 	
 	@EventHandler
-	public void onNight(LGDayEndEvent e) {
+	public void onNightStart(LGNightStartEvent e) {
 		if(e.getGame() == getGame()) {
 			LGPlayer lgp = getGame().getDeaths().get(Reason.DICTATOR_SUICIDE);
 			if(lgp != null)

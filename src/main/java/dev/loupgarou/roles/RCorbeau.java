@@ -7,7 +7,7 @@ import dev.loupgarou.MainLg;
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.classes.LGPlayer.LGChooseCallback;
-import dev.loupgarou.events.LGDayEndEvent;
+import dev.loupgarou.events.LGNightStartEvent;
 import dev.loupgarou.events.LGVoteEvent;
 import dev.loupgarou.roles.utils.Role;
 import dev.loupgarou.roles.utils.RoleType;
@@ -77,7 +77,7 @@ public class RCorbeau extends Role{
 	}
 	
 	@EventHandler
-	public void onNightStart(LGDayEndEvent e) {
+	public void onNightStart(LGNightStartEvent e) {
 		if(e.getGame() == getGame())
 			for(LGPlayer lgp : getGame().getAlive())
 				lgp.getCache().remove("corbeau_selected");

@@ -5,7 +5,7 @@ import org.bukkit.event.EventHandler;
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.classes.chat.LGChat;
-import dev.loupgarou.events.LGDayEndEvent;
+import dev.loupgarou.events.LGNightStartEvent;
 import dev.loupgarou.events.LGPreDayStartEvent;
 import dev.loupgarou.events.LGRoleTurnEndEvent;
 import dev.loupgarou.roles.utils.Role;
@@ -54,7 +54,7 @@ public class RMedium extends Role{
 	}
 	
 	@EventHandler
-	public void onNight(LGDayEndEvent e) {
+	public void onNightStart(LGNightStartEvent e) {
 		if(e.getGame() == getGame())
 			for(LGPlayer lgp : getPlayers()) {
 				lgp.sendMessage("§8§oTu entres en contact avec le monde des morts...");
