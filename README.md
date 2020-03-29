@@ -66,16 +66,17 @@ Cela arrive après avoir `reload` au cours d'une partie, tous les joueurs qui on
 
 - Pourquoi la partie ne se lance pas ?  
 
-Il faut taper la commande `/lg start <PSEUDO>` en mettant le pseudo d'un des joueurs qui sera présent dans la partie. Si cela ne fonctionne toujours pas, c'est parce qu'il n'y a pas suffisamment de rôles pour le nombre de joueurs, il doit y avoir le même nombre de rôles qu'il y aura de joueurs dans la partie. N'oubliez pas de taper `/lg joinAll` après avoir modifié la liste des rôles.
+Il faut taper la commande `/lg start`. N'oubliez pas de taper `/lg joinAll` après avoir modifié la liste des rôles.
 
 - J'ai mal placés mes spawns ou je veux utiliser une nouvelle map, comment faire ?  
 
-Il suffit d'ouvrir le fichier `plugins\LoupGarou\config.yml` et de supprimer les points de spawn.
+Il suffit d'utiliser la command `/lg removespawn` ou `/lg clearspawns`
 
 - Puis-je mettre plusieurs fois le même rôle dans une seule partie ?
 
 Cela est possible pour les rôles `Loup-Garou`, `Villageois` et `Chasseur`.
-D'autres rôles peuvent aussi marcher mais n'ont pas été testés avec plusieurs joueurs ayant ce rôle dans une seule partie. C'est à vos risques et périls.
+D'autres rôles peuvent aussi marcher mais n'ont pas été testés avec plusieurs joueurs ayant ce rôle dans une seule partie.
+Merci de signaler si les rôles ne fonctionne pas avec plus d'un joueur.
 
 ## Indications pour les développeurs
 

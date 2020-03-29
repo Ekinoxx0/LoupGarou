@@ -12,7 +12,7 @@ import dev.loupgarou.commands.SubCommand;
 public class ClearAllSpawnCmd extends SubCommand {
 
 	public ClearAllSpawnCmd(LoupGarouCommand cmd) {
-		super(cmd, Arrays.asList("clearall"));
+		super(cmd, Arrays.asList("clearallspawn", "clearspawns", "clearallspawns"));
 	}
 
 	@Override
