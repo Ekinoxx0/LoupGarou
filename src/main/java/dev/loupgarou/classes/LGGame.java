@@ -41,14 +41,14 @@ import dev.loupgarou.events.LGGameJoinEvent;
 import dev.loupgarou.events.LGMayorVoteEvent;
 import dev.loupgarou.events.LGNightEndEvent;
 import dev.loupgarou.events.LGNightPlayerPreKilledEvent;
-import dev.loupgarou.events.LGPreDayEndEvent;
+import dev.loupgarou.events.LGDayEndEvent;
 import dev.loupgarou.events.LGPlayerGotKilledEvent;
 import dev.loupgarou.events.LGPlayerKilledEvent;
 import dev.loupgarou.events.LGPlayerKilledEvent.Reason;
 import dev.loupgarou.events.LGPreDayStartEvent;
 import dev.loupgarou.events.LGRoleTurnEndEvent;
 import dev.loupgarou.events.LGSkinLoadEvent;
-import dev.loupgarou.events.LGVoteEvent;
+import dev.loupgarou.events.LGPeopleVoteEvent;
 import dev.loupgarou.events.LGVoteLeaderChange;
 import dev.loupgarou.packetwrapper.WrapperPlayServerChat;
 import dev.loupgarou.packetwrapper.WrapperPlayServerExperience;
@@ -455,7 +455,7 @@ public class LGGame implements Listener{
 	}
 	public void nextPreNight(int preNightDuration) {
 		if(ended)return;
-		LGPreDayEndEvent event = new LGPreDayEndEvent(this, preNightDuration);
+		LGDayEndEvent event = new LGDayEndEvent(this, preNightDuration);
 		Bukkit.getPluginManager().callEvent(event);
 		if(event.isCancelled())
 			return;
@@ -842,7 +842,7 @@ public class LGGame implements Listener{
 	}
 	private void peopleVote() {
 		if(ended) return;
-		LGVoteEvent event = new LGVoteEvent(this);
+		LGPeopleVoteEvent event = new LGPeopleVoteEvent(this);
 		Bukkit.getPluginManager().callEvent(event);
 		if(!event.isCancelled()) {
 			broadcastMessage("§9La phase des votes a commencé.");

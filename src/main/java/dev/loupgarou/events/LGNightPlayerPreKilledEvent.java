@@ -8,8 +8,9 @@ import lombok.NonNull;
 import lombok.Setter;
 
 /**
- * Called when we need to verify if the player can be killed.
+ * Called when we need to verify if the player can be killed during the night
  * If Reason is set to DONT_DIE, then the player will not be killed
+ * @see Reason
  */
 public class LGNightPlayerPreKilledEvent extends LGEvent {
 

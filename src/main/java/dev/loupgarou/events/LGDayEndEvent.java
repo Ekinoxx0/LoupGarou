@@ -11,12 +11,12 @@ import lombok.Setter;
  * Called before the night start
  * After this event will we do a transition before the night start of a duration of 'duration'
  */
-public class LGPreDayEndEvent extends LGEvent implements Cancellable {
+public class LGDayEndEvent extends LGEvent implements Cancellable {
 
 	@Getter @Setter boolean cancelled;
 	@Getter @Setter int duration;
 
-	public LGPreDayEndEvent(@NonNull LGGame game, int duration) {
+	public LGDayEndEvent(@NonNull LGGame game, int duration) {
 		super(game);
 		this.duration = duration;
 	}

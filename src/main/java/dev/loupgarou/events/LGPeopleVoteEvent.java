@@ -7,10 +7,16 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 
-public class LGVoteEvent extends LGEvent implements Cancellable {
+/**
+ * Called when a vote start
+ * 
+ * After : {@link LGDayStartEvent}
+ * Before : {@link LGDayEndEvent}
+ */
+public class LGPeopleVoteEvent extends LGEvent implements Cancellable {
 	@Getter @Setter private boolean cancelled;
 	
-	public LGVoteEvent(@NonNull LGGame game) {
+	public LGPeopleVoteEvent(@NonNull LGGame game) {
 		super(game);
 	}
 }

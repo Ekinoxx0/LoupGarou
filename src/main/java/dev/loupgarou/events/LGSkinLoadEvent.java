@@ -8,6 +8,9 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 
+/**
+ * Called to define a special skin to a certain player from a certain player point of view
+ */
 public class LGSkinLoadEvent extends LGEvent {
 
 	@Getter private final LGPlayer player, to;

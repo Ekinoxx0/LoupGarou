@@ -24,7 +24,7 @@ import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.events.LGNightStartEvent;
 import dev.loupgarou.events.LGMayorVoteEvent;
 import dev.loupgarou.events.LGPlayerKilledEvent;
-import dev.loupgarou.events.LGVoteEvent;
+import dev.loupgarou.events.LGPeopleVoteEvent;
 import dev.loupgarou.events.LGPlayerKilledEvent.Reason;
 import dev.loupgarou.packetwrapper.WrapperPlayServerHeldItemSlot;
 import dev.loupgarou.roles.utils.Role;
@@ -185,7 +185,7 @@ public class RDictateur extends Role{
 	}
 
 	@EventHandler
-	public void onVote(LGVoteEvent e) {
+	public void onVote(LGPeopleVoteEvent e) {
 		if(e.getGame() == getGame())
 			onTurn(e);
 	}

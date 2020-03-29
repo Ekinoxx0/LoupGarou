@@ -9,6 +9,10 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Used when a player is killed.
+ * Please use {@link LGNightPlayerPreKilledEvent} if you need to verify this during the night
+ */
 public class LGPlayerKilledEvent extends LGEvent implements Cancellable {
 
 	@Getter @Setter boolean cancelled;

@@ -10,7 +10,7 @@ import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.events.LGDayStartEvent;
 import dev.loupgarou.events.LGGameEndEvent;
-import dev.loupgarou.events.LGPreDayEndEvent;
+import dev.loupgarou.events.LGDayEndEvent;
 import dev.loupgarou.events.LGPlayerKilledEvent;
 import dev.loupgarou.events.LGPlayerKilledEvent.Reason;
 import dev.loupgarou.roles.utils.Role;
@@ -169,7 +169,7 @@ public class RChasseur extends Role{
 	}*/
 	
 	@EventHandler
-	public void onNight(LGPreDayEndEvent e) {
+	public void onNight(LGDayEndEvent e) {
 		if(e.getGame() == getGame() && !e.isCancelled()) {
 			if(needToPlay.size() > 0) {
 				e.setCancelled(true);

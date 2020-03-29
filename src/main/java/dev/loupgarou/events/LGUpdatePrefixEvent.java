@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 
+/**
+ * Called to defined a prefix to a player from a player view
+ */
 public class LGUpdatePrefixEvent extends LGEvent {
 	@Getter @Setter @NonNull private String prefix;
 	@Getter @NonNull private final LGPlayer player, to;

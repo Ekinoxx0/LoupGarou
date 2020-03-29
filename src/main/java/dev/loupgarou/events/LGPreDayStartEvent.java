@@ -7,6 +7,13 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 
+/**
+ * Called before a day start, ambiance is already set.
+ * 
+ * After : {@link LGNightEndEvent}
+ * Before : {@link LGDayStartEvent}
+ * Or Before {@link LGEndCheckEvent}
+ */
 public class LGPreDayStartEvent extends LGEvent implements Cancellable {
 	
 	@Getter @Setter private boolean cancelled;

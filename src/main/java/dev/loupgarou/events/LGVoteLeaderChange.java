@@ -8,6 +8,9 @@ import dev.loupgarou.classes.LGVote;
 import lombok.Getter;
 import lombok.NonNull;
 
+/**
+ * Called when the most voted person from this people vote change
+ */
 public class LGVoteLeaderChange extends LGEvent {
 	
 	@Getter @NonNull List<LGPlayer> latest, now;

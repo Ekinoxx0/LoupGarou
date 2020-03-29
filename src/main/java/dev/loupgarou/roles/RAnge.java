@@ -11,7 +11,7 @@ import dev.loupgarou.events.LGNightStartEvent;
 import dev.loupgarou.events.LGEndCheckEvent;
 import dev.loupgarou.events.LGGameEndEvent;
 import dev.loupgarou.events.LGPlayerGotKilledEvent;
-import dev.loupgarou.events.LGVoteEvent;
+import dev.loupgarou.events.LGPeopleVoteEvent;
 import dev.loupgarou.events.LGPlayerKilledEvent.Reason;
 import dev.loupgarou.roles.utils.Role;
 import dev.loupgarou.roles.utils.RoleType;
@@ -58,7 +58,7 @@ public class RAnge extends Role{
 		return -1;
 	}
 	@EventHandler
-	public void onVoteStart(LGVoteEvent e) {
+	public void onVoteStart(LGPeopleVoteEvent e) {
 		if(e.getGame() == getGame()) {
 			night = getGame().getNight();
 			vote = true;

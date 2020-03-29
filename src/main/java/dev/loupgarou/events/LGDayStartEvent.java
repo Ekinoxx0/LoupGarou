@@ -14,6 +14,9 @@ import lombok.Setter;
  * If mayor is dead, he is not replaced yet.
  * 
  * Cancelling this event can have side effects !
+ * 
+ * After : {@link LGPreDayStartEvent}
+ * Before : {@link LGPeopleVoteEvent}
  */
 public class LGDayStartEvent extends LGEvent implements Cancellable {
 	

@@ -6,6 +6,10 @@ import dev.loupgarou.events.LGPlayerKilledEvent.Reason;
 import lombok.Getter;
 import lombok.NonNull;
 
+/**
+ * Called when is player is killed
+ * Use this event if the death of a role has repercution on the game
+ */
 public class LGPlayerGotKilledEvent extends LGEvent {
 	
 	@Getter private final boolean endGame;
