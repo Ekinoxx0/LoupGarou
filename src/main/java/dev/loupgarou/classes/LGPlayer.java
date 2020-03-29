@@ -65,7 +65,7 @@ public class LGPlayer {
 	
 	@Getter @Setter private int place;
 	@Getter private Player player;
-	@Getter @Setter private boolean dead;
+	@Getter private boolean dead;
 	@Setter @Getter private Role role;
 	private LGChooseCallback chooseCallback;
 	private List<LGPlayer> blacklistedChoice = new ArrayList<>(0);
@@ -78,6 +78,11 @@ public class LGPlayer {
 	}
 	public LGPlayer(String name) {
 		this.name = name;
+	}
+	
+	public void setDead(boolean dead) {
+		this.dead = dead;
+		MainLg.getInstance().getDiscord().setMuted(this.getName(), dead);
 	}
 	
 	public void setScoreboard(CustomScoreboard scoreboard) {
@@ -190,7 +195,6 @@ public class LGPlayer {
 		getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 20, 2, false, false));
 	}
 	
-	//TODO Update prefix for only one guy
 	public void updatePrefix() {
 		if(getGame() != null && !isDead() && player != null) {
 			List<String> meList = Arrays.asList(getName());
