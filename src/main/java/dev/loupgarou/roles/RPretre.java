@@ -29,6 +29,9 @@ import dev.loupgarou.classes.LGPlayer.LGChooseCallback;
 import dev.loupgarou.events.LGPreDayStartEvent;
 import dev.loupgarou.packetwrapper.WrapperPlayServerEntityMetadata;
 import dev.loupgarou.packetwrapper.WrapperPlayServerHeldItemSlot;
+import dev.loupgarou.roles.utils.Role;
+import dev.loupgarou.roles.utils.RoleType;
+import dev.loupgarou.roles.utils.RoleWinType;
 import dev.loupgarou.utils.VariousUtils;
 
 import com.comphenix.protocol.wrappers.WrappedWatchableObject;

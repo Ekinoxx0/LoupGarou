@@ -17,6 +17,9 @@ import dev.loupgarou.classes.LGPlayer.LGChooseCallback;
 import dev.loupgarou.events.LGEndCheckEvent;
 import dev.loupgarou.events.LGGameEndEvent;
 import dev.loupgarou.events.LGPlayerKilledEvent.Reason;
+import dev.loupgarou.roles.utils.Role;
+import dev.loupgarou.roles.utils.RoleType;
+import dev.loupgarou.roles.utils.RoleWinType;
 
 public class RLoupGarouBlanc extends Role{
 	private static ItemStack skip;

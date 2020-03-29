@@ -24,6 +24,9 @@ import dev.loupgarou.classes.LGCustomItems.LGCustomItemsConstraints;
 import dev.loupgarou.events.LGCustomItemChangeEvent;
 import dev.loupgarou.events.LGNightEndEvent;
 import dev.loupgarou.events.LGPlayerKilledEvent.Reason;
+import dev.loupgarou.roles.utils.Role;
+import dev.loupgarou.roles.utils.RoleType;
+import dev.loupgarou.roles.utils.RoleWinType;
 
 public class RLoupGarouNoir extends Role{
 	static ItemStack[] items = new ItemStack[9];

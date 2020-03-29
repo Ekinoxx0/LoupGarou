@@ -27,6 +27,9 @@ import dev.loupgarou.events.LGPlayerKilledEvent;
 import dev.loupgarou.events.LGVoteEvent;
 import dev.loupgarou.events.LGPlayerKilledEvent.Reason;
 import dev.loupgarou.packetwrapper.WrapperPlayServerHeldItemSlot;
+import dev.loupgarou.roles.utils.Role;
+import dev.loupgarou.roles.utils.RoleType;
+import dev.loupgarou.roles.utils.RoleWinType;
 
 public class RDictateur extends Role{
 	static private ItemStack[] items = new ItemStack[9];

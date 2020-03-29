@@ -8,6 +8,9 @@ import dev.loupgarou.MainLg;
 import dev.loupgarou.classes.LGCustomItems;
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
+import dev.loupgarou.roles.utils.Role;
+import dev.loupgarou.roles.utils.RoleType;
+import dev.loupgarou.roles.utils.RoleWinType;
 
 public class REnfantSauvageLG extends Role{
 	public REnfantSauvageLG(LGGame game) {

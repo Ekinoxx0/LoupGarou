@@ -1,6 +1,6 @@
 package dev.loupgarou.classes;
 
-import dev.loupgarou.roles.Role;
+import dev.loupgarou.roles.utils.Role;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

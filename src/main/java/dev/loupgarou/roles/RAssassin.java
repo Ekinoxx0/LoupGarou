@@ -15,6 +15,9 @@ import dev.loupgarou.events.LGNightPlayerPreKilledEvent;
 import dev.loupgarou.events.LGPyromaneGasoilEvent;
 import dev.loupgarou.events.LGRoleTurnEndEvent;
 import dev.loupgarou.events.LGPlayerKilledEvent.Reason;
+import dev.loupgarou.roles.utils.Role;
+import dev.loupgarou.roles.utils.RoleType;
+import dev.loupgarou.roles.utils.RoleWinType;
 
 public class RAssassin extends Role{
 	public RAssassin(LGGame game) {

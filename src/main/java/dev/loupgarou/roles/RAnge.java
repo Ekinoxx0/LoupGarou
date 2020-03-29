@@ -13,6 +13,9 @@ import dev.loupgarou.events.LGGameEndEvent;
 import dev.loupgarou.events.LGPlayerGotKilledEvent;
 import dev.loupgarou.events.LGVoteEvent;
 import dev.loupgarou.events.LGPlayerKilledEvent.Reason;
+import dev.loupgarou.roles.utils.Role;
+import dev.loupgarou.roles.utils.RoleType;
+import dev.loupgarou.roles.utils.RoleWinType;
 
 public class RAnge extends Role{
 	public RAnge(LGGame game) {

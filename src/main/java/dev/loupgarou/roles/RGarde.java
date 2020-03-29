@@ -11,6 +11,9 @@ import dev.loupgarou.classes.LGPlayer.LGChooseCallback;
 import dev.loupgarou.events.LGNightPlayerPreKilledEvent;
 import dev.loupgarou.events.LGPreDayStartEvent;
 import dev.loupgarou.events.LGPlayerKilledEvent.Reason;
+import dev.loupgarou.roles.utils.Role;
+import dev.loupgarou.roles.utils.RoleType;
+import dev.loupgarou.roles.utils.RoleWinType;
 
 public class RGarde extends Role{
 	public RGarde(LGGame game) {

@@ -13,6 +13,9 @@ import dev.loupgarou.events.LGGameEndEvent;
 import dev.loupgarou.events.LGNightStart;
 import dev.loupgarou.events.LGPlayerKilledEvent;
 import dev.loupgarou.events.LGPlayerKilledEvent.Reason;
+import dev.loupgarou.roles.utils.Role;
+import dev.loupgarou.roles.utils.RoleType;
+import dev.loupgarou.roles.utils.RoleWinType;
 
 public class RChasseur extends Role{
 	public RChasseur(LGGame game) {

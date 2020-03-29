@@ -1,4 +1,4 @@
-package dev.loupgarou.roles;
+package dev.loupgarou.roles.utils;
 
 import java.util.ArrayList;
 

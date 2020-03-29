@@ -9,6 +9,9 @@ import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.classes.LGPlayer.LGChooseCallback;
 import dev.loupgarou.events.LGPlayerKilledEvent;
+import dev.loupgarou.roles.utils.Role;
+import dev.loupgarou.roles.utils.RoleType;
+import dev.loupgarou.roles.utils.RoleWinType;
 
 public class REnfantSauvage extends Role{
 	public REnfantSauvage(LGGame game) {

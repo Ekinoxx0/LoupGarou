@@ -21,6 +21,9 @@ import dev.loupgarou.events.LGSkinLoadEvent;
 import dev.loupgarou.events.LGUpdatePrefixEvent;
 import dev.loupgarou.events.LGPlayerKilledEvent.Reason;
 import dev.loupgarou.packetwrapper.WrapperPlayServerScoreboardTeam;
+import dev.loupgarou.roles.utils.Role;
+import dev.loupgarou.roles.utils.RoleType;
+import dev.loupgarou.roles.utils.RoleWinType;
 import lombok.Getter;
 
 public class RLoupGarou extends Role{

@@ -33,6 +33,9 @@ import dev.loupgarou.packetwrapper.WrapperPlayServerEntityEquipment;
 import dev.loupgarou.packetwrapper.WrapperPlayServerEntityLook;
 import dev.loupgarou.packetwrapper.WrapperPlayServerEntityMetadata;
 import dev.loupgarou.packetwrapper.WrapperPlayServerSpawnEntityLiving;
+import dev.loupgarou.roles.utils.Role;
+import dev.loupgarou.roles.utils.RoleType;
+import dev.loupgarou.roles.utils.RoleWinType;
 
 import com.comphenix.protocol.wrappers.WrappedWatchableObject;
 

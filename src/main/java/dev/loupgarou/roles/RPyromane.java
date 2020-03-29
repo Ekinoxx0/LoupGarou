@@ -29,6 +29,9 @@ import dev.loupgarou.events.LGPlayerKilledEvent;
 import dev.loupgarou.events.LGPyromaneGasoilEvent;
 import dev.loupgarou.events.LGPlayerKilledEvent.Reason;
 import dev.loupgarou.packetwrapper.WrapperPlayServerHeldItemSlot;
+import dev.loupgarou.roles.utils.Role;
+import dev.loupgarou.roles.utils.RoleType;
+import dev.loupgarou.roles.utils.RoleWinType;
 
 public class RPyromane extends Role{
 	static ItemStack[] items = new ItemStack[9];

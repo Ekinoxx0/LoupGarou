@@ -1,7 +1,7 @@
 package dev.loupgarou.events;
 
 import dev.loupgarou.classes.LGGame;
-import dev.loupgarou.roles.Role;
+import dev.loupgarou.roles.utils.Role;
 import lombok.Getter;
 
 public class LGRoleTurnEndEvent extends LGEvent{

@@ -1,6 +1,9 @@
 package dev.loupgarou.roles;
 
 import dev.loupgarou.classes.LGGame;
+import dev.loupgarou.roles.utils.Role;
+import dev.loupgarou.roles.utils.RoleType;
+import dev.loupgarou.roles.utils.RoleWinType;
 
 public class RVillageois extends Role{
 	public RVillageois(LGGame game) {

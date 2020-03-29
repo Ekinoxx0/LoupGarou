@@ -13,7 +13,7 @@ import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
 import dev.loupgarou.classes.LGGame;
-import dev.loupgarou.roles.Role;
+import dev.loupgarou.roles.utils.Role;
 import dev.loupgarou.utils.InteractInventory;
 import dev.loupgarou.utils.InteractInventory.InventoryCall;
 import dev.loupgarou.utils.ItemBuilder;

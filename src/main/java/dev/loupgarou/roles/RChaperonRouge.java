@@ -10,6 +10,9 @@ import dev.loupgarou.events.LGNightEndEvent;
 import dev.loupgarou.events.LGNightPlayerPreKilledEvent;
 import dev.loupgarou.events.LGRoleTurnEndEvent;
 import dev.loupgarou.events.LGPlayerKilledEvent.Reason;
+import dev.loupgarou.roles.utils.Role;
+import dev.loupgarou.roles.utils.RoleType;
+import dev.loupgarou.roles.utils.RoleWinType;
 
 public class RChaperonRouge extends Role{
 	public RChaperonRouge(LGGame game) {

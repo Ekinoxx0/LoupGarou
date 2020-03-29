@@ -48,7 +48,7 @@ import dev.loupgarou.roles.RSorciere;
 import dev.loupgarou.roles.RSurvivant;
 import dev.loupgarou.roles.RVillageois;
 import dev.loupgarou.roles.RVoyante;
-import dev.loupgarou.roles.Role;
+import dev.loupgarou.roles.utils.Role;
 import dev.loupgarou.utils.Updater;
 import lombok.Getter;
 import lombok.Setter;

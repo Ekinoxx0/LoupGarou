@@ -8,6 +8,9 @@ import dev.loupgarou.classes.chat.LGChat;
 import dev.loupgarou.events.LGDayEndEvent;
 import dev.loupgarou.events.LGPreDayStartEvent;
 import dev.loupgarou.events.LGRoleTurnEndEvent;
+import dev.loupgarou.roles.utils.Role;
+import dev.loupgarou.roles.utils.RoleType;
+import dev.loupgarou.roles.utils.RoleWinType;
 
 public class RMedium extends Role{
 	public RMedium(LGGame game) {
