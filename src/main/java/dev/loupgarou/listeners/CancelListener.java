@@ -35,7 +35,7 @@ public class CancelListener implements Listener{
 	}
 	
 	@EventHandler
-	public void onPluie(WeatherChangeEvent e) {
+	public void onWeatherChange(WeatherChangeEvent e) {
 		e.setCancelled(true);
 	}
 	
