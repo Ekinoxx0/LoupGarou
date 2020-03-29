@@ -50,7 +50,7 @@ public class JoinListener implements Listener{
 			}
 		p.setFoodLevel(20);
 		if(e.getJoinMessage() == null || !e.getJoinMessage().equals("joinall"))
-			p.getPlayer().setResourcePack("http://leomelki.fr/mcgames/ressourcepacks/v29/loup_garou.zip");
+			p.getPlayer().setResourcePack("https://github.com/Ekinoxx0/LoupGarouRessourcePack/raw/master/loup_garou.zip");
 		else {
 			LGPlayer lgp = LGPlayer.thePlayer(e.getPlayer());
 			lgp.setDead(false);
