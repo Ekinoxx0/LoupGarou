@@ -15,6 +15,7 @@ import dev.loupgarou.roles.utils.RoleType;
 import dev.loupgarou.roles.utils.RoleWinType;
 import dev.loupgarou.utils.InteractInventory;
 import dev.loupgarou.utils.InteractInventory.InventoryCall;
+import dev.loupgarou.utils.InteractInventory.InventoryClose;
 import dev.loupgarou.utils.ItemBuilder;
 
 public class RChienLoup extends Role{
@@ -75,10 +76,9 @@ public class RChienLoup extends Role{
 		return super.hasPlayersLeft() && !hasChoosen;
 	}
 	
-	private Runnable callback;
 	private boolean hasChoosen;
 	
-	public void openInventory(LGPlayer lgp) {
+	public void openInventory(LGPlayer lgp, Runnable callback) {
 		InteractInventory ii = new InteractInventory(Bukkit.createInventory(null, 9, "§7Choisis ton camp."));
 
 		ii.registerItem(
@@ -94,6 +94,7 @@ public class RChienLoup extends Role{
 			
 			@Override
 			public void click(HumanEntity human, ItemStack item, ClickType clickType) {
+				hasChoosen = true;
 				human.closeInventory();
 				lgp.sendActionBarMessage("§6Tu resteras fidèle au §a§lVillage§6.");
 				lgp.sendMessage("§6Tu resteras fidèle au §a§lVillage§6.");
@@ -115,6 +116,7 @@ public class RChienLoup extends Role{
 			@Override
 			public void click(HumanEntity human, ItemStack item, ClickType clickType) {
 				human.closeInventory();
+				hasChoosen = true;
 
 				lgp.sendActionBarMessage("§6Tu as changé de camp.");
 				lgp.sendMessage("§6Tu as changé de camp.");
@@ -136,22 +138,30 @@ public class RChienLoup extends Role{
 			}
 		});
 		
+		ii.setCloseAction(new InventoryClose() {
+			
+			@Override
+			public boolean close(HumanEntity human) {
+				if(!hasChoosen)
+					ii.openTo(lgp.getPlayer());
+				return true;
+			}
+		});
+		
 		ii.openTo(lgp.getPlayer());
 	}
 	
 	@Override
 	protected void onNightTurn(LGPlayer player, Runnable callback) {
-		hasChoosen = true;
 		player.showView();
-		this.callback = callback;
-		openInventory(player);
+		openInventory(player, callback);
 	}
 	
 	@Override
 	protected void onNightTurnTimeout(LGPlayer player) {
+		hasChoosen = true;
 		player.getPlayer().closeInventory();
 		player.hideView();
-		//player.sendTitle("§cVous n'infectez personne", "§4Vous avez mis trop de temps à vous décider...", 80);
 		player.sendActionBarMessage("§6Tu rejoins le §a§lVillage.");
 		player.sendMessage("§6Tu rejoins le §a§lVillage.");
 	}
