@@ -1,4 +1,4 @@
-package dev.loupgarou.events;
+package dev.loupgarou.events.game;
 
 import java.util.List;
 
@@ -7,6 +7,7 @@ import org.bukkit.event.Cancellable;
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.classes.LGWinType;
+import dev.loupgarou.events.LGEvent;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;

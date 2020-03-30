@@ -1,8 +1,10 @@
-package dev.loupgarou.events;
+package dev.loupgarou.events.daycycle;
 
 import org.bukkit.event.Cancellable;
 
 import dev.loupgarou.classes.LGGame;
+import dev.loupgarou.events.LGEvent;
+import dev.loupgarou.events.vote.LGPeopleVoteStartEvent;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
@@ -16,7 +18,7 @@ import lombok.Setter;
  * Cancelling this event can have side effects !
  * 
  * After : {@link LGPreDayStartEvent}
- * Before : {@link LGPeopleVoteEvent}
+ * Before : {@link LGPeopleVoteStartEvent}
  */
 public class LGDayStartEvent extends LGEvent implements Cancellable {
 	

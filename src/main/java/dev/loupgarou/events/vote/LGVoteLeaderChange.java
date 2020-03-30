@@ -1,10 +1,11 @@
-package dev.loupgarou.events;
+package dev.loupgarou.events.vote;
 
 import java.util.List;
 
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.classes.LGVote;
+import dev.loupgarou.events.LGEvent;
 import lombok.Getter;
 import lombok.NonNull;
 

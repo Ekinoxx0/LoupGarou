@@ -7,7 +7,7 @@ import org.bukkit.event.EventHandler;
 
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
-import dev.loupgarou.events.LGRoleTurnEndEvent;
+import dev.loupgarou.events.roles.LGRoleTurnEndEvent;
 import dev.loupgarou.roles.utils.Role;
 import dev.loupgarou.roles.utils.RoleType;
 import dev.loupgarou.roles.utils.RoleWinType;

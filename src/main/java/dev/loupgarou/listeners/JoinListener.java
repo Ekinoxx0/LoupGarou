@@ -17,7 +17,7 @@ import com.comphenix.protocol.wrappers.WrappedChatComponent;
 
 import dev.loupgarou.MainLg;
 import dev.loupgarou.classes.LGPlayer;
-import dev.loupgarou.events.LGPlayerKilledEvent.Reason;
+import dev.loupgarou.events.game.LGPlayerKilledEvent.Reason;
 import dev.loupgarou.packetwrapper.WrapperPlayServerScoreboardTeam;
 
 public class JoinListener implements Listener{

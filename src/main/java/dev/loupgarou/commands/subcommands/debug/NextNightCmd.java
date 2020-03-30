@@ -22,7 +22,7 @@ public class NextNightCmd extends SubCommand {
 			for(LGPlayer lgp : getMain().getCurrentGame().getInGame())
 				lgp.stopChoosing();
 			getMain().getCurrentGame().cancelWait();
-			getMain().getCurrentGame().nextNight();
+			getMain().getCurrentGame().nextPreNight();
 		}
 	}
 	

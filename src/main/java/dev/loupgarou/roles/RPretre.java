@@ -26,7 +26,7 @@ import dev.loupgarou.classes.LGCustomItems;
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.classes.LGPlayer.LGChooseCallback;
-import dev.loupgarou.events.LGPreDayStartEvent;
+import dev.loupgarou.events.daycycle.LGPreDayStartEvent;
 import dev.loupgarou.packetwrapper.WrapperPlayServerEntityMetadata;
 import dev.loupgarou.packetwrapper.WrapperPlayServerHeldItemSlot;
 import dev.loupgarou.roles.utils.Role;

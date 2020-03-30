@@ -8,11 +8,11 @@ import org.bukkit.event.EventHandler;
 import dev.loupgarou.MainLg;
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
-import dev.loupgarou.events.LGDayStartEvent;
-import dev.loupgarou.events.LGGameEndEvent;
-import dev.loupgarou.events.LGDayEndEvent;
-import dev.loupgarou.events.LGPlayerKilledEvent;
-import dev.loupgarou.events.LGPlayerKilledEvent.Reason;
+import dev.loupgarou.events.daycycle.LGDayEndEvent;
+import dev.loupgarou.events.daycycle.LGDayStartEvent;
+import dev.loupgarou.events.game.LGGameEndEvent;
+import dev.loupgarou.events.game.LGPlayerKilledEvent;
+import dev.loupgarou.events.game.LGPlayerKilledEvent.Reason;
 import dev.loupgarou.roles.utils.Role;
 import dev.loupgarou.roles.utils.RoleType;
 import dev.loupgarou.roles.utils.RoleWinType;
@@ -180,7 +180,7 @@ public class RChasseur extends Role{
 				new Runnable() {
 					public void run() {
 						if(needToPlay.size() == 0) {
-							e.getGame().nextNight();
+							e.getGame().nextPreNight();
 							return;
 						}
 						LGPlayer player = needToPlay.remove(0);

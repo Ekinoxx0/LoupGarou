@@ -30,26 +30,23 @@ import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
 
 import dev.loupgarou.MainLg;
-import dev.loupgarou.classes.LGCustomItems.LGCustomItemsConstraints;
 import dev.loupgarou.classes.chat.LGChat;
-import dev.loupgarou.events.LGCustomItemChangeEvent;
-import dev.loupgarou.events.LGNightStartEvent;
-import dev.loupgarou.events.LGDayStartEvent;
-import dev.loupgarou.events.LGEndCheckEvent;
-import dev.loupgarou.events.LGGameEndEvent;
-import dev.loupgarou.events.LGGameJoinEvent;
-import dev.loupgarou.events.LGMayorVoteEvent;
-import dev.loupgarou.events.LGNightEndEvent;
-import dev.loupgarou.events.LGNightPlayerPreKilledEvent;
-import dev.loupgarou.events.LGDayEndEvent;
-import dev.loupgarou.events.LGPlayerGotKilledEvent;
-import dev.loupgarou.events.LGPlayerKilledEvent;
-import dev.loupgarou.events.LGPlayerKilledEvent.Reason;
-import dev.loupgarou.events.LGPreDayStartEvent;
-import dev.loupgarou.events.LGRoleTurnEndEvent;
-import dev.loupgarou.events.LGSkinLoadEvent;
-import dev.loupgarou.events.LGPeopleVoteEvent;
-import dev.loupgarou.events.LGVoteLeaderChange;
+import dev.loupgarou.events.daycycle.LGDayEndEvent;
+import dev.loupgarou.events.daycycle.LGDayStartEvent;
+import dev.loupgarou.events.daycycle.LGNightEndEvent;
+import dev.loupgarou.events.daycycle.LGNightPlayerPreKilledEvent;
+import dev.loupgarou.events.daycycle.LGNightStartEvent;
+import dev.loupgarou.events.daycycle.LGPreDayStartEvent;
+import dev.loupgarou.events.game.LGEndCheckEvent;
+import dev.loupgarou.events.game.LGGameEndEvent;
+import dev.loupgarou.events.game.LGGameJoinEvent;
+import dev.loupgarou.events.game.LGPlayerGotKilledEvent;
+import dev.loupgarou.events.game.LGPlayerKilledEvent;
+import dev.loupgarou.events.game.LGPlayerKilledEvent.Reason;
+import dev.loupgarou.events.roles.LGRoleTurnEndEvent;
+import dev.loupgarou.events.vote.LGMayorVoteStartEvent;
+import dev.loupgarou.events.vote.LGPeopleVoteStartEvent;
+import dev.loupgarou.events.vote.LGVoteLeaderChange;
 import dev.loupgarou.packetwrapper.WrapperPlayServerChat;
 import dev.loupgarou.packetwrapper.WrapperPlayServerExperience;
 import dev.loupgarou.packetwrapper.WrapperPlayServerPlayerInfo;
@@ -72,8 +69,8 @@ import lombok.Setter;
 public class LGGame implements Listener{
 	@Getter private final SecureRandom random = new SecureRandom();
 	@Getter private final int maxPlayers;
-	@Getter private ArrayList<LGPlayer> inGame = new ArrayList<LGPlayer>();
-	@Getter private ArrayList<Role> roles = new ArrayList<Role>();
+	@Getter private List<LGPlayer> inGame = new ArrayList<LGPlayer>();
+	@Getter private List<Role> roles = new ArrayList<Role>();
 	
 	@Getter private boolean started;
 	@Getter private int night = 0;
@@ -354,7 +351,7 @@ public class LGGame implements Listener{
 	private void _start() {
 		broadcastMessage("§8§oDébut de la partie...");
 		//Give roles...
-		ArrayList<LGPlayer> toGive = (ArrayList<LGPlayer>) inGame.clone();
+		List<LGPlayer> toGive = new ArrayList<LGPlayer>(inGame);
 		started = false;
 		for(Role role : getRoles())
 			while(role.getWaitedPlayers() > 0) {
@@ -425,7 +422,7 @@ public class LGGame implements Listener{
 		return alive;
 	}
 	
-	public void verifyMayorStillAlive() {
+	private void verifyMayorStillAlive() {
 		if(mayorKilled()) {//mort du maire
 			broadcastMessage("§9Le §5§lCapitaine§9 est mort, il désigne un joueur en remplaçant.");
 			getMayor().sendMessage("§6Choisis un joueur qui deviendra §5§lCapitaine§6 à son tour.");
@@ -433,7 +430,7 @@ public class LGGame implements Listener{
 				mayor.stopChoosing();
 				setMayor(getAlive().get(random.nextInt(getAlive().size())));
 				broadcastMessage("§7§l"+mayor.getName()+"§9 devient le nouveau §5§lCapitaine§9.");
-				nextNight();
+				nextPreNight();
 			}, (player, secondsLeft)->{
 				return "§e"+mayor.getName()+"§6 choisit qui sera le nouveau §5§lCapitaine§6 (§e"+secondsLeft+" s§6)";
 			});
@@ -443,14 +440,14 @@ public class LGGame implements Listener{
 					cancelWait();
 					setMayor(choosen);
 					broadcastMessage("§7§l"+mayor.getName()+"§9 devient le nouveau §5§lCapitaine§9.");
-					nextNight();
+					nextPreNight();
 				}
 			}, mayor);
 			return;
 		}
 	}
 	
-	public void nextNight() {
+	public void nextPreNight() {
 		nextPreNight(5);
 	}
 	public void nextPreNight(int preNightDuration) {
@@ -477,11 +474,11 @@ public class LGGame implements Listener{
 				}
 			}
 		}.runTaskTimer(MainLg.getInstance(), 1, 1);
-		LGGame.this.wait(event.getDuration(), this::nextNight_, (player, secondsLeft)->{
+		LGGame.this.wait(event.getDuration(), this::nextNight, (player, secondsLeft)->{
 			return "§6La nuit va tomber dans §e" + secondsLeft + " seconde" + (secondsLeft > 1 ? "s" : "");
 		});
 	}
-	private void nextNight_() {
+	private void nextNight() {
 		if(ended)return;
 		night++;
 		broadcastSpacer();
@@ -501,7 +498,7 @@ public class LGGame implements Listener{
 		for(LGPlayer player : getInGame())
 			player.hideView();
 
-		ArrayList<Role> roles = (ArrayList<Role>) getRoles().clone();
+		List<Role> roles = new ArrayList<>(getRoles());
 		new Runnable() {
 			Role lastRole;
 			
@@ -602,10 +599,9 @@ public class LGGame implements Listener{
 					e.getWinners().add(lgp);
 	}
 	
-	@Setter
-	boolean ended;
+	private boolean ended;
 	public void endGame(LGWinType winType) {
-		if(ended)return;
+		if(ended) return;
 		
 		ArrayList<LGPlayer> winners = new ArrayList<LGPlayer>();
 		LGGameEndEvent event = new LGGameEndEvent(this, winType, winners);
@@ -786,45 +782,25 @@ public class LGGame implements Listener{
 		}
 	}
 	
-	@EventHandler
-	public void onCustomItemChange(LGCustomItemChangeEvent e) {
-		if(e.getGame() == this) {
-			if(getMayor() == e.getPlayer())
-				e.getConstraints().add(LGCustomItemsConstraints.MAYOR);
-			if(e.getPlayer().isDead())
-				e.getConstraints().add(LGCustomItemsConstraints.DEAD);
-		}
-	}
-	@EventHandler(priority = EventPriority.LOWEST)
-	public void onSkinChange(LGSkinLoadEvent e) {
-		if(e.getGame() == this) {
-			e.getProfile().getProperties().removeAll("textures");
-			if(getMayor() == e.getPlayer())
-				e.getProfile().getProperties().put("textures", LGCustomSkin.MAYOR.getProperty());
-			else
-				e.getProfile().getProperties().put("textures", LGCustomSkin.VILLAGER.getProperty());
-		}
-	}
-	
 	private void mayorVote() {
-		if(ended)return;
-		LGMayorVoteEvent event = new LGMayorVoteEvent(this);
+		if(ended) return;
+		LGMayorVoteStartEvent event = new LGMayorVoteStartEvent(this);
 		Bukkit.getPluginManager().callEvent(event);
-		if(!event.isCancelled()) {
-			broadcastMessage("§9Il est temps de voter pour élire un §5§lCapitaine§9.");
-			vote = new LGVote(180, 20, this, true, true, (player, secondsLeft)-> {
-				return player.getCache().has("vote") ? "§6Tu votes pour §7§l"+player.getCache().<LGPlayer>get("vote").getName() : "§6Il te reste §e"+secondsLeft+" seconde"+(secondsLeft > 1 ? "s" : "")+"§6 pour voter";
-			});
-			vote.start(getAlive(), getInGame(), ()->{
-				if(vote.getChoosen() == null)
-					setMayor(getAlive().get(random.nextInt(getAlive().size())));
-				else
-					setMayor(vote.getChoosen());
-
-				broadcastMessage("§7§l"+mayor.getName()+"§6 devient le §5§lCapitaine §6du village.");
-				peopleVote();
-			});
-		}
+		if(event.isCancelled()) return;
+		
+		broadcastMessage("§9Il est temps de voter pour élire un §5§lCapitaine§9.");
+		vote = new LGVote(180, 20, this, true, true, (player, secondsLeft)-> {
+			return player.getCache().has("vote") ? "§6Tu votes pour §7§l"+player.getCache().<LGPlayer>get("vote").getName() : "§6Il te reste §e"+secondsLeft+" seconde"+(secondsLeft > 1 ? "s" : "")+"§6 pour voter";
+		});
+		vote.start(getAlive(), getInGame(), ()->{
+			if(vote.getChoosen() == null)
+				setMayor(getAlive().get(random.nextInt(getAlive().size())));
+			else
+				setMayor(vote.getChoosen());
+			
+			broadcastMessage("§7§l"+mayor.getName()+"§6 devient le §5§lCapitaine §6du village.");
+			peopleVote();
+		});
 	}
 	@Getter private LGVote vote;
 	boolean isPeopleVote = false;
@@ -842,7 +818,7 @@ public class LGGame implements Listener{
 	}
 	private void peopleVote() {
 		if(ended) return;
-		LGPeopleVoteEvent event = new LGPeopleVoteEvent(this);
+		LGPeopleVoteStartEvent event = new LGPeopleVoteStartEvent(this);
 		Bukkit.getPluginManager().callEvent(event);
 		if(event.isCancelled()) return;
 			
@@ -864,7 +840,7 @@ public class LGGame implements Listener{
 				if(kill(killEvent.getKilled(), killEvent.getReason(), true))
 					return;
 			}
-			nextNight();
+			nextPreNight();
 		}, mayor);
 	}
 

@@ -21,20 +21,18 @@ import org.bukkit.scheduler.BukkitRunnable;
 import com.comphenix.protocol.wrappers.EnumWrappers.ItemSlot;
 import com.comphenix.protocol.wrappers.WrappedDataWatcher;
 import com.comphenix.protocol.wrappers.WrappedDataWatcher.WrappedDataWatcherObject;
+import com.comphenix.protocol.wrappers.WrappedWatchableObject;
 
 import dev.loupgarou.MainLg;
 import dev.loupgarou.classes.LGGame.TextGenerator;
 import dev.loupgarou.classes.LGPlayer.LGChooseCallback;
-import dev.loupgarou.events.LGVoteLeaderChange;
+import dev.loupgarou.events.vote.LGVoteLeaderChange;
 import dev.loupgarou.packetwrapper.WrapperPlayServerEntityDestroy;
 import dev.loupgarou.packetwrapper.WrapperPlayServerEntityEquipment;
 import dev.loupgarou.packetwrapper.WrapperPlayServerEntityLook;
 import dev.loupgarou.packetwrapper.WrapperPlayServerEntityMetadata;
 import dev.loupgarou.packetwrapper.WrapperPlayServerSpawnEntityLiving;
 import dev.loupgarou.utils.VariousUtils;
-
-import com.comphenix.protocol.wrappers.WrappedWatchableObject;
-
 import lombok.Getter;
 import net.minecraft.server.v1_15_R1.DataWatcher;
 import net.minecraft.server.v1_15_R1.DataWatcherObject;

@@ -21,11 +21,11 @@ import org.bukkit.scheduler.BukkitRunnable;
 import dev.loupgarou.MainLg;
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
-import dev.loupgarou.events.LGNightStartEvent;
-import dev.loupgarou.events.LGMayorVoteEvent;
-import dev.loupgarou.events.LGPlayerKilledEvent;
-import dev.loupgarou.events.LGPeopleVoteEvent;
-import dev.loupgarou.events.LGPlayerKilledEvent.Reason;
+import dev.loupgarou.events.daycycle.LGNightStartEvent;
+import dev.loupgarou.events.game.LGPlayerKilledEvent;
+import dev.loupgarou.events.game.LGPlayerKilledEvent.Reason;
+import dev.loupgarou.events.vote.LGMayorVoteStartEvent;
+import dev.loupgarou.events.vote.LGPeopleVoteStartEvent;
 import dev.loupgarou.packetwrapper.WrapperPlayServerHeldItemSlot;
 import dev.loupgarou.roles.utils.Role;
 import dev.loupgarou.roles.utils.RoleType;
@@ -183,13 +183,13 @@ public class RDictateur extends Role{
 	}
 	
 	@EventHandler
-	public void onMayorVote(LGMayorVoteEvent e) {
+	public void onMayorVote(LGMayorVoteStartEvent e) {
 		if(e.getGame() == getGame())
 			onTurn(e);
 	}
 
 	@EventHandler
-	public void onVote(LGPeopleVoteEvent e) {
+	public void onVote(LGPeopleVoteStartEvent e) {
 		if(e.getGame() == getGame())
 			onTurn(e);
 	}
@@ -242,7 +242,7 @@ public class RDictateur extends Role{
 						lgp.getPlayer().updateInventory();
 					}
 				}else
-					getGame().nextNight();
+					getGame().nextPreNight();
 			}
 		}.run();
 	}

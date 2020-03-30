@@ -1,8 +1,10 @@
-package dev.loupgarou.events;
+package dev.loupgarou.events.daycycle;
 
 import org.bukkit.event.Cancellable;
 
 import dev.loupgarou.classes.LGGame;
+import dev.loupgarou.events.LGEvent;
+import dev.loupgarou.events.game.LGEndCheckEvent;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;

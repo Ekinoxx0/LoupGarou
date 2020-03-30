@@ -19,7 +19,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import dev.loupgarou.MainLg;
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
-import dev.loupgarou.events.LGPlayerKilledEvent.Reason;
+import dev.loupgarou.events.game.LGPlayerKilledEvent.Reason;
 import dev.loupgarou.packetwrapper.WrapperPlayServerHeldItemSlot;
 import dev.loupgarou.roles.utils.Role;
 import dev.loupgarou.roles.utils.RoleType;

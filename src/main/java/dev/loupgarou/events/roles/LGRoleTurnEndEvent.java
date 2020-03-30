@@ -1,6 +1,9 @@
-package dev.loupgarou.events;
+package dev.loupgarou.events.roles;
 
 import dev.loupgarou.classes.LGGame;
+import dev.loupgarou.events.LGEvent;
+import dev.loupgarou.events.daycycle.LGNightEndEvent;
+import dev.loupgarou.events.daycycle.LGNightStartEvent;
 import dev.loupgarou.roles.utils.Role;
 import lombok.Getter;
 import lombok.NonNull;

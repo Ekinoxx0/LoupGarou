@@ -13,7 +13,7 @@
   - [Publier un rôle](#publier-un-rôle)
  	 - [Quelques classes utiles](#quelques-classes-utiles)
 
-## À propos
+## A propos
 
 Le mode Loup-Garou est un mode inspiré du jeu de société [Les Loups-Garous de Thiercelieux](https://fr.wikipedia.org/wiki/Les_Loups-garous_de_Thiercelieux) reprenant son fonctionnement ainsi que sa manière d'être joué, à la seule différence qu'aucun maître du jeu n'est requis, le déroulement de chaque partie étant entièrement automatisé.
 
@@ -88,7 +88,8 @@ La version de Leomelki n'est pas strictement compatible avec cette version suite
 
  - `LGNightStart` -> `LGDayEndEvent`
  - `LGDayEndEvent` -> `LGNightStartEvent`
- - `LGVoteEvent` -> `LGPeopleVoteEvent`
+ - `LGVoteEvent` -> `LGPeopleVoteStartEvent`
+ - `LGMayorVoteEvent` -> `LGMayorVoteStartEvent`
 
 ### Ajouter des rôles
 

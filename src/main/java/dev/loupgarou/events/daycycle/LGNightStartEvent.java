@@ -1,6 +1,7 @@
-package dev.loupgarou.events;
+package dev.loupgarou.events.daycycle;
 
 import dev.loupgarou.classes.LGGame;
+import dev.loupgarou.events.LGEvent;
 import lombok.NonNull;
 
 /**

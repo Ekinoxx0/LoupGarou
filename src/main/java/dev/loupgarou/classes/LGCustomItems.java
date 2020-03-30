@@ -17,7 +17,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import dev.loupgarou.MainLg;
-import dev.loupgarou.events.LGCustomItemChangeEvent;
+import dev.loupgarou.events.other.LGCustomItemChangeEvent;
 import dev.loupgarou.roles.utils.Role;
 import lombok.Getter;
 import lombok.NonNull;

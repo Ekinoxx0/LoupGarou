@@ -1,7 +1,8 @@
-package dev.loupgarou.events;
+package dev.loupgarou.events.game;
 
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGWinType;
+import dev.loupgarou.events.LGEvent;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;

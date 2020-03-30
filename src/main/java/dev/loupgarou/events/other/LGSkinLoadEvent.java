@@ -1,9 +1,10 @@
-package dev.loupgarou.events;
+package dev.loupgarou.events.other;
 
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
 
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
+import dev.loupgarou.events.LGEvent;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;

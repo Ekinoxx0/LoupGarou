@@ -7,12 +7,12 @@ import org.bukkit.event.EventHandler;
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.classes.LGWinType;
-import dev.loupgarou.events.LGNightStartEvent;
-import dev.loupgarou.events.LGEndCheckEvent;
-import dev.loupgarou.events.LGGameEndEvent;
-import dev.loupgarou.events.LGPlayerGotKilledEvent;
-import dev.loupgarou.events.LGPeopleVoteEvent;
-import dev.loupgarou.events.LGPlayerKilledEvent.Reason;
+import dev.loupgarou.events.daycycle.LGNightStartEvent;
+import dev.loupgarou.events.game.LGEndCheckEvent;
+import dev.loupgarou.events.game.LGGameEndEvent;
+import dev.loupgarou.events.game.LGPlayerGotKilledEvent;
+import dev.loupgarou.events.game.LGPlayerKilledEvent.Reason;
+import dev.loupgarou.events.vote.LGPeopleVoteStartEvent;
 import dev.loupgarou.roles.utils.Role;
 import dev.loupgarou.roles.utils.RoleType;
 import dev.loupgarou.roles.utils.RoleWinType;
@@ -62,7 +62,7 @@ public class RAnge extends Role{
 		return -1;
 	}
 	@EventHandler
-	public void onVoteStart(LGPeopleVoteEvent e) {
+	public void onVoteStart(LGPeopleVoteStartEvent e) {
 		if(e.getGame() == getGame()) {
 			night = getGame().getNight();
 			vote = true;

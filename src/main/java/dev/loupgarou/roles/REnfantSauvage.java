@@ -8,7 +8,7 @@ import org.bukkit.event.EventPriority;
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.classes.LGPlayer.LGChooseCallback;
-import dev.loupgarou.events.LGPlayerKilledEvent;
+import dev.loupgarou.events.game.LGPlayerKilledEvent;
 import dev.loupgarou.roles.utils.Role;
 import dev.loupgarou.roles.utils.RoleType;
 import dev.loupgarou.roles.utils.RoleWinType;

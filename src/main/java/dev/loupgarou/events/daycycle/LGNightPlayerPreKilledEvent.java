@@ -1,8 +1,9 @@
-package dev.loupgarou.events;
+package dev.loupgarou.events.daycycle;
 
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
-import dev.loupgarou.events.LGPlayerKilledEvent.Reason;
+import dev.loupgarou.events.LGEvent;
+import dev.loupgarou.events.game.LGPlayerKilledEvent.Reason;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;

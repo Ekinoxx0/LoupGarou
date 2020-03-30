@@ -1,8 +1,9 @@
-package dev.loupgarou.events;
+package dev.loupgarou.events.other;
 
 import java.util.List;
 
 import dev.loupgarou.classes.LGCustomItems.LGCustomItemsConstraints;
+import dev.loupgarou.events.LGEvent;
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
 import lombok.Getter;

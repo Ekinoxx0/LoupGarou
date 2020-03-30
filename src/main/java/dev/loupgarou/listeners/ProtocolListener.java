@@ -24,8 +24,8 @@ import com.comphenix.protocol.wrappers.WrappedChatComponent;
 
 import dev.loupgarou.MainLg;
 import dev.loupgarou.classes.LGPlayer;
-import dev.loupgarou.events.LGSkinLoadEvent;
-import dev.loupgarou.events.LGUpdatePrefixEvent;
+import dev.loupgarou.events.other.LGSkinLoadEvent;
+import dev.loupgarou.events.other.LGUpdatePrefixEvent;
 import dev.loupgarou.packetwrapper.WrapperPlayServerEntityEquipment;
 import dev.loupgarou.packetwrapper.WrapperPlayServerNamedSoundEffect;
 import dev.loupgarou.packetwrapper.WrapperPlayServerPlayerInfo;

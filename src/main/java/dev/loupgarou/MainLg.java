@@ -19,6 +19,7 @@ import dev.loupgarou.commands.LoupGarouCommand;
 import dev.loupgarou.discord.DiscordManager;
 import dev.loupgarou.listeners.CancelListener;
 import dev.loupgarou.listeners.ChatListener;
+import dev.loupgarou.listeners.GameListener;
 import dev.loupgarou.listeners.JoinListener;
 import dev.loupgarou.listeners.ProtocolListener;
 import dev.loupgarou.listeners.VoteListener;
@@ -77,6 +78,7 @@ public class MainLg extends JavaPlugin{
 		Bukkit.getPluginManager().registerEvents(new CancelListener(), this);
 		Bukkit.getPluginManager().registerEvents(new VoteListener(), this);
 		Bukkit.getPluginManager().registerEvents(new ChatListener(), this);
+		Bukkit.getPluginManager().registerEvents(new GameListener(), this);
 		
 		LoupGarouCommand cmd = new LoupGarouCommand(this);
 		Bukkit.getPluginCommand("lg").setExecutor(cmd);

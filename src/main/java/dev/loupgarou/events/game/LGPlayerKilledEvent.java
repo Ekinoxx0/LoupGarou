@@ -1,9 +1,11 @@
-package dev.loupgarou.events;
+package dev.loupgarou.events.game;
 
 import org.bukkit.event.Cancellable;
 
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
+import dev.loupgarou.events.LGEvent;
+import dev.loupgarou.events.daycycle.LGNightPlayerPreKilledEvent;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
