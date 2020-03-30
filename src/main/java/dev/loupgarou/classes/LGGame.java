@@ -61,6 +61,7 @@ import dev.loupgarou.roles.utils.RoleType;
 import dev.loupgarou.roles.utils.RoleWinType;
 import dev.loupgarou.scoreboard.CustomScoreboard;
 import dev.loupgarou.utils.MultipleValueMap;
+import dev.loupgarou.utils.SoundUtils.LGSound;
 import dev.loupgarou.utils.VariousUtils;
 import lombok.Getter;
 import lombok.Setter;
