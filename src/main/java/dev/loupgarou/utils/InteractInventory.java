@@ -9,6 +9,7 @@ import java.util.Map.Entry;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -25,6 +26,9 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import dev.loupgarou.MainLg;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.Setter;
 
 /**
  * @author Ekinoxx
@@ -91,14 +95,17 @@ public class InteractInventory implements Listener{
 	 * 
 	 */
 	
-	private Inventory inv;
-	private boolean deleteOnClose = true;
-	private InventoryClose closeAction = null;
-	private InventoryPutCall putOwnItem;
-    private Map<Integer, InventoryMaterial> materialMap = new HashMap<>();
+	@Getter private Inventory inv;
+	private boolean deleteOnClose;
+	@Getter @Setter private InventoryClose closeAction;
+	@Getter @Setter private InventoryPutCall putOwnItem;
+    private Map<Integer, InventoryMaterial> materialMap;
 
-    public InteractInventory(Inventory inventory) {
+    public InteractInventory(@NonNull Inventory inventory) {
         this.inv = inventory;
+        this.deleteOnClose = true;
+        this.closeAction = null;
+        this.materialMap = new HashMap<>();
         Bukkit.getPluginManager().registerEvents(this, MainLg.getInstance());
     }
 
@@ -303,33 +310,10 @@ public class InteractInventory implements Listener{
     public void removeItem(int position) {
         if (position >= inv.getSize() || position < 0) return;
         inv.setItem(position, new ItemStack(Material.AIR));
-        if (materialMap.containsKey(position)) {
+        if (materialMap.containsKey(position))
             materialMap.remove(position);
-        }
     }
     
-    //
-    
-    public void setPutOwnItemAction(InventoryPutCall putOwnItem){
-    	this.putOwnItem = putOwnItem;
-    }
-    
-    public InventoryPutCall getPutOwnItemAction(){
-    	return this.putOwnItem;
-    }
-    
-    //
-    
-    public InventoryClose getCloseAction(){
-    	return this.closeAction;
-    }
-    
-    public void setCloseAction(InventoryClose close){
-    	this.closeAction = close;
-    }
-    
-    //
-
     public void removeItems(int start) {
         removeItems(start, inv.getSize() - 1);
     }
@@ -342,10 +326,6 @@ public class InteractInventory implements Listener{
 
     public void emptyInv() {
     	removeItems(0, inv.getSize()-1);
-    }
-    
-    public Inventory getInventory(){
-    	return inv;
     }
     
     /* */
@@ -368,11 +348,11 @@ public class InteractInventory implements Listener{
     @EventHandler
     public void onInventoryClose(InventoryCloseEvent e) {
         if (e.getInventory().equals(inv)) {
-        	if(closeAction != null){
+        	if (closeAction != null) {
         		deleteOnClose = closeAction.close(e.getPlayer());
         	}
         	
-        	if(deleteOnClose){
+        	if (deleteOnClose) {
         		inv.getViewers().remove(e.getPlayer());
                 close();
         	}
@@ -387,14 +367,10 @@ public class InteractInventory implements Listener{
      * @param player Player to open
      */
     public void openTo(Player player) {
-        if(this.inv != null) {
-        	try{
-                SoundUtils.sendSound(player, "CLICK");
-        	}catch(NoSuchFieldError ex){
-                SoundUtils.sendSound(player, "UI_BUTTON_CLICK");
-        	}
-            player.openInventory(this.inv);
-        }
+        if(this.inv == null) return;
+        
+        SoundUtils.sendSound(player, Sound.UI_BUTTON_CLICK);
+        player.openInventory(this.inv);
     }
     
     /**
@@ -403,24 +379,24 @@ public class InteractInventory implements Listener{
      * @param player Player to open
      */
     public void openInTo(InteractInventory ii, Player player) {
-        if(inv != null && ii != null) {
-        	if(inv.getSize() == ii.inv.getSize()){
-                SoundUtils.sendSound(player, "CLICK");
-        		deleteOnClose = false;
-                ii.registerFromInventory(this);
-        		deleteOnClose = true;
-        	}
+    	if(inv == null) return;
+    	if(ii == null) return;
+    	
+        if(inv.getSize() == ii.inv.getSize()){
+        	SoundUtils.sendSound(player, Sound.UI_BUTTON_CLICK);
+        	deleteOnClose = false;
+        	ii.registerFromInventory(this);
+        	deleteOnClose = true;
         }
     }
     
     public void close() {
-    	if(inv != null) {
-    		for(HumanEntity he : new ArrayList<>(inv.getViewers())) {
-    			he.closeInventory();
-    		}
-        	inv.clear();
-    	}
         HandlerList.unregisterAll(this);
+    	if(inv == null) return;
+    	for(HumanEntity he : new ArrayList<>(inv.getViewers()))
+    		he.closeInventory();
+    	
+        inv.clear();
         inv = null;
     }
 
