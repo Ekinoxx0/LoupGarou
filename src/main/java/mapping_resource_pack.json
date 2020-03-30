@@ -327,5 +327,15 @@
         "mort": "AIR",
         "maire_mort": "AIR",
         "infecte_maire_mort": "AIR"
+    },
+    "LoupFeutrer": {
+        "": "AIR",
+        "infecte": "AIR",
+        "infecte_mort": "AIR",
+        "infecte_maire": "AIR",
+        "maire": "AIR",
+        "mort": "AIR",
+        "maire_mort": "AIR",
+        "infecte_maire_mort": "AIR"
     }
 }

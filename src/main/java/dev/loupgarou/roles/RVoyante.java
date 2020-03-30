@@ -1,8 +1,11 @@
 package dev.loupgarou.roles;
 
+import org.bukkit.Bukkit;
+
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.classes.LGPlayer.LGChooseCallback;
+import dev.loupgarou.events.roles.LGDiscoverRoleEvent;
 import dev.loupgarou.roles.utils.Role;
 import dev.loupgarou.roles.utils.RoleType;
 import dev.loupgarou.roles.utils.RoleWinType;
@@ -60,9 +63,15 @@ public class RVoyante extends Role{
 			@Override
 			public void callback(LGPlayer choosen) {
 				if(choosen != null && choosen != player) {
-					//player.sendTitle("§6Vous avez regardé un rôle", "§e§l"+choosen.getName()+"§6§l est §e§l"+choosen.getRole().getName(), 5*20);
-					player.sendActionBarMessage("§e§l"+choosen.getName()+"§6 est §e§l"+choosen.getRole().getName());
-					player.sendMessage("§6Tu découvres que §7§l"+choosen.getName()+"§6 est "+choosen.getRole().getName()+"§6.");
+					LGDiscoverRoleEvent e = new LGDiscoverRoleEvent(getGame(), player, choosen);
+					Bukkit.getPluginManager().callEvent(e);
+					if (e.isCancelled()) {
+						player.sendActionBarMessage("§e§l" + choosen.getName() + "§6 est §e§limmunisé §6 à ton sort !");
+						player.sendMessage("§6Tu découvres que §7§l" + choosen.getName() + "§6 est §e§limmunisé§6 à ton sort !");
+					} else {
+						player.sendActionBarMessage("§e§l" + choosen.getName() + "§6 est §e§l" + e.getDiscoveredRole().getName());
+						player.sendMessage("§6Tu découvres que §7§l" + choosen.getName() + "§6 est " + e.getDiscoveredRole().getName() + "§6.");
+					}
 					player.stopChoosing();
 					player.hideView();
 					callback.run();
