@@ -4,39 +4,20 @@ import java.util.Arrays;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_15_R1.inventory.CraftInventoryCustom;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.inventory.Inventory;
+import org.bukkit.entity.HumanEntity;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.scheduler.BukkitRunnable;
 
-import dev.loupgarou.MainLg;
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.roles.utils.Role;
 import dev.loupgarou.roles.utils.RoleType;
 import dev.loupgarou.roles.utils.RoleWinType;
+import dev.loupgarou.utils.InteractInventory;
+import dev.loupgarou.utils.InteractInventory.InventoryCall;
+import dev.loupgarou.utils.ItemBuilder;
 
 public class RChienLoup extends Role{
-	static ItemStack[] items = new ItemStack[9];
-	static {
-		items[3] = new ItemStack(Material.GOLDEN_APPLE);
-		ItemMeta meta = items[3].getItemMeta();
-		meta.setDisplayName("§2Devenir Villageois");
-		meta.setLore(Arrays.asList("§7§lVous n'aurez aucun pouvoir mais",
-									"§7§lresterez dans le camp du §a§lVillage§7§l."));
-		items[3].setItemMeta(meta);
-		items[5] = new ItemStack(Material.ROTTEN_FLESH);
-		meta = items[5].getItemMeta();
-		meta.setDisplayName("§cDevenir Loup-Garou");
-		meta.setLore(Arrays.asList("§cVous rejoindrez le camp des §c§lLoups"));
-		items[5].setItemMeta(meta);
-	}
-
 	public RChienLoup(LGGame game) {
 		super(game);
 	}
@@ -91,94 +72,88 @@ public class RChienLoup extends Role{
 	
 	@Override
 	public boolean hasPlayersLeft() {
-		return super.hasPlayersLeft() && !already;
+		return super.hasPlayersLeft() && !hasChoosen;
 	}
 	
-	Runnable callback;
-	boolean already;
+	private Runnable callback;
+	private boolean hasChoosen;
 	
-	public void openInventory(Player player) {
-		inMenu = true;
-		Inventory inventory = Bukkit.createInventory(null, 9, "§7Choisis ton camp.");
-		inventory.setContents(items.clone());
-		player.closeInventory();
-		player.openInventory(inventory);
+	public void openInventory(LGPlayer lgp) {
+		InteractInventory ii = new InteractInventory(Bukkit.createInventory(null, 9, "§7Choisis ton camp."));
+
+		ii.registerItem(
+				new ItemBuilder(Material.GOLDEN_APPLE)
+				.name("§2Devenir Villageois")
+				.lore(Arrays.asList(
+						"§7§lVous n'aurez aucun pouvoir mais",
+						"§7§lresterez dans le camp du §a§lVillage§7§l."
+						))
+				.build(), 
+				
+				3, true, new InventoryCall() {
+			
+			@Override
+			public void click(HumanEntity human, ItemStack item, ClickType clickType) {
+				human.closeInventory();
+				lgp.sendActionBarMessage("§6Tu resteras fidèle au §a§lVillage§6.");
+				lgp.sendMessage("§6Tu resteras fidèle au §a§lVillage§6.");
+				lgp.hideView();
+				callback.run();
+			}
+		});
+		
+		ii.registerItem(
+				new ItemBuilder(Material.ROTTEN_FLESH)
+				.name("§cDevenir Loup-Garou")
+				.lore(Arrays.asList(
+						"§cVous rejoindrez le camp des §c§lLoups"
+						))
+				.build(), 
+				
+				3, true, new InventoryCall() {
+			
+			@Override
+			public void click(HumanEntity human, ItemStack item, ClickType clickType) {
+				human.closeInventory();
+
+				lgp.sendActionBarMessage("§6Tu as changé de camp.");
+				lgp.sendMessage("§6Tu as changé de camp.");
+				
+				//On le fait aussi rejoindre le camp des loups pour le tour pendant la nuit.
+				RChienLoupLG lgChienLoup = null;
+				for(Role role : getGame().getRoles())
+					if(role instanceof RChienLoupLG)
+						lgChienLoup = (RChienLoupLG)role;
+				
+				if(lgChienLoup == null)
+					getGame().getRoles().add(lgChienLoup = new RChienLoupLG(getGame()));
+				
+				lgChienLoup.join(lgp, false);
+				lgp.updateOwnSkin();
+				
+				lgp.hideView();
+				callback.run();
+			}
+		});
+		
+		ii.openTo(lgp.getPlayer());
 	}
+	
 	@Override
 	protected void onNightTurn(LGPlayer player, Runnable callback) {
-		already = true;
+		hasChoosen = true;
 		player.showView();
 		this.callback = callback;
-		openInventory(player.getPlayer());
+		openInventory(player);
 	}
+	
 	@Override
 	protected void onNightTurnTimeout(LGPlayer player) {
-		closeInventory(player.getPlayer());
+		player.getPlayer().closeInventory();
 		player.hideView();
 		//player.sendTitle("§cVous n'infectez personne", "§4Vous avez mis trop de temps à vous décider...", 80);
 		player.sendActionBarMessage("§6Tu rejoins le §a§lVillage.");
 		player.sendMessage("§6Tu rejoins le §a§lVillage.");
 	}
 
-	boolean inMenu;
-	
-	private void closeInventory(Player p) {
-		inMenu = false;
-		p.closeInventory();
-	}
-	@EventHandler
-	public void onInventoryClick(InventoryClickEvent e) {
-		ItemStack item = e.getCurrentItem();
-		Player player = (Player)e.getWhoClicked();
-		LGPlayer lgp = LGPlayer.thePlayer(player);
-			
-		if(lgp.getRole() != this || item == null || item.getItemMeta() == null)return;
-
-		if(item.getItemMeta().getDisplayName().equals(items[3].getItemMeta().getDisplayName())) {
-			e.setCancelled(true);
-			closeInventory(player);
-			lgp.sendActionBarMessage("§6Tu resteras fidèle au §a§lVillage§6.");
-			lgp.sendMessage("§6Tu resteras fidèle au §a§lVillage§6.");
-			lgp.hideView();
-			callback.run();
-		}else if(item.getItemMeta().getDisplayName().equals(items[5].getItemMeta().getDisplayName())) {
-			e.setCancelled(true);
-			closeInventory(player);
-
-			lgp.sendActionBarMessage("§6Tu as changé de camp.");
-			lgp.sendMessage("§6Tu as changé de camp.");
-			
-			//On le fait aussi rejoindre le camp des loups pour le tour pendant la nuit.
-			RChienLoupLG lgChienLoup = null;
-			for(Role role : getGame().getRoles())
-				if(role instanceof RChienLoupLG)
-					lgChienLoup = (RChienLoupLG)role;
-			
-			if(lgChienLoup == null)
-				getGame().getRoles().add(lgChienLoup = new RChienLoupLG(getGame()));
-			
-			lgChienLoup.join(lgp, false);
-			lgp.updateOwnSkin();
-			
-			lgp.hideView();
-			callback.run();
-		}
-	}
-
-	@EventHandler
-	public void onQuitInventory(InventoryCloseEvent e) {
-		if(e.getInventory() instanceof CraftInventoryCustom) {
-			LGPlayer player = LGPlayer.thePlayer((Player)e.getPlayer());
-			if(player.getRole() == this && inMenu) {
-				new BukkitRunnable() {
-					
-					@Override
-					public void run() {
-						e.getPlayer().openInventory(e.getInventory());
-					}
-				}.runTaskLater(MainLg.getInstance(), 1);
-			}
-		}
-	}
-	
 }

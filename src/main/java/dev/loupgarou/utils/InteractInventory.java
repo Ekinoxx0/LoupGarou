@@ -368,6 +368,7 @@ public class InteractInventory implements Listener{
      */
     public void openTo(Player player) {
         if(this.inv == null) return;
+        if(player == null) return;
         
         SoundUtils.sendSound(player, Sound.UI_BUTTON_CLICK);
         player.openInventory(this.inv);
