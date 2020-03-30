@@ -1,6 +1,5 @@
 package dev.loupgarou;
 
-import java.io.File;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -70,17 +69,6 @@ public class MainLg extends JavaPlugin{
 		new Updater(this);
 		
 		loadRoles();
-		if(!new File(getDataFolder(), "config.yml").exists()) {//Créer la config
-			FileConfiguration config = getConfig();
-			config.set("spawns", new ArrayList<List<Double>>());
-			config.set("hideRole", false);
-			config.set("hideVote", false);
-			config.set("hideVoteExtra", false);
-			
-			for(String role : roles.keySet())//Nombre de participant pour chaque rôle
-				config.set("role."+role, 1);
-			saveConfig();
-		}
 		loadConfig();
 
 	    this.discord = new DiscordManager(this);
@@ -101,7 +89,22 @@ public class MainLg extends JavaPlugin{
 	
 	}
 	
+	public void defaultConfig() {
+		FileConfiguration config = getConfig();
+		config.addDefault("spawns", new ArrayList<List<Double>>());
+		config.addDefault("timerDayPerPlayer", 15);
+		config.addDefault("hideRole", false);
+		config.addDefault("hideVote", false);
+		config.addDefault("hideVoteExtra", false);
+			
+		for(String role : roles.keySet())//Nombre de participant pour chaque rôle
+			config.addDefault("role."+role, 1);
+		saveConfig();
+	}
+	
 	public void loadConfig() {
+		defaultConfig();
+		
 		int players = 0;
 		for(String role : roles.keySet())
 			players += getConfig().getInt("role."+role);

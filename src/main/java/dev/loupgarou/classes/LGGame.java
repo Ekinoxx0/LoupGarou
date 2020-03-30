@@ -844,27 +844,28 @@ public class LGGame implements Listener{
 		if(ended) return;
 		LGPeopleVoteEvent event = new LGPeopleVoteEvent(this);
 		Bukkit.getPluginManager().callEvent(event);
-		if(!event.isCancelled()) {
-			broadcastMessage("§9La phase des votes a commencé.");
-			isPeopleVote = true;
-			vote = new LGVote(180, 20, this, false, false, (player, secondsLeft)-> {
-				return player.getCache().has("vote") ? "§6Tu votes pour §7§l"+player.getCache().<LGPlayer>get("vote").getName() : "§6Il te reste §e"+secondsLeft+" seconde"+(secondsLeft > 1 ? "s" : "")+"§6 pour voter";
-			});
-			vote.start(getAlive(), getInGame(), ()->{
-				isPeopleVote = false;
-				if(vote.getChoosen() == null || (vote.isMayorVote() && getMayor() == null))
-					broadcastMessage(getMayor() != null ? "§9Le maire a décidé de gracier les accusés." : "§9Personne n'est mort aujourd'hui.");
-				else {
-					LGPlayerKilledEvent killEvent = new LGPlayerKilledEvent(this, vote.getChoosen(), Reason.VOTE);
-					Bukkit.getPluginManager().callEvent(killEvent);
-					if(killEvent.isCancelled())//chassou ?
-						return;
-					if(kill(killEvent.getKilled(), killEvent.getReason(), true))
-						return;
-				}
-				nextNight();
-			}, mayor);
-		}//Sinon c'est à celui qui a cancel de s'en occuper
+		if(event.isCancelled()) return;
+			
+		broadcastMessage("§9La phase des votes a commencé.");
+		isPeopleVote = true;
+		vote = new LGVote(MainLg.getInstance().getConfig().getInt("timerDayPerPlayer") * this.getAlive().size(), 20, this, false, false, (player, secondsLeft)-> {
+			return player.getCache().has("vote") ? "§6Tu votes pour §7§l"+player.getCache().<LGPlayer>get("vote").getName() : "§6Il te reste §e"+secondsLeft+" seconde"+(secondsLeft > 1 ? "s" : "")+"§6 pour voter";
+		});
+		
+		vote.start(getAlive(), getInGame(), ()->{
+			isPeopleVote = false;
+			if(vote.getChoosen() == null || (vote.isMayorVote() && getMayor() == null))
+				broadcastMessage(getMayor() != null ? "§9Le maire a décidé de gracier les accusés." : "§9Personne n'est mort aujourd'hui.");
+			else {
+				LGPlayerKilledEvent killEvent = new LGPlayerKilledEvent(this, vote.getChoosen(), Reason.VOTE);
+				Bukkit.getPluginManager().callEvent(killEvent);
+				if(killEvent.isCancelled())//chassou ?
+					return;
+				if(kill(killEvent.getKilled(), killEvent.getReason(), true))
+					return;
+			}
+			nextNight();
+		}, mayor);
 	}
 
 	public boolean checkEndGame() {
