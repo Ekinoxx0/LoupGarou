@@ -7,10 +7,20 @@ import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
+import dev.loupgarou.classes.LGSound;
+
 /**
 * @author Ekinoxx
  */
 public class SoundUtils {
+
+	public static void sendSound(Player player, LGSound sound, float volume){
+		sendSound(player, sound.getSound(), volume);
+	}
+	
+	public static void sendSound(Player player, LGSound sound){
+		sendSound(player, sound.getSound());
+	}
 
 	/**
 	 * Send sound to a player
@@ -23,6 +33,7 @@ public class SoundUtils {
 		if(player == null) return;
 		sendSound(player, sound, 1F, 1F);
 	}
+	
 	/**
 	 * Send sound to a player
 	 * 
@@ -129,6 +140,22 @@ public class SoundUtils {
 		if(location == null) return;
 		if(sound == null) return;
 		location.getWorld().playSound(location, sound, volume, pitch);
+	}
+
+	public static void stopSound(Player player, LGSound sound){
+		player.stopSound(sound.getSound());
+	}
+
+	public static void stopSound(Player player, Sound sound){
+		if(sound == null) return;
+		if(player == null) return;
+		player.stopSound(sound);
+	}
+
+	public static void stopAllSound(Player player){
+		if(player == null) return;
+		for(Sound s : Sound.values())
+			player.stopSound(s);
 	}
 
 }

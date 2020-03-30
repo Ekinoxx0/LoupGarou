@@ -490,8 +490,8 @@ public class LGGame implements Listener{
 			player.leaveChat();
 		for(LGPlayer player : getInGame()) {
 			player.stopAudio(LGSound.AMBIANT_DAY);
-			player.playAudio(LGSound.START_NIGHT, 0.5);
-			player.playAudio(LGSound.AMBIANT_NIGHT, 0.07);
+			player.playAudio(LGSound.START_NIGHT, 0.5F);
+			player.playAudio(LGSound.AMBIANT_NIGHT, 0.07F);
 		}
 		day = false;
 		Bukkit.getPluginManager().callEvent(new LGNightStartEvent(this));
@@ -617,6 +617,7 @@ public class LGGame implements Listener{
 		//We unregister every role listener because they are unused after the game's end !
 		for(Role role : getRoles())
 			HandlerList.unregisterAll(role);
+		HandlerList.unregisterAll(this);
 		
 		broadcastMessage(winType.getMessage());
 		for(LGPlayer lgp : getInGame()) {
@@ -679,8 +680,8 @@ public class LGGame implements Listener{
 		
 		for(LGPlayer p : getInGame()) {
 			p.stopAudio(LGSound.AMBIANT_NIGHT);
-			p.playAudio(LGSound.START_DAY, 0.5);
-			p.playAudio(LGSound.AMBIANT_DAY, 0.07);
+			p.playAudio(LGSound.START_DAY, 0.5F);
+			p.playAudio(LGSound.AMBIANT_DAY, 0.07F);
 		}
 		
 		LGNightEndEvent eventNightEnd = new LGNightEndEvent(this);

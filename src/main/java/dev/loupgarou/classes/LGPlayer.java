@@ -29,6 +29,7 @@ import dev.loupgarou.roles.utils.Role;
 import dev.loupgarou.roles.utils.RoleType;
 import dev.loupgarou.roles.utils.RoleWinType;
 import dev.loupgarou.scoreboard.CustomScoreboard;
+import dev.loupgarou.utils.SoundUtils;
 import dev.loupgarou.utils.VariableCache;
 import dev.loupgarou.utils.VariousUtils;
 
@@ -354,9 +355,8 @@ public class LGPlayer {
 	}
 	
 	
-	public void playAudio(LGSound sound, double volume) {
-		if(player != null)
-			getPlayer().playSound(getPlayer().getLocation(), sound.getSound(), (float)volume, 1);
+	public void playAudio(LGSound sound, float volume) {
+		SoundUtils.sendSound(getPlayer(), sound, volume);
 	}
 	public void stopAudio(LGSound sound) {
 		if(player != null)
