@@ -1,6 +1,7 @@
 package dev.loupgarou.roles.utils;
 
 public enum RoleSort {
+	Voleur,
 	ChienLoup,
 	EnfantSauvage,
 	Cupidon,

@@ -317,5 +317,15 @@
         "maire_mort": "PINK_CONCRETE_POWDER",
         "mort": "MUSHROOM_STEM",
         "menu": "BREAD"
+    },
+    "Voleur": {
+        "": "AIR",
+        "infecte": "AIR",
+        "infecte_mort": "AIR",
+        "infecte_maire": "AIR",
+        "maire": "AIR",
+        "mort": "AIR",
+        "maire_mort": "AIR",
+        "infecte_maire_mort": "AIR"
     }
 }

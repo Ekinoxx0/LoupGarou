@@ -17,38 +17,8 @@ import com.comphenix.protocol.ProtocolLibrary;
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.commands.LoupGarouCommand;
 import dev.loupgarou.discord.DiscordManager;
-import dev.loupgarou.listeners.CancelListener;
-import dev.loupgarou.listeners.ChatListener;
-import dev.loupgarou.listeners.GameListener;
-import dev.loupgarou.listeners.JoinListener;
-import dev.loupgarou.listeners.ProtocolListener;
-import dev.loupgarou.listeners.VoteListener;
-import dev.loupgarou.roles.RAnge;
-import dev.loupgarou.roles.RAssassin;
-import dev.loupgarou.roles.RBouffon;
-import dev.loupgarou.roles.RChaperonRouge;
-import dev.loupgarou.roles.RChasseur;
-import dev.loupgarou.roles.RChienLoup;
-import dev.loupgarou.roles.RCorbeau;
-import dev.loupgarou.roles.RCupidon;
-import dev.loupgarou.roles.RDetective;
-import dev.loupgarou.roles.RDictateur;
-import dev.loupgarou.roles.REnfantSauvage;
-import dev.loupgarou.roles.RFaucheur;
-import dev.loupgarou.roles.RGarde;
-import dev.loupgarou.roles.RGrandMechantLoup;
-import dev.loupgarou.roles.RLoupGarou;
-import dev.loupgarou.roles.RLoupGarouBlanc;
-import dev.loupgarou.roles.RLoupGarouNoir;
-import dev.loupgarou.roles.RMedium;
-import dev.loupgarou.roles.RPetiteFille;
-import dev.loupgarou.roles.RPirate;
-import dev.loupgarou.roles.RPretre;
-import dev.loupgarou.roles.RPyromane;
-import dev.loupgarou.roles.RSorciere;
-import dev.loupgarou.roles.RSurvivant;
-import dev.loupgarou.roles.RVillageois;
-import dev.loupgarou.roles.RVoyante;
+import dev.loupgarou.listeners.*;
+import dev.loupgarou.roles.*;
 import dev.loupgarou.roles.utils.Role;
 import dev.loupgarou.utils.Updater;
 import lombok.Getter;
@@ -153,6 +123,7 @@ public class MainLg extends JavaPlugin{
 			
 			roles.put("EnfantSauvage", REnfantSauvage.class.getConstructor(LGGame.class));
 			roles.put("ChienLoup", RChienLoup.class.getConstructor(LGGame.class));
+			roles.put("Voleur", RVoleur.class.getConstructor(LGGame.class));
 		} catch (NoSuchMethodException | SecurityException e) {
 			e.printStackTrace();
 		}
