@@ -2,6 +2,7 @@ name: LoupGarou
 version: v1.2.0
 description: Plugin de loup garou
 author: Ekinoxx
+website: https://github.com/Ekinoxx0/LoupGarou
 
 main: dev.loupgarou.MainLg
 depend: [ProtocolLib]
@@ -13,6 +14,14 @@ commands:
     aliases: [loup, loupgarou]
 
 permissions:
-  loupgarou.admin:
-    description: Administration du plugin
+  loupgarou.*:
     default: op
+    description: Administration du plugin
+    children:
+      loupgarou.cmd: true
+      loupgarou.cmd.*: true
+  loupgarou.cmd.*:
+    default: op
+    description: Administration par commande du plugin
+    children:
+      loupgarou.cmd.roles: true
