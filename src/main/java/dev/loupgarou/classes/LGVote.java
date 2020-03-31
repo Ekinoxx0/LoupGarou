@@ -157,7 +157,7 @@ public class LGVote {
 				if(!choosable.contains(player))
 					blackListed.add(player);
 				else {
-					if(!this.game.isHideVoteExtra()) {
+					if(!this.game.getConfig().isHideVoteExtra()) {
 						VariousUtils.setWarning(player.getPlayer(), true);
 					}
 					//player.sendMessage("§4§lVous êtes un des principaux suspects ! Défendez vous !");
@@ -286,7 +286,7 @@ public class LGVote {
 				voter.sendMessage("§6Tu as annulé ton vote.");
 			}
 			
-			if(!this.game.isHideVote()) {
+			if(!this.game.getConfig().isHideVote()) {
 				for(LGPlayer player : viewers)
 					if(player != voter)
 						player.sendMessage(message);
@@ -344,7 +344,7 @@ public class LGVote {
 	        datawatcher.register(aA, true);
 			PacketPlayOutEntityMetadata meta = new PacketPlayOutEntityMetadata(entityId, datawatcher, true);
 
-			if(!this.game.isHideVoteExtra()) {
+			if(!this.game.getConfig().isHideVoteExtra()) {
 				for(LGPlayer lgp : viewers) {
 					spawn.sendPacket(lgp.getPlayer());
 					((CraftPlayer)lgp.getPlayer()).getHandle().playerConnection.sendPacket(meta);
@@ -390,7 +390,7 @@ public class LGVote {
 							 customName = new WrappedDataWatcherObject(2, WrappedDataWatcher.Registry.get(IChatBaseComponent.class)),
 							 item = new WrappedDataWatcherObject(7, WrappedDataWatcher.Registry.get(net.minecraft.server.v1_15_R1.ItemStack.class));
 	private void showVoting(LGPlayer to, LGPlayer ofWho) {
-		if(this.game.isHideVoteExtra()) return;
+		if(this.game.getConfig().isHideVoteExtra()) return;
 		int entityId = -to.getPlayer().getEntityId();
 		WrapperPlayServerEntityDestroy destroy = new WrapperPlayServerEntityDestroy();
 		destroy.setEntityIds(new int[] {entityId});

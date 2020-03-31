@@ -54,7 +54,6 @@ import dev.loupgarou.roles.RVoyante;
 import dev.loupgarou.roles.utils.Role;
 import dev.loupgarou.utils.Updater;
 import lombok.Getter;
-import lombok.Setter;
 
 public class MainLg extends JavaPlugin {
 	
@@ -63,7 +62,7 @@ public class MainLg extends JavaPlugin {
 	@Getter private LinkedHashMap<String, Constructor<? extends Role>> roles = new LinkedHashMap<String, Constructor<? extends Role>>();
 	@Getter private static String prefix = "";
 	
-	@Getter @Setter private LGGame currentGame;
+	@Getter private List<LGGame> games = new ArrayList<LGGame>();
 	@Getter private DiscordManager discord;
 	
 	@Override
@@ -72,7 +71,6 @@ public class MainLg extends JavaPlugin {
 		new Updater(this);
 		
 		loadRoles();
-		loadConfig();
 
 	    this.discord = new DiscordManager(this);
 		
@@ -88,32 +86,6 @@ public class MainLg extends JavaPlugin {
 			Bukkit.getPluginManager().callEvent(new PlayerJoinEvent(player, "is connected"));
 		
 		new ProtocolListener(this);
-	}
-	
-	public void defaultConfig() {
-		FileConfiguration config = getConfig();
-		config.addDefault("spawns", new ArrayList<List<Double>>());
-		config.addDefault("timerDayPerPlayer", 15);
-		config.addDefault("hideRole", false);
-		config.addDefault("hideVote", false);
-		config.addDefault("hideVoteExtra", false);
-			
-		for(String role : roles.keySet())//Nombre de participant pour chaque rôle
-			config.addDefault("role."+role, 1);
-		saveConfig();
-	}
-	
-	public void loadConfig() {
-		defaultConfig();
-		
-		int players = 0;
-		for(String role : roles.keySet())
-			players += getConfig().getInt("role."+role);
-		this.currentGame = new LGGame(players);
-		
-		this.currentGame.setHideRole(getConfig().getBoolean("hideRole"));
-		this.currentGame.setHideVote(getConfig().getBoolean("hideVote"));
-		this.currentGame.setHideVoteExtra(getConfig().getBoolean("hideVoteExtra"));
 	}
 	
 	@Override
@@ -178,6 +150,9 @@ public class MainLg extends JavaPlugin {
 			e.printStackTrace();
 		}
 	}
+	
+	@Deprecated
+	public FileConfiguration getConfig() {return null;}
 	
 	public static void debug(String s) {
 		getInstance().getLogger().log(Level.INFO, s);

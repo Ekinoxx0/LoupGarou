@@ -92,15 +92,14 @@ public class RCorbeau extends Role{
 			for(LGPlayer lgp : getGame().getAlive())
 				if(lgp.getCache().getBoolean(CacheType.CORBEAU_SELECTED)) {
 					lgp.getCache().remove(CacheType.CORBEAU_SELECTED);
-					LGPlayer lg = lgp;
 					new BukkitRunnable() {
 						
 						@Override
 						public void run() {
-							getGame().getVote().vote(new LGPlayer("§a§lLe corbeau"), lg);
-							getGame().getVote().vote(new LGPlayer("§a§lLe corbeau"), lg);
-							if(!e.getGame().isHideVoteExtra()) {
-								getGame().broadcastMessage("§7§l"+lg.getName()+"§6 a reçu la visite du "+getName()+"§6.");
+							getGame().getVote().vote(new LGPlayer("§a§lLe corbeau"), lgp);
+							getGame().getVote().vote(new LGPlayer("§a§lLe corbeau"), lgp);
+							if(!e.getGame().getConfig().isHideVoteExtra()) {
+								getGame().broadcastMessage("§7§l"+lgp.getName()+"§6 a reçu la visite du "+getName()+"§6.");
 							}
 						}
 					}.runTask(MainLg.getInstance());

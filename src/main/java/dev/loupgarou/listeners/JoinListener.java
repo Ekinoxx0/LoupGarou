@@ -55,7 +55,7 @@ public class JoinListener implements Listener{
 			LGPlayer lgp = LGPlayer.thePlayer(e.getPlayer());
 			lgp.setDead(false);
 			lgp.showView();
-			lgp.join(MainLg.getInstance().getCurrentGame());
+			//lgp.join(MainLg.getInstance().getCurrentGame());
 		}
 		if(noSpec)
 			p.setGameMode(GameMode.ADVENTURE);
@@ -70,7 +70,7 @@ public class JoinListener implements Listener{
 			Player p = e.getPlayer();
 			LGPlayer lgp = LGPlayer.thePlayer(p);
 			lgp.showView();
-			lgp.join(MainLg.getInstance().getCurrentGame());
+			//lgp.join(MainLg.getInstance().getCurrentGame());
 		} else if(e.getStatus() == Status.DECLINED) {
 			Bukkit.broadcastMessage(MainLg.getPrefix()+"§c" + e.getPlayer().getName() + " a refusé le ressources pack. ("+e.getStatus()+")");
 		} else if(e.getStatus() == Status.FAILED_DOWNLOAD) {

@@ -1,13 +1,11 @@
 package dev.loupgarou.roles;
 
-import java.util.List;
 import java.util.Random;
 
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 
-import dev.loupgarou.MainLg;
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.events.game.LGPlayerKilledEvent;
@@ -88,8 +86,7 @@ public class RFaucheur extends Role{
 					getGame().kill(killEvent.getKilled(), killEvent.getReason(), false);
 				}
 			} else if (e.getReason() == Reason.VOTE) {
-				List<?> original = MainLg.getInstance().getConfig().getList("spawns");
-				int size = original.size();
+				int size = getGame().getMap().getSpawns().size();
 				// double middle = ((double)size)/2D;
 				int killedPlace = killed.getPlace();
 

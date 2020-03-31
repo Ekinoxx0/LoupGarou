@@ -15,9 +15,7 @@ public class ReloadConfigCmd extends SubCommand {
 
 	@Override
 	public void execute(CommandSender cs, String label, String[] args) {
-		cs.sendMessage("§aVous avez bien reload la config !");
-		cs.sendMessage("§7§oSi vous avez changé les rôles, écriver §8§o/lg joinall§7§o !");
-		getMain().loadConfig();
+		cs.sendMessage("§cAucune config à reload");//TODO
 	}
 	
 }

@@ -19,8 +19,8 @@ import net.dv8tion.jda.api.events.guild.voice.GuildVoiceLeaveEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 public class DiscordManager extends ListenerAdapter {
-	private static final String DEFAULT_VALUE_CONFIG = "TOKEN_DISCORD";
-	private static final long DEFAULT_CHANNEL_CONFIG = -1L;
+	
+	private static final String TOKEN = "TOKEN_DISCORD";
 	
 	private @Getter VoiceChannel selectedChannel;
 	private JDA jda;
@@ -44,27 +44,7 @@ public class DiscordManager extends ListenerAdapter {
 	}
 
 	private void setup(MainLg main) throws LoginException, IllegalArgumentException {
-    	if(!main.getConfig().contains("token")) {
-    		main.getConfig().set("token", DEFAULT_VALUE_CONFIG);
-    		main.saveConfig();
-    	}
-    	
-    	if(!main.getConfig().contains("channel_discord") || !main.getConfig().isLong("channel_discord")) {
-    		main.getConfig().set("channel_discord", DEFAULT_CHANNEL_CONFIG);
-    		main.saveConfig();
-    	}
-    	
-    	if(main.getConfig().getString("token").equals(DEFAULT_VALUE_CONFIG)) {
-			Bukkit.broadcastMessage("§9§lDISCORD > §cAucune config de token discord.");
-    		return;
-    	}
-    	
-    	if(main.getConfig().getLong("channel_discord") == DEFAULT_CHANNEL_CONFIG) {
-			Bukkit.broadcastMessage("§9§lDISCORD > §cAucune config de channel discord.");
-    		return;
-    	}
-    	
-		this.jda = new JDABuilder(main.getConfig().getString("token")).build();
+		this.jda = new JDABuilder(TOKEN).build();
 	    this.jda.addEventListener(this);
 	    try {
 			this.jda.awaitReady();
@@ -73,7 +53,7 @@ public class DiscordManager extends ListenerAdapter {
 		}
 
 		for(VoiceChannel voice : this.jda.getVoiceChannels()) {
-			if(voice.getIdLong() == main.getConfig().getLong("channel_discord")) {
+			if(voice.getIdLong() == main.getConfig().getLong("channel_discord")) {//TODO Discord
 				this.selectedChannel = voice;
 				break;
 			}

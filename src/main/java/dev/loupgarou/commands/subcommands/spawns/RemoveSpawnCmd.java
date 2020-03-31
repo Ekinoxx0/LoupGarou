@@ -1,13 +1,14 @@
 package dev.loupgarou.commands.subcommands.spawns;
 
+import java.io.IOException;
 import java.util.Arrays;
-import java.util.List;
 
-import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import dev.loupgarou.MainLg;
+import dev.loupgarou.classes.LGMaps;
+import dev.loupgarou.classes.LGMaps.LGLocation;
+import dev.loupgarou.classes.LGMaps.LGMap;
 import dev.loupgarou.commands.LoupGarouCommand;
 import dev.loupgarou.commands.SubCommand;
 
@@ -17,27 +18,48 @@ public class RemoveSpawnCmd extends SubCommand {
 		super(cmd, Arrays.asList("removespawn", "delspawn", "deletespawn"));
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void execute(CommandSender cs, String label, String[] args) {
+		if(!(cs instanceof Player)) return;
 		Player p = (Player) cs;
-		List<List<Double>> spawns = (List<List<Double>>) getMain().getConfig().getList("spawns");
-
-		boolean finded = false;
-		for (List<Double> loc : spawns) {
-			Location sel = new Location(p.getWorld(), loc.get(0), loc.get(1), loc.get(2));
-			if (p.getLocation().distance(sel) < 1) {
-				spawns.remove(loc);
-				finded = true;
-			}
+		
+		if(args.length != 2) {
+			p.sendMessage("§c/" + label + " " + args[0] + " <MAP>");
+			return;
 		}
+		
+		LGMap target = null;
+		for(LGMap map : LGMaps.getMapsInfo().getMaps())
+			if(map.getName().equalsIgnoreCase(args[0]))
+				target = map;
+		
+		if (target == null) {
+			p.sendMessage("§cMap inconnue : " + args[2]);
+			return;
+		}
+		
+		if(target.getWorld() != p.getWorld().getName()) {
+			p.sendMessage("§cImpossible de supprimer un spawn si vous n'êtes pas dans le monde " + target.getWorld());
+			return;
+		}
+		
+		LGLocation selectedLoc = null;
+		for(LGLocation lgl : target.getSpawns())
+			if(p.getLocation().distance(lgl.toLocation()) < 1)
+				selectedLoc = lgl;
 
-		if (finded) {
-			getMain().saveConfig();
-			getMain().loadConfig();
-			cs.sendMessage(MainLg.getPrefix() + "§aLa position a bien été supprimée !");
-		} else {
-			cs.sendMessage(MainLg.getPrefix() + "§cAucune position ici.");
+		if (selectedLoc == null) {
+			p.sendMessage("§cVous n'êtes à coté d'aucun spawn...");
+			return;
+		}
+		
+		target.getSpawns().remove(selectedLoc);
+		p.sendMessage("§aSpawn supprimé ! (N°" + target.getSpawns().size() + ")");
+		try {
+			LGMaps.save(getMain());
+			p.sendMessage("§aMap sauvegardé");
+		} catch (IOException e) {
+			p.sendMessage("§cImpossible de sauvegarder la maps... " + e.getMessage());
 		}
 	}
 

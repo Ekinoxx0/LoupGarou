@@ -8,12 +8,14 @@ import java.util.Map.Entry;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
-import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
 import dev.loupgarou.classes.LGCustomItems;
 import dev.loupgarou.classes.LGGame;
+import dev.loupgarou.classes.LGGameConfig;
+import dev.loupgarou.classes.LGMaps.LGMap;
+import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.roles.utils.Role;
 import dev.loupgarou.utils.InteractInventory;
 import dev.loupgarou.utils.InteractInventory.InventoryCall;
@@ -21,7 +23,7 @@ import dev.loupgarou.utils.ItemBuilder;
 
 public class RoleMenu {
 	
-	private static final LGGame fakeGame = new LGGame(0);
+	private static final LGGame fakeGame = new LGGame(0, new LGGameConfig(), new LGMap("fake", Bukkit.getWorlds().get(0).getName()));
 	private static final HashMap<String, Role> roles = new HashMap<String, Role>();
 	
 	private static Role getRole(String name) {
@@ -39,61 +41,60 @@ public class RoleMenu {
 		return null;
 	}
 	
-	public static void openMenu(Player p) {
-		InteractInventory ii = new InteractInventory(Bukkit.createInventory(p, 4 * 9, "Sélection des rôles"));
+	public static void openMenu(LGPlayer lgp) {
+		if(lgp.getGame() == null) return;//TODO
+		InteractInventory ii = new InteractInventory(Bukkit.createInventory(null, 4 * 9, "Sélection des rôles"));
 		
 		int i = 0;
 		int total = 0;
 		for(String roleName : MainLg.getInstance().getRoles().keySet()) {
-				int nbRole = MainLg.getInstance().getConfig().getInt("role."+roleName);
-				total += nbRole;
-				ii.registerItem(
-						new ItemBuilder(LGCustomItems.getItemMenu(getRole(roleName)))
-							.name(getRole(roleName).getColor() + roleName)
-							.lore(Arrays.asList(
-									"§7" + nbRole,
-									"",
-									"§f" + optimizeLines(getRole(roleName).getDescription())
-									))
-							.build(), 
-						i, true, new InventoryCall() {
+			int nbRole = lgp.getGame().getConfig().getRoles().get(roleName);
+			total += nbRole;
+			ii.registerItem(
+					new ItemBuilder(LGCustomItems.getItemMenu(getRole(roleName)))
+						.name(getRole(roleName).getColor() + roleName)
+						.lore(Arrays.asList(
+								"§7" + nbRole,
+								"",
+								"§f" + optimizeLines(getRole(roleName).getDescription())
+								))
+						.build(), 
+					i, true, new InventoryCall() {
+						
+						@Override
+						public void click(HumanEntity human, ItemStack item, ClickType clickType) {
+							if(!human.hasPermission("loupgarou.cmd.menu")) return;
 							
-							@Override
-							public void click(HumanEntity human, ItemStack item, ClickType clickType) {
-								if(!human.hasPermission("loupgarou.cmd.menu")) return;
+							int modif = 0;
 								
-								int modif = 0;
-								
-								switch(clickType) {
-								
-								case RIGHT:
-								case LEFT:
-								case MIDDLE:
-									modif = +1;
-									break;
-										
-								case SHIFT_LEFT:
-								case SHIFT_RIGHT:
-									modif = -1;
-									if(nbRole <= 0)
-										modif = 0;
-									break;
+							switch(clickType) {
+							
+							case RIGHT:
+							case LEFT:
+							case MIDDLE:
+								modif = +1;
+								break;
 									
-								default:
-									return;
-								}
-								
-								if(modif != 0) {
-									p.sendMessage(MainLg.getPrefix()+"§6Il y aura §e" + (nbRole + modif) + " §6" + roleName);
-									MainLg.getInstance().getConfig().set("role."+roleName, nbRole + modif);
-									MainLg.getInstance().saveConfig();
-									MainLg.getInstance().loadConfig();
-								}
-								
-								openMenu(p);
+							case SHIFT_LEFT:
+							case SHIFT_RIGHT:
+								modif = -1;
+								if(nbRole <= 0)
+									modif = 0;
+								break;
+									
+							default:
+								return;
 							}
-				});
-				i++;
+								
+							if(modif != 0) {
+								human.sendMessage(MainLg.getPrefix()+"§6Il y aura §e" + (nbRole + modif) + " §6" + roleName);
+								lgp.getGame().getConfig().getRoles().replace(roleName, nbRole + modif);
+							}
+								
+							openMenu(lgp);
+						}
+			});
+			i++;
 		}
 		
 		ii.registerItem(
@@ -102,7 +103,7 @@ public class RoleMenu {
 					.build(), 
 				4*9-1, true, null);
 		
-		ii.openTo(p);
+		ii.openTo(lgp.getPlayer());
 	}
 	
 	/*

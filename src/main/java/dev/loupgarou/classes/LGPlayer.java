@@ -13,6 +13,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import com.comphenix.protocol.wrappers.EnumWrappers.ChatType;
 import com.comphenix.protocol.wrappers.EnumWrappers.NativeGameMode;
 import com.comphenix.protocol.wrappers.EnumWrappers.PlayerInfoAction;
 import com.comphenix.protocol.wrappers.EnumWrappers.TitleAction;
@@ -34,8 +35,8 @@ import dev.loupgarou.roles.utils.RoleWinType;
 import dev.loupgarou.scoreboard.CustomScoreboard;
 import dev.loupgarou.utils.SoundUtils;
 import dev.loupgarou.utils.SoundUtils.LGSound;
-import dev.loupgarou.utils.VariableCache.CacheType;
 import dev.loupgarou.utils.VariableCache;
+import dev.loupgarou.utils.VariableCache.CacheType;
 import dev.loupgarou.utils.VariousUtils;
 import lombok.Getter;
 import lombok.Setter;
@@ -44,7 +45,6 @@ import net.minecraft.server.v1_15_R1.EnumGamemode;
 import net.minecraft.server.v1_15_R1.PacketPlayOutRespawn;
 import net.minecraft.server.v1_15_R1.WorldType;
 
-@SuppressWarnings("deprecation")
 public class LGPlayer {
 	private static HashMap<Player, LGPlayer> cachedPlayers = new HashMap<Player, LGPlayer>();
 	public static LGPlayer thePlayer(Player player) {
@@ -101,7 +101,7 @@ public class LGPlayer {
 	public void sendActionBarMessage(String msg) {
 		if(this.player != null) {
 			WrapperPlayServerChat chat = new WrapperPlayServerChat();
-			chat.setPosition((byte)2);
+			chat.setChatType(ChatType.GAME_INFO);
 			chat.setMessage(WrappedChatComponent.fromText(msg));
 			chat.sendPacket(getPlayer());
 		}
@@ -174,7 +174,7 @@ public class LGPlayer {
 			for(LGPlayer lgp : getGame().getAlive())
 				if(!lgp.isDead()) {
 					if(lgp != this && lgp.getPlayer() != null)
-						getPlayer().showPlayer(lgp.getPlayer());
+						showPlayer(lgp);
 					else{
 						WrapperPlayServerScoreboardTeam team = new WrapperPlayServerScoreboardTeam();
 						team.setMode(2);
@@ -194,6 +194,25 @@ public class LGPlayer {
 
 		getPlayer().removePotionEffect(PotionEffectType.BLINDNESS);
 		getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 20, 2, false, false));
+	}
+	
+	public void hideView() {
+		if(getGame() != null && player != null) {
+			WrapperPlayServerPlayerInfo info = new WrapperPlayServerPlayerInfo();
+			ArrayList<PlayerInfoData> infos = new ArrayList<PlayerInfoData>();
+			info.setAction(PlayerInfoAction.ADD_PLAYER);
+			for(LGPlayer lgp : getGame().getAlive())
+				if(lgp != this && lgp.getPlayer() != null) {
+					if(!lgp.isDead())
+						infos.add(new PlayerInfoData(new WrappedGameProfile(lgp.getPlayer().getUniqueId(), lgp.getName()), 0, NativeGameMode.ADVENTURE, WrappedChatComponent.fromText(lgp.getName())));
+					hidePlayer(lgp);
+				}
+			info.setData(infos);
+			info.sendPacket(getPlayer());
+		}
+
+		getPlayer().removePotionEffect(PotionEffectType.BLINDNESS);
+		getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 999999, 1, false, false));
 	}
 	
 	public void updatePrefix() {
@@ -216,24 +235,6 @@ public class LGPlayer {
 			}
 		}
 	}
-	public void hideView() {
-		if(getGame() != null && player != null) {
-			WrapperPlayServerPlayerInfo info = new WrapperPlayServerPlayerInfo();
-			ArrayList<PlayerInfoData> infos = new ArrayList<PlayerInfoData>();
-			info.setAction(PlayerInfoAction.ADD_PLAYER);
-			for(LGPlayer lgp : getGame().getAlive())
-				if(lgp != this && lgp.getPlayer() != null) {
-					if(!lgp.isDead())
-						infos.add(new PlayerInfoData(new WrappedGameProfile(lgp.getPlayer().getUniqueId(), lgp.getName()), 0, NativeGameMode.ADVENTURE, WrappedChatComponent.fromText(lgp.getName())));
-					getPlayer().hidePlayer(lgp.getPlayer());
-				}
-			info.setData(infos);
-			info.sendPacket(getPlayer());
-		}
-
-		getPlayer().removePotionEffect(PotionEffectType.BLINDNESS);
-		getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 999999, 1, false, false));
-	}
 	
 	public void updateSkin() {
 		if(getGame() != null && player != null) {
@@ -246,8 +247,8 @@ public class LGPlayer {
 					info.setData(infos);
 					info.sendPacket(getPlayer());
 				}else if(!isDead() && lgp.getPlayer() != null){
-					lgp.getPlayer().hidePlayer(getPlayer());
-					lgp.getPlayer().showPlayer(getPlayer());
+					lgp.hidePlayer(this);
+					lgp.showPlayer(this);
 				}
 			}
 		}
@@ -312,7 +313,7 @@ public class LGPlayer {
 		if(player != null)
 			for(LGPlayer lgp : getGame().getInGame())
 				if(lgp != this && lgp.getPlayer() != null)
-					lgp.getPlayer().hidePlayer(getPlayer());
+					lgp.hidePlayer(this);
 		muted = true;
 		MainLg.getInstance().getDiscord().setMuted(player.getName(), muted);
 	}
@@ -361,6 +362,16 @@ public class LGPlayer {
 	public void stopAudio(LGSound sound) {
 		if(player != null)
 			getPlayer().stopSound(sound.getSound());
+	}
+	
+	public void hidePlayer(LGPlayer lgp) {
+		if(player == null || lgp.getPlayer() == null) return;
+		player.hidePlayer(MainLg.getInstance(), lgp.getPlayer());
+	}
+	
+	public void showPlayer(LGPlayer lgp) {
+		if(player == null || lgp.getPlayer() == null) return;
+		player.showPlayer(MainLg.getInstance(), lgp.getPlayer());
 	}
 	
 	private long lastChooseClick;

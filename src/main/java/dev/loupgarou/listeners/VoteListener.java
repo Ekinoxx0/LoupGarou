@@ -15,6 +15,6 @@ public class VoteListener implements Listener{
 			lgp.chooseAction();
 		
 		if(lgp.getGame() != null)
-			e.setCancelled(lgp.getGame().isHideVoteExtra() || lgp.getGame().isHideVote());
+			e.setCancelled(lgp.getGame().getConfig().isHideVoteExtra() || lgp.getGame().getConfig().isHideVote());
 	}
 }

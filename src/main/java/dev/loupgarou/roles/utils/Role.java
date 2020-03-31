@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Listener;
 
 import dev.loupgarou.MainLg;
@@ -22,10 +21,7 @@ public abstract class Role implements Listener{
 	public Role(LGGame game) {
 		this.game = game;
 		Bukkit.getPluginManager().registerEvents(this, MainLg.getInstance());
-		FileConfiguration config = MainLg.getInstance().getConfig();
-		String roleConfigName = "role."+getClass().getSimpleName().substring(1);
-		if(config.contains(roleConfigName))
-			waitedPlayers = config.getInt(roleConfigName);
+		waitedPlayers = game.getConfig().getRoles().get(getClass().getSimpleName().substring(1));//TODO Is that really neccessary ?
 	}
 	
 
@@ -70,7 +66,7 @@ public abstract class Role implements Listener{
 					}
 					this.run();
 				}, (currentPlayer, secondsLeft)->{
-					return currentPlayer == player ? "§9§lC'est à ton tour !" : (Role.this.game.isHideRole() ? "§6C'est au tour de quelqu'un..." : "§6C'est au tour " + getFriendlyName()) + " §6(§e"+secondsLeft+" s§6)";
+					return currentPlayer == player ? "§9§lC'est à ton tour !" : (Role.this.game.getConfig().isHideRole() ? "§6C'est au tour de quelqu'un..." : "§6C'est au tour " + getFriendlyName()) + " §6(§e"+secondsLeft+" s§6)";
 				});
 				player.sendMessage("§6" + getTask());
 				onNightTurn(player, this);

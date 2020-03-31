@@ -3,7 +3,9 @@ package dev.loupgarou.commands.subcommands.config;
 import java.util.Arrays;
 
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
+import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.commands.LoupGarouCommand;
 import dev.loupgarou.commands.SubCommand;
 
@@ -15,10 +17,13 @@ public class HideVoteCmd extends SubCommand {
 
 	@Override
 	public void execute(CommandSender cs, String label, String[] args) {
-		getMain().getCurrentGame().setHideVote(!getMain().getCurrentGame().isHideVote());
-		getMain().getConfig().set("hideVote", getMain().getCurrentGame().isHideVote());
-		getMain().saveConfig();
-		if(getMain().getCurrentGame().isHideVote()) {
+		if(!(cs instanceof Player)) return;
+		LGPlayer lgp = LGPlayer.thePlayer((Player) cs);
+		
+		if(lgp.getGame() == null) return;//TODO Msg
+		
+		lgp.getGame().getConfig().setHideVote(!lgp.getGame().getConfig().isHideVote());
+		if(lgp.getGame().getConfig().isHideVote()) {
 			cs.sendMessage("§cVote cachée");
 		} else {
 			cs.sendMessage("§9Vote affichés");

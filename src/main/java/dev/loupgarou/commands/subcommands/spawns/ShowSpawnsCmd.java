@@ -1,7 +1,6 @@
 package dev.loupgarou.commands.subcommands.spawns;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
 
 import org.bukkit.Location;
@@ -18,6 +17,9 @@ import com.comphenix.protocol.wrappers.WrappedDataWatcher.WrappedDataWatcherObje
 import com.comphenix.protocol.wrappers.WrappedWatchableObject;
 
 import dev.loupgarou.MainLg;
+import dev.loupgarou.classes.LGMaps;
+import dev.loupgarou.classes.LGMaps.LGLocation;
+import dev.loupgarou.classes.LGMaps.LGMap;
 import dev.loupgarou.commands.LoupGarouCommand;
 import dev.loupgarou.commands.SubCommand;
 import dev.loupgarou.packetwrapper.WrapperPlayServerEntityDestroy;
@@ -32,17 +34,44 @@ public class ShowSpawnsCmd extends SubCommand {
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public void execute(CommandSender cs, String label, String[] args) {
-		Player pSP = (Player) cs;
-		List<List<Double>> listPos = (List<List<Double>>) getMain().getConfig().getList("spawns");
+		if(!(cs instanceof Player)) return;
+		Player p = (Player) cs;
+		
+		if(args.length != 2) {
+			p.sendMessage("§c/" + label + " " + args[0] + " <MAP>");
+			return;
+		}
+		
+		LGMap target = null;
+		for(LGMap map : LGMaps.getMapsInfo().getMaps())
+			if(map.getName().equalsIgnoreCase(args[0]))
+				target = map;
+		
+		if (target == null) {
+			p.sendMessage("§cMap inconnue : " + args[2]);
+			return;
+		}
+		
+		if(target.getSpawns().size() == 0) {
+			p.sendMessage("§cAucun spawn défini");
+			return;
+		}
+		
+		if(!target.isWorldValid()) {
+			p.sendMessage("§cMonde inconnu...");
+			return;
+		}
+		
+		p.teleport(target.getSpawns().get(0).toLocation());
 
 		int n = 0;
-		for (List<Double> l : listPos) {
-			Location sel = new Location(pSP.getWorld(), l.get(0), l.get(1), l.get(2));
-			showArrow(pSP, sel, 10, n);
+		for(LGLocation lgl : target.getSpawns()) {
+			showArrow(p, lgl.toLocation(), 10, n);
 			n++;
 		}
+		
+		p.sendMessage("§aAffichage des spawns");
 	}
 
 	WrappedDataWatcherObject invisible = new WrappedDataWatcherObject(0, WrappedDataWatcher.Registry.get(Byte.class)),

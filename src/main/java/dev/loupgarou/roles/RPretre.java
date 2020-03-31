@@ -124,14 +124,13 @@ public class RPretre extends Role{
 		player.openInventory(inventory);
 	}
 	WrappedDataWatcherObject invisible = new WrappedDataWatcherObject(0, WrappedDataWatcher.Registry.get(Byte.class));
-	@SuppressWarnings("deprecation")
 	@Override
 	protected void onNightTurn(LGPlayer player, Runnable callback) {
 		player.showView();
 		for(LGPlayer lgp : getGame().getInGame())
 			if(lgp.isDead() && (lgp.getRoleType() == RoleType.VILLAGER || lgp.getRoleType() == player.getRoleType())){
 				if(lgp.getPlayer() != null) {
-					player.getPlayer().showPlayer(lgp.getPlayer());
+					player.showPlayer(lgp);
 					WrapperPlayServerEntityMetadata meta = new WrapperPlayServerEntityMetadata();
 					meta.setEntityID(lgp.getPlayer().getEntityId());
 					meta.setMetadata(Arrays.asList(new WrappedWatchableObject(invisible, (byte)0)));
@@ -139,7 +138,7 @@ public class RPretre extends Role{
 					MainLg.debug("Spawning "+lgp.getName()+" for prêtre ("+player.getName()+")");
 				}
 			}else
-				player.getPlayer().hidePlayer(lgp.getPlayer());
+				player.hidePlayer(lgp);
 		this.callback = callback;
 		openInventory(player.getPlayer());
 	}
@@ -155,12 +154,11 @@ public class RPretre extends Role{
 		player.sendMessage("§6Tu n'as rien fait cette nuit.");
 	}
 
-	@SuppressWarnings("deprecation")
 	private void hidePlayers(LGPlayer player) {
 		if(player.getPlayer() != null) {
 			for(LGPlayer lgp : getGame().getInGame())
 				if(lgp.getPlayer() != null && lgp != player)
-					player.getPlayer().hidePlayer(lgp.getPlayer());
+					player.hidePlayer(lgp);
 		}
 	}
 
@@ -246,7 +244,6 @@ public class RPretre extends Role{
 		}
 	}
 	
-	@SuppressWarnings("deprecation")
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onDayStart(LGPreDayStartEvent e) {
 		if(e.getGame() == getGame())
@@ -278,7 +275,7 @@ public class RPretre extends Role{
 
 					for(LGPlayer player : getGame().getInGame())
 						if(player.getPlayer() != null && player != lgp) {
-							player.getPlayer().showPlayer(lgp.getPlayer());
+							player.showPlayer(lgp);
 						}
 				}
 				ressucited.clear();

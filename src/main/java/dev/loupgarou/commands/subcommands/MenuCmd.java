@@ -6,6 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import dev.loupgarou.RoleMenu;
+import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.commands.LoupGarouCommand;
 import dev.loupgarou.commands.SubCommand;
 
@@ -17,12 +18,17 @@ public class MenuCmd extends SubCommand {
 
 	@Override
 	public void execute(CommandSender cs, String label, String[] args) {
-		RoleMenu.openMenu((Player) cs);
+		if(!(cs instanceof Player)) return;
+		LGPlayer lgp = LGPlayer.thePlayer((Player) cs);
+		
+		if(lgp.getGame() == null) return;//TODO Msg
+		if(lgp.getGame().getConfig().isHideRole()) return;//TODO Msg
+		RoleMenu.openMenu(lgp);
 	}
 	
 	@Override
 	public String getPermission() {
-		return this.getMain().getCurrentGame().hideRole ? super.getPermission() : null;
+		return null;
 	}
 	
 }

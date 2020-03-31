@@ -1,14 +1,14 @@
 package dev.loupgarou.commands.subcommands.spawns;
 
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.Arrays;
-import java.util.List;
 
-import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import dev.loupgarou.MainLg;
+import dev.loupgarou.classes.LGMaps;
+import dev.loupgarou.classes.LGMaps.LGLocation;
+import dev.loupgarou.classes.LGMaps.LGMap;
 import dev.loupgarou.commands.LoupGarouCommand;
 import dev.loupgarou.commands.SubCommand;
 
@@ -19,23 +19,38 @@ public class AddSpawnCmd extends SubCommand {
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public void execute(CommandSender cs, String label, String[] args) {
-		Player player = (Player) cs;
-		Location loc = player.getLocation();
-		List<Object> list = (List<Object>) getMain().getConfig().getList("spawns", new ArrayList<List<Double>>());
-		list.add(
-				Arrays.asList(
-						loc.getBlockX(), 
-						loc.getY(),
-						loc.getBlockZ(), 
-						loc.getYaw(),
-						loc.getPitch()
-						)
-				);
-		getMain().saveConfig();
-		getMain().loadConfig();
-		cs.sendMessage(MainLg.getPrefix() + "§aLa position a bien été ajoutée !");
+		if(!(cs instanceof Player)) return;
+		Player p = (Player) cs;
+		
+		if(args.length != 2) {
+			p.sendMessage("§c/" + label + " " + args[0] + " <MAP>");
+			return;
+		}
+		
+		LGMap target = null;
+		for(LGMap map : LGMaps.getMapsInfo().getMaps())
+			if(map.getName().equalsIgnoreCase(args[0]))
+				target = map;
+		
+		if (target == null) {
+			p.sendMessage("§cMap inconnue : " + args[2]);
+			return;
+		}
+		
+		if(target.getWorld() != p.getWorld().getName()) {
+			p.sendMessage("§cImpossible d'ajouter un spawn si vous n'êtes pas dans le monde " + target.getWorld());
+			return;
+		}
+		
+		target.getSpawns().add(new LGLocation(p.getLocation(), target));
+		p.sendMessage("§aSpawn ajouté ! (N°" + target.getSpawns().size() + ")");
+		try {
+			LGMaps.save(getMain());
+			p.sendMessage("§aMap sauvegardé");
+		} catch (IOException e) {
+			p.sendMessage("§cImpossible de sauvegarder la maps... " + e.getMessage());
+		}
 	}
 
 }

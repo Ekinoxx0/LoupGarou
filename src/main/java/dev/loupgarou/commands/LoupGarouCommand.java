@@ -13,8 +13,6 @@ import dev.loupgarou.MainLg;
 import dev.loupgarou.commands.subcommands.EndCmd;
 import dev.loupgarou.commands.subcommands.JoinAllCmd;
 import dev.loupgarou.commands.subcommands.MenuCmd;
-import dev.loupgarou.commands.subcommands.RolesCmd;
-import dev.loupgarou.commands.subcommands.SpecCmd;
 import dev.loupgarou.commands.subcommands.StartCmd;
 import dev.loupgarou.commands.subcommands.StatusCmd;
 import dev.loupgarou.commands.subcommands.config.HideRoleCmd;
@@ -32,7 +30,6 @@ import dev.loupgarou.commands.subcommands.discord.DeadDiscordCmd;
 import dev.loupgarou.commands.subcommands.discord.MuteAllCmd;
 import dev.loupgarou.commands.subcommands.discord.UnmuteAllCmd;
 import dev.loupgarou.commands.subcommands.spawns.AddSpawnCmd;
-import dev.loupgarou.commands.subcommands.spawns.ClearAllSpawnCmd;
 import dev.loupgarou.commands.subcommands.spawns.RemoveSpawnCmd;
 import dev.loupgarou.commands.subcommands.spawns.ShowSpawnsCmd;
 import lombok.Getter;
@@ -65,15 +62,12 @@ public class LoupGarouCommand implements CommandExecutor, TabExecutor {
 		this.subs.add(new UnmuteAllCmd(this));
 
 		this.subs.add(new AddSpawnCmd(this));
-		this.subs.add(new ClearAllSpawnCmd(this));
 		this.subs.add(new RemoveSpawnCmd(this));
 		this.subs.add(new ShowSpawnsCmd(this));
 
 		this.subs.add(new EndCmd(this));
 		this.subs.add(new JoinAllCmd(this));
 		this.subs.add(new MenuCmd(this));
-		this.subs.add(new RolesCmd(this));
-		this.subs.add(new SpecCmd(this));
 		this.subs.add(new StartCmd(this));
 		this.subs.add(new StatusCmd(this));
 		
