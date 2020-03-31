@@ -1,6 +1,7 @@
 package dev.loupgarou.roles.utils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -15,7 +16,7 @@ import lombok.Setter;
 
 public abstract class Role implements Listener{
 	@Getter @Setter private int waitedPlayers;
-	@Getter private ArrayList<LGPlayer> players = new ArrayList<LGPlayer>();
+	@Getter private List<LGPlayer> players = new ArrayList<LGPlayer>();
 	@Getter private final LGGame game;
 	
 	public Role(LGGame game) {
@@ -48,9 +49,8 @@ public abstract class Role implements Listener{
 	 */
 	public abstract int getTimeout();
 
-	 @SuppressWarnings("unchecked")
 	public void onNightTurn(Runnable callback) {
-		ArrayList<LGPlayer> players = (ArrayList<LGPlayer>) getPlayers().clone();
+		List<LGPlayer> players = new ArrayList<LGPlayer>(getPlayers());
 		 new Runnable() {
 			
 			@Override

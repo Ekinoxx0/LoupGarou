@@ -203,8 +203,7 @@ public class RDictateur extends Role{
 		if(!e.isCancelled())
 			return;
 		
-		@SuppressWarnings("unchecked")
-		Iterator<LGPlayer> ite = ((ArrayList<LGPlayer>)getPlayers().clone()).iterator();
+		Iterator<LGPlayer> ite = new ArrayList<LGPlayer>(getPlayers()).iterator();
 		new Runnable() {
 			public void run() {
 				run = this;

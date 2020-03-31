@@ -530,7 +530,7 @@ public class LGGame implements Listener{
 							role.onNightTurn(run);
 						}
 					}
-				}.runTaskLater(MainLg.getInstance(), 60);
+				}.runTaskLater(MainLg.getInstance(), 3 * 20);
 			}
 		}.run();
 	}
@@ -605,7 +605,7 @@ public class LGGame implements Listener{
 	public void endGame(LGWinType winType) {
 		if(ended) return;
 		
-		ArrayList<LGPlayer> winners = new ArrayList<LGPlayer>();
+		List<LGPlayer> winners = new ArrayList<LGPlayer>();
 		LGGameEndEvent event = new LGGameEndEvent(this, winType, winners);
 		Bukkit.getPluginManager().callEvent(event);
 
@@ -617,8 +617,10 @@ public class LGGame implements Listener{
 		
 		ended = true;
 		//We unregister every role listener because they are unused after the game's end !
-		for(Role role : getRoles())
+		for(Role role : getRoles()) {
 			HandlerList.unregisterAll(role);
+			role.getPlayers().clear();
+		}
 		HandlerList.unregisterAll(this);
 		
 		broadcastMessage(winType.getMessage());
@@ -642,8 +644,10 @@ public class LGGame implements Listener{
 			
 			
 			Player p = lgp.getPlayer();
+			p.closeInventory();
 			lgp.showView();
-			p.removePotionEffect(PotionEffectType.JUMP);
+			for(PotionEffect effect : p.getActivePotionEffects())
+				p.removePotionEffect(effect.getType());
 			p.setWalkSpeed(0.2f);
 		}
 		
