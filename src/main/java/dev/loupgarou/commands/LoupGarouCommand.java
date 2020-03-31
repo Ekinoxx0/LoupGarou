@@ -3,6 +3,7 @@ package dev.loupgarou.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -44,6 +45,8 @@ public class LoupGarouCommand implements CommandExecutor, TabExecutor {
 
 	public LoupGarouCommand(@NonNull MainLg main) {
 		this.main = main;
+		Bukkit.getPluginCommand("lg").setExecutor(this);
+		Bukkit.getPluginCommand("lg").setTabCompleter(this);
 		this.subs.add(new HideRoleCmd(this));
 		this.subs.add(new HideVoteCmd(this));
 		this.subs.add(new HideVoteExtraCmd(this));
