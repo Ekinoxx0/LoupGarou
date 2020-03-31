@@ -363,13 +363,13 @@ public class LGPlayer {
 			getPlayer().stopSound(sound.getSound());
 	}
 	
-	@Getter private long lastChoose;
+	private long lastChooseClick;
 	public void chooseAction() {
 		long now = System.currentTimeMillis();
-		if(lastChoose+200 < now) {
+		if(lastChooseClick+200 < now) {
 			if(chooseCallback != null)
 				chooseCallback.callback(getPlayerOnCursor(getGame().getInGame()));
-			lastChoose = now;
+			lastChooseClick = now;
 		}
 	}
 	

@@ -227,11 +227,12 @@ public class LGVote {
 		if(voted == voter.getCache().get(CacheType.VOTE))
 			voted = null;
 		
-		if(System.currentTimeMillis() - voter.getLastChoose() < 3000 && this.game.isPeopleVote) {
+		if(System.currentTimeMillis() - (Long) voter.getCache().get(CacheType.LAST_VOTE_TIME) < 3000 && this.game.isPeopleVote) {
 			voter.getPlayer().playSound(voter.getPlayer().getLocation(), Sound.ENTITY_VILLAGER_NO, 1F, 1F);
-			voter.sendMessage("§cNe pas spam...");
+			voter.sendMessage(MainLg.getPrefix() + "§6Merci de ne pas spam les votes !");
 			return;
 		}
+		voter.getCache().set(CacheType.LAST_VOTE_TIME, System.currentTimeMillis());
 		
 		if(voted != null && voter.getPlayer() != null)
 			votesSize++;
