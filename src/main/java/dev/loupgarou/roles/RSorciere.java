@@ -27,6 +27,7 @@ import dev.loupgarou.roles.utils.RoleWinType;
 import dev.loupgarou.utils.VariableCache.CacheType;
 
 public class RSorciere extends Role{
+	//TODO Replace with InteractInventory
 	private static ItemStack[] items = new ItemStack[4];
 	private static ItemStack cancel;
 	static {

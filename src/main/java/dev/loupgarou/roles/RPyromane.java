@@ -35,6 +35,7 @@ import dev.loupgarou.roles.utils.RoleWinType;
 import dev.loupgarou.utils.VariableCache.CacheType;
 
 public class RPyromane extends Role{
+	//TODO Replace with InteractInventory
 	static ItemStack[] items = new ItemStack[9];
 	static ItemStack cancel, nothing;
 	static {

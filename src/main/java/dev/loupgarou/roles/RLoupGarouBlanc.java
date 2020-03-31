@@ -22,6 +22,7 @@ import dev.loupgarou.roles.utils.RoleType;
 import dev.loupgarou.roles.utils.RoleWinType;
 
 public class RLoupGarouBlanc extends Role{
+	//TODO Replace with InteractInventory
 	private static ItemStack skip;
 	static {
 		skip = new ItemStack(Material.IRON_NUGGET);

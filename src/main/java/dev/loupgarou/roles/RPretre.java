@@ -37,6 +37,7 @@ import dev.loupgarou.utils.VariousUtils;
 import com.comphenix.protocol.wrappers.WrappedWatchableObject;
 
 public class RPretre extends Role{
+	//TODO Replace with InteractInventory
 	static ItemStack[] items = new ItemStack[9];
 	static {
 		items[3] = new ItemStack(Material.IRON_NUGGET);

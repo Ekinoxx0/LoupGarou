@@ -33,6 +33,7 @@ import dev.loupgarou.roles.utils.RoleWinType;
 import dev.loupgarou.utils.VariableCache.CacheType;
 
 public class RDictateur extends Role{
+	//TODO Replace with InteractInventory
 	static private ItemStack[] items = new ItemStack[9];
 	static private Inventory inventory;
 	static {

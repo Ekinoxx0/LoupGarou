@@ -29,6 +29,7 @@ import dev.loupgarou.roles.utils.RoleWinType;
 import dev.loupgarou.utils.VariableCache.CacheType;
 
 public class RPirate extends Role{
+	//TODO Replace with InteractInventory
 	static ItemStack[] items = new ItemStack[9];
 	static {
 		items[3] = new ItemStack(Material.IRON_NUGGET);
