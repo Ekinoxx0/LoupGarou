@@ -57,13 +57,15 @@ public class LGCustomItems {
 	
 	public static Material getItem(@NonNull LGPlayer player, @NonNull List<LGCustomItemsConstraints> constraints) {
 		Bukkit.getPluginManager().callEvent(new LGCustomItemChangeEvent(player.getGame(), player, constraints));
-		
 		Collections.sort(constraints);
-		HashMap<String, Material> mapps = mappings.get(player.getRole().getClass().getClass().getSimpleName().substring(1));
-		if(mapps == null) {
-			MainLg.debug("No material specified in mappings for : " + player.getRole().getClass().getSimpleName());
+		
+		String roleName = player.getRole().getClass().getSimpleName().substring(1);
+		if(!mappings.containsKey(roleName)) {
+			MainLg.debug("No material specified in mappings(" + mappings.size() + ") for : '" + roleName + "'");
 			return Material.AIR;
 		}
+		
+		HashMap<String, Material> mapps = mappings.get(roleName);
 		StringJoiner sj = new StringJoiner("_");
 		for(LGCustomItemsConstraints constraint : constraints)
 			sj.add(constraint.getName());

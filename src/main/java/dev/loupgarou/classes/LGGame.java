@@ -601,7 +601,7 @@ public class LGGame implements Listener{
 					e.getWinners().add(lgp);
 	}
 	
-	private boolean ended;
+	@Getter private boolean ended;
 	public void endGame(LGWinType winType) {
 		if(ended) return;
 		

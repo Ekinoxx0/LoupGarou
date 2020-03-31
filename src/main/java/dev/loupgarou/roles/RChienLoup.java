@@ -145,11 +145,13 @@ public class RChienLoup extends Role{
 			
 			@Override
 			public boolean close(HumanEntity human) {
-				return lgp.getCache().getBoolean(CacheType.HAS_CHOOSEN_CHIEN_LOUP);
+				return getGame().isEnded() || lgp.getCache().getBoolean(CacheType.HAS_CHOOSEN_CHIEN_LOUP);
 			}
 
 			@Override
 			public void nextTick(HumanEntity human) {
+				if(getGame().isEnded()) return;
+				
 				if(!lgp.getCache().getBoolean(CacheType.HAS_CHOOSEN_CHIEN_LOUP))
 					ii.openTo(lgp.getPlayer());
 			}
