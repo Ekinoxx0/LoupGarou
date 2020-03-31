@@ -154,6 +154,26 @@ public class MainLg extends JavaPlugin {
 			roles.put("ChienLoup", RChienLoup.class.getConstructor(LGGame.class));
 			roles.put("Voleur", RVoleur.class.getConstructor(LGGame.class));
 			roles.put("LoupFeutrer", RLoupFeutrer.class.getConstructor(LGGame.class));
+			
+			/*
+			 * L'Ancien
+			 * Bouc Emissaire
+			 * Idiot du village
+			 * Joueur de flute
+			 * Renard
+			 * Servante Dévouée
+			 * Deux soeur / Trois frères
+			 * Montreur d'ours
+			 * Le comédien
+			 * Chevalier à l'épée rouillée
+			 * L'abominable sectaire
+			 * 
+			 * Spécial:
+			 * Garde champêtre
+			 * 
+			 * Garde->Salvateur
+			 * 
+			 */
 		} catch (NoSuchMethodException | SecurityException e) {
 			e.printStackTrace();
 		}

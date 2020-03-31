@@ -24,6 +24,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import dev.loupgarou.MainLg;
 import lombok.Getter;
@@ -53,6 +54,7 @@ public class InteractInventory implements Listener{
 	}
 	
 	public static abstract class InventoryClose {
+		public abstract void nextTick(HumanEntity human);
 		/**
 		 * @param human Human who close this inventory
 		 * @return Delete on close ?
@@ -350,6 +352,13 @@ public class InteractInventory implements Listener{
         if (e.getInventory().equals(inv)) {
         	if (closeAction != null) {
         		deleteOnClose = closeAction.close(e.getPlayer());
+        		new BukkitRunnable() {
+					
+					@Override
+					public void run() {
+						closeAction.nextTick(e.getPlayer());
+					}
+				}.runTaskLater(MainLg.getInstance(), 1);
         	}
         	
         	if (deleteOnClose) {

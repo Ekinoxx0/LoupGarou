@@ -111,7 +111,7 @@ public class RChienLoup extends Role{
 						))
 				.build(), 
 				
-				3, true, new InventoryCall() {
+				5, true, new InventoryCall() {
 			
 			@Override
 			public void click(HumanEntity human, ItemStack item, ClickType clickType) {
@@ -142,9 +142,13 @@ public class RChienLoup extends Role{
 			
 			@Override
 			public boolean close(HumanEntity human) {
+				return hasChoosen;
+			}
+
+			@Override
+			public void nextTick(HumanEntity human) {
 				if(!hasChoosen)
 					ii.openTo(lgp.getPlayer());
-				return true;
 			}
 		});
 		

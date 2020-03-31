@@ -326,7 +326,8 @@
         "maire": "AIR",
         "mort": "AIR",
         "maire_mort": "AIR",
-        "infecte_maire_mort": "AIR"
+        "infecte_maire_mort": "AIR",
+        "menu": "SUGAR"
     },
     "LoupFeutrer": {
         "": "AIR",
@@ -336,6 +337,7 @@
         "maire": "AIR",
         "mort": "AIR",
         "maire_mort": "AIR",
-        "infecte_maire_mort": "AIR"
+        "infecte_maire_mort": "AIR",
+        "menu": "SUGAR"
     }
 }

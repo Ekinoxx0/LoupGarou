@@ -17,6 +17,8 @@ import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.potion.PotionEffect;
 
+import lombok.NonNull;
+
 /**
  * @author Ekinoxx
  */
@@ -31,8 +33,7 @@ public class ItemBuilder {
      *
      * @param material Material
      */
-    public ItemBuilder(Material material) {
-    	Validate.notNull(material);
+    public ItemBuilder(@NonNull Material material) {
     	
     	item = new ItemStack(material);
     	meta = item.getItemMeta();

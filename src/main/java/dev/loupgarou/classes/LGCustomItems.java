@@ -59,9 +59,9 @@ public class LGCustomItems {
 		Bukkit.getPluginManager().callEvent(new LGCustomItemChangeEvent(player.getGame(), player, constraints));
 		
 		Collections.sort(constraints);
-		HashMap<String, Material> mapps = mappings.get(player.getRole().getClass().getClass().getName().substring(1));
+		HashMap<String, Material> mapps = mappings.get(player.getRole().getClass().getClass().getSimpleName().substring(1));
 		if(mapps == null) {
-			MainLg.debug("No material specified in mappings for :" + player.getRole().getClass());
+			MainLg.debug("No material specified in mappings for : " + player.getRole().getClass().getSimpleName());
 			return Material.AIR;
 		}
 		StringJoiner sj = new StringJoiner("_");
