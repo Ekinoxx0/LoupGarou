@@ -46,6 +46,12 @@ public class VariableCache {
 		return object == null ? false : (boolean)object;
 	}
 	
+	public void init(@NonNull CacheType key, Object value) {
+		if(!cache.containsKey(key))
+			cache.put(key, value);
+	}
+	
+	
 	public void set(@NonNull CacheType key, Object value) {
 		if(cache.containsKey(key))
 			cache.replace(key, value);
