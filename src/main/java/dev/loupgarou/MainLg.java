@@ -1,5 +1,6 @@
 package dev.loupgarou;
 
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -13,8 +14,10 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.comphenix.protocol.ProtocolLibrary;
+import com.google.gson.JsonParseException;
 
 import dev.loupgarou.classes.LGGame;
+import dev.loupgarou.classes.LGMaps;
 import dev.loupgarou.commands.LoupGarouCommand;
 import dev.loupgarou.discord.DiscordManager;
 import dev.loupgarou.listeners.CancelListener;
@@ -71,14 +74,26 @@ public class MainLg extends JavaPlugin {
 		new Updater(this);
 		
 		loadRoles();
-
-	    this.discord = new DiscordManager(this);
 		
 		Bukkit.getPluginManager().registerEvents(new JoinListener(), this);
 		Bukkit.getPluginManager().registerEvents(new CancelListener(), this);
 		Bukkit.getPluginManager().registerEvents(new VoteListener(), this);
 		Bukkit.getPluginManager().registerEvents(new ChatListener(), this);
 		Bukkit.getPluginManager().registerEvents(new GameListener(), this);
+
+		try {
+			LGMaps.loadMaps(this);
+		} catch (JsonParseException | IOException e) {
+			e.printStackTrace();
+			return;
+		}
+
+	    try {
+			this.discord = new DiscordManager(this);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return;
+		}
 		
 		new LoupGarouCommand(this);
 		

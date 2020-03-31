@@ -118,7 +118,7 @@ public class InteractInventory implements Listener{
      * @param cancelclickaction Boolean if when click, user can get item
      * @throws Exception Not compatible with InventoryType
      */
-    public void fillBorder(ItemStack s, boolean cancelclickaction) throws Exception {
+    public void fillBorder(ItemStack s, boolean cancelclickaction) {
     	fillBorder(s, cancelclickaction, null);
     }
 
@@ -130,7 +130,7 @@ public class InteractInventory implements Listener{
      * @param caller            InventoryCall caller to call when click
      * @throws Exception Not compatible with InventoryType
      */
-    public void fillBorder(ItemStack s, boolean cancelclickaction, InventoryCall caller) throws Exception {
+    public void fillBorder(ItemStack s, boolean cancelclickaction, InventoryCall caller) {
     	if(s == null){
     		s = new ItemBuilder(Material.GRAY_STAINED_GLASS_PANE).name(" ").data((byte)7).build();
     	}
@@ -182,8 +182,6 @@ public class InteractInventory implements Listener{
 			}
     		
             
-    	}else{
-    		throw new Exception("Not compatible with InventoryType");
     	}
     }
 
@@ -195,6 +193,9 @@ public class InteractInventory implements Listener{
      * @param caller            InventoryCall caller to call when click
      */
     public void fill(ItemStack s, boolean cancelclickaction, InventoryCall caller) {
+    	if(s == null){
+    		s = new ItemBuilder(Material.GRAY_STAINED_GLASS_PANE).name(" ").data((byte)7).build();
+    	}
     	if(caller == null){
     		caller = new InventoryCall() {
     			@Override 

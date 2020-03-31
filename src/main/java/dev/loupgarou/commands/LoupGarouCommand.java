@@ -12,6 +12,7 @@ import org.bukkit.command.TabExecutor;
 import dev.loupgarou.MainLg;
 import dev.loupgarou.commands.subcommands.EndCmd;
 import dev.loupgarou.commands.subcommands.JoinAllCmd;
+import dev.loupgarou.commands.subcommands.MainMenuCmd;
 import dev.loupgarou.commands.subcommands.MenuCmd;
 import dev.loupgarou.commands.subcommands.StartCmd;
 import dev.loupgarou.commands.subcommands.StatusCmd;
@@ -25,8 +26,12 @@ import dev.loupgarou.commands.subcommands.debug.DebugResetPlCmd;
 import dev.loupgarou.commands.subcommands.debug.NextDayCmd;
 import dev.loupgarou.commands.subcommands.debug.NextNightCmd;
 import dev.loupgarou.commands.subcommands.debug.QuickCmd;
+import dev.loupgarou.commands.subcommands.spawns.AddMapCmd;
 import dev.loupgarou.commands.subcommands.spawns.AddSpawnCmd;
+import dev.loupgarou.commands.subcommands.spawns.LoadMapCmd;
+import dev.loupgarou.commands.subcommands.spawns.RemoveMapCmd;
 import dev.loupgarou.commands.subcommands.spawns.RemoveSpawnCmd;
+import dev.loupgarou.commands.subcommands.spawns.SaveMapCmd;
 import dev.loupgarou.commands.subcommands.spawns.ShowSpawnsCmd;
 import lombok.Getter;
 import lombok.NonNull;
@@ -52,12 +57,17 @@ public class LoupGarouCommand implements CommandExecutor, TabExecutor {
 		this.subs.add(new NextNightCmd(this));
 		this.subs.add(new QuickCmd(this));
 
+		this.subs.add(new AddMapCmd(this));
 		this.subs.add(new AddSpawnCmd(this));
+		this.subs.add(new LoadMapCmd(this));
+		this.subs.add(new RemoveMapCmd(this));
 		this.subs.add(new RemoveSpawnCmd(this));
+		this.subs.add(new SaveMapCmd(this));
 		this.subs.add(new ShowSpawnsCmd(this));
 
 		this.subs.add(new EndCmd(this));
 		this.subs.add(new JoinAllCmd(this));
+		this.subs.add(new MainMenuCmd(this));
 		this.subs.add(new MenuCmd(this));
 		this.subs.add(new StartCmd(this));
 		this.subs.add(new StatusCmd(this));

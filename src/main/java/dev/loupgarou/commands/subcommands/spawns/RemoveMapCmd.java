@@ -29,10 +29,10 @@ public class RemoveMapCmd extends SubCommand {
 		}
 		
 		for(LGMap map : LGMaps.getMapsInfo().getMaps()) {
-			if(map.getName().equalsIgnoreCase(args[0])) {
+			if(map.getName().equalsIgnoreCase(args[1])) {
 				LGMaps.getMapsInfo().getMaps().remove(map);
 
-				p.sendMessage("§aSuppression de la map : " + args[0]);
+				p.sendMessage("§aSuppression de la map : " + args[1]);
 				try {
 					LGMaps.save(getMain());
 					p.sendMessage("§aSauvegarde des maps");

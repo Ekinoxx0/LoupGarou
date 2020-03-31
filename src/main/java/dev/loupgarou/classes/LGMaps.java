@@ -31,7 +31,7 @@ public class LGMaps {
 	public static void loadMaps(MainLg main) throws IOException, JsonParseException, JsonSyntaxException {
 		File mapsFile = new File(main.getDataFolder(), fileName);
 		if (!mapsFile.exists())
-			return;
+			save(main);
 		
 		String json = Files.toString(mapsFile, Charset.forName("UTF-8"));
 		

@@ -30,9 +30,10 @@ import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
 
 import dev.loupgarou.MainLg;
+import dev.loupgarou.classes.LGGameConfig.CommunicationType;
 import dev.loupgarou.classes.LGMaps.LGLocation;
-import dev.loupgarou.classes.LGMaps.LGMap;
 import dev.loupgarou.classes.chat.LGChat;
+import dev.loupgarou.discord.DiscordChannelHandler;
 import dev.loupgarou.events.daycycle.LGDayEndEvent;
 import dev.loupgarou.events.daycycle.LGDayStartEvent;
 import dev.loupgarou.events.daycycle.LGNightEndEvent;
@@ -76,7 +77,8 @@ public class LGGame implements Listener{
 	@Getter private List<Role> roles = new ArrayList<Role>();
 	
 	@Getter private final LGGameConfig config;
-	@Getter private final LGMap map;
+	@Getter private final DiscordChannelHandler discord;
+	@Getter private final LGPlayer owner;
 	
 	@Getter private boolean started;
 	@Getter private int night = 0;
@@ -94,11 +96,13 @@ public class LGGame implements Listener{
 	}, "DAY");
 	
 	
-	public LGGame(int maxPlayers, LGGameConfig config, LGMap map) {
-		this.config = config;
+	public LGGame(int maxPlayers, LGPlayer owner, LGGameConfig config) {
 		this.maxPlayers = maxPlayers;
-		this.map = map;
+		this.owner = owner;
+		this.config = config;
 		Bukkit.getPluginManager().registerEvents(this, MainLg.getInstance());
+		
+		this.discord = config.getCom() == CommunicationType.DISCORD ? new DiscordChannelHandler(this) : null;
 	}
 	
 	@Getter
@@ -245,6 +249,10 @@ public class LGGame implements Listener{
 			startingTask = null;
 			broadcastMessage("§c§oUn joueur s'est déconnecté. Le décompte de lancement a donc été arrêté.");
 		}
+		
+		if(this.getInGame().isEmpty()) {
+			this.endGame(LGWinType.NONE);
+		}
 	}
 	public void updateStart() {
 		if(!isStarted())
@@ -282,7 +290,7 @@ public class LGGame implements Listener{
 		MainLg main = MainLg.getInstance();
 		
 		//Registering roles
-		List<LGLocation> original = getMap().getSpawns();
+		List<LGLocation> original = getConfig().getMap().getSpawns();
 		List<LGLocation> spawnList = new ArrayList<LGLocation>(original);
 		
 		if(spawnList.size() < getInGame().size()) {
@@ -650,9 +658,9 @@ public class LGGame implements Listener{
 				team.setMode(Mode.TEAM_REMOVED);
 				team.setName("you_are");
 				team.sendPacket(lgp.getPlayer());
-				//LGPlayer.thePlayer(lgp.getPlayer()).join(MainLg.getInstance().getCurrentGame());
-				//TODO Join lobby ?
 			}
+		
+		MainLg.getInstance().getGames().remove(this);
 		
 		//A remettre pour activer le démarrage automatique
 	/*	wait(30, ()->{
@@ -667,6 +675,7 @@ public class LGGame implements Listener{
 		}, (player, secondsLeft)->{
 			return "§6Démarrage d'une nouvelle partie dans §e"+secondsLeft+" seconde"+(secondsLeft > 1 ? "s" : "");
 		});*/
+		
 	}
 	public boolean mayorKilled() {
 		return getMayor() != null && getMayor().isDead();

@@ -27,8 +27,8 @@ public class AddMapCmd extends SubCommand {
 			return;
 		}
 		
-		LGMaps.getMapsInfo().getMaps().add(new LGMap(args[0], p.getWorld().getName()));
-		p.sendMessage("§aAjout de la map : " + args[0]);
+		LGMaps.getMapsInfo().getMaps().add(new LGMap(args[1], p.getWorld().getName()));
+		p.sendMessage("§aAjout de la map : " + args[1]);
 		try {
 			LGMaps.save(getMain());
 			p.sendMessage("§aSauvegarde des maps");

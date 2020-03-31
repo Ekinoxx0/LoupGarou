@@ -45,7 +45,7 @@ public class ShowSpawnsCmd extends SubCommand {
 		
 		LGMap target = null;
 		for(LGMap map : LGMaps.getMapsInfo().getMaps())
-			if(map.getName().equalsIgnoreCase(args[0]))
+			if(map.getName().equalsIgnoreCase(args[1]))
 				target = map;
 		
 		if (target == null) {

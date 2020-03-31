@@ -13,7 +13,7 @@ import dev.loupgarou.classes.LGMaps.LGMap;
 
 public class FakeRoles {
 	
-	private static final LGGame fakeGame = new LGGame(0, new LGGameConfig(), new LGMap("fake", Bukkit.getWorlds().get(0).getName()));
+	private static final LGGame fakeGame = new LGGame(0, null, new LGGameConfig(new LGMap("fake", Bukkit.getWorlds().get(0).getName()), true));
 	private static final HashMap<String, Role> roles = new HashMap<String, Role>();
 	
 	public static Role getRole(String name) {
