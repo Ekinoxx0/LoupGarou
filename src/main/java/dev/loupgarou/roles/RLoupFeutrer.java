@@ -12,6 +12,7 @@ import dev.loupgarou.events.roles.LGDiscoverRoleEvent;
 import dev.loupgarou.roles.utils.Role;
 import dev.loupgarou.roles.utils.RoleType;
 import dev.loupgarou.roles.utils.RoleWinType;
+import dev.loupgarou.utils.VariableCache.CacheType;
 
 public class RLoupFeutrer extends Role {
     public RLoupFeutrer(LGGame game) {
@@ -60,7 +61,7 @@ public class RLoupFeutrer extends Role {
     
     @Override
     protected void onNightTurn(LGPlayer player, Runnable callback){
-        if(!player.getCache().has("loup_ftr_e")){
+        if(!player.getCache().has(CacheType.LOUP_FEUTRER)){
             player.showView();
             player.sendMessage("§6Choisissez votre exemple.");
             player.choose(new LGPlayer.LGChooseCallback() {
@@ -71,7 +72,7 @@ public class RLoupFeutrer extends Role {
                         player.stopChoosing();
                         player.sendMessage("§6Si la voyante te sonde, elle verra que tu as celui de §7§l"+choosen.getName()+"§6.");
                         player.sendActionBarMessage("§7§l"+choosen.getName()+"§6 est ton exemple");
-                        player.getCache().set("loup_ftr_e", choosen);
+                        player.getCache().set(CacheType.LOUP_FEUTRER, choosen);
                         getPlayers().remove(player);//Pour éviter qu'il puisse avoir plusieurs modèles
                         player.hideView();
                         callback.run();
@@ -84,7 +85,7 @@ public class RLoupFeutrer extends Role {
     private static Random random = new Random();
     @Override
     protected void onNightTurnTimeout(LGPlayer player) {
-        if(player.getCache().has("loup_ftr_e")) return;
+        if(player.getCache().has(CacheType.LOUP_FEUTRER)) return;
         player.stopChoosing();
         player.hideView();
         LGPlayer choosen = null;
@@ -92,7 +93,7 @@ public class RLoupFeutrer extends Role {
             choosen = getGame().getAlive().get(random.nextInt(getGame().getAlive().size()));
         player.sendMessage("§6Si la voyante te regarde, elle verra que tu as celui de "+choosen.getName()+".");
         player.sendActionBarMessage("§7§l"+choosen.getName()+"§6 est ton exemple");
-        player.getCache().set("loup_ftr_e", choosen);
+        player.getCache().set(CacheType.LOUP_FEUTRER, choosen);
         getPlayers().remove(player);
     }
 
@@ -123,8 +124,8 @@ public class RLoupFeutrer extends Role {
     @EventHandler
     public void onDiscoverRole(LGDiscoverRoleEvent e) {
     	if(!(e.getTarget().getRole() instanceof RLoupFeutrer)) return;
-    	if(!e.getSource().getCache().has("loup_ftr_e")) return;
+    	if(!e.getSource().getCache().has(CacheType.LOUP_FEUTRER)) return;
     	
-    	e.setDiscoveredRole(((LGPlayer) e.getSource().getCache().get("loup_ftr_e")).getRole());
+    	e.setDiscoveredRole(((LGPlayer) e.getSource().getCache().get(CacheType.LOUP_FEUTRER)).getRole());
     }
 }

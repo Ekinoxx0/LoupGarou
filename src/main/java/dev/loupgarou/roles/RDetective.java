@@ -6,6 +6,7 @@ import dev.loupgarou.classes.LGPlayer.LGChooseCallback;
 import dev.loupgarou.roles.utils.Role;
 import dev.loupgarou.roles.utils.RoleType;
 import dev.loupgarou.roles.utils.RoleWinType;
+import dev.loupgarou.utils.VariableCache.CacheType;
 
 public class RDetective extends Role{
 	public RDetective(LGGame game) {
@@ -64,8 +65,8 @@ public class RDetective extends Role{
 						player.sendMessage("§cVous ne pouvez pas vous sélectionner !");
 						return;
 					}
-					if(player.getCache().has("detective_first")) {
-						LGPlayer first = player.getCache().remove("detective_first");
+					if(player.getCache().has(CacheType.DETECTIVE_FIRST)) {
+						LGPlayer first = player.getCache().remove(CacheType.DETECTIVE_FIRST);
 						if(first == choosen) {
 							player.sendMessage("§cVous ne pouvez pas comparer §7§l"+first.getName()+"§c avec lui même !");
 						} else {
@@ -79,7 +80,7 @@ public class RDetective extends Role{
 							callback.run();
 						}
 					} else {
-						player.getCache().set("detective_first", choosen);
+						player.getCache().set(CacheType.DETECTIVE_FIRST, choosen);
 						player.sendMessage("§9Choisis un joueur avec qui tu souhaites comparer le rôle de §7§l"+choosen.getName());
 					}
 				}
@@ -89,11 +90,9 @@ public class RDetective extends Role{
 
 	@Override
 	protected void onNightTurnTimeout(LGPlayer player) {
-		player.getCache().remove("detective_first");
+		player.getCache().remove(CacheType.DETECTIVE_FIRST);
 		player.stopChoosing();
 		player.hideView();
-		//player.sendTitle("§cVous n'avez mis personne en couple", "§4Vous avez mis trop de temps à vous décider...", 80);
-		//player.sendMessage("§9Tu n'as pas créé de couple.");
 	}
 	
 	

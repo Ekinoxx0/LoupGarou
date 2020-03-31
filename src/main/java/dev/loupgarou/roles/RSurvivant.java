@@ -26,6 +26,7 @@ import dev.loupgarou.roles.utils.Role;
 import dev.loupgarou.roles.utils.RoleType;
 import dev.loupgarou.roles.utils.RoleWinType;
 import dev.loupgarou.utils.VariableCache;
+import dev.loupgarou.utils.VariableCache.CacheType;
 
 public class RSurvivant extends Role{
 	public RSurvivant(LGGame game) {
@@ -77,7 +78,7 @@ public class RSurvivant extends Role{
 		Inventory inventory = Bukkit.createInventory(null, 9, "§7Veux-tu te protéger ?");
 		ItemStack[] items = new ItemStack[9];
 		VariableCache cache = LGPlayer.thePlayer(player).getCache();
-		if(cache.<Integer>get("survivant_left") > 0) {
+		if(cache.<Integer>get(CacheType.SURVIVANT_LEFT) > 0) {
 			items[3] = new ItemStack(Material.IRON_NUGGET);
 			ItemMeta meta = items[3].getItemMeta();
 			meta.setDisplayName("§7§lNe rien faire");
@@ -85,7 +86,7 @@ public class RSurvivant extends Role{
 			items[3].setItemMeta(meta);
 			items[5] = new ItemStack(Material.GOLD_NUGGET);
 			meta = items[5].getItemMeta();
-			meta.setDisplayName("§2§lSe protéger (§6§l"+cache.<Integer>get("survivant_left")+"§2§l restant)");
+			meta.setDisplayName("§2§lSe protéger (§6§l"+cache.<Integer>get(CacheType.SURVIVANT_LEFT)+"§2§l restant)");
 			meta.setLore(Arrays.asList(
 					"§8Tu ne pourras pas être tué par",
 					"§8  les §c§lLoups§8 cette nuit."));
@@ -104,7 +105,7 @@ public class RSurvivant extends Role{
 	@Override
 	public void join(LGPlayer player) {
 		super.join(player);
-		player.getCache().set("survivant_left", 2);
+		player.getCache().set(CacheType.SURVIVANT_LEFT, 2);
 	}
 
 	Runnable callback;
@@ -144,8 +145,8 @@ public class RSurvivant extends Role{
 			closeInventory(player);
 			lgp.sendActionBarMessage("§9§lTu as décidé de te protéger.");
 			lgp.sendMessage("§6Tu as décidé de te protéger.");
-			lgp.getCache().set("survivant_left", lgp.getCache().<Integer>get("survivant_left")-1);
-			lgp.getCache().set("survivant_protected", true);
+			lgp.getCache().set(CacheType.SURVIVANT_LEFT, lgp.getCache().<Integer>get(CacheType.SURVIVANT_LEFT)-1);
+			lgp.getCache().set(CacheType.SURVIVANT_PROTECTED, true);
 			lgp.hideView();
 			callback.run();
 		}
@@ -153,7 +154,7 @@ public class RSurvivant extends Role{
 
 	@EventHandler
 	public void onPlayerKill(LGNightPlayerPreKilledEvent e) {
-		if(e.getGame() == getGame() && (e.getReason() == Reason.LOUP_GAROU || e.getReason() == Reason.LOUP_BLANC || e.getReason() == Reason.GM_LOUP_GAROU || e.getReason() == Reason.ASSASSIN) && e.getKilled().getCache().getBoolean("survivant_protected")) {
+		if(e.getGame() == getGame() && (e.getReason() == Reason.LOUP_GAROU || e.getReason() == Reason.LOUP_BLANC || e.getReason() == Reason.GM_LOUP_GAROU || e.getReason() == Reason.ASSASSIN) && e.getKilled().getCache().getBoolean(CacheType.SURVIVANT_PROTECTED)) {
 			e.setReason(Reason.DONT_DIE);
 		}
 	}
@@ -161,7 +162,7 @@ public class RSurvivant extends Role{
 	public void onDayStart(LGPreDayStartEvent e) {
 		if(e.getGame() == getGame())
 			for(LGPlayer lgp : getGame().getInGame())
-				lgp.getCache().remove("survivant_protected");
+				lgp.getCache().remove(CacheType.SURVIVANT_PROTECTED);
 	}
 	
 	@EventHandler

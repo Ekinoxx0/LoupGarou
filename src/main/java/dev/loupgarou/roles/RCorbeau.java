@@ -12,6 +12,7 @@ import dev.loupgarou.events.vote.LGPeopleVoteStartEvent;
 import dev.loupgarou.roles.utils.Role;
 import dev.loupgarou.roles.utils.RoleType;
 import dev.loupgarou.roles.utils.RoleWinType;
+import dev.loupgarou.utils.VariableCache.CacheType;
 
 public class RCorbeau extends Role{
 	public RCorbeau(LGGame game) {
@@ -66,9 +67,7 @@ public class RCorbeau extends Role{
 			@Override
 			public void callback(LGPlayer choosen) {
 				if(choosen != null && choosen != player) {
-					//player.sendTitle("§6Vous avez regardé un rôle", "§e§l"+choosen.getName()+"§6§l est §e§l"+choosen.getRole().getName(), 5*20);
-					
-					choosen.getCache().set("corbeau_selected", true);
+					choosen.getCache().set(CacheType.CORBEAU_SELECTED, true);
 					
 					player.sendActionBarMessage("§e§l"+choosen.getName()+"§6 aura deux votes contre lui");
 					player.sendMessage("§6Tu nuis à la réputation de §7§l"+choosen.getName()+"§6.");
@@ -84,15 +83,15 @@ public class RCorbeau extends Role{
 	public void onNightStart(LGNightStartEvent e) {
 		if(e.getGame() == getGame())
 			for(LGPlayer lgp : getGame().getAlive())
-				lgp.getCache().remove("corbeau_selected");
+				lgp.getCache().remove(CacheType.CORBEAU_SELECTED);
 	}
 	
 	@EventHandler
 	public void onVoteStart(LGPeopleVoteStartEvent e) {
 		if(e.getGame() == getGame())
 			for(LGPlayer lgp : getGame().getAlive())
-				if(lgp.getCache().getBoolean("corbeau_selected")) {
-					lgp.getCache().remove("corbeau_selected");
+				if(lgp.getCache().getBoolean(CacheType.CORBEAU_SELECTED)) {
+					lgp.getCache().remove(CacheType.CORBEAU_SELECTED);
 					LGPlayer lg = lgp;
 					new BukkitRunnable() {
 						

@@ -30,6 +30,7 @@ import dev.loupgarou.packetwrapper.WrapperPlayServerHeldItemSlot;
 import dev.loupgarou.roles.utils.Role;
 import dev.loupgarou.roles.utils.RoleType;
 import dev.loupgarou.roles.utils.RoleWinType;
+import dev.loupgarou.utils.VariableCache.CacheType;
 
 public class RDictateur extends Role{
 	static private ItemStack[] items = new ItemStack[9];
@@ -145,8 +146,8 @@ public class RDictateur extends Role{
 			closeInventory(player);
 			lgp.sendActionBarMessage("§9§lTu effectueras un coup d'état");
 			lgp.sendMessage("§6Tu as décidé de faire un coup d'état.");
-			lgp.getCache().set("coup_d_etat", true);
-			lgp.getCache().set("just_coup_d_etat", true);
+			lgp.getCache().set(CacheType.COUP_D_ETAT, true);
+			lgp.getCache().set(CacheType.JUST_COUP_D_ETAT, true);
 			lgp.hideView();
 			callback.run();
 		}
@@ -195,7 +196,7 @@ public class RDictateur extends Role{
 	}
 	public void onTurn(Cancellable e) {
 		for(LGPlayer lgp : getPlayers())
-			if(lgp.getCache().getBoolean("just_coup_d_etat"))
+			if(lgp.getCache().getBoolean(CacheType.JUST_COUP_D_ETAT))
 				e.setCancelled(true);
 		
 		if(!e.isCancelled())
@@ -208,9 +209,9 @@ public class RDictateur extends Role{
 				run = this;
 				if(ite.hasNext()) {
 					LGPlayer lgp = ite.next();
-					if(lgp.getCache().getBoolean("just_coup_d_etat")) {
+					if(lgp.getCache().getBoolean(CacheType.JUST_COUP_D_ETAT)) {
 						getPlayers().remove(lgp);
-						lgp.getCache().remove("just_coup_d_etat");
+						lgp.getCache().remove(CacheType.JUST_COUP_D_ETAT);
 						getGame().broadcastMessage("§7§l"+lgp.getName()+" §9réalise un coup d'état.");
 						//lgp.sendTitle("§6Vous faites votre coup d'état", "§aChoisissez qui tuer", 60);
 						

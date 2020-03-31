@@ -13,6 +13,7 @@ import dev.loupgarou.events.roles.LGRoleTurnEndEvent;
 import dev.loupgarou.roles.utils.Role;
 import dev.loupgarou.roles.utils.RoleType;
 import dev.loupgarou.roles.utils.RoleWinType;
+import dev.loupgarou.utils.VariableCache.CacheType;
 
 public class RChaperonRouge extends Role{
 	public RChaperonRouge(LGGame game) {
@@ -65,7 +66,7 @@ public class RChaperonRouge extends Role{
 			for(Role role : getGame().getRoles())
 				if(role instanceof RChasseur)
 					if(role.getPlayers().size() > 0){
-						e.getKilled().getCache().set("chaperon_kill", true);
+						e.getKilled().getCache().set(CacheType.CHAPERON_KILL, true);
 						e.setReason(Reason.DONT_DIE);
 						break;
 					}
@@ -77,14 +78,14 @@ public class RChaperonRouge extends Role{
 			MainLg.debug("(ChaperonRouge-LGRoleTurnEndEvent)" + e.getPreviousRole().getName());
 			if(e.getPreviousRole() instanceof RLoupGarou) {
 				for(LGPlayer lgp : getGame().getAlive())
-					if(lgp.getCache().getBoolean("chaperon_kill")) {
+					if(lgp.getCache().getBoolean(CacheType.CHAPERON_KILL)) {
 						for(LGPlayer l : getGame().getInGame())
 							if(l.getRoleType() == RoleType.LOUP_GAROU)
 								l.sendMessage("§cVotre cible est immunisée.");
 					}
 			}else if(e.getPreviousRole() instanceof RGrandMechantLoup) {
 				for(LGPlayer lgp : getGame().getAlive())
-					if(lgp.getCache().getBoolean("chaperon_kill")) {
+					if(lgp.getCache().getBoolean(CacheType.CHAPERON_KILL)) {
 						for(LGPlayer l : e.getPreviousRole().getPlayers())
 							l.sendMessage("§cVotre cible est immunisée.");
 					}
@@ -95,8 +96,8 @@ public class RChaperonRouge extends Role{
 	public void onDayStart(LGNightEndEvent e) {
 		if(e.getGame() == getGame()) {
 			for(LGPlayer lgp : getPlayers())
-				if(lgp.getCache().getBoolean("chaperon_kill")) {
-					lgp.getCache().remove("chaperon_kill");
+				if(lgp.getCache().getBoolean(CacheType.CHAPERON_KILL)) {
+					lgp.getCache().remove(CacheType.CHAPERON_KILL);
 					lgp.sendMessage("§9§oTu as été attaqué cette nuit.");
 				}
 		}

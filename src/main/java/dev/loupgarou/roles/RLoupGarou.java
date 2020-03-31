@@ -23,6 +23,7 @@ import dev.loupgarou.events.other.LGUpdatePrefixEvent;
 import dev.loupgarou.roles.utils.Role;
 import dev.loupgarou.roles.utils.RoleType;
 import dev.loupgarou.roles.utils.RoleWinType;
+import dev.loupgarou.utils.VariableCache.CacheType;
 import lombok.Getter;
 
 public class RLoupGarou extends Role{
@@ -95,7 +96,7 @@ public class RLoupGarou extends Role{
 
 	public void onNightTurn(Runnable callback) {
 		vote = new LGVote(getTimeout(), getTimeout()/3, getGame(), false, false, (player, secondsLeft)-> {
-			return !getPlayers().contains(player) ? (RLoupGarou.this.getGame().isHideRole() ? "§6C'est au tour de quelqu'un..." : ("§6C'est au tour "+getFriendlyName()+" §6(§e"+secondsLeft+" s§6)")) : player.getCache().has("vote") ? "§l§9Vous votez contre §c§l"+player.getCache().<LGPlayer>get("vote").getName() : "§6Il vous reste §e"+secondsLeft+" seconde"+(secondsLeft > 1 ? "s" : "")+"§6 pour voter";
+			return !getPlayers().contains(player) ? (RLoupGarou.this.getGame().isHideRole() ? "§6C'est au tour de quelqu'un..." : ("§6C'est au tour "+getFriendlyName()+" §6(§e"+secondsLeft+" s§6)")) : player.getCache().has(CacheType.VOTE) ? "§l§9Vous votez contre §c§l"+player.getCache().<LGPlayer>get(CacheType.VOTE).getName() : "§6Il vous reste §e"+secondsLeft+" seconde"+(secondsLeft > 1 ? "s" : "")+"§6 pour voter";
 		});
 		for(LGPlayer lgp : getGame().getAlive())
 			if(lgp.getRoleType() == RoleType.LOUP_GAROU)

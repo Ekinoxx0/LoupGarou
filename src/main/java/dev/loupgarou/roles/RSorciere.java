@@ -24,6 +24,7 @@ import dev.loupgarou.packetwrapper.WrapperPlayServerHeldItemSlot;
 import dev.loupgarou.roles.utils.Role;
 import dev.loupgarou.roles.utils.RoleType;
 import dev.loupgarou.roles.utils.RoleWinType;
+import dev.loupgarou.utils.VariableCache.CacheType;
 
 public class RSorciere extends Role{
 	private static ItemStack[] items = new ItemStack[4];
@@ -121,7 +122,7 @@ public class RSorciere extends Role{
 		inMenu = true;
 		Inventory inventory = Bukkit.createInventory(null, InventoryType.BREWING, sauver == null ? "§7Personne n'a été ciblé" : "§7§l"+sauver.getName()+" §7est ciblé");
 		inventory.setContents(items.clone());//clone au cas où Bukkit prenne directement la liste pour éviter de la modifier avec setItem (jsp)
-		if(sauver == null || player.getCache().getBoolean("witch_used_life"))
+		if(sauver == null || player.getCache().getBoolean(CacheType.WITCH_USED_LIFE))
 			inventory.setItem(0, null);
 		
 		if(sauver != null) {
@@ -131,7 +132,7 @@ public class RSorciere extends Role{
 			head.setItemMeta(meta);
 			inventory.setItem(4, head);
 		}
-		if(player.getCache().getBoolean("witch_used_death"))
+		if(player.getCache().getBoolean(CacheType.WITCH_USED_DEATH))
 			inventory.setItem(2, null);
 		player.getPlayer().closeInventory();
 		player.getPlayer().openInventory(inventory);
@@ -212,7 +213,7 @@ public class RSorciere extends Role{
 	private void kill(LGPlayer choosen, LGPlayer player) {
 		player.getPlayer().getInventory().setItem(8, null);
 		player.getPlayer().updateInventory();
-		player.getCache().set("witch_used_death", true);
+		player.getCache().set(CacheType.WITCH_USED_DEATH, true);
 		getGame().kill(choosen, Reason.SORCIERE);
 		player.sendMessage("§6Tu as décidé d'assassiner §7§l"+choosen.getName()+"§6.");
 		player.sendActionBarMessage("§7§l"+choosen.getName()+"§9 a été tué.");
@@ -220,7 +221,7 @@ public class RSorciere extends Role{
 		callback.run();
 	}
 	private void saveLife(LGPlayer player) {
-		player.getCache().set("witch_used_life", true);
+		player.getCache().set(CacheType.WITCH_USED_LIFE, true);
 		getGame().getDeaths().remove(Reason.LOUP_GAROU, sauver);
 		player.sendMessage("§6Tu as décidé de sauver §7§l"+sauver.getName()+"§6.");
 		player.sendActionBarMessage("§7§l"+sauver.getName()+"§9 a été sauvé.");

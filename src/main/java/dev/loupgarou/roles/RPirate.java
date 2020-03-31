@@ -26,6 +26,7 @@ import dev.loupgarou.packetwrapper.WrapperPlayServerHeldItemSlot;
 import dev.loupgarou.roles.utils.Role;
 import dev.loupgarou.roles.utils.RoleType;
 import dev.loupgarou.roles.utils.RoleWinType;
+import dev.loupgarou.utils.VariableCache.CacheType;
 
 public class RPirate extends Role{
 	static ItemStack[] items = new ItemStack[9];
@@ -162,8 +163,8 @@ public class RPirate extends Role{
 						lgp.stopChoosing();
 						lgp.sendMessage("§6Tu as pris §7§l"+choosen.getName()+"§6 en otage.");
 						lgp.sendActionBarMessage("§7§l"+choosen.getName()+"§6 est ton otage");
-						lgp.getCache().set("pirate_otage", choosen);
-						choosen.getCache().set("pirate_otage_d", lgp);
+						lgp.getCache().set(CacheType.PIRATE_OTAGE, choosen);
+						choosen.getCache().set(CacheType.PIRATE_OTAGE_D, lgp);
 						getPlayers().remove(lgp);//Pour éviter qu'il puisse prendre plusieurs otages
 						choosen.sendMessage("§7§l"+lgp.getName()+"§6 t'a pris en otage, il est "+getName()+"§6.");
 						lgp.hideView();
@@ -176,9 +177,9 @@ public class RPirate extends Role{
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onPlayerKilled(LGPlayerKilledEvent e) {
 		if(e.getGame() == getGame() && e.getReason() == Reason.VOTE)
-			if(e.getKilled().getCache().has("pirate_otage")) {
-				LGPlayer otage = e.getKilled().getCache().remove("pirate_otage");
-				if(!otage.isDead() && otage.getCache().get("pirate_otage_d") == e.getKilled()) {
+			if(e.getKilled().getCache().has(CacheType.PIRATE_OTAGE)) {
+				LGPlayer otage = e.getKilled().getCache().remove(CacheType.PIRATE_OTAGE);
+				if(!otage.isDead() && otage.getCache().get(CacheType.PIRATE_OTAGE_D) == e.getKilled()) {
 					getGame().broadcastMessage("§7§l"+e.getKilled().getName()+"§6 est "+getName()+"§6, c'est son otage qui va mourir.");
 					e.setKilled(otage);
 					e.setReason(Reason.PIRATE);

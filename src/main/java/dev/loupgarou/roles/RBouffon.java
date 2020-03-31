@@ -16,6 +16,7 @@ import dev.loupgarou.events.game.LGPlayerKilledEvent.Reason;
 import dev.loupgarou.roles.utils.Role;
 import dev.loupgarou.roles.utils.RoleType;
 import dev.loupgarou.roles.utils.RoleWinType;
+import dev.loupgarou.utils.VariableCache.CacheType;
 
 public class RBouffon extends Role{
 	public RBouffon(LGGame game) {
@@ -94,7 +95,7 @@ public class RBouffon extends Role{
 	protected void onNightTurn(LGPlayer player, Runnable callback) {
 		needToPlay.remove(player);
 		player.showView();
-		player.getCache().set("bouffon_win", true);
+		player.getCache().set(CacheType.BOUFFON_WIN, true);
 		MainLg.debug(getGame().getVote().toString());
 		List<LGPlayer> choosable = getGame().getVote().getVotes(player);
 		StringJoiner sj = new StringJoiner("§6§o, §6§o§l");
@@ -142,7 +143,7 @@ public class RBouffon extends Role{
 	public void onWin(LGGameEndEvent e) {
 		if(e.getGame() == getGame())
 			for(LGPlayer lgp : getGame().getInGame())
-				if(lgp.getRole() == this && lgp.getCache().getBoolean("bouffon_win")) {
+				if(lgp.getRole() == this && lgp.getCache().getBoolean(CacheType.BOUFFON_WIN)) {
 					e.getWinners().add(lgp);
 					new BukkitRunnable() {
 						

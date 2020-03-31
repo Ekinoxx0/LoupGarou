@@ -12,6 +12,7 @@ import dev.loupgarou.events.game.LGPlayerKilledEvent;
 import dev.loupgarou.roles.utils.Role;
 import dev.loupgarou.roles.utils.RoleType;
 import dev.loupgarou.roles.utils.RoleWinType;
+import dev.loupgarou.utils.VariableCache.CacheType;
 
 public class REnfantSauvage extends Role{
 	public REnfantSauvage(LGGame game) {
@@ -78,8 +79,8 @@ public class REnfantSauvage extends Role{
 					player.stopChoosing();
 					player.sendMessage("§6Si §7§l"+choosen.getName()+"§6 meurt, tu deviendras §c§lLoup-Garou§6.");
 					player.sendActionBarMessage("§7§l"+choosen.getName()+"§6 est ton modèle");
-					player.getCache().set("enfant_svg", choosen);
-					choosen.getCache().set("enfant_svg_d", player);
+					player.getCache().set(CacheType.ENFANT_SAUVAGE, choosen);
+					choosen.getCache().set(CacheType.ENFANT_SAUVAGE_D, player);
 					getPlayers().remove(player);//Pour éviter qu'il puisse avoir plusieurs modèles
 					player.hideView();
 					callback.run();
@@ -97,17 +98,17 @@ public class REnfantSauvage extends Role{
 			choosen = getGame().getAlive().get(random.nextInt(getGame().getAlive().size()));
 		player.sendMessage("§6Si §7§l"+choosen.getName()+"§6 meurt, tu deviendras §c§lLoup-Garou§6.");
 		player.sendActionBarMessage("§7§l"+choosen.getName()+"§6 est ton modèle");
-		player.getCache().set("enfant_svg", choosen);
-		choosen.getCache().set("enfant_svg_d", player);
+		player.getCache().set(CacheType.ENFANT_SAUVAGE, choosen);
+		choosen.getCache().set(CacheType.ENFANT_SAUVAGE_D, player);
 		getPlayers().remove(player);
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerKilled(LGPlayerKilledEvent e) {
 		if(e.getGame() == getGame())
-			if(e.getKilled().getCache().has("enfant_svg_d")) {
-				LGPlayer enfant = e.getKilled().getCache().remove("enfant_svg_d");
-				if(!enfant.isDead() && enfant.getCache().remove("enfant_svg") == e.getKilled()) {
+			if(e.getKilled().getCache().has(CacheType.ENFANT_SAUVAGE_D)) {
+				LGPlayer enfant = e.getKilled().getCache().remove(CacheType.ENFANT_SAUVAGE_D);
+				if(!enfant.isDead() && enfant.getCache().remove(CacheType.ENFANT_SAUVAGE) == e.getKilled()) {
 					enfant.sendMessage("§7§l"+e.getKilled().getName()+"§6 est mort, tu deviens un §c§lLoup-Garou§6.");
 					REnfantSauvageLG lgEnfantSvg = null;
 					for(Role role : getGame().getRoles())

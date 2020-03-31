@@ -33,6 +33,7 @@ import dev.loupgarou.packetwrapper.WrapperPlayServerEntityLook;
 import dev.loupgarou.packetwrapper.WrapperPlayServerEntityMetadata;
 import dev.loupgarou.packetwrapper.WrapperPlayServerSpawnEntityLiving;
 import dev.loupgarou.utils.VariousUtils;
+import dev.loupgarou.utils.VariableCache.CacheType;
 import lombok.Getter;
 import net.minecraft.server.v1_15_R1.DataWatcher;
 import net.minecraft.server.v1_15_R1.DataWatcherObject;
@@ -119,7 +120,7 @@ public class LGVote {
 			}else if(entry.getValue().size() == max)
 				equal = true;
 		for(LGPlayer player : participants) {
-			player.getCache().remove("vote");
+			player.getCache().remove(CacheType.VOTE);
 			player.stopChoosing();
 		}
 		if(equal)
@@ -223,7 +224,7 @@ public class LGVote {
 	}
 	
 	public void vote(LGPlayer voter, LGPlayer voted) {
-		if(voted == voter.getCache().get("vote"))
+		if(voted == voter.getCache().get(CacheType.VOTE))
 			voted = null;
 		
 		if(System.currentTimeMillis() - voter.getLastChoose() < 3000 && this.game.isPeopleVote) {
@@ -234,15 +235,15 @@ public class LGVote {
 		
 		if(voted != null && voter.getPlayer() != null)
 			votesSize++;
-		if(voter.getCache().has("vote"))
+		if(voter.getCache().has(CacheType.VOTE))
 			votesSize--;
 		
 		if(votesSize == participants.size() && timeout > littleTimeout) {
 			this.quick(littleTimeout);
 		}
 		boolean changeVote = false;
-		if(voter.getCache().has("vote")) {//On enlève l'ancien vote
-			LGPlayer devoted = voter.getCache().get("vote");
+		if(voter.getCache().has(CacheType.VOTE)) {//On enlève l'ancien vote
+			LGPlayer devoted = voter.getCache().get(CacheType.VOTE);
 			if(votes.containsKey(devoted)) {
 				List<LGPlayer> voters = votes.get(devoted);
 				if(voters != null) {
@@ -251,7 +252,7 @@ public class LGVote {
 						votes.remove(devoted);
 				}
 			}
-			voter.getCache().remove("vote");
+			voter.getCache().remove(CacheType.VOTE);
 			updateVotes(devoted);
 			changeVote = true;
 		}
@@ -262,7 +263,7 @@ public class LGVote {
 				votes.get(voted).add(voter);
 			else
 				votes.put(voted, new ArrayList<LGPlayer>(Arrays.asList(voter)));
-			voter.getCache().set("vote", voted);
+			voter.getCache().set(CacheType.VOTE, voted);
 			updateVotes(voted);
 		}
 		

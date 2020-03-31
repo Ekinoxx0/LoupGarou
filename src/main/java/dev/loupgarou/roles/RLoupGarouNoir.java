@@ -17,16 +17,17 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import dev.loupgarou.MainLg;
 import dev.loupgarou.classes.LGCustomItems;
+import dev.loupgarou.classes.LGCustomItems.LGCustomItemsConstraints;
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.classes.LGVote;
-import dev.loupgarou.classes.LGCustomItems.LGCustomItemsConstraints;
 import dev.loupgarou.events.daycycle.LGNightEndEvent;
 import dev.loupgarou.events.game.LGPlayerKilledEvent.Reason;
 import dev.loupgarou.events.other.LGCustomItemChangeEvent;
 import dev.loupgarou.roles.utils.Role;
 import dev.loupgarou.roles.utils.RoleType;
 import dev.loupgarou.roles.utils.RoleWinType;
+import dev.loupgarou.utils.VariableCache.CacheType;
 
 public class RLoupGarouNoir extends Role{
 	static ItemStack[] items = new ItemStack[9];
@@ -161,10 +162,10 @@ public class RLoupGarouNoir extends Role{
 			player.updateInventory();
 			closeInventory(player);
 			
-			lgp.getCache().set("has_infected", true);
-			toInfect.getCache().set("infected", true);
+			lgp.getCache().set(CacheType.HAS_INFECTED, true);
+			toInfect.getCache().set(CacheType.INFECTED, true);
 			getPlayers().remove(lgp);
-			toInfect.getCache().set("just_infected", true);
+			toInfect.getCache().set(CacheType.JUST_INFECTED, true);
 			lgp.sendActionBarMessage("§9§lVous infectez §9"+toInfect.getName());
 			lgp.sendMessage("§6Tu as infecté §7§l"+toInfect.getName()+"§6.");
 			lgp.stopChoosing();
@@ -177,8 +178,8 @@ public class RLoupGarouNoir extends Role{
 	public void onDayStart(LGNightEndEvent e) {
 		if(e.getGame() == getGame())
 			for(LGPlayer player : getGame().getAlive()) {
-				if(player.getCache().getBoolean("just_infected")) {
-					player.getCache().remove("just_infected");
+				if(player.getCache().getBoolean(CacheType.JUST_INFECTED)) {
+					player.getCache().remove(CacheType.JUST_INFECTED);
 					player.sendMessage("§6Tu as été infecté pendant la nuit.");
 					player.sendMessage("§6§oTu gagnes désormais avec les §c§l§oLoups-Garous§6§o.");
 					for(Role role : getGame().getRoles())
@@ -228,7 +229,7 @@ public class RLoupGarouNoir extends Role{
 	@EventHandler
 	public void onCustomItemChange(LGCustomItemChangeEvent e) {
 		if(e.getGame() == getGame())
-			if(e.getPlayer().getCache().getBoolean("infected"))
+			if(e.getPlayer().getCache().getBoolean(CacheType.JUST_INFECTED))
 				e.getConstraints().add(LGCustomItemsConstraints.INFECTED);
 	}
 	

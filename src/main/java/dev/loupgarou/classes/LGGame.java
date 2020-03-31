@@ -62,6 +62,7 @@ import dev.loupgarou.roles.utils.RoleWinType;
 import dev.loupgarou.scoreboard.CustomScoreboard;
 import dev.loupgarou.utils.MultipleValueMap;
 import dev.loupgarou.utils.SoundUtils.LGSound;
+import dev.loupgarou.utils.VariableCache.CacheType;
 import dev.loupgarou.utils.VariousUtils;
 import lombok.Getter;
 import lombok.Setter;
@@ -552,7 +553,7 @@ public class LGGame implements Listener{
 			if(vote != null)
 				vote.remove(killed);
 			
-			broadcastMessage(String.format(reason.getMessage(), killed.getName())+", il était "+killed.getRole().getName()+(killed.getCache().getBoolean("infected") ? " §c§l(Infecté)" : "")+"§4.");
+			broadcastMessage(String.format(reason.getMessage(), killed.getName())+", il était "+killed.getRole().getName()+(killed.getCache().getBoolean(CacheType.INFECTED) ? " §c§l(Infecté)" : "")+"§4.");
 			
 			MainLg.getInstance().getDiscord().setMuted(killed.getName(), true);
 			
@@ -792,7 +793,7 @@ public class LGGame implements Listener{
 		
 		broadcastMessage("§9Il est temps de voter pour élire un §5§lCapitaine§9.");
 		vote = new LGVote(180, 20, this, true, true, (player, secondsLeft)-> {
-			return player.getCache().has("vote") ? "§6Tu votes pour §7§l"+player.getCache().<LGPlayer>get("vote").getName() : "§6Il te reste §e"+secondsLeft+" seconde"+(secondsLeft > 1 ? "s" : "")+"§6 pour voter";
+			return player.getCache().has(CacheType.VOTE) ? "§6Tu votes pour §7§l"+player.getCache().<LGPlayer>get(CacheType.VOTE).getName() : "§6Il te reste §e"+secondsLeft+" seconde"+(secondsLeft > 1 ? "s" : "")+"§6 pour voter";
 		});
 		vote.start(getAlive(), getInGame(), ()->{
 			if(vote.getChoosen() == null)
@@ -827,7 +828,7 @@ public class LGGame implements Listener{
 		broadcastMessage("§9La phase des votes a commencé.");
 		isPeopleVote = true;
 		vote = new LGVote(MainLg.getInstance().getConfig().getInt("timerDayPerPlayer") * this.getAlive().size(), 20, this, false, false, (player, secondsLeft)-> {
-			return player.getCache().has("vote") ? "§6Tu votes pour §7§l"+player.getCache().<LGPlayer>get("vote").getName() : "§6Il te reste §e"+secondsLeft+" seconde"+(secondsLeft > 1 ? "s" : "")+"§6 pour voter";
+			return player.getCache().has(CacheType.VOTE) ? "§6Tu votes pour §7§l"+player.getCache().<LGPlayer>get(CacheType.VOTE).getName() : "§6Il te reste §e"+secondsLeft+" seconde"+(secondsLeft > 1 ? "s" : "")+"§6 pour voter";
 		});
 		
 		vote.start(getAlive(), getInGame(), ()->{

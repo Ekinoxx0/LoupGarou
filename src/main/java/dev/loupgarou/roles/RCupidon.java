@@ -16,12 +16,13 @@ import org.bukkit.scheduler.BukkitRunnable;
 import com.comphenix.protocol.wrappers.EnumWrappers.ItemSlot;
 import com.comphenix.protocol.wrappers.WrappedDataWatcher;
 import com.comphenix.protocol.wrappers.WrappedDataWatcher.WrappedDataWatcherObject;
+import com.comphenix.protocol.wrappers.WrappedWatchableObject;
 
 import dev.loupgarou.MainLg;
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
-import dev.loupgarou.classes.LGWinType;
 import dev.loupgarou.classes.LGPlayer.LGChooseCallback;
+import dev.loupgarou.classes.LGWinType;
 import dev.loupgarou.events.game.LGEndCheckEvent;
 import dev.loupgarou.events.game.LGGameEndEvent;
 import dev.loupgarou.events.game.LGPlayerGotKilledEvent;
@@ -36,8 +37,7 @@ import dev.loupgarou.packetwrapper.WrapperPlayServerSpawnEntityLiving;
 import dev.loupgarou.roles.utils.Role;
 import dev.loupgarou.roles.utils.RoleType;
 import dev.loupgarou.roles.utils.RoleWinType;
-
-import com.comphenix.protocol.wrappers.WrappedWatchableObject;
+import dev.loupgarou.utils.VariableCache.CacheType;
 
 public class RCupidon extends Role{
 	public RCupidon(LGGame game) {
@@ -97,8 +97,8 @@ public class RCupidon extends Role{
 			@Override
 			public void callback(LGPlayer choosen) {
 				if(choosen != null) {
-					if(player.getCache().has("cupidon_first")) {
-						LGPlayer first = player.getCache().remove("cupidon_first");
+					if(player.getCache().has(CacheType.CUPIDON_FIRST)) {
+						LGPlayer first = player.getCache().remove(CacheType.CUPIDON_FIRST);
 						if(first == choosen) {
 							int entityId = Integer.MAX_VALUE-choosen.getPlayer().getEntityId();
 							WrapperPlayServerEntityDestroy destroy = new WrapperPlayServerEntityDestroy();
@@ -119,18 +119,18 @@ public class RCupidon extends Role{
 						}
 					} else {
 						sendHead(player, choosen);
-						player.getCache().set("cupidon_first", choosen);
+						player.getCache().set(CacheType.CUPIDON_FIRST, choosen);
 					}
 				}
 			}
 		});
 	}
 	protected void setInLove(LGPlayer player1, LGPlayer player2) {
-		player1.getCache().set("inlove", player2);
+		player1.getCache().set(CacheType.INLOVE, player2);
 		player1.sendMessage("§9Tu tombes amoureux de §7§l"+player2.getName()+"§9, il est "+player2.getRole().getName());
 		player1.sendMessage("§9§oTu peux lui parler en mettant un §e!§9 devant ton message.");
 		
-		player2.getCache().set("inlove", player1);
+		player2.getCache().set(CacheType.INLOVE, player1);
 		player2.sendMessage("§9Tu tombes amoureux de §7§l"+player1.getName()+"§9, il est "+player1.getRole().getName());
 		player2.sendMessage("§9§oTu peux lui parler en mettant un §e!§9 devant ton message.");
 		
@@ -192,7 +192,7 @@ public class RCupidon extends Role{
 	
 	@Override
 	protected void onNightTurnTimeout(LGPlayer player) {
-		player.getCache().remove("cupidon_first");
+		player.getCache().remove(CacheType.CUPIDON_FIRST);
 		player.stopChoosing();
 		player.hideView();
 		player.sendTitle("§cVous n'avez mis personne en couple", "§4Vous avez mis trop de temps à vous décider...", 80);
@@ -202,8 +202,8 @@ public class RCupidon extends Role{
 	
 	@EventHandler
 	public void onPlayerKill(LGPlayerGotKilledEvent e) {
-		if(e.getGame() == getGame() && e.getKilled().getCache().has("inlove") && !e.getKilled().getCache().<LGPlayer>get("inlove").isDead()) {
-			LGPlayer killed = e.getKilled().getCache().get("inlove");
+		if(e.getGame() == getGame() && e.getKilled().getCache().has(CacheType.INLOVE) && !e.getKilled().getCache().<LGPlayer>get(CacheType.INLOVE).isDead()) {
+			LGPlayer killed = e.getKilled().getCache().get(CacheType.INLOVE);
 			LGPlayerKilledEvent event = new LGPlayerKilledEvent(getGame(), killed, Reason.LOVE);
 			Bukkit.getPluginManager().callEvent(event);
 			if(!event.isCancelled())
@@ -226,12 +226,12 @@ public class RCupidon extends Role{
 				destroy.sendPacket(lgp.getPlayer());
 			
 			for(LGPlayer lgp : getGame().getInGame())
-				if(lgp.getCache().has("inlove")) {
+				if(lgp.getCache().has(CacheType.INLOVE)) {
 					if(e.getWinType() == LGWinType.COUPLE) {
 						if(!e.getWinners().contains(lgp))
 							e.getWinners().add(lgp);
 					} else {
-						LGPlayer player2 = lgp.getCache().<LGPlayer>get("inlove");
+						LGPlayer player2 = lgp.getCache().<LGPlayer>get(CacheType.INLOVE);
 						boolean winEnCouple = (lgp.getRoleType() == RoleType.LOUP_GAROU) != (player2.getRoleType() == RoleType.LOUP_GAROU) || lgp.getRoleWinType() == RoleWinType.SEUL || player2.getRoleWinType() == RoleWinType.SEUL;
 						if(winEnCouple) {
 							MainLg.debug(lgp.getName() + " ne peut pas gagner car il était en couple !");
@@ -252,7 +252,7 @@ public class RCupidon extends Role{
 			if(winners.size() == 2) {
 				LGPlayer player1 = winners.get(0),
 						 player2 = winners.get(1);
-				if(player1.getCache().get("inlove") == player2 && /*player1.isABadGuy() != player2.isABadGuy()*/ (player1.getRoleType() == RoleType.LOUP_GAROU) != (player2.getRoleType() == RoleType.LOUP_GAROU))
+				if(player1.getCache().get(CacheType.INLOVE) == player2 && /*player1.isABadGuy() != player2.isABadGuy()*/ (player1.getRoleType() == RoleType.LOUP_GAROU) != (player2.getRoleType() == RoleType.LOUP_GAROU))
 					e.setWinType(LGWinType.COUPLE);
 			}
 		}
@@ -262,9 +262,9 @@ public class RCupidon extends Role{
 	public void onChat(AsyncPlayerChatEvent e) {
 		LGPlayer player = LGPlayer.thePlayer(e.getPlayer());
 		if(player.getGame() == getGame()) {
-			if(e.getMessage().startsWith("!") && player.getCache().has("inlove")) {
+			if(e.getMessage().startsWith("!") && player.getCache().has(CacheType.INLOVE)) {
 				player.sendMessage("§d\u2764 "+player.getName()+" §6» §f"+e.getMessage().substring(1));
-				player.getCache().<LGPlayer>get("inlove").sendMessage("§d\u2764 "+player.getName()+" §6» §f"+e.getMessage().substring(1));
+				player.getCache().<LGPlayer>get(CacheType.INLOVE).sendMessage("§d\u2764 "+player.getName()+" §6» §f"+e.getMessage().substring(1));
 				e.setCancelled(true);
 			} else if(!e.isCancelled() && e.getMessage().startsWith("!")) {
 				player.sendMessage("§6» §cVous n'avez aucun chat privé");
@@ -275,16 +275,8 @@ public class RCupidon extends Role{
 	@EventHandler(priority = EventPriority.HIGH)
 	public void onUpdatePrefix (LGUpdatePrefixEvent e) {
 		if(e.getGame() == getGame())
-			if(e.getTo().getCache().get("inlove") == e.getPlayer() || ((e.getTo() == e.getPlayer() || e.getTo().getRole() == this) && e.getPlayer().getCache().has("inlove")))
+			if(e.getTo().getCache().get(CacheType.INLOVE) == e.getPlayer() || ((e.getTo() == e.getPlayer() || e.getTo().getRole() == this) && e.getPlayer().getCache().has(CacheType.INLOVE)))
 				e.setPrefix("§d\u2764 §f"+e.getPrefix());
 	}
-	
-/*	@EventHandler
-	public void onNight(LGDayEndEvent e) {
-		if(e.getGame() == getGame())
-			for(LGPlayer lgp : getGame().getAlive())
-				if(lgp.getCache().has("inlove"))
-					lgp.unMute(lgp.getCache().get("inlove"));
-	}*/
 	
 }

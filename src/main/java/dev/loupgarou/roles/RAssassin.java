@@ -18,6 +18,7 @@ import dev.loupgarou.events.roles.LGRoleTurnEndEvent;
 import dev.loupgarou.roles.utils.Role;
 import dev.loupgarou.roles.utils.RoleType;
 import dev.loupgarou.roles.utils.RoleWinType;
+import dev.loupgarou.utils.VariableCache.CacheType;
 
 public class RAssassin extends Role{
 	public RAssassin(LGGame game) {
@@ -87,7 +88,7 @@ public class RAssassin extends Role{
 	public void onKill(LGNightPlayerPreKilledEvent e) {
 		if(e.getKilled().getRole() == this && e.getReason() == Reason.LOUP_GAROU || e.getReason() == Reason.GM_LOUP_GAROU) {//Les assassins ne peuvent pas mourir la nuit !
 			e.setReason(Reason.DONT_DIE);
-			e.getKilled().getCache().set("assassin_protected", true);
+			e.getKilled().getCache().set(CacheType.ASSASSIN_PROTECTED, true);
 		}
 	}
 	
@@ -97,14 +98,14 @@ public class RAssassin extends Role{
 			MainLg.debug("(Assassin-LGRoleTurnEndEvent)" + e.getPreviousRole().getName());
 			if(e.getPreviousRole() instanceof RLoupGarou) {
 				for(LGPlayer lgp : getGame().getAlive())
-					if(lgp.getCache().getBoolean("assassin_protected")) {
+					if(lgp.getCache().getBoolean(CacheType.ASSASSIN_PROTECTED)) {
 						for(LGPlayer l : getGame().getInGame())
 							if(l.getRoleType() == RoleType.LOUP_GAROU)
 								l.sendMessage("§cVotre cible est immunisée.");
 					}
 			}else if(e.getPreviousRole() instanceof RGrandMechantLoup) {
 				for(LGPlayer lgp : getGame().getAlive())
-					if(lgp.getCache().getBoolean("assassin_protected")) {
+					if(lgp.getCache().getBoolean(CacheType.ASSASSIN_PROTECTED)) {
 						for(LGPlayer l : e.getPreviousRole().getPlayers())
 							l.sendMessage("§cVotre cible est immunisée.");
 					}
@@ -122,8 +123,8 @@ public class RAssassin extends Role{
 	public void onDayStart(LGNightEndEvent e) {
 		if(e.getGame() == getGame()) {
 			for(LGPlayer lgp : getGame().getAlive())
-				if(lgp.getCache().getBoolean("assassin_protected"))
-					lgp.getCache().remove("assassin_protected");
+				if(lgp.getCache().getBoolean(CacheType.ASSASSIN_PROTECTED))
+					lgp.getCache().remove(CacheType.ASSASSIN_PROTECTED);
 		}
 	}
 	

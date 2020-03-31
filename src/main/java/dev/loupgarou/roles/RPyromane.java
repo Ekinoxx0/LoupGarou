@@ -32,6 +32,7 @@ import dev.loupgarou.packetwrapper.WrapperPlayServerHeldItemSlot;
 import dev.loupgarou.roles.utils.Role;
 import dev.loupgarou.roles.utils.RoleType;
 import dev.loupgarou.roles.utils.RoleWinType;
+import dev.loupgarou.utils.VariableCache.CacheType;
 
 public class RPyromane extends Role{
 	static ItemStack[] items = new ItemStack[9];
@@ -120,9 +121,9 @@ public class RPyromane extends Role{
 		Inventory inventory = Bukkit.createInventory(null, 9, "§7Que veux-tu faire ?");
 		ItemStack[] content = items.clone();
 		LGPlayer lgp = LGPlayer.thePlayer(player);
-		if(!lgp.getCache().has("pyromane_essence"))
-			lgp.getCache().set("pyromane_essence", new ArrayList<>());
-		if(lgp.getCache().<List<LGPlayer>>get("pyromane_essence").size() == 0)
+		if(!lgp.getCache().has(CacheType.PYROMANE_ESSENCE))
+			lgp.getCache().set(CacheType.PYROMANE_ESSENCE, new ArrayList<>());
+		if(lgp.getCache().<List<LGPlayer>>get(CacheType.PYROMANE_ESSENCE).size() == 0)
 			content[3] = nothing;
 		inventory.setContents(content);
 		player.closeInventory();
@@ -138,7 +139,7 @@ public class RPyromane extends Role{
 	@Override
 	protected void onNightTurnTimeout(LGPlayer player) {
 		if(first != null) {
-			List<LGPlayer> liste = player.getCache().<List<LGPlayer>>get("pyromane_essence");
+			List<LGPlayer> liste = player.getCache().<List<LGPlayer>>get(CacheType.PYROMANE_ESSENCE);
 			LGPyromaneGasoilEvent event = new LGPyromaneGasoilEvent(getGame(), first);
 			Bukkit.getPluginManager().callEvent(event);
 			MainLg.debug("Gasoil of "+event.getPlayer().getName()+" cancelled : "+event.isCancelled());
@@ -180,8 +181,8 @@ public class RPyromane extends Role{
 		}else if(item.getItemMeta().getDisplayName().equals(items[3].getItemMeta().getDisplayName())) {
 			e.setCancelled(true);
 			closeInventory(player);
-			if(lgp.getCache().<List<LGPlayer>>get("pyromane_essence").size() != 0) {
-				List<LGPlayer> liste = lgp.getCache().<List<LGPlayer>>get("pyromane_essence");
+			if(lgp.getCache().<List<LGPlayer>>get(CacheType.PYROMANE_ESSENCE).size() != 0) {
+				List<LGPlayer> liste = lgp.getCache().<List<LGPlayer>>get(CacheType.PYROMANE_ESSENCE);
 				MainLg.debug(liste+" < liste des joueurs à kill par le pyro");
 				for(LGPlayer scndPlayer : liste) {
 					MainLg.debug(scndPlayer.getName()+" mort: "+scndPlayer.isDead()+" & player: "+scndPlayer.getPlayer()+" / role:"+scndPlayer.getRole());
@@ -214,7 +215,7 @@ public class RPyromane extends Role{
 							lgp.sendMessage("§cTu as déjà versé du gasoil sur §7§l"+choosen.getName()+"§6.");
 							return;
 						}
-						List<LGPlayer> liste = lgp.getCache().<List<LGPlayer>>get("pyromane_essence");
+						List<LGPlayer> liste = lgp.getCache().<List<LGPlayer>>get(CacheType.PYROMANE_ESSENCE);
 						if(liste.contains(choosen)) {
 							lgp.sendMessage("§7§l"+choosen.getName()+"§c est déjà recouvert de gasoil.");
 							return;
@@ -278,8 +279,8 @@ public class RPyromane extends Role{
 	public void onKilled(LGPlayerKilledEvent e) {
 		if(e.getGame() == getGame())
 			for(LGPlayer lgp : getPlayers())
-				if(lgp.getCache().has("pyromane_essence")) {
-					List<LGPlayer> liste = lgp.getCache().<List<LGPlayer>>get("pyromane_essence");
+				if(lgp.getCache().has(CacheType.PYROMANE_ESSENCE)) {
+					List<LGPlayer> liste = lgp.getCache().<List<LGPlayer>>get(CacheType.PYROMANE_ESSENCE);
 					if(liste.contains(e.getKilled()))//Au cas où le mec soit rez
 						liste.remove(e.getKilled());
 				}

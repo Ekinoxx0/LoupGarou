@@ -16,6 +16,7 @@ import dev.loupgarou.events.vote.LGPeopleVoteStartEvent;
 import dev.loupgarou.roles.utils.Role;
 import dev.loupgarou.roles.utils.RoleType;
 import dev.loupgarou.roles.utils.RoleWinType;
+import dev.loupgarou.utils.VariableCache.CacheType;
 
 public class RAnge extends Role{
 	public RAnge(LGGame game) {
@@ -110,7 +111,7 @@ public class RAnge extends Role{
 	public void onWinCheck(LGEndCheckEvent e) {
 		if(e.getGame() == getGame())
 			if(winners.size() > 0)
-				e.setWinType(winners.size() == 1 && winners.get(0).getCache().has("inlove") ? LGWinType.COUPLE : LGWinType.ANGE);
+				e.setWinType(winners.size() == 1 && winners.get(0).getCache().has(CacheType.INLOVE) ? LGWinType.COUPLE : LGWinType.ANGE);
 	}
 	
 	@EventHandler

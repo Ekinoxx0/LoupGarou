@@ -34,6 +34,7 @@ import dev.loupgarou.roles.utils.RoleWinType;
 import dev.loupgarou.scoreboard.CustomScoreboard;
 import dev.loupgarou.utils.SoundUtils;
 import dev.loupgarou.utils.SoundUtils.LGSound;
+import dev.loupgarou.utils.VariableCache.CacheType;
 import dev.loupgarou.utils.VariableCache;
 import dev.loupgarou.utils.VariousUtils;
 import lombok.Getter;
@@ -298,10 +299,10 @@ public class LGPlayer {
 	}
 	
 	public RoleType getRoleType() {
-		return this.getCache().getBoolean("infected") ? RoleType.LOUP_GAROU : getRole().getType(this);
+		return this.getCache().getBoolean(CacheType.INFECTED) ? RoleType.LOUP_GAROU : getRole().getType(this);
 	}
 	public RoleWinType getRoleWinType() {
-		return this.getCache().getBoolean("infected") ? RoleWinType.LOUP_GAROU : getRole().getWinType(this);
+		return this.getCache().getBoolean(CacheType.INFECTED) ? RoleWinType.LOUP_GAROU : getRole().getWinType(this);
 	}
 	
 	@Getter

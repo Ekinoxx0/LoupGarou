@@ -15,6 +15,7 @@ import dev.loupgarou.events.game.LGPlayerKilledEvent.Reason;
 import dev.loupgarou.roles.utils.Role;
 import dev.loupgarou.roles.utils.RoleType;
 import dev.loupgarou.roles.utils.RoleWinType;
+import dev.loupgarou.utils.VariableCache.CacheType;
 
 public class RFaucheur extends Role{
 	public RFaucheur(LGGame game) {
@@ -67,9 +68,9 @@ public class RFaucheur extends Role{
 	public void onKill(LGPlayerKilledEvent e) {
 		if (e.getKilled().getRole() == this) {
 			LGPlayer killed = e.getKilled();
-			if(killed.getCache().getBoolean("faucheur_did"))//A déjà fait son coup de faucheur !
+			if(killed.getCache().getBoolean(CacheType.FAUCHEUR_DID))//A déjà fait son coup de faucheur !
 				return;
-			killed.getCache().set("faucheur_did", true);
+			killed.getCache().set(CacheType.FAUCHEUR_DID, true);
 			if (e.getReason() == Reason.LOUP_GAROU || e.getReason() == Reason.GM_LOUP_GAROU) {//car le switch buggait (wtf)
 				// Mort par les LG
 				// Tue un lg au hasard
