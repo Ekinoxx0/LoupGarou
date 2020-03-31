@@ -5,10 +5,10 @@ import java.util.Arrays;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import dev.loupgarou.RoleMenu;
 import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.commands.LoupGarouCommand;
 import dev.loupgarou.commands.SubCommand;
+import dev.loupgarou.menu.RoleMenu;
 
 public class MenuCmd extends SubCommand {
 

@@ -1,9 +1,6 @@
-package dev.loupgarou;
+package dev.loupgarou.menu;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map.Entry;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -11,35 +8,15 @@ import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
+import dev.loupgarou.MainLg;
 import dev.loupgarou.classes.LGCustomItems;
-import dev.loupgarou.classes.LGGame;
-import dev.loupgarou.classes.LGGameConfig;
-import dev.loupgarou.classes.LGMaps.LGMap;
 import dev.loupgarou.classes.LGPlayer;
-import dev.loupgarou.roles.utils.Role;
+import dev.loupgarou.roles.utils.FakeRoles;
 import dev.loupgarou.utils.InteractInventory;
 import dev.loupgarou.utils.InteractInventory.InventoryCall;
 import dev.loupgarou.utils.ItemBuilder;
 
 public class RoleMenu {
-	
-	private static final LGGame fakeGame = new LGGame(0, new LGGameConfig(), new LGMap("fake", Bukkit.getWorlds().get(0).getName()));
-	private static final HashMap<String, Role> roles = new HashMap<String, Role>();
-	
-	private static Role getRole(String name) {
-		for(Entry<String, Role> entry : roles.entrySet())
-			if(entry.getKey().equals(name))
-				return entry.getValue();
-		
-		try {
-			Role r = MainLg.getInstance().getRoles().get(name).newInstance(fakeGame);
-			roles.put(name, r);
-			return r;
-		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
 	
 	public static void openMenu(LGPlayer lgp) {
 		if(lgp.getGame() == null) return;//TODO
@@ -51,12 +28,12 @@ public class RoleMenu {
 			int nbRole = lgp.getGame().getConfig().getRoles().get(roleName);
 			total += nbRole;
 			ii.registerItem(
-					new ItemBuilder(LGCustomItems.getItemMenu(getRole(roleName)))
-						.name(getRole(roleName).getColor() + roleName)
+					new ItemBuilder(LGCustomItems.getItemMenu(FakeRoles.getRole(roleName)))
+						.name(FakeRoles.getRole(roleName).getColor() + roleName)
 						.lore(Arrays.asList(
 								"§7" + nbRole,
 								"",
-								"§f" + optimizeLines(getRole(roleName).getDescription())
+								"§f" + optimizeLines(FakeRoles.getRole(roleName).getDescription())
 								))
 						.build(), 
 					i, true, new InventoryCall() {
