@@ -38,6 +38,7 @@ import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.player.PlayerSwapHandItemsEvent;
+import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
 
 import dev.loupgarou.classes.LGPlayer;
@@ -95,6 +96,14 @@ public class CancelListener implements Listener{
 	@EventHandler
 	public void onFoodLevelChange(FoodLevelChangeEvent e) {
 		e.setFoodLevel(20);
+	}
+	
+	@EventHandler
+	public void onPlayerToggleSneak(PlayerToggleSneakEvent e) {
+		if(e.getPlayer().getGameMode() == GameMode.CREATIVE) return;
+		LGPlayer lgp = LGPlayer.thePlayer(e.getPlayer());
+		if(lgp.getGame() != null)
+			e.setCancelled(true);
 	}
 	
 	@EventHandler
