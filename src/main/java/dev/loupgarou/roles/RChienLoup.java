@@ -17,6 +17,7 @@ import dev.loupgarou.utils.InteractInventory;
 import dev.loupgarou.utils.InteractInventory.InventoryCall;
 import dev.loupgarou.utils.InteractInventory.InventoryClose;
 import dev.loupgarou.utils.ItemBuilder;
+import dev.loupgarou.utils.VariableCache.CacheType;
 
 public class RChienLoup extends Role{
 	public RChienLoup(LGGame game) {
@@ -73,14 +74,16 @@ public class RChienLoup extends Role{
 	
 	@Override
 	public boolean hasPlayersLeft() {
-		return super.hasPlayersLeft() && !hasChoosen;
+		for(LGPlayer lgp : getPlayers())
+			if(!lgp.getCache().getBoolean(CacheType.HAS_CHOOSEN_CHIEN_LOUP))
+				return true;
+			
+		return false;
 	}
-	
-	private boolean hasChoosen;
 	
 	public void openInventory(LGPlayer lgp, Runnable callback) {
 		InteractInventory ii = new InteractInventory(Bukkit.createInventory(null, 9, "§7Choisis ton camp."));
-
+		
 		ii.registerItem(
 				new ItemBuilder(Material.GOLDEN_APPLE)
 				.name("§2Devenir Villageois")
@@ -94,7 +97,7 @@ public class RChienLoup extends Role{
 			
 			@Override
 			public void click(HumanEntity human, ItemStack item, ClickType clickType) {
-				hasChoosen = true;
+				lgp.getCache().set(CacheType.HAS_CHOOSEN_CHIEN_LOUP, true);
 				human.closeInventory();
 				lgp.sendActionBarMessage("§6Tu resteras fidèle au §a§lVillage§6.");
 				lgp.sendMessage("§6Tu resteras fidèle au §a§lVillage§6.");
@@ -116,7 +119,7 @@ public class RChienLoup extends Role{
 			@Override
 			public void click(HumanEntity human, ItemStack item, ClickType clickType) {
 				human.closeInventory();
-				hasChoosen = true;
+				lgp.getCache().set(CacheType.HAS_CHOOSEN_CHIEN_LOUP, true);
 
 				lgp.sendActionBarMessage("§6Tu as changé de camp.");
 				lgp.sendMessage("§6Tu as changé de camp.");
@@ -142,12 +145,12 @@ public class RChienLoup extends Role{
 			
 			@Override
 			public boolean close(HumanEntity human) {
-				return hasChoosen;
+				return lgp.getCache().getBoolean(CacheType.HAS_CHOOSEN_CHIEN_LOUP);
 			}
 
 			@Override
 			public void nextTick(HumanEntity human) {
-				if(!hasChoosen)
+				if(!lgp.getCache().getBoolean(CacheType.HAS_CHOOSEN_CHIEN_LOUP))
 					ii.openTo(lgp.getPlayer());
 			}
 		});
@@ -163,7 +166,7 @@ public class RChienLoup extends Role{
 	
 	@Override
 	protected void onNightTurnTimeout(LGPlayer player) {
-		hasChoosen = true;
+		player.getCache().set(CacheType.HAS_CHOOSEN_CHIEN_LOUP, true);
 		player.getPlayer().closeInventory();
 		player.hideView();
 		player.sendActionBarMessage("§6Tu rejoins le §a§lVillage.");

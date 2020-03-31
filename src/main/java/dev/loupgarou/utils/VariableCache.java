@@ -35,6 +35,7 @@ public class VariableCache {
 		CUPIDON_FIRST,
 		CORBEAU_SELECTED,
 		CHAPERON_KILL,
+		HAS_CHOOSEN_CHIEN_LOUP,
 		
 	}
 	

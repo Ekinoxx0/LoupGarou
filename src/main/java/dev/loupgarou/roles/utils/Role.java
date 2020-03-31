@@ -73,7 +73,6 @@ public abstract class Role implements Listener{
 					return currentPlayer == player ? "§9§lC'est à ton tour !" : (Role.this.game.isHideRole() ? "§6C'est au tour de quelqu'un..." : "§6C'est au tour " + getFriendlyName()) + " §6(§e"+secondsLeft+" s§6)";
 				});
 				player.sendMessage("§6" + getTask());
-			//	player.sendTitle("§6C'est à vous de jouer", "§a"+getTask(), 100);
 				onNightTurn(player, this);
 			}
 		}.run();
