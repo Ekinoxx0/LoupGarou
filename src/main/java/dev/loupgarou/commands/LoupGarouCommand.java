@@ -25,10 +25,6 @@ import dev.loupgarou.commands.subcommands.debug.DebugResetPlCmd;
 import dev.loupgarou.commands.subcommands.debug.NextDayCmd;
 import dev.loupgarou.commands.subcommands.debug.NextNightCmd;
 import dev.loupgarou.commands.subcommands.debug.QuickCmd;
-import dev.loupgarou.commands.subcommands.discord.CheckDiscordCmd;
-import dev.loupgarou.commands.subcommands.discord.DeadDiscordCmd;
-import dev.loupgarou.commands.subcommands.discord.MuteAllCmd;
-import dev.loupgarou.commands.subcommands.discord.UnmuteAllCmd;
 import dev.loupgarou.commands.subcommands.spawns.AddSpawnCmd;
 import dev.loupgarou.commands.subcommands.spawns.RemoveSpawnCmd;
 import dev.loupgarou.commands.subcommands.spawns.ShowSpawnsCmd;
@@ -55,11 +51,6 @@ public class LoupGarouCommand implements CommandExecutor, TabExecutor {
 		this.subs.add(new NextDayCmd(this));
 		this.subs.add(new NextNightCmd(this));
 		this.subs.add(new QuickCmd(this));
-
-		this.subs.add(new CheckDiscordCmd(this));
-		this.subs.add(new DeadDiscordCmd(this));
-		this.subs.add(new MuteAllCmd(this));
-		this.subs.add(new UnmuteAllCmd(this));
 
 		this.subs.add(new AddSpawnCmd(this));
 		this.subs.add(new RemoveSpawnCmd(this));

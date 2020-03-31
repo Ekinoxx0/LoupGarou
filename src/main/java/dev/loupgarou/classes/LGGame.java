@@ -274,7 +274,6 @@ public class LGGame implements Listener{
 			}
 	}
 	public void start() {
-		MainLg.getInstance().getDiscord().clearDead();
 		if(startingTask != null) {
 			startingTask.cancel();
 			startingTask = null;
@@ -487,7 +486,6 @@ public class LGGame implements Listener{
 		broadcastSpacer();
 		broadcastMessage("§9----------- §lNuit n°"+night+"§9 -----------");
 		broadcastMessage("§8§oLa nuit tombe sur le village...");
-		MainLg.getInstance().getDiscord().setMutedChannel(true);
 		
 		for(LGPlayer player : getAlive())
 			player.leaveChat();
@@ -556,8 +554,6 @@ public class LGGame implements Listener{
 			
 			broadcastMessage(String.format(reason.getMessage(), killed.getName())+", il était "+killed.getRole().getName()+(killed.getCache().getBoolean(CacheType.INFECTED) ? " §c§l(Infecté)" : "")+"§4.");
 			
-			MainLg.getInstance().getDiscord().setMuted(killed.getName(), true);
-			
 			//Lightning effect
 			killed.getPlayer().getWorld().strikeLightningEffect(killed.getPlayer().getLocation());
 			
@@ -595,7 +591,6 @@ public class LGGame implements Listener{
 	
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onGameEnd(LGGameEndEvent e) {
-		MainLg.getInstance().getDiscord().setMutedChannel(false);
 		if(e.getGame() == this && e.getWinType() == LGWinType.VILLAGEOIS)
 			for(LGPlayer lgp : getInGame())
 				if(lgp.getRoleType() == RoleType.VILLAGER)
@@ -613,9 +608,6 @@ public class LGGame implements Listener{
 		if(event.isCancelled())
 			return;
 		
-		MainLg.getInstance().getDiscord().clearDead();
-		MainLg.getInstance().getDiscord().setMutedChannel(false);
-		
 		ended = true;
 		//We unregister every role listener because they are unused after the game's end !
 		for(Role role : getRoles()) {
@@ -626,7 +618,6 @@ public class LGGame implements Listener{
 		
 		broadcastMessage(winType.getMessage());
 		for(LGPlayer lgp : getInGame()) {
-			MainLg.getInstance().getDiscord().setMuted(lgp.getName(), false);
 			lgp.setDead(false);
 			lgp.leaveChat();
 			lgp.joinChat(spectatorChat);
@@ -682,7 +673,6 @@ public class LGGame implements Listener{
 	}
 	public void endNight() {
 		if(ended)return;
-		MainLg.getInstance().getDiscord().setMutedChannel(false);
 		broadcastSpacer();
 		broadcastMessage("§9----------- §lJour n°"+night+"§9 -----------");
 		broadcastMessage("§8§oLe jour se lève sur le village...");
@@ -720,8 +710,6 @@ public class LGGame implements Listener{
 		if(died == 0)
 			broadcastMessage("§9Étonnamment, personne n'est mort cette nuit.");
 		
-		MainLg.getInstance().getDiscord().setMutedChannel(false);
-
 		day = true;
 		for(LGPlayer player : getInGame())
 			player.showView();
