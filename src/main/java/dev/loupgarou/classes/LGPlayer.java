@@ -2,6 +2,7 @@ package dev.loupgarou.classes;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -47,6 +48,10 @@ import net.minecraft.server.v1_15_R1.WorldType;
 
 public class LGPlayer {
 	private static HashMap<Player, LGPlayer> cachedPlayers = new HashMap<Player, LGPlayer>();
+	public static Collection<LGPlayer> all(){
+		return cachedPlayers.values();
+	}
+	
 	public static LGPlayer thePlayer(Player player) {
 		LGPlayer lgp = cachedPlayers.get(player);
 		if(lgp == null) {
