@@ -135,7 +135,7 @@ public class LGPlayer {
 	}
 	private String name;
 	public String getName() {
-		return player != null ? getPlayer().getName() : name;
+		return player != null ? name = getPlayer().getDisplayName() : name;
 	}
 
 
