@@ -39,9 +39,9 @@ public class OVHApi {
 			IOUtils.copy(inputStream, writer, Charset.forName("UTF-8"));
 			
 			String[] lines = writer.toString().split("\n");
-			for(String line : lines) {
-				System.out.println("a:" + line);
-			}
+			appKey = lines[0].trim();
+			appSecret = lines[1].trim();
+			consumerKey = lines[2].trim();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

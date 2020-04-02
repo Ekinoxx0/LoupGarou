@@ -14,6 +14,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.comphenix.protocol.ProtocolLibrary;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 
 import dev.loupgarou.classes.LGGame;
@@ -55,6 +56,7 @@ import dev.loupgarou.roles.RVillageois;
 import dev.loupgarou.roles.RVoleur;
 import dev.loupgarou.roles.RVoyante;
 import dev.loupgarou.roles.utils.Role;
+import dev.loupgarou.subdomains.OVHApi;
 import dev.loupgarou.utils.Updater;
 import lombok.Getter;
 
@@ -67,6 +69,7 @@ public class MainLg extends JavaPlugin {
 	
 	@Getter private List<LGGame> games = new ArrayList<LGGame>();
 	@Getter private DiscordManager discord;
+	@Getter private OVHApi ovh;
 	
 	@Override
 	public void onEnable() {
@@ -90,6 +93,9 @@ public class MainLg extends JavaPlugin {
 
 	    try {
 			this.discord = new DiscordManager(this);
+			this.ovh = new OVHApi();
+			JsonElement domains = this.ovh.domainZone();
+			if(!domains.isJsonArray()) throw new IllegalStateException("Response from OVH is invalid.");
 		} catch (Exception e) {
 			e.printStackTrace();
 			return;
