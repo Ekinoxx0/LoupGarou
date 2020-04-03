@@ -106,6 +106,10 @@ public class MainLg extends JavaPlugin {
 	public void onDisable() {
 		ProtocolLibrary.getProtocolManager().removePacketListeners(this);
 	}
+
+	public LGGame findGame(String key) {
+		return null;
+	}
 	
 	private void loadRoles() {
 		try {

@@ -19,6 +19,7 @@ import org.bukkit.potion.PotionEffectType;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 
 import dev.loupgarou.MainLg;
+import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.events.game.LGPlayerKilledEvent.Reason;
 import dev.loupgarou.packetwrapper.WrapperPlayServerScoreboardTeam;
@@ -36,12 +37,11 @@ public class JoinListener implements Listener{
 	@EventHandler
 	public void onJoin(PlayerJoinEvent e) {
 		Player p = e.getPlayer();
-		Bukkit.broadcastMessage("§2+ §7" + p.getName());
 		p.teleport(p.getWorld().getSpawnLocation());
 		
 		WrapperPlayServerScoreboardTeam myTeam = new WrapperPlayServerScoreboardTeam();
 		myTeam.setName(p.getName());
-		myTeam.setPrefix(WrappedChatComponent.fromText(""));
+		myTeam.setPrefix(WrappedChatComponent.fromText("§7"));
 		myTeam.setPlayers(Arrays.asList(p.getName()));
 		myTeam.setMode(0);
 		for(Player allPlayer : Bukkit.getOnlinePlayers())
@@ -50,32 +50,45 @@ public class JoinListener implements Listener{
 					allPlayer.hidePlayer(MainLg.getInstance(), p);
 				WrapperPlayServerScoreboardTeam team = new WrapperPlayServerScoreboardTeam();
 				team.setName(allPlayer.getName());
-				team.setPrefix(WrappedChatComponent.fromText(""));
+				team.setPrefix(WrappedChatComponent.fromText("§7"));
 				team.setPlayers(Arrays.asList(allPlayer.getName()));
 				team.setMode(0);
 				
 				team.sendPacket(p);
 				myTeam.sendPacket(allPlayer);
 			}
-		p.setFoodLevel(20);
-		if(e.getJoinMessage() == null) {
-			p.sendMessage("SetRessourcepack");//TODO Rm
+		
+		if(e.getJoinMessage() != "is connected")
 			p.getPlayer().setResourcePack("https://raw.githubusercontent.com/Ekinoxx0/LoupGarouRessourcePack/master/loup_garou.zip", "");
-		} else {
-			p.sendMessage("setDead false");//TODO Rm
-			LGPlayer lgp = LGPlayer.thePlayer(p);
-			lgp.setDead(false);
-			lgp.showView();
+		
+		
+		LGPlayer lgp = LGPlayer.thePlayer(p);
+		lgp.setDead(false);
+		lgp.showView();
+		
+		if(lgp.getConnectingHostname() != null && lgp.getConnectingHostname().contains(".")) {
+			String[] hostn = lgp.getConnectingHostname().split("[.]");
 			
-			//lgp.join(MainLg.getInstance().getCurrentGame());
+			if(hostn.length == 4) {
+				//Connecting on custom
+				LGGame custom = MainLg.getInstance().findGame(hostn[0]);
+				
+				if(custom == null) {
+					lgp.sendMessage(MainLg.getPrefix() + "§cAucune partie avec le code : §4§l" + hostn[0]);
+				} else {
+					lgp.join(custom);
+				}
+			}
 		}
 		
-		if(p.getGameMode() != GameMode.SPECTATOR)
+		if(p.getGameMode() == GameMode.SURVIVAL)
 			p.setGameMode(GameMode.ADVENTURE);
-		e.setJoinMessage("");
+		
+		e.setJoinMessage(null);
 		p.removePotionEffect(PotionEffectType.JUMP);
 		p.removePotionEffect(PotionEffectType.INVISIBILITY);
 		p.setWalkSpeed(0.2f);
+		p.setFoodLevel(20);
 	}
 	@EventHandler
 	public void onResoucePack(PlayerResourcePackStatusEvent e) {
@@ -93,7 +106,6 @@ public class JoinListener implements Listener{
 	@EventHandler
 	public void onLeave(PlayerQuitEvent e) {
 		Player p = e.getPlayer();
-		e.setQuitMessage("§c- §7" + p.getName());
 		LGPlayer lgp = LGPlayer.thePlayer(p);
 		if(lgp.getGame() != null) {
 			lgp.leaveChat();

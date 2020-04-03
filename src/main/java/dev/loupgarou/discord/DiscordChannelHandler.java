@@ -4,6 +4,7 @@ import java.util.concurrent.TimeUnit;
 
 import dev.loupgarou.MainLg;
 import dev.loupgarou.classes.LGGame;
+import lombok.Getter;
 import lombok.NonNull;
 import net.dv8tion.jda.api.entities.Invite;
 import net.dv8tion.jda.api.entities.Member;
@@ -14,7 +15,7 @@ public class DiscordChannelHandler {
 	private final DiscordManager discord;
 	private final LGGame game;
 	private VoiceChannel voice;
-	private Invite invite;
+	@Getter private Invite invite;
 	
 	private boolean isChannelMuted;
 	
