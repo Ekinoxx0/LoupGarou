@@ -1,7 +1,5 @@
 package dev.loupgarou.classes;
 
-import java.io.InputStream;
-import java.io.StringWriter;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,10 +9,11 @@ import java.util.StringJoiner;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.libs.org.apache.commons.io.IOUtils;
 import org.bukkit.inventory.ItemStack;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+
+import com.google.common.io.Resources;
 
 import dev.loupgarou.MainLg;
 import dev.loupgarou.events.other.LGCustomItemChangeEvent;
@@ -28,10 +27,7 @@ public class LGCustomItems {
 	static {
 		JSONParser parser = new JSONParser();
 		try {
-			InputStream inputStream = LGCustomItems.class.getResourceAsStream("/mapping_resource_pack.json");
-			StringWriter writer = new StringWriter();
-			IOUtils.copy(inputStream, writer, Charset.forName("UTF-8"));
-			String json = writer.toString();
+			String json = Resources.toString(Resources.getResource("/mapping_resource_pack.json"), Charset.forName("UTF-8"));
 			
 			JSONObject mappingsRoot = (JSONObject)parser.parse(json);
 			for(Object roleObject : mappingsRoot.keySet()) {

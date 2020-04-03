@@ -6,7 +6,6 @@ import java.util.Iterator;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_15_R1.inventory.CraftInventoryCustom;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.EventHandler;
@@ -36,6 +35,7 @@ public class RDictateur extends Role{
 	//TODO Replace with InteractInventory
 	static private ItemStack[] items = new ItemStack[9];
 	static private Inventory inventory;
+	static private String inventoryTitle = "§7Veux-tu faire un coup d'état ?";
 	static {
 		items[3] = new ItemStack(Material.IRON_NUGGET);
 		ItemMeta meta = items[3].getItemMeta();
@@ -52,7 +52,7 @@ public class RDictateur extends Role{
 				"§8Si tu tues un §a§lVillageois§8, tu",
 				"§8l'auras sur la conscience."));
 		items[5].setItemMeta(meta);
-		inventory = Bukkit.createInventory(null, 9, "§7Veux-tu faire un coup d'état ?");
+		inventory = Bukkit.createInventory(null, 9, inventoryTitle);
 		inventory.setContents(items.clone());
 	}
 	public RDictateur(LGGame game) {
@@ -170,7 +170,7 @@ public class RDictateur extends Role{
 	
 	@EventHandler
 	public void onQuitInventory(InventoryCloseEvent e) {
-		if(e.getInventory() instanceof CraftInventoryCustom) {
+		if(e.getInventory().equals(inventory)) {//TODO Verify
 			LGPlayer player = LGPlayer.thePlayer((Player)e.getPlayer());
 			if(player.getRole() == this && inMenu) {
 				new BukkitRunnable() {

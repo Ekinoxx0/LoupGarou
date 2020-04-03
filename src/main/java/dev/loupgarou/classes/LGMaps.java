@@ -57,6 +57,7 @@ public class LGMaps {
 		@Getter private List<LGLocation> spawns = new ArrayList<LGLocation>();
 
 		public boolean isWorldValid() {
+			//TODO create worlds
 			for(World w : Bukkit.getWorlds())
 				if(w.getName().equals(world))
 					return true;

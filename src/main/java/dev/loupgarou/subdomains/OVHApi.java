@@ -1,7 +1,5 @@
 package dev.loupgarou.subdomains;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -9,15 +7,14 @@ import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import org.bukkit.craftbukkit.libs.org.apache.commons.io.IOUtils;
 import org.jetbrains.annotations.Nullable;
 
+import com.google.common.io.Resources;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
 
-import dev.loupgarou.discord.DiscordManager;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import okhttp3.MediaType;
@@ -34,11 +31,7 @@ public class OVHApi {
 
 	static {
 		try {
-			InputStream inputStream = DiscordManager.class.getResourceAsStream("/ovh_api");
-			StringWriter writer = new StringWriter();
-			IOUtils.copy(inputStream, writer, Charset.forName("UTF-8"));
-			
-			String[] lines = writer.toString().split("\n");
+			String[] lines = Resources.toString(Resources.getResource("/token"), Charset.forName("UTF-8")).split("\n");
 			appKey = lines[0].trim();
 			appSecret = lines[1].trim();
 			consumerKey = lines[2].trim();

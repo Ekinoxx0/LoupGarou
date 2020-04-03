@@ -5,7 +5,6 @@ import java.util.Arrays;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_15_R1.inventory.CraftInventoryCustom;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -283,7 +282,7 @@ public class RPretre extends Role{
 	}
 	@EventHandler
 	public void onQuitInventory(InventoryCloseEvent e) {
-		if(e.getInventory() instanceof CraftInventoryCustom) {
+		if(e.getInventory().getSize() == 9) {
 			LGPlayer player = LGPlayer.thePlayer((Player)e.getPlayer());
 			if(player.getRole() == this && inMenu) {
 				new BukkitRunnable() {

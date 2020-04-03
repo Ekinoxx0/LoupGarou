@@ -1,27 +1,22 @@
 package dev.loupgarou.classes;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.Optional;
 import java.util.StringJoiner;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.comphenix.protocol.wrappers.EnumWrappers.ItemSlot;
 import com.comphenix.protocol.wrappers.WrappedDataWatcher;
-import com.comphenix.protocol.wrappers.WrappedDataWatcher.WrappedDataWatcherObject;
-import com.comphenix.protocol.wrappers.WrappedWatchableObject;
 
 import dev.loupgarou.MainLg;
 import dev.loupgarou.classes.LGGame.TextGenerator;
@@ -32,17 +27,10 @@ import dev.loupgarou.packetwrapper.WrapperPlayServerEntityEquipment;
 import dev.loupgarou.packetwrapper.WrapperPlayServerEntityLook;
 import dev.loupgarou.packetwrapper.WrapperPlayServerEntityMetadata;
 import dev.loupgarou.packetwrapper.WrapperPlayServerSpawnEntityLiving;
-import dev.loupgarou.utils.VariousUtils;
 import dev.loupgarou.utils.VariableCache.CacheType;
+import dev.loupgarou.utils.VariousUtils;
 import lombok.Getter;
-import net.minecraft.server.v1_15_R1.DataWatcher;
-import net.minecraft.server.v1_15_R1.DataWatcherObject;
-import net.minecraft.server.v1_15_R1.Entity;
-import net.minecraft.server.v1_15_R1.EntityArmorStand;
-import net.minecraft.server.v1_15_R1.IChatBaseComponent;
-import net.minecraft.server.v1_15_R1.PacketPlayOutEntityMetadata;
 
-@SuppressWarnings("unchecked")
 public class LGVote {
 	@Getter LGPlayer choosen;
 	private int timeout, initialTimeout, littleTimeout;
@@ -84,25 +72,6 @@ public class LGVote {
 		for(LGPlayer player : participants)
 			player.choose(getChooseCallback(player));
 	}
-    private static DataWatcherObject<Optional<IChatBaseComponent>> az;
-    private static DataWatcherObject<Boolean> aA;
-    private static DataWatcherObject<Byte> T;
-    private static final EntityArmorStand eas = new EntityArmorStand(null, 0, 0, 0);
-    static {
-    	try {
-    		Field f = Entity.class.getDeclaredField("az");
-    		f.setAccessible(true);
-	    	az = (DataWatcherObject<Optional<IChatBaseComponent>>) f.get(null);
-	    	f = Entity.class.getDeclaredField("aA");
-    		f.setAccessible(true);
-	    	aA = (DataWatcherObject<Boolean>) f.get(null);
-	    	f = Entity.class.getDeclaredField("T");
-    		f.setAccessible(true);
-	    	T = (DataWatcherObject<Byte>) f.get(null);
-    	}catch(Exception err) {
-    		err.printStackTrace();
-    	}
-    }
 	private void end() {
 		ended = true;
 		for(LGPlayer lgp : viewers)
@@ -334,61 +303,26 @@ public class LGVote {
 			
 
 			int votesNbr = votes.get(voted).size();
-			/*WrapperPlayServerEntityMetadata meta = new WrapperPlayServerEntityMetadata();
+			WrapperPlayServerEntityMetadata meta = new WrapperPlayServerEntityMetadata();
 			meta.setEntityID(entityId);
-			meta.setMetadata(Arrays.asList(new WrappedWatchableObject(invisible, (byte)0x20), new WrappedWatchableObject(noGravity, true), new WrappedWatchableObject(customNameVisible, true), new WrappedWatchableObject(customName, IChatBaseComponent.ChatSerializer.b("§6§l"+votesNbr+"§e vote"+(votesNbr > 1 ? "s" : "")))));
-			*/
-			DataWatcher datawatcher = new DataWatcher(eas);
-			datawatcher.register(T, (byte)0x20);
-	        datawatcher.register(az, Optional.ofNullable(IChatBaseComponent.ChatSerializer.a("{\"text\":\"§6§l"+votesNbr+"§e vote"+(votesNbr > 1 ? "s" : "")+"\"}")));
-	        datawatcher.register(aA, true);
-			PacketPlayOutEntityMetadata meta = new PacketPlayOutEntityMetadata(entityId, datawatcher, true);
 
+            WrappedDataWatcher watcher = new WrappedDataWatcher();
+            watcher.setObject(0, 0x20);//INVISIBLE
+            watcher.setObject(5, true);//NO GRAVITY
+            watcher.setObject(3, true);//CUSTOM NAME VISIBLE
+            watcher.setObject(2, "§6§l"+votesNbr+"§e vote"+(votesNbr > 1 ? "s" : ""));//CUSTOM NAME
+            watcher.setObject(7, null);//ITEM
+            
+            meta.setMetadata(watcher.getWatchableObjects());
+			
 			if(!this.game.getConfig().isHideVoteExtra()) {
 				for(LGPlayer lgp : viewers) {
 					spawn.sendPacket(lgp.getPlayer());
-					((CraftPlayer)lgp.getPlayer()).getHandle().playerConnection.sendPacket(meta);
+					meta.sendPacket(lgp.getPlayer());
 				}
 			}
-			
-			
-		/*	EntityArmorStand ea = new EntityArmorStand(((CraftWorld)loc.getWorld()).getHandle(), loc.getX(), loc.getY()+0.3, loc.getZ());
-			ea.setPosition(loc.getX(), loc.getY()+0.3, loc.getZ());
-			ea.setInvisible(true);
-			ea.setCustomNameVisible(true);
-			int votesNbr = votes.get(voted).size();
-			ea.setCustomName((IChatBaseComponent) WrappedChatComponent.fromText("§6§l"+votesNbr+"§e vote"+(votesNbr > 1 ? "s" : "")).getHandle());
-			
-			PacketPlayOutSpawnEntityLiving spawn = new PacketPlayOutSpawnEntityLiving(ea);
-			try {
-				Field field = spawn.getClass().getDeclaredField("a");
-				field.setAccessible(true);
-				field.set(spawn, entityId);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}*/
-		/*	WrapperPlayServerSpawnEntityLiving spawn = new WrapperPlayServerSpawnEntityLiving();
-			spawn.setEntityID(entityId);
-			spawn.setType(EntityType.ARMOR_STAND);
-			WrappedDataWatcher meta = new WrappedDataWatcher();
-			meta.setObject(0, (byte)0x20);
-			meta.setObject(2, "§6§l"+votes.get(voted)+"§e votes");
-		//	meta.setObject(3, true);
-			spawn.setMetadata(meta);
-			Location loc = voted.getPlayer().getLocation();
-			spawn.setX(loc.getX());
-			spawn.setY(loc.getY()+0.3);
-			spawn.setZ(loc.getZ());*/
-		/*	for(LGPlayer lgp : viewers)
-				((CraftPlayer)lgp.getPlayer()).getHandle().playerConnection.sendPacket(spawn);*/
-			//	spawn.sendPacket(lgp.getPlayer());
 		}
 	}
-	WrappedDataWatcherObject invisible = new WrappedDataWatcherObject(0, WrappedDataWatcher.Registry.get(Byte.class)),
-							 noGravity = new WrappedDataWatcherObject(5, WrappedDataWatcher.Registry.get(Boolean.class)),
-							 customNameVisible = new WrappedDataWatcherObject(3, WrappedDataWatcher.Registry.get(Boolean.class)),
-							 customName = new WrappedDataWatcherObject(2, WrappedDataWatcher.Registry.get(IChatBaseComponent.class)),
-							 item = new WrappedDataWatcherObject(7, WrappedDataWatcher.Registry.get(net.minecraft.server.v1_15_R1.ItemStack.class));
 	private void showVoting(LGPlayer to, LGPlayer ofWho) {
 		if(this.game.getConfig().isHideVoteExtra()) return;
 		int entityId = -to.getPlayer().getEntityId();
@@ -415,7 +349,11 @@ public class LGVote {
 			
 			WrapperPlayServerEntityMetadata meta = new WrapperPlayServerEntityMetadata();
 			meta.setEntityID(entityId);
-			meta.setMetadata(Arrays.asList(new WrappedWatchableObject(invisible, (byte)0x20), new WrappedWatchableObject(noGravity, true)));
+            WrappedDataWatcher watcher = new WrappedDataWatcher();
+            watcher.setObject(0, 0x20);//INVISIBLE
+            watcher.setObject(5, true);//NO GRAVITY
+            
+            meta.setMetadata(watcher.getWatchableObjects());
 			meta.sendPacket(to.getPlayer());
 			
 			WrapperPlayServerEntityLook look = new WrapperPlayServerEntityLook();
@@ -463,7 +401,11 @@ public class LGVote {
 			
 			WrapperPlayServerEntityMetadata meta = new WrapperPlayServerEntityMetadata();
 			meta.setEntityID(entityId);
-			meta.setMetadata(Arrays.asList(new WrappedWatchableObject(invisible, (byte)0x20), new WrappedWatchableObject(noGravity, true)));
+            WrappedDataWatcher watcher = new WrappedDataWatcher();
+            watcher.setObject(0, 0x20);//INVISIBLE
+            watcher.setObject(5, true);//NO GRAVITY
+            
+            meta.setMetadata(watcher.getWatchableObjects());
 			meta.sendPacket(to.getPlayer());
 			
 			WrapperPlayServerEntityLook look = new WrapperPlayServerEntityLook();

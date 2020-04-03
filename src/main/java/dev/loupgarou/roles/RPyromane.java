@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_15_R1.inventory.CraftInventoryCustom;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -21,8 +20,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 import dev.loupgarou.MainLg;
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
-import dev.loupgarou.classes.LGWinType;
 import dev.loupgarou.classes.LGPlayer.LGChooseCallback;
+import dev.loupgarou.classes.LGWinType;
 import dev.loupgarou.events.game.LGEndCheckEvent;
 import dev.loupgarou.events.game.LGGameEndEvent;
 import dev.loupgarou.events.game.LGPlayerKilledEvent;
@@ -288,7 +287,7 @@ public class RPyromane extends Role{
 	}
 	@EventHandler
 	public void onQuitInventory(InventoryCloseEvent e) {
-		if(e.getInventory() instanceof CraftInventoryCustom) {
+		if(e.getInventory().getSize() == 9) {
 			LGPlayer player = LGPlayer.thePlayer((Player)e.getPlayer());
 			if(player.getRole() == this && inMenu) {
 				new BukkitRunnable() {
