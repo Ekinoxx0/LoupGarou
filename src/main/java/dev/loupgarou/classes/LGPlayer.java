@@ -76,10 +76,12 @@ public class LGPlayer {
 	@Getter private VariableCache cache = new VariableCache();
 	@Getter @Setter private LGGame game;
 	@Getter @Setter private String latestObjective;
+	@Getter @Setter private String connectingHostname;
 	@Getter private CustomScoreboard scoreboard;
 	public LGPlayer(Player player) {
 		this.player = player;
 	}
+	@Deprecated
 	public LGPlayer(String name) {
 		this.name = name;
 	}

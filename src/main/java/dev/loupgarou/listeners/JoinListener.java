@@ -6,8 +6,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerLoginEvent;
+import org.bukkit.event.player.PlayerLoginEvent.Result;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerResourcePackStatusEvent;
 import org.bukkit.event.player.PlayerResourcePackStatusEvent.Status;
@@ -22,7 +25,14 @@ import dev.loupgarou.packetwrapper.WrapperPlayServerScoreboardTeam;
 
 public class JoinListener implements Listener{
 	
-	@SuppressWarnings("deprecation")
+	@EventHandler(priority = EventPriority.HIGHEST)
+	public void onLogin(PlayerLoginEvent e) {
+		if(e.getResult() != Result.ALLOWED) return;
+		
+		LGPlayer lgp = LGPlayer.thePlayer(e.getPlayer());
+		lgp.setConnectingHostname(e.getHostname());
+	}
+	
 	@EventHandler
 	public void onJoin(PlayerJoinEvent e) {
 		Player p = e.getPlayer();
@@ -34,30 +44,33 @@ public class JoinListener implements Listener{
 		myTeam.setPrefix(WrappedChatComponent.fromText(""));
 		myTeam.setPlayers(Arrays.asList(p.getName()));
 		myTeam.setMode(0);
-		boolean noSpec = p.getGameMode() != GameMode.SPECTATOR;
-		for(Player player : Bukkit.getOnlinePlayers())
-			if(player != p) {
-				if(player.getGameMode() != GameMode.SPECTATOR)
-					player.hidePlayer(p);
+		for(Player allPlayer : Bukkit.getOnlinePlayers())
+			if(allPlayer != p) {
+				if(allPlayer.getGameMode() != GameMode.SPECTATOR)
+					allPlayer.hidePlayer(MainLg.getInstance(), p);
 				WrapperPlayServerScoreboardTeam team = new WrapperPlayServerScoreboardTeam();
-				team.setName(player.getName());
+				team.setName(allPlayer.getName());
 				team.setPrefix(WrappedChatComponent.fromText(""));
-				team.setPlayers(Arrays.asList(player.getName()));
+				team.setPlayers(Arrays.asList(allPlayer.getName()));
 				team.setMode(0);
 				
 				team.sendPacket(p);
-				myTeam.sendPacket(player);
+				myTeam.sendPacket(allPlayer);
 			}
 		p.setFoodLevel(20);
-		if(e.getJoinMessage() == null || !e.getJoinMessage().equals("joinall"))
-			p.getPlayer().setResourcePack("https://raw.githubusercontent.com/Ekinoxx0/LoupGarouRessourcePack/master/loup_garou.zip");
-		else {
-			LGPlayer lgp = LGPlayer.thePlayer(e.getPlayer());
+		if(e.getJoinMessage() == null) {
+			p.sendMessage("SetRessourcepack");//TODO Rm
+			p.getPlayer().setResourcePack("https://raw.githubusercontent.com/Ekinoxx0/LoupGarouRessourcePack/master/loup_garou.zip", "");
+		} else {
+			p.sendMessage("setDead false");//TODO Rm
+			LGPlayer lgp = LGPlayer.thePlayer(p);
 			lgp.setDead(false);
 			lgp.showView();
+			
 			//lgp.join(MainLg.getInstance().getCurrentGame());
 		}
-		if(noSpec)
+		
+		if(p.getGameMode() != GameMode.SPECTATOR)
 			p.setGameMode(GameMode.ADVENTURE);
 		e.setJoinMessage("");
 		p.removePotionEffect(PotionEffectType.JUMP);

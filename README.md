@@ -43,8 +43,7 @@ Déplacez simplement le plugin [LoupGarou.jar](https://github.com/Ekinoxx0/LoupG
 `/lg start <PSEUDO>` : Lance la partie  
 `/lg end <PSEUDO>` : Arrête une partie  
 `/lg spec <PSEUDO>` : Ajoute un spectateur à la partie
-`/lg reloadConfig` : Recharge la configuration  
-`/lg joinAll` : À utiliser après avoir changé les rôles  
+`/lg reloadConfig` : Recharge la configuration   
 `/lg hideVote` : Cache les messages de votes durant la partie
 `/lg hideVoteExtra` : Cache les nombres de votes durant la partie
 `/lg hideRole` : Cache la composition des rôles de la partie dans le scoreboard
@@ -63,10 +62,6 @@ Merci de créer des [issues](https://github.com/Ekinoxx0/LoupGarou/issues) en ca
 - Que faire en cas de problème d'affichage (votes bloqués au dessus des têtes, etc...) ?  
 
 Cela arrive après avoir `reload` au cours d'une partie, tous les joueurs qui ont ce problème doivent se déconnecter et se reconnecter.
-
-- Pourquoi la partie ne se lance pas ?  
-
-Il faut taper la commande `/lg start`. N'oubliez pas de taper `/lg joinAll` après avoir modifié la liste des rôles.
 
 - J'ai mal placés mes spawns ou je veux utiliser une nouvelle map, comment faire ?  
 

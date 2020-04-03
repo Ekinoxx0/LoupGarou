@@ -1,11 +1,11 @@
 package dev.loupgarou.discord;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.common.io.Resources;
+import com.google.common.io.CharStreams;
 
 import dev.loupgarou.MainLg;
 import dev.loupgarou.classes.LGPlayer;
@@ -27,7 +27,7 @@ public class DiscordManager extends ListenerAdapter {
 	
 	static {
 		try {
-			TOKEN = Resources.toString(Resources.getResource("/token"), Charset.forName("UTF-8"));
+			TOKEN = CharStreams.toString(new InputStreamReader(DiscordManager.class.getResourceAsStream("/token")));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

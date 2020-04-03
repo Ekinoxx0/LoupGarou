@@ -103,7 +103,6 @@ public class LGGame implements Listener{
 		Bukkit.getPluginManager().registerEvents(this, MainLg.getInstance());
 		
 		this.discord = config.getCom() == CommunicationType.DISCORD ? new DiscordChannelHandler(this) : null;
-		MainLg.getInstance().getSubDomains().createSubdomain(owner.getName());
 	}
 	
 	@Getter
@@ -609,7 +608,6 @@ public class LGGame implements Listener{
 	@Getter private boolean ended;
 	public void endGame(LGWinType winType) {
 		if(ended) return;
-		MainLg.getInstance().getSubDomains().deleteSubdomain(owner.getName());
 		
 		List<LGPlayer> winners = new ArrayList<LGPlayer>();
 		LGGameEndEvent event = new LGGameEndEvent(this, winType, winners);

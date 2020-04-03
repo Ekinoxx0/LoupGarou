@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -55,7 +54,6 @@ import dev.loupgarou.roles.RVillageois;
 import dev.loupgarou.roles.RVoleur;
 import dev.loupgarou.roles.RVoyante;
 import dev.loupgarou.roles.utils.Role;
-import dev.loupgarou.subdomains.SubDomainsManager;
 import dev.loupgarou.utils.Updater;
 import lombok.Getter;
 
@@ -68,7 +66,6 @@ public class MainLg extends JavaPlugin {
 	
 	@Getter private List<LGGame> games = new ArrayList<LGGame>();
 	@Getter private DiscordManager discord;
-	@Getter private SubDomainsManager subDomains;
 	
 	@Override
 	public void onEnable() {
@@ -92,7 +89,6 @@ public class MainLg extends JavaPlugin {
 
 	    try {
 			this.discord = new DiscordManager(this);
-			this.subDomains = new SubDomainsManager();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return;
@@ -168,9 +164,6 @@ public class MainLg extends JavaPlugin {
 			e.printStackTrace();
 		}
 	}
-	
-	@Deprecated
-	public FileConfiguration getConfig() {return null;}
 	
 	public static void debug(String s) {
 		getInstance().getLogger().log(Level.INFO, s);

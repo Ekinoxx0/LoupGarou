@@ -94,8 +94,10 @@ public class RCorbeau extends Role{
 					lgp.getCache().remove(CacheType.CORBEAU_SELECTED);
 					new BukkitRunnable() {
 						
+						@SuppressWarnings("deprecation")
 						@Override
 						public void run() {
+							//TODO Remake LGPlayer bad impl
 							getGame().getVote().vote(new LGPlayer("§a§lLe corbeau"), lgp);
 							getGame().getVote().vote(new LGPlayer("§a§lLe corbeau"), lgp);
 							if(!e.getGame().getConfig().isHideVoteExtra()) {
