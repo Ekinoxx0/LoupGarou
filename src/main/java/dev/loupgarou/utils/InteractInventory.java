@@ -54,7 +54,7 @@ public class InteractInventory implements Listener{
 	}
 	
 	public static abstract class InventoryClose {
-		public abstract void nextTick(HumanEntity human);
+		public void nextTick(HumanEntity human) {}
 		/**
 		 * @param human Human who close this inventory
 		 * @return Delete on close ?

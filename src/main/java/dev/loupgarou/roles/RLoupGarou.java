@@ -8,12 +8,12 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 
 import dev.loupgarou.MainLg;
+import dev.loupgarou.classes.LGChat;
 import dev.loupgarou.classes.LGCustomSkin;
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.classes.LGVote;
 import dev.loupgarou.classes.LGWinType;
-import dev.loupgarou.classes.chat.LGChat;
 import dev.loupgarou.events.daycycle.LGNightEndEvent;
 import dev.loupgarou.events.daycycle.LGNightStartEvent;
 import dev.loupgarou.events.game.LGGameEndEvent;

@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public abstract class SubCommand {
+	
+	public static final String BASE_PERM = "loupgarou.cmd";
 
 	@Getter @NonNull private final LoupGarouCommand cmd;
 	@Getter @NonNull private final List<String> aliases;
@@ -23,7 +25,7 @@ public abstract class SubCommand {
 	}
 	
 	public String getPermission() {
-		return "loupgarou.cmd." + aliases.get(0).toLowerCase();
+		return BASE_PERM + "." + aliases.get(0).toLowerCase();
 	}
 	
 	protected MainLg getMain() {

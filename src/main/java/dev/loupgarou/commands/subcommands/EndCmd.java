@@ -23,18 +23,22 @@ public class EndCmd extends SubCommand {
 	public void execute(CommandSender cs, String label, String[] args) {
 		if (args.length == 1) {
 			if(cs instanceof Player) {
-				LGGame gameTarget = LGPlayer.thePlayer((Player) cs).getGame();
+				LGPlayer lgp = LGPlayer.thePlayer((Player) cs);
+				LGGame gameTarget = lgp.getGame();
 				if (gameTarget == null) {
 					cs.sendMessage(MainLg.getPrefix() + "§cVous n'êtes pas en partie !");
 					return;
 				}
 				
-				stopGame(gameTarget);
+				if(gameTarget.getOwner() == lgp) {
+					stopGame(gameTarget);
+				} else {
+					cs.sendMessage(MainLg.getPrefix() + "§cVous n'êtes pas propriété...");
+				}
 			} else {
 				cs.sendMessage(MainLg.getPrefix() + "§cMerci de donner le nom d'un joueur en argument");
 			}
-			return;
-		} else if (args.length == 2) {
+		} else if (args.length == 2 && cs.hasPermission(BASE_PERM + "." + getAliases().get(0))) {
 			Player target = Bukkit.getPlayer(args[1]);
 			if (target == null) {
 				cs.sendMessage(MainLg.getPrefix() + "§cJoueur inconnu !");
@@ -49,7 +53,8 @@ public class EndCmd extends SubCommand {
 
 			stopGame(gameTarget);
 			cs.sendMessage(MainLg.getPrefix() + "§6Partie arrêtée avec succès !");
-			return;
+		} else {
+			cs.sendMessage(MainLg.getPrefix() + "§cArgument inconnu...");
 		}
 	}
 	

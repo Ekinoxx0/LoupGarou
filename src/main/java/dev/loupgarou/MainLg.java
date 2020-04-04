@@ -15,8 +15,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.google.gson.JsonParseException;
 
+import dev.loupgarou.classes.LGChat;
+import dev.loupgarou.classes.LGChat.LGChatCallback;
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGMaps;
+import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.commands.LoupGarouCommand;
 import dev.loupgarou.discord.DiscordManager;
 import dev.loupgarou.listeners.CancelListener;
@@ -68,6 +71,12 @@ public class MainLg extends JavaPlugin {
 	
 	@Getter private List<LGGame> games = new ArrayList<LGGame>();
 	@Getter private DiscordManager discord;
+	@Getter private LGChat lobbyChat = new LGChat(new LGChatCallback() {
+		@Override
+		public String receive(LGPlayer sender, String message) {
+			return "§7"+sender.getName()+" §8» §f"+message;
+		}
+	}, "LOBBY");
 	
 	@Override
 	public void onEnable() {

@@ -21,7 +21,6 @@ import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import dev.loupgarou.MainLg;
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
-import dev.loupgarou.events.game.LGPlayerKilledEvent.Reason;
 import dev.loupgarou.packetwrapper.WrapperPlayServerScoreboardTeam;
 
 public class JoinListener implements Listener{
@@ -75,7 +74,7 @@ public class JoinListener implements Listener{
 				if(custom == null) {
 					lgp.sendMessage(MainLg.getPrefix() + "§cAucune partie avec le code : §4§l" + hostn[0]);
 				} else {
-					lgp.join(custom);
+					custom.tryToJoin(lgp);
 				}
 			}
 		}
@@ -105,13 +104,9 @@ public class JoinListener implements Listener{
 	public void onLeave(PlayerQuitEvent e) {
 		Player p = e.getPlayer();
 		LGPlayer lgp = LGPlayer.thePlayer(p);
-		if(lgp.getGame() != null) {
-			lgp.leaveChat();
-			if(lgp.getRole() != null && !lgp.isDead())
-				lgp.getGame().kill(lgp, Reason.DISCONNECTED, true);
-			lgp.getGame().getInGame().remove(lgp);
-			lgp.getGame().checkLeave();
-		}
+		if(lgp.getGame() != null)
+			lgp.getGame().leave(lgp);
+		
 		LGPlayer.removePlayer(p);
 		lgp.remove();
 	}

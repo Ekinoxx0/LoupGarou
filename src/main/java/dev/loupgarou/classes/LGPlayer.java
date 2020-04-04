@@ -6,7 +6,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
-import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.WorldType;
 import org.bukkit.entity.Player;
@@ -24,9 +23,7 @@ import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
 
 import dev.loupgarou.MainLg;
-import dev.loupgarou.classes.chat.LGChat;
-import dev.loupgarou.classes.chat.LGChat.LGChatCallback;
-import dev.loupgarou.classes.chat.LGNoChat;
+import dev.loupgarou.classes.LGChat.LGChatCallback;
 import dev.loupgarou.packetwrapper.WrapperPlayServerChat;
 import dev.loupgarou.packetwrapper.WrapperPlayServerPlayerInfo;
 import dev.loupgarou.packetwrapper.WrapperPlayServerRespawn;
@@ -138,23 +135,6 @@ public class LGPlayer {
 		return player != null ? name = getPlayer().getDisplayName() : name;
 	}
 
-
-	public boolean join(LGGame game) {
-		if(getPlayer().getGameMode() == GameMode.SPECTATOR) {
-			sendMessage("§cÉtant en mode spectateur, vous ne rejoignez pas la partie !");
-			return false;
-		}
-		if(game.tryToJoin(this)) {
-			//To update the skin
-			updateOwnSkin();
-			getPlayer().setWalkSpeed(0.2f);
-	//		sendMessage("§2Vous venez de rejoindre une partie de Loup-Garou. §aBon jeu!");
-			return true;
-		} else {
-			sendMessage("§cVous n'avez pas rejoint de partie... (Plein ou déjà démarrer)");
-		}
-		return false;
-	}
 	public void choose(LGChooseCallback callback, LGPlayer... blacklisted) {
 		this.blacklistedChoice = blacklisted == null ? new ArrayList<LGPlayer>(0) : Arrays.asList(blacklisted);
 		this.chooseCallback = callback;
@@ -348,7 +328,7 @@ public class LGPlayer {
 	
 	
 	public void leaveChat() {
-		joinChat(new LGNoChat(), null);
+		joinChat(MainLg.getInstance().getLobbyChat(), null);
 	}
 	
 	public void onChat(String message) {

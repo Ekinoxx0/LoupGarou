@@ -32,7 +32,6 @@ import com.comphenix.protocol.wrappers.WrappedGameProfile;
 import dev.loupgarou.MainLg;
 import dev.loupgarou.classes.LGGameConfig.CommunicationType;
 import dev.loupgarou.classes.LGMaps.LGLocation;
-import dev.loupgarou.classes.chat.LGChat;
 import dev.loupgarou.discord.DiscordChannelHandler;
 import dev.loupgarou.events.daycycle.LGDayEndEvent;
 import dev.loupgarou.events.daycycle.LGDayStartEvent;
@@ -209,54 +208,88 @@ public class LGGame implements Listener{
 	}
 	
 	public boolean tryToJoin(LGPlayer lgp) {
-		if(ended)return false;
-		if(!started && inGame.size() < maxPlayers) {//Si la partie n'a pas démarrée et qu'il reste de la place
-			lgp.getPlayer().removePotionEffect(PotionEffectType.INVISIBILITY);
-			VariousUtils.setWarning(lgp.getPlayer(), false);
-			if(lgp.isMuted())
-				lgp.resetMuted();
-
-			lgp.getPlayer().getInventory().clear();
-			lgp.getPlayer().updateInventory();
-			lgp.getPlayer().closeInventory();
-			
-			lgp.joinChat(dayChat);
-			
-			lgp.setGame(this);
-			inGame.add(lgp);
-			
-			lgp.setScoreboard(null);
-			
-			for(LGPlayer other : this.getInGame()) {
-				if(other.getPlayer() == null) {
-					Bukkit.broadcastMessage("§cça risque pas de fonctionner si y'a un joueur déco... #55231");
-					this.getInGame().remove(other);
-				}
-					
-				other.updatePrefix();
-				if(lgp != other) {
-					lgp.hidePlayer(other);
-					lgp.showPlayer(other);
-					
-					other.hidePlayer(lgp);
-					other.showPlayer(lgp);
-				}
-			}
-			
-			lgp.getPlayer().setGameMode(GameMode.ADVENTURE);
-			broadcastMessage("§7Le joueur §8"+lgp.getName()+"§7 a rejoint la partie §9(§8"+inGame.size()+"§7/§8"+maxPlayers+"§9)");
-			
-			Bukkit.getPluginManager().callEvent(new LGGameJoinEvent(this, lgp));
-			//updateStart();
-			return true;
+		if(lgp.getPlayer() == null) {
+			MainLg.debug("TryToJoin of a null getPlayer() : " + lgp);
+			return false;
 		}
-		return false;
+		
+		if(lgp.getGame() != null) {
+			lgp.sendMessage("§cVous devez d'abord quitter votre partie...");
+			return false;
+		}
+
+		if(lgp.getPlayer().getGameMode() == GameMode.SPECTATOR) {
+			lgp.sendMessage("§cÉtant en mode spectateur, vous ne rejoignez pas la partie !");
+			return false;
+		}
+		
+		if(started) {
+			lgp.sendMessage("§cPartie déjà démarrée !");
+			return false;
+		}
+		
+		if(ended) {
+			lgp.sendMessage("§cPartie finie !");
+			return false;
+		}
+		
+		if(inGame.size() >= maxPlayers) {
+			lgp.sendMessage("§cPartie pleine !");
+			return false;
+		}
+		
+		lgp.getPlayer().removePotionEffect(PotionEffectType.INVISIBILITY);
+		VariousUtils.setWarning(lgp.getPlayer(), false);
+		if(lgp.isMuted())
+			lgp.resetMuted();
+
+		lgp.updateOwnSkin();
+		lgp.getPlayer().setWalkSpeed(0.2f);
+		lgp.getPlayer().getInventory().clear();
+		lgp.getPlayer().updateInventory();
+		lgp.getPlayer().closeInventory();
+			
+		lgp.joinChat(dayChat);
+			
+		lgp.setGame(this);
+		inGame.add(lgp);
+			
+		lgp.setScoreboard(null);
+			
+		for(LGPlayer other : this.getInGame()) {
+			if(other.getPlayer() == null) {
+				this.getInGame().remove(other);
+				continue;
+			}
+					
+			other.updatePrefix();
+			if(lgp != other) {
+				lgp.hidePlayer(other);
+				lgp.showPlayer(other);
+				
+				other.hidePlayer(lgp);
+				other.showPlayer(lgp);
+			}
+		}
+			
+		lgp.getPlayer().setGameMode(GameMode.ADVENTURE);
+		broadcastMessage("§7Le joueur §8"+lgp.getName()+"§7 a rejoint la partie §9(§8"+inGame.size()+"§7/§8"+maxPlayers+"§9)");
+			
+		Bukkit.getPluginManager().callEvent(new LGGameJoinEvent(this, lgp));
+		//updateStart();
+		return true;
 	}
-	public void checkLeave() {
+	public void leave(LGPlayer lgp) {
+		lgp.leaveChat();
+		if(lgp.getRole() != null && !lgp.isDead())
+			lgp.getGame().kill(lgp, Reason.DISCONNECTED, true);
+		this.getInGame().remove(lgp);
+		lgp.setGame(null);
+		
 		if(startingTask != null) {
 			startingTask.cancel();
 			startingTask = null;
-			broadcastMessage("§c§oUn joueur s'est déconnecté. Le décompte de lancement a donc été arrêté.");
+			broadcastMessage("§c§o" + lgp.getName() + " s'est déconnecté. Le décompte de lancement a donc été arrêté.");
 		}
 		
 		if(this.getInGame().isEmpty())

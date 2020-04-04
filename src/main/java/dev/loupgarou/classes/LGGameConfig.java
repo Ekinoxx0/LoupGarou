@@ -1,6 +1,8 @@
 package dev.loupgarou.classes;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import dev.loupgarou.MainLg;
@@ -22,6 +24,7 @@ public class LGGameConfig {
 	
 	@Getter @NonNull private final LGMap map;
 	@Getter private final boolean privateGame;
+	@Getter private final List<String> banned = new ArrayList<String>();
 	
 	{
 		for(String roleName : MainLg.getInstance().getRoles().keySet())

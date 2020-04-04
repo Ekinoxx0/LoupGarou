@@ -16,12 +16,26 @@ import dev.loupgarou.classes.LGMaps.LGMap;
 import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.utils.InteractInventory;
 import dev.loupgarou.utils.InteractInventory.InventoryCall;
+import dev.loupgarou.utils.InteractInventory.InventoryClose;
 import dev.loupgarou.utils.ItemBuilder;
 import lombok.NonNull;
 
 public class CreateServerMenu {
+	
+	private static final InventoryClose canceledServerCreation = new InventoryClose() {
+		
+		@Override
+		public boolean close(HumanEntity human) {
+			return true;
+		}
+	};
 
 	public static void openMenu(@NonNull LGPlayer lgp) {
+		if(lgp.getGame() != null) {
+			lgp.sendMessage("§cVous êtes déjà en partie...");
+			return;
+		}
+		
 		InteractInventory ii = new InteractInventory(Bukkit.createInventory(null, 9 * 3, "Création d'une partie"));
 		
 		ii.fill(null, true, null);
@@ -136,6 +150,8 @@ public class CreateServerMenu {
 					}
 				});
 		
+		ii.setCloseAction(canceledServerCreation);
+		
 		ii.openTo(lgp.getPlayer());
 	}
 	
@@ -157,7 +173,11 @@ public class CreateServerMenu {
 					
 					@Override
 					public void click(HumanEntity human, ItemStack item, ClickType clickType) {
-						new LGGame(24, lgp, config).tryToJoin(lgp);
+						LGGame created = new LGGame(24, lgp, config);
+						if(!created.tryToJoin(lgp)) {
+							
+						}
+						human.closeInventory();
 					}
 				});
 		
@@ -174,8 +194,11 @@ public class CreateServerMenu {
 					
 					@Override
 					public void click(HumanEntity human, ItemStack item, ClickType clickType) {
+						human.closeInventory();
 					}
 				});
+		
+		ii.setCloseAction(canceledServerCreation);
 		
 		ii.openTo(lgp.getPlayer());
 	}

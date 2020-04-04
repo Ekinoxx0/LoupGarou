@@ -1,10 +1,9 @@
-package dev.loupgarou.classes.chat;
+package dev.loupgarou.classes;
 
 import java.util.HashMap;
 import java.util.Map.Entry;
 
 import dev.loupgarou.MainLg;
-import dev.loupgarou.classes.LGPlayer;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

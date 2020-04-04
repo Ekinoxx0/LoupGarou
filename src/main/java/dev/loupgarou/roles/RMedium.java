@@ -2,9 +2,9 @@ package dev.loupgarou.roles;
 
 import org.bukkit.event.EventHandler;
 
+import dev.loupgarou.classes.LGChat;
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
-import dev.loupgarou.classes.chat.LGChat;
 import dev.loupgarou.events.daycycle.LGNightStartEvent;
 import dev.loupgarou.events.daycycle.LGPreDayStartEvent;
 import dev.loupgarou.events.roles.LGRoleTurnEndEvent;

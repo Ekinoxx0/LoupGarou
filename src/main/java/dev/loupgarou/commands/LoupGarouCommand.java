@@ -11,10 +11,10 @@ import org.bukkit.command.TabExecutor;
 
 import dev.loupgarou.MainLg;
 import dev.loupgarou.commands.subcommands.EndCmd;
+import dev.loupgarou.commands.subcommands.LeaveCmd;
 import dev.loupgarou.commands.subcommands.MainMenuCmd;
 import dev.loupgarou.commands.subcommands.MenuCmd;
 import dev.loupgarou.commands.subcommands.StartCmd;
-import dev.loupgarou.commands.subcommands.StatusCmd;
 import dev.loupgarou.commands.subcommands.config.HideRoleCmd;
 import dev.loupgarou.commands.subcommands.config.HideVoteCmd;
 import dev.loupgarou.commands.subcommands.config.HideVoteExtraCmd;
@@ -68,7 +68,7 @@ public class LoupGarouCommand implements CommandExecutor, TabExecutor {
 		this.subs.add(new MainMenuCmd(this));
 		this.subs.add(new MenuCmd(this));
 		this.subs.add(new StartCmd(this));
-		this.subs.add(new StatusCmd(this));
+		this.subs.add(new LeaveCmd(this));
 		
 		for(SubCommand cmd : this.subs)
 			if(cmd.getAliases().isEmpty()) {
