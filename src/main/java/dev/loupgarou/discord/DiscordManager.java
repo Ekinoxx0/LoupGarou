@@ -14,6 +14,7 @@ import lombok.NonNull;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Category;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.VoiceChannel;
@@ -23,7 +24,8 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 public class DiscordManager extends ListenerAdapter {
 	
 	private static String TOKEN;
-	private static final long CATEGORY_ID = 694507525206441994L;
+	private static final long CATEGORY_GAME = 694507525206441994L;
+	private static final long CHANNEL_END_GAME = 695779580128264260L;
 	
 	static {
 		try {
@@ -34,7 +36,9 @@ public class DiscordManager extends ListenerAdapter {
 	}
 	
 	@Getter private final JDA jda;
+	@Getter private final Guild guild;
 	@Getter private final Category voices;
+	@Getter private final VoiceChannel endGame;
 	private final List<DiscordChannelHandler> handlers;
 	
 	public DiscordManager(MainLg main) throws Exception {
@@ -47,9 +51,15 @@ public class DiscordManager extends ListenerAdapter {
 			e.printStackTrace();
 		}
 	    
-	    this.voices = this.jda.getCategoryById(CATEGORY_ID);
+	    this.voices = this.jda.getCategoryById(CATEGORY_GAME);
 	    if(this.voices == null)
 	    	throw new Exception("Section id is unknown.");
+	    
+	    this.guild = this.voices.getGuild();
+	    
+	    this.endGame = this.jda.getVoiceChannelById(CHANNEL_END_GAME);
+	    if(this.endGame == null)
+	    	throw new Exception("EndGame id is unknown.");
 
 		for(VoiceChannel voice : this.voices.getVoiceChannels())
 			voice.delete().queue();
@@ -63,9 +73,13 @@ public class DiscordManager extends ListenerAdapter {
 		if(e.getChannelJoined() == null) {
 			//Disconnected
 			if(lgp == null) return;
-			lgp.sendMessage(MainLg.getPrefix() + "§cDéconnecté du discord...");
+			lgp.sendMessage(MainLg.getPrefix() + "§5Déconnecté du discord...");
 			return;
 		}
+		
+		if(e.getChannelLeft() == null)
+			if(lgp != null)
+				lgp.sendMessage(MainLg.getPrefix() + "§2Connecté au discord");
 		
 		if(this.voices.getChannels().contains(e.getChannelJoined())) {
 			if(leftGameChannel) {

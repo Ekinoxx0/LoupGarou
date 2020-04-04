@@ -9,11 +9,13 @@ import org.bukkit.Bukkit;
 import dev.loupgarou.MainLg;
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGGameConfig;
+import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.classes.LGMaps.LGMap;
 
 public class FakeRoles {
 	
-	private static final LGGame fakeGame = new LGGame(0, null, new LGGameConfig(new LGMap("fake", Bukkit.getWorlds().get(0).getName()), true));
+	@SuppressWarnings("deprecation")
+	private static final LGGame fakeGame = new LGGame(0, new LGPlayer("fake"), new LGGameConfig(new LGMap("fake", Bukkit.getWorlds().get(0).getName()), true));
 	private static final HashMap<String, Role> roles = new HashMap<String, Role>();
 	
 	public static Role getRole(String name) {

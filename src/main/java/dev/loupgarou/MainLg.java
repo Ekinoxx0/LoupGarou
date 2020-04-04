@@ -54,8 +54,10 @@ import dev.loupgarou.roles.RVillageois;
 import dev.loupgarou.roles.RVoleur;
 import dev.loupgarou.roles.RVoyante;
 import dev.loupgarou.roles.utils.Role;
+import dev.loupgarou.utils.RandomString;
 import dev.loupgarou.utils.Updater;
 import lombok.Getter;
+import lombok.NonNull;
 
 public class MainLg extends JavaPlugin {
 	
@@ -107,8 +109,26 @@ public class MainLg extends JavaPlugin {
 		ProtocolLibrary.getProtocolManager().removePacketListeners(this);
 	}
 
-	public LGGame findGame(String key) {
+	public LGGame findGame(@NonNull String key) {
+		for(LGGame game : this.games) {
+			if(game.getKey().equalsIgnoreCase(key)) {
+				return game;
+			}
+		}
+		
 		return null;
+	}
+	
+	public String generateKey() {
+		String key = RandomString.simple(5);
+		
+		for(LGGame game : this.games)
+			if(game.getKey() != null && game.getKey().equals(key)) {
+				key = generateKey();
+				break;
+			}
+		
+		return key;
 	}
 	
 	private void loadRoles() {

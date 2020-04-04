@@ -2,6 +2,8 @@ package dev.loupgarou.discord;
 
 import java.util.concurrent.TimeUnit;
 
+import org.bukkit.scheduler.BukkitRunnable;
+
 import dev.loupgarou.MainLg;
 import dev.loupgarou.classes.LGGame;
 import lombok.Getter;
@@ -64,8 +66,24 @@ public class DiscordChannelHandler {
 	public void destroy() {
 		if(invite != null)
 			invite.delete().queue();
-		if(voice != null)
-			voice.delete().queue();
+		
+		
+		new BukkitRunnable() {
+			
+			final VoiceChannel currentVoice = voice;
+			
+			@Override
+			public void run() {
+				for(Member m : voice.getMembers()) {
+					m.mute(false).queue();
+					discord.getGuild().moveVoiceMember(m, discord.getEndGame()).complete();
+				}
+				
+				if(currentVoice != null)
+					currentVoice.delete().queue();
+			}
+		}.runTaskAsynchronously(MainLg.getInstance());
+		
 		if(game != null)
 			game.broadcastMessage("§6Destruction de la liaison Discord...");
 		

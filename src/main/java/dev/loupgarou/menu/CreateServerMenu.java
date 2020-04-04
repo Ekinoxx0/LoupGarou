@@ -8,6 +8,7 @@ import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
+import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGGameConfig;
 import dev.loupgarou.classes.LGGameConfig.CommunicationType;
 import dev.loupgarou.classes.LGMaps;
@@ -110,6 +111,7 @@ public class CreateServerMenu {
 					@Override
 					public void click(HumanEntity human, ItemStack item, ClickType clickType) {
 						config.setCom(CommunicationType.DISCORD);
+						validate(lgp, config);
 					}
 				});
 		
@@ -118,7 +120,7 @@ public class CreateServerMenu {
 				.name("§6Sélection du type de tchat")
 				.lore(
 						Arrays.asList(
-								"§6Textuel",
+								"§dTextuel",
 								"",
 								"§7Si vous choississez ce mode, vous pourrez discuter",
 								"§7avec les autres joueurs via le tchat textuel."
@@ -126,6 +128,48 @@ public class CreateServerMenu {
 						)
 				.build(), 
 				5, 1, true, 
+				new InventoryCall() {
+					
+					@Override
+					public void click(HumanEntity human, ItemStack item, ClickType clickType) {
+						validate(lgp, config);
+					}
+				});
+		
+		ii.openTo(lgp.getPlayer());
+	}
+	
+	private static void validate(@NonNull LGPlayer lgp, LGGameConfig config) {
+		InteractInventory ii = new InteractInventory(Bukkit.createInventory(null, 9, "Valider votre choix..."));
+		
+		ii.fill(null, true, null);
+		
+		ii.registerItem(
+				new ItemBuilder(Material.GOLD_NUGGET)
+				.name("§2Valider le choix")
+				.lore(
+						Arrays.asList(
+								)
+						)
+				.build(), 
+				3, 0, true, 
+				new InventoryCall() {
+					
+					@Override
+					public void click(HumanEntity human, ItemStack item, ClickType clickType) {
+						new LGGame(24, lgp, config).tryToJoin(lgp);
+					}
+				});
+		
+		ii.registerItem(
+				new ItemBuilder(Material.IRON_NUGGET)
+				.name("§cAnnuler")
+				.lore(
+						Arrays.asList(
+								)
+						)
+				.build(), 
+				5, 0, true, 
 				new InventoryCall() {
 					
 					@Override

@@ -63,7 +63,6 @@ public class JoinListener implements Listener{
 		
 		
 		LGPlayer lgp = LGPlayer.thePlayer(p);
-		lgp.setDead(false);
 		lgp.showView();
 		
 		if(lgp.getConnectingHostname() != null && lgp.getConnectingHostname().contains(".")) {
@@ -93,14 +92,13 @@ public class JoinListener implements Listener{
 	@EventHandler
 	public void onResoucePack(PlayerResourcePackStatusEvent e) {
 		if(e.getStatus() == Status.SUCCESSFULLY_LOADED) {
-			Player p = e.getPlayer();
-			LGPlayer lgp = LGPlayer.thePlayer(p);
+			LGPlayer lgp = LGPlayer.thePlayer(e.getPlayer());
 			lgp.showView();
 			//lgp.join(MainLg.getInstance().getCurrentGame());
 		} else if(e.getStatus() == Status.DECLINED) {
-			Bukkit.broadcastMessage(MainLg.getPrefix()+"§c" + e.getPlayer().getName() + " a refusé le ressources pack. ("+e.getStatus()+")");
+			e.getPlayer().sendMessage(MainLg.getPrefix()+"§cVous avez refuser le ressource pack !");
 		} else if(e.getStatus() == Status.FAILED_DOWNLOAD) {
-			e.getPlayer().kickPlayer(MainLg.getPrefix()+"§cIl vous faut le resourcepack pour jouer ! ("+e.getStatus()+")");
+			e.getPlayer().kickPlayer(MainLg.getPrefix()+"§cIl vous faut le resourcepack pour jouer !");
 		}
 	}
 	@EventHandler

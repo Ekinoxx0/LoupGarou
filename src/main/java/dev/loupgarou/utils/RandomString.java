@@ -4,6 +4,7 @@ import java.security.SecureRandom;
 
 public class RandomString {
     private static final String ALPHABET = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-_";
+    private static final String SIMPLE_ALPHABET = "123456789abcdefghkmnpqrstuvwxyz";
     private static final SecureRandom RANDOM = new SecureRandom();
 
     /**
@@ -16,6 +17,15 @@ public class RandomString {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < count; ++i)
             sb.append(ALPHABET.charAt(RANDOM.nextInt(ALPHABET.length())));
+        return sb.toString();
+    }
+    
+    /**
+     */
+    public static String simple(int count) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < count; ++i)
+            sb.append(SIMPLE_ALPHABET.charAt(RANDOM.nextInt(SIMPLE_ALPHABET.length())));
         return sb.toString();
     }
 }

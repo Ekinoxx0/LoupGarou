@@ -68,6 +68,7 @@ import dev.loupgarou.utils.SoundUtils.LGSound;
 import dev.loupgarou.utils.VariableCache.CacheType;
 import dev.loupgarou.utils.VariousUtils;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 
 public class LGGame implements Listener{
@@ -95,11 +96,19 @@ public class LGGame implements Listener{
 		return "§e"+sender.getName()+" §6» §f"+message;
 	}, "DAY");
 	
+	@Getter private final String key;
 	
-	public LGGame(int maxPlayers, LGPlayer owner, LGGameConfig config) {
+	
+	public LGGame(int maxPlayers, @NonNull LGPlayer owner, @NonNull LGGameConfig config) {
+		if(!MainLg.getInstance().getGames().contains(this)) 
+			MainLg.getInstance().getGames().add(this);
+		
 		this.maxPlayers = maxPlayers;
 		this.owner = owner;
 		this.config = config;
+		this.key = MainLg.getInstance().generateKey();
+		owner.sendMessage("§6Clé de partie : " + this.key);//TODO modify
+		owner.sendMessage("§6IP : " + this.key + ".lg.wondalia.com");
 		Bukkit.getPluginManager().registerEvents(this, MainLg.getInstance());
 		
 		this.discord = config.getCom() == CommunicationType.DISCORD ? new DiscordChannelHandler(this) : null;
@@ -250,9 +259,8 @@ public class LGGame implements Listener{
 			broadcastMessage("§c§oUn joueur s'est déconnecté. Le décompte de lancement a donc été arrêté.");
 		}
 		
-		if(this.getInGame().isEmpty()) {
+		if(this.getInGame().isEmpty())
 			this.endGame(LGWinType.NONE);
-		}
 	}
 	public void updateStart() {
 		if(!isStarted())
@@ -661,6 +669,7 @@ public class LGGame implements Listener{
 			}
 		
 		MainLg.getInstance().getGames().remove(this);
+		this.discord.destroy();
 		
 		//A remettre pour activer le démarrage automatique
 	/*	wait(30, ()->{
