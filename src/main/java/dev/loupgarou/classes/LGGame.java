@@ -274,7 +274,6 @@ public class LGGame implements Listener{
 		broadcastMessage("§7Le joueur §8"+lgp.getName()+"§7 a rejoint la partie §9(§8"+inGame.size()+"§7/§8"+config.getMap().getSpawns().size()+"§9)");
 			
 		Bukkit.getPluginManager().callEvent(new LGGameJoinEvent(this, lgp));
-		//updateStart();
 		return true;
 	}
 	public void leave(LGPlayer lgp) {
@@ -325,6 +324,7 @@ public class LGGame implements Listener{
 			startingTask.cancel();
 			startingTask = null;
 		}
+		MainLg.debug(getKey(), "Starting game.");
 		started = true;
 		MainLg main = MainLg.getInstance();
 		
@@ -542,6 +542,7 @@ public class LGGame implements Listener{
 			player.playAudio(LGSound.AMBIANT_NIGHT, 0.07F);
 		}
 		day = false;
+		
 		Bukkit.getPluginManager().callEvent(new LGNightStartEvent(this));
 		for(LGPlayer player : getInGame())
 			player.hideView();
@@ -654,7 +655,8 @@ public class LGGame implements Listener{
 
 		if(event.isCancelled())
 			return;
-		
+
+		MainLg.debug(getKey(), "Ending game.");
 		ended = true;
 		//We unregister every role listener because they are unused after the game's end !
 		for(Role role : getRoles()) {
@@ -740,7 +742,6 @@ public class LGGame implements Listener{
 		int died = 0;
 		boolean endGame = false;
 		
-		
 		for(Entry<Reason, LGPlayer> entry : deaths.entrySet()) {
 			if(entry.getKey() == Reason.DONT_DIE)
 				continue;
@@ -762,7 +763,6 @@ public class LGGame implements Listener{
 		day = true;
 		for(LGPlayer player : getInGame())
 			player.showView();
-
 		
 		new BukkitRunnable() {
 			int timeoutLeft = 20;

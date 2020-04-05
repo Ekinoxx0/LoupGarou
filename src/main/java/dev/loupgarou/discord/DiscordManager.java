@@ -127,7 +127,16 @@ public class DiscordManager extends ListenerAdapter {
 		return null;
 	}
 	
-	public Member get(@NonNull String playerName) {
+	public Member get(@NonNull LGPlayer lgp) {
+		Member m = get(lgp.getName());
+		
+		if(m == null && lgp.getPlayer() == null)
+			m = get(lgp.getPlayer().getName());
+		
+		return m;
+	}
+	
+	private Member get(@NonNull String playerName) {
 		if(this.jda == null) return null;
 		if(this.voices == null) return null;
 		
