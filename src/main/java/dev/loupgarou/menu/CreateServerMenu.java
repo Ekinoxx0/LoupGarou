@@ -81,11 +81,16 @@ public class CreateServerMenu {
 		
 		int i = 3;
 		for(LGMap map : LGMaps.getMapsInfo().getMaps()) {
+			if(!map.isValid()) continue;
 			ii.registerItem(
 					new ItemBuilder(map.getMaterial())
-					.name("§6" + map.getName())
+					.name("§6§l" + map.getName())
 					.lore(
 							Arrays.asList(
+									"",
+									"§7" + map.getDescription(),
+									"",
+									"§7" + map.getSpawns().size() + " joueurs maximum"
 									)
 							)
 					.build(), 
@@ -167,9 +172,12 @@ public class CreateServerMenu {
 		
 		ii.registerItem(
 				new ItemBuilder(Material.GOLD_NUGGET)
-				.name("§2Valider le choix")
+				.name("§2Valider la configuration :")
 				.lore(
 						Arrays.asList(
+								"",
+								"§7Map : " + config.getMap().getName(),
+								"§7Communication : " + config.getCom()
 								)
 						)
 				.build(), 
@@ -179,9 +187,9 @@ public class CreateServerMenu {
 					@Override
 					public void click(HumanEntity human, ItemStack item, ClickType clickType) {
 						human.closeInventory();
-						LGGame created = new LGGame(24, lgp, config);
+						LGGame created = new LGGame(lgp, config);
 						if(!created.tryToJoin(lgp)) {
-							human.sendMessage("§c?");//TODO
+							human.sendMessage("§cUne erreur est survenue lors de la création de votre partie ! #8841654");
 						}
 					}
 				});

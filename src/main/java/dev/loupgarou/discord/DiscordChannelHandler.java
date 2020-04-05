@@ -25,7 +25,7 @@ public class DiscordChannelHandler {
 		this.game = game;
 		this.discord = MainLg.getInstance().getDiscord();
 		
-		discord.getVoices().createVoiceChannel("LG - " + game.getOwner().getName()).setUserlimit(game.getMaxPlayers())
+		discord.getVoices().createVoiceChannel("LG - " + game.getOwner().getName()).setUserlimit(game.getConfig().getMap().getSpawns().size())
 			.queue((voice) -> {
 				this.voice = voice;
 				discord.register(this);

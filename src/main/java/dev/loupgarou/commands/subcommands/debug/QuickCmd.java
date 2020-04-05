@@ -19,8 +19,16 @@ public class QuickCmd extends SubCommand {
 	public void execute(CommandSender cs, String label, String[] args) {
 		if(!(cs instanceof Player)) return;
 		LGPlayer lgp = LGPlayer.thePlayer((Player) cs);
+
+		if(lgp.getGame() == null) {
+			lgp.sendMessage("§cVous n'êtes pas en partie...");
+			return;
+		}
 		
-		if(lgp.getGame() == null) return;//TODO Msg
+		if(lgp.getGame().getOwner() != lgp) {
+			lgp.sendMessage("§cVous n'êtes pas le propriétaire de la partie...");
+			return;
+		}
 		
 		if (lgp.getGame() != null) {
 			if (lgp.getGame().getVote() != null) {

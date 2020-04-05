@@ -28,14 +28,14 @@ public class ListServerMenu {
 			
 			ii.registerItem(
 					new ItemBuilder(Material.STONE)
-					.name("t")
+					.name("En dev...")
 					.build(), 
 					x, y, true, 
 					new InventoryCall() {
 						
 						@Override
 						public void click(HumanEntity human, ItemStack item, ClickType clickType) {
-							//TODO
+							//TODO create join system for serverlist
 						}
 					});
 			

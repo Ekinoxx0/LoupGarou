@@ -16,7 +16,7 @@ import dev.loupgarou.classes.LGPlayer;
 public class FakeRoles {
 	
 	@SuppressWarnings("deprecation")
-	private static final LGGame fakeGame = new LGGame(0, new LGPlayer("fake"), new LGGameConfig(new LGMap("fake", Bukkit.getWorlds().get(0).getName(), Material.AIR), true));
+	private static final LGGame fakeGame = new LGGame(new LGPlayer("fake"), new LGGameConfig(new LGMap("fake", Bukkit.getWorlds().get(0).getName(), Material.AIR), true));
 	private static final HashMap<String, Role> roles = new HashMap<String, Role>();
 	
 	public static Role getRole(String name) {

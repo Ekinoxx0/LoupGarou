@@ -19,8 +19,16 @@ public class NextNightCmd extends SubCommand {
 	public void execute(CommandSender cs, String label, String[] args) {
 		if(!(cs instanceof Player)) return;
 		LGPlayer lgp = LGPlayer.thePlayer((Player) cs);
+
+		if(lgp.getGame() == null) {
+			lgp.sendMessage("§cVous n'êtes pas en partie...");
+			return;
+		}
 		
-		if(lgp.getGame() == null) return;//TODO Msg
+		if(lgp.getGame().getOwner() != lgp) {
+			lgp.sendMessage("§cVous n'êtes pas le propriétaire de la partie...");
+			return;
+		}
 		
 		cs.sendMessage("§aVous êtes passé à la prochaine nuit");
 		if(lgp.getGame() != null) {

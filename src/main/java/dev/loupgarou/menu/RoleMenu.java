@@ -19,7 +19,11 @@ import dev.loupgarou.utils.ItemBuilder;
 public class RoleMenu {
 	
 	public static void openMenu(LGPlayer lgp) {
-		if(lgp.getGame() == null) return;//TODO
+		if(lgp.getGame() == null) {
+			lgp.sendMessage("§cVous n'êtes pas en partie...");
+			return;
+		}
+		
 		InteractInventory ii = new InteractInventory(Bukkit.createInventory(null, 4 * 9, "Sélection des rôles"));
 		
 		int i = 0;
@@ -40,7 +44,10 @@ public class RoleMenu {
 						
 						@Override
 						public void click(HumanEntity human, ItemStack item, ClickType clickType) {
-							if(!human.hasPermission("loupgarou.cmd.menu")) return;
+							if(lgp.getGame().getOwner() != lgp) {
+								lgp.sendMessage("§cVous n'êtes pas le propriétaire de la partie...");
+								return;
+							}
 							
 							int modif = 0;
 								

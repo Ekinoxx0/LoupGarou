@@ -125,6 +125,7 @@ public class RLoupFeutrer extends Role {
     public void onDiscoverRole(LGDiscoverRoleEvent e) {
     	if(!(e.getTarget().getRole() instanceof RLoupFeutrer)) return;
     	if(!e.getSource().getCache().has(CacheType.LOUP_FEUTRER)) return;
+    	if(e.getSource().getCache().has(CacheType.INLOVE)) return;
     	
     	e.setDiscoveredRole(((LGPlayer) e.getSource().getCache().get(CacheType.LOUP_FEUTRER)).getRole());
     }

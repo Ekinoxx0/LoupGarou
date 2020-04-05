@@ -72,7 +72,6 @@ import lombok.Setter;
 
 public class LGGame implements Listener{
 	@Getter private final SecureRandom random = new SecureRandom();
-	@Getter private final int maxPlayers;
 	@Getter private List<LGPlayer> inGame = new ArrayList<LGPlayer>();
 	@Getter private List<Role> roles = new ArrayList<Role>();
 	
@@ -98,11 +97,10 @@ public class LGGame implements Listener{
 	@Getter private final String key;
 	
 	
-	public LGGame(int maxPlayers, @NonNull LGPlayer owner, @NonNull LGGameConfig config) {
+	public LGGame(@NonNull LGPlayer owner, @NonNull LGGameConfig config) {
 		if(!MainLg.getInstance().getGames().contains(this)) 
 			MainLg.getInstance().getGames().add(this);
 		
-		this.maxPlayers = maxPlayers;
 		this.owner = owner;
 		this.config = config;
 		this.key = MainLg.getInstance().generateKey();
@@ -197,13 +195,13 @@ public class LGGame implements Listener{
 		}
 	}
 	
-	public void kill(LGPlayer player, Reason reason) {
-		MainLg.debug(getKey(), "Kill "+player.getName()+" ("+player.getRole()+") for "+reason+" ("+(!deaths.containsValue(player) && !player.isDead())+")");
-		if(!deaths.containsValue(player) && !player.isDead()){
-			LGNightPlayerPreKilledEvent event = new LGNightPlayerPreKilledEvent(this, player, reason);
+	public void kill(LGPlayer lgp, Reason reason) {
+		MainLg.debug(getKey(), "Kill "+lgp.getName()+" ("+lgp.getRole()+") for "+reason+" ("+(!deaths.containsValue(lgp) && !lgp.isDead())+")");
+		if(!deaths.containsValue(lgp) && !lgp.isDead()){
+			LGNightPlayerPreKilledEvent event = new LGNightPlayerPreKilledEvent(this, lgp, reason);
 			Bukkit.getPluginManager().callEvent(event);
 			if(event.getReason() != Reason.DONT_DIE)
-				deaths.put(event.getReason(), player);
+				deaths.put(event.getReason(), lgp);
 		}
 	}
 	
@@ -233,7 +231,7 @@ public class LGGame implements Listener{
 			return false;
 		}
 		
-		if(inGame.size() >= maxPlayers) {
+		if(inGame.size() >= config.getMap().getSpawns().size()) {
 			lgp.sendMessage("§cPartie pleine !");
 			return false;
 		}
@@ -248,10 +246,10 @@ public class LGGame implements Listener{
 		lgp.getPlayer().getInventory().clear();
 		lgp.getPlayer().updateInventory();
 		lgp.getPlayer().closeInventory();
-			
+
+		lgp.setGame(this);
 		lgp.joinChat(dayChat);
 			
-		lgp.setGame(this);
 		inGame.add(lgp);
 			
 		lgp.setScoreboard(null);
@@ -273,7 +271,7 @@ public class LGGame implements Listener{
 		}
 			
 		lgp.getPlayer().setGameMode(GameMode.ADVENTURE);
-		broadcastMessage("§7Le joueur §8"+lgp.getName()+"§7 a rejoint la partie §9(§8"+inGame.size()+"§7/§8"+maxPlayers+"§9)");
+		broadcastMessage("§7Le joueur §8"+lgp.getName()+"§7 a rejoint la partie §9(§8"+inGame.size()+"§7/§8"+config.getMap().getSpawns().size()+"§9)");
 			
 		Bukkit.getPluginManager().callEvent(new LGGameJoinEvent(this, lgp));
 		//updateStart();
@@ -297,7 +295,7 @@ public class LGGame implements Listener{
 	}
 	public void updateStart() {
 		if(!isStarted())
-			if(inGame.size() == maxPlayers) {//Il faut que la partie soit totalement remplie pour qu'elle démarre car sinon, tous les rôles ne seraient pas distribués
+			if(inGame.size() == config.getNumberConfigRoles()) {//Il faut que la partie soit totalement remplie pour qu'elle démarre car sinon, tous les rôles ne seraient pas distribués
 				for(LGPlayer lgp : getInGame()) {
 					CustomScoreboard scoreboard = new CustomScoreboard("§7"/*[§9Loup-Garou§7]*/, lgp);
 					scoreboard.getLine(0).setDisplayName("§6La partie va démarrer...");
@@ -318,8 +316,8 @@ public class LGGame implements Listener{
 			}else if(startingTask != null) {
 				startingTask.cancel();
 				broadcastMessage("§c§oLe démarrage de la partie a été annulé car une personne l'a quittée !");
-			} else if(inGame.size() != maxPlayers) {
-				broadcastMessage("§cDémarrage impossible car le nombre de joueur ne correspond pas aux rôles");
+			} else if(inGame.size() != config.getNumberConfigRoles()) {
+				broadcastMessage("§cDémarrage impossible car le nombre de joueur ne correspond pas aux rôles configurés");
 			}
 	}
 	public void start() {
@@ -335,7 +333,7 @@ public class LGGame implements Listener{
 		List<LGLocation> spawnList = new ArrayList<LGLocation>(original);
 		
 		if(spawnList.size() < getInGame().size()) {
-			Bukkit.broadcastMessage("§cPas assez de spawn !");//TODO Remove
+			broadcastMessage("§cPas assez de spawn ! Merci de signaler ce code d'erreur : #8156");
 			return;
 		}
 		

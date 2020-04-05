@@ -39,18 +39,18 @@ public class JoinListener implements Listener{
 		p.teleport(p.getWorld().getSpawnLocation());
 		
 		WrapperPlayServerScoreboardTeam myTeam = new WrapperPlayServerScoreboardTeam();
-		myTeam.setName(p.getName());
+		myTeam.setName(p.getDisplayName());
 		myTeam.setPrefix(WrappedChatComponent.fromText("§7"));
-		myTeam.setPlayers(Arrays.asList(p.getName()));
+		myTeam.setPlayers(Arrays.asList(p.getDisplayName()));
 		myTeam.setMode(0);
 		for(Player allPlayer : Bukkit.getOnlinePlayers())
 			if(allPlayer != p) {
 				if(allPlayer.getGameMode() != GameMode.SPECTATOR)
 					allPlayer.hidePlayer(MainLg.getInstance(), p);
 				WrapperPlayServerScoreboardTeam team = new WrapperPlayServerScoreboardTeam();
-				team.setName(allPlayer.getName());
+				team.setName(allPlayer.getDisplayName());
 				team.setPrefix(WrappedChatComponent.fromText("§7"));
-				team.setPlayers(Arrays.asList(allPlayer.getName()));
+				team.setPlayers(Arrays.asList(allPlayer.getDisplayName()));
 				team.setMode(0);
 				
 				team.sendPacket(p);

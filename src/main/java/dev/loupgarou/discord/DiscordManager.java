@@ -24,8 +24,8 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 public class DiscordManager extends ListenerAdapter {
 	
 	private static String TOKEN;
-	private static final long CATEGORY_GAME = 694507525206441994L;
-	private static final long CHANNEL_END_GAME = 695779580128264260L;
+	private static final long CATEGORY_GAME = 696410298260914247L;
+	private static final long CHANNEL_END_GAME = 696413735631323148L;
 	
 	static {
 		try {

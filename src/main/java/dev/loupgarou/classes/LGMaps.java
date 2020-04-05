@@ -56,8 +56,13 @@ public class LGMaps {
 		@NonNull @Getter private String name;
 		@Getter @NonNull private String world;
 		@Getter @NonNull private Material material;
+		@Getter @NonNull private String description = "En cours de création...";
 		@Getter private List<LGLocation> spawns = new ArrayList<LGLocation>();
-
+		
+		public boolean isValid() {
+			return isWorldValid() && spawns.size() != 0;
+		}
+		
 		public boolean isWorldValid() {
 			//TODO create worlds
 			for(World w : Bukkit.getWorlds())

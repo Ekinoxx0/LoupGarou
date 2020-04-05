@@ -20,9 +20,17 @@ public class MenuCmd extends SubCommand {
 	public void execute(CommandSender cs, String label, String[] args) {
 		if(!(cs instanceof Player)) return;
 		LGPlayer lgp = LGPlayer.thePlayer((Player) cs);
+
+		if(lgp.getGame() == null) {
+			lgp.sendMessage("§cVous n'êtes pas en partie...");
+			return;
+		}
 		
-		if(lgp.getGame() == null) return;//TODO Msg
-		if(lgp.getGame().getConfig().isHideRole()) return;//TODO Msg
+		if(lgp.getGame().getConfig().isHideRole()) {
+			lgp.sendMessage("§cLes rôles sont cachés durant cette partie...");
+			return;
+		}
+		
 		RoleMenu.openMenu(lgp);
 	}
 	
