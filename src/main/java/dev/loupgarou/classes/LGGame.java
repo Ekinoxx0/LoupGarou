@@ -348,7 +348,7 @@ public class LGGame implements Listener{
 				p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 99999, 180, false, false));
 				lgp.setPlace(original.indexOf(location));
 				placements.put(lgp.getPlace(), lgp);
-				p.teleport(location.toLocation());
+				p.teleport(location.toLocation(getConfig().getMap()));
 				WrapperPlayServerUpdateHealth update = new WrapperPlayServerUpdateHealth();
 				update.setFood(20);
 				update.setFoodSaturation(1);
@@ -713,7 +713,8 @@ public class LGGame implements Listener{
 			}
 		
 		MainLg.getInstance().getGames().remove(this);
-		this.discord.destroy();
+		if(this.discord != null)
+			this.discord.destroy();
 		
 		//A remettre pour activer le démarrage automatique
 	/*	wait(30, ()->{

@@ -116,7 +116,7 @@ public class MainLg extends JavaPlugin {
 	
 	@Override
 	public void onDisable() {
-		for(LGGame game : this.games) {
+		for(LGGame game : new ArrayList<LGGame>(this.games)) {
 			try {
 				game.endGame(LGWinType.NONE);
 			} catch(Exception ex) {
@@ -132,6 +132,9 @@ public class MainLg extends JavaPlugin {
 
 	public LGGame findGame(@NonNull String key) {
 		for(LGGame game : this.games) {
+			if(!game.getConfig().isPrivateGame() && game.getOwner().getName().equalsIgnoreCase(key)) {
+				return game;
+			}
 			if(game.getKey().equalsIgnoreCase(key)) {
 				return game;
 			}

@@ -74,16 +74,13 @@ public class LGMaps {
 	
 	@Getter
 	public static class LGLocation {
-		private transient final LGMap map;
-		@Getter private double x;
-		@Getter private double y;
-		@Getter private double z;
-		@Getter private float yaw;
-		@Getter private float pitch;
+		private double x;
+		private double y;
+		private double z;
+		private float yaw;
+		private float pitch;
 		
-		public LGLocation(@NonNull Location l, @NonNull LGMap map) throws IllegalArgumentException {
-			if(l.getWorld().getName() != map.getWorld()) throw new IllegalArgumentException();
-			this.map = map;
+		public LGLocation(@NonNull Location l) throws IllegalArgumentException {
 			this.x = l.getBlockX();
 			this.y = l.getY();
 			this.z = l.getBlockZ();
@@ -91,7 +88,7 @@ public class LGMaps {
 			this.yaw = l.getYaw();
 		}
 		
-		public Location toLocation() {
+		public Location toLocation(@NonNull LGMap map) {
 			return new Location(Bukkit.getWorld(map.getWorld()), x, y, z, yaw, pitch);
 		}
 	}

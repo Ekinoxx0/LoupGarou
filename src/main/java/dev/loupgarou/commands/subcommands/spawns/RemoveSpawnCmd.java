@@ -45,7 +45,7 @@ public class RemoveSpawnCmd extends SubCommand {
 		
 		LGLocation selectedLoc = null;
 		for(LGLocation lgl : target.getSpawns())
-			if(p.getLocation().distance(lgl.toLocation()) < 1)
+			if(p.getLocation().distance(lgl.toLocation(target)) < 1)
 				selectedLoc = lgl;
 
 		if (selectedLoc == null) {

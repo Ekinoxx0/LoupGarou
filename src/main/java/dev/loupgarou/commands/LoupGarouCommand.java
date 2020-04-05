@@ -11,6 +11,7 @@ import org.bukkit.command.TabExecutor;
 
 import dev.loupgarou.MainLg;
 import dev.loupgarou.commands.subcommands.EndCmd;
+import dev.loupgarou.commands.subcommands.JoinCmd;
 import dev.loupgarou.commands.subcommands.LeaveCmd;
 import dev.loupgarou.commands.subcommands.MainMenuCmd;
 import dev.loupgarou.commands.subcommands.MenuCmd;
@@ -69,10 +70,11 @@ public class LoupGarouCommand implements CommandExecutor, TabExecutor {
 		this.subs.add(new ShowSpawnsCmd(this));
 
 		this.subs.add(new EndCmd(this));
+		this.subs.add(new JoinCmd(this));
+		this.subs.add(new LeaveCmd(this));
 		this.subs.add(new MainMenuCmd(this));
 		this.subs.add(new MenuCmd(this));
 		this.subs.add(new StartCmd(this));
-		this.subs.add(new LeaveCmd(this));
 		
 		for(SubCommand cmd : this.subs)
 			if(cmd.getAliases().isEmpty()) {

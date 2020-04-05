@@ -63,7 +63,9 @@ public class ProtocolListener {
 				WrapperPlayServerPlayerInfo info = new WrapperPlayServerPlayerInfo(event.getPacket());
 				ArrayList<PlayerInfoData> datas = new ArrayList<PlayerInfoData>();
 				for(PlayerInfoData data : info.getData()) {
-					LGPlayer lgp = LGPlayer.thePlayer(Bukkit.getPlayer(data.getProfile().getUUID()));
+					Player p = Bukkit.getPlayer(data.getProfile().getUUID());
+					if(p == null) continue;
+					LGPlayer lgp = LGPlayer.thePlayer(p);
 					if(player.getGame() != null && player.getGame() == lgp.getGame()) {
 						LGUpdatePrefixEvent evt2 = new LGUpdatePrefixEvent(player.getGame(), lgp, player, "");
 						WrappedChatComponent displayName = data.getDisplayName();

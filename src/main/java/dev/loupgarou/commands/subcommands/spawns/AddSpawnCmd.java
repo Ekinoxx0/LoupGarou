@@ -43,7 +43,7 @@ public class AddSpawnCmd extends SubCommand {
 			return;
 		}
 		
-		target.getSpawns().add(new LGLocation(p.getLocation(), target));
+		target.getSpawns().add(new LGLocation(p.getLocation()));
 		p.sendMessage("§aSpawn ajouté ! (N°" + target.getSpawns().size() + ")");
 		try {
 			LGMaps.save(getMain());

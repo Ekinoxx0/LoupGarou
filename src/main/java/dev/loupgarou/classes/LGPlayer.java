@@ -38,6 +38,7 @@ import dev.loupgarou.utils.VariableCache;
 import dev.loupgarou.utils.VariableCache.CacheType;
 import dev.loupgarou.utils.VariousUtils;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 
 public class LGPlayer {
@@ -74,8 +75,9 @@ public class LGPlayer {
 	@Getter @Setter private String latestObjective;
 	@Getter @Setter private String connectingHostname;
 	@Getter private CustomScoreboard scoreboard;
-	public LGPlayer(Player player) {
+	public LGPlayer(@NonNull Player player) {
 		this.player = player;
+		this.name = player.getDisplayName();
 	}
 	@Deprecated
 	public LGPlayer(String name) {
@@ -129,7 +131,7 @@ public class LGPlayer {
 	public void remove() {
 		this.player = null;
 	}
-	private String name;
+	@NonNull private String name;
 	public String getName() {
 		return player != null ? name = getPlayer().getDisplayName() : name;
 	}
@@ -137,7 +139,6 @@ public class LGPlayer {
 	public void choose(LGChooseCallback callback, LGPlayer... blacklisted) {
 		this.blacklistedChoice = blacklisted == null ? new ArrayList<LGPlayer>(0) : Arrays.asList(blacklisted);
 		this.chooseCallback = callback;
-		sendMessage("§7TIP: §oRegardez un joueur et tapez le afin de le sélectionner.");
 	}
 	public void stopChoosing() {
 		this.blacklistedChoice = null;
@@ -327,7 +328,11 @@ public class LGPlayer {
 	
 	
 	public void leaveChat() {
-		joinChat(MainLg.getInstance().getLobbyChat(), null);
+		joinChat(new LGChat(null, null) {
+			public void sendMessage(LGPlayer sender, String message) {}
+			public void join(LGPlayer player, LGChatCallback callback) {}
+			public void leave(LGPlayer player) {}
+		}, null);
 	}
 	
 	public void onChat(String message) {

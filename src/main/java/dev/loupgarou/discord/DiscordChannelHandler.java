@@ -25,11 +25,11 @@ import net.dv8tion.jda.api.entities.VoiceChannel;
 public class DiscordChannelHandler implements Listener {
 
 	private final DiscordManager discord;
-	private final LGGame game;
-	private VoiceChannel voice;
+	@Getter private final LGGame game;
+	@Getter private VoiceChannel voice;
 	@Getter private Invite invite;
 	
-	private boolean isChannelMuted;
+	@Getter private boolean isChannelMuted;
 	
 	public DiscordChannelHandler(@NonNull LGGame game) {
 		this.game = game;
@@ -45,7 +45,7 @@ public class DiscordChannelHandler implements Listener {
 					 .setMaxUses(100)
 					 .queue((invite) -> {
 						 this.invite = invite;
-						 game.broadcastMessage("§2Création du salon finalisé, rejoignez le discord via : " + invite.getUrl());
+						 game.getOwner().sendMessage("§2Création du salon finalisé, rejoignez le discord via : " + invite.getUrl());
 						 Bukkit.getPluginManager().registerEvents(DiscordChannelHandler.this, MainLg.getInstance());
 					 },
 					 (failure) -> {
@@ -96,14 +96,18 @@ public class DiscordChannelHandler implements Listener {
 		}
 		
 		final Member member = m;
-		discord.getGuild().moveVoiceMember(member, voice).queue(
-				(success) -> {
-					lgp.sendMessage("§9Vous avez été déplacé sur discord...");
-					member.mute(false).queue();
-				},
-				(failure) -> {
-					lgp.sendMessage("§cEchec pour vous déplacer sur discord !");
-				});
+		try {
+			discord.getGuild().moveVoiceMember(member, voice).queue(
+					(success) -> {
+						lgp.sendMessage("§9Vous avez été déplacé sur discord...");
+						member.mute(false).queue();
+					},
+					(failure) -> {
+						lgp.sendMessage("§cEchec pour vous déplacer sur discord !");
+					});
+		} catch(IllegalStateException ex) {
+			lgp.sendMessage("§cVous n'êtes pas connecté sur discord...");
+		}
 	
 	}
 	
@@ -141,22 +145,19 @@ public class DiscordChannelHandler implements Listener {
 			invite.delete().queue();
 
 		HandlerList.unregisterAll(this);
+
+		final VoiceChannel currentVoice = voice;
+		for(Member m : currentVoice.getMembers()) {
+			m.mute(false).queue();
+			discord.getGuild().moveVoiceMember(m, discord.getEndGame()).queue();
+		}
 		
 		new BukkitRunnable() {
-			
-			final VoiceChannel currentVoice = voice;
-			
 			@Override
 			public void run() {
-				for(Member m : currentVoice.getMembers()) {
-					m.mute(false).queue();
-					discord.getGuild().moveVoiceMember(m, discord.getEndGame()).complete();
-				}
-				
-				if(currentVoice != null)
-					currentVoice.delete().queue();
+				currentVoice.delete().queue();
 			}
-		}.runTaskAsynchronously(MainLg.getInstance());
+		}.runTaskLaterAsynchronously(MainLg.getInstance(), 20);
 		
 		if(game != null)
 			game.broadcastMessage("§6Destruction de la liaison Discord...");

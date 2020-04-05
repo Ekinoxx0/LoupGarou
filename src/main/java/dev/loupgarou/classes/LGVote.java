@@ -17,6 +17,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import com.comphenix.protocol.wrappers.EnumWrappers.ItemSlot;
 import com.comphenix.protocol.wrappers.WrappedDataWatcher;
+import com.comphenix.protocol.wrappers.WrappedWatchableObject;
 
 import dev.loupgarou.MainLg;
 import dev.loupgarou.classes.LGGame.TextGenerator;
@@ -297,7 +298,6 @@ public class LGVote {
 			WrapperPlayServerSpawnEntityLiving spawn = new WrapperPlayServerSpawnEntityLiving();
 			spawn.setEntityID(entityId);
 			spawn.setType(EntityType.DROPPED_ITEM);
-			//spawn.setMetadata(new WrappedDataWatcher(Arrays.asList(new WrappedWatchableObject(0, (byte)0x20), new WrappedWatchableObject(5, true))));
 			spawn.setX(loc.getX());
 			spawn.setY(loc.getY()+0.3);
 			spawn.setZ(loc.getZ());
@@ -307,12 +307,14 @@ public class LGVote {
 			WrapperPlayServerEntityMetadata meta = new WrapperPlayServerEntityMetadata();
 			meta.setEntityID(entityId);
 
-            WrappedDataWatcher watcher = new WrappedDataWatcher();
-            watcher.setObject(0, 0x20);//INVISIBLE
-            watcher.setObject(5, true);//NO GRAVITY
-            watcher.setObject(3, true);//CUSTOM NAME VISIBLE
-            watcher.setObject(2, "§6§l"+votesNbr+"§e vote"+(votesNbr > 1 ? "s" : ""));//CUSTOM NAME
-            watcher.setObject(7, null);//ITEM
+            WrappedDataWatcher watcher = new WrappedDataWatcher(
+            		Arrays.asList(
+            				new WrappedWatchableObject(0, (byte)0x20), 
+            				new WrappedWatchableObject(5, true), 
+            				new WrappedWatchableObject(3, true), 
+            				new WrappedWatchableObject(2, "§6§l"+votesNbr+"§e vote"+(votesNbr > 1 ? "s" : "")), 
+            				new WrappedWatchableObject(7, null)
+            				));
             
             meta.setMetadata(watcher.getWatchableObjects());
 			

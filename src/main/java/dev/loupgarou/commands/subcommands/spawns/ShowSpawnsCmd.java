@@ -63,11 +63,11 @@ public class ShowSpawnsCmd extends SubCommand {
 			return;
 		}
 		
-		p.teleport(target.getSpawns().get(0).toLocation());
+		p.teleport(target.getSpawns().get(0).toLocation(target));
 
 		int n = 0;
 		for(LGLocation lgl : target.getSpawns()) {
-			showArrow(p, lgl.toLocation(), 10, n);
+			showArrow(p, lgl.toLocation(target), 10, n);
 			n++;
 		}
 		

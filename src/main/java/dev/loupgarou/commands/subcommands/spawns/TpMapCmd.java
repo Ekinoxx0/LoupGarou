@@ -41,7 +41,7 @@ public class TpMapCmd extends SubCommand {
 			return;
 		}
 
-		p.teleport(target.getSpawns().get(0).toLocation());
+		p.teleport(target.getSpawns().get(0).toLocation(target));
 		p.sendMessage("§aTp spawn");
 	}
 

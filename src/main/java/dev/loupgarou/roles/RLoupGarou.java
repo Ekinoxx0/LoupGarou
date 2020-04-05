@@ -172,10 +172,8 @@ public class RLoupGarou extends Role{
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onUpdatePrefix (LGUpdatePrefixEvent e) {
 		if(e.getGame() == getGame())
-			if(getPlayers().contains(e.getTo()) && getPlayers().contains(e.getPlayer())) {
-				MainLg.debug(getGame().getKey(), "Prefix of "+e.getPlayer().getName()+" updated (lg) for "+e.getTo().getName());
+			if(getPlayers().contains(e.getTo()) && getPlayers().contains(e.getPlayer()))
 				e.setPrefix(e.getPrefix()+"§c");
-			}
 	}
 	
 	@EventHandler

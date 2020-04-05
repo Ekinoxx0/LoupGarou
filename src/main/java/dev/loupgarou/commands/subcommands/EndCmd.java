@@ -33,7 +33,7 @@ public class EndCmd extends SubCommand {
 				if(gameTarget.getOwner() == lgp) {
 					stopGame(gameTarget);
 				} else {
-					cs.sendMessage(MainLg.getPrefix() + "§cVous n'êtes pas propriété...");
+					cs.sendMessage(MainLg.getPrefix() + "§cVous n'êtes pas propriétaire...");
 				}
 			} else {
 				cs.sendMessage(MainLg.getPrefix() + "§cMerci de donner le nom d'un joueur en argument");
