@@ -16,6 +16,10 @@ import dev.loupgarou.utils.InteractInventory;
 import dev.loupgarou.utils.InteractInventory.InventoryCall;
 import dev.loupgarou.utils.ItemBuilder;
 
+/**
+ * TODO : Reload on modif
+ * TODO : Verify working during pre game 
+ */
 public class RoleMenu {
 	
 	public static void openMenu(LGPlayer lgp) {

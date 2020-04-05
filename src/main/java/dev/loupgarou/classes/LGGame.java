@@ -42,6 +42,7 @@ import dev.loupgarou.events.daycycle.LGPreDayStartEvent;
 import dev.loupgarou.events.game.LGEndCheckEvent;
 import dev.loupgarou.events.game.LGGameEndEvent;
 import dev.loupgarou.events.game.LGGameJoinEvent;
+import dev.loupgarou.events.game.LGGameStartEvent;
 import dev.loupgarou.events.game.LGPlayerGotKilledEvent;
 import dev.loupgarou.events.game.LGPlayerKilledEvent;
 import dev.loupgarou.events.game.LGPlayerKilledEvent.Reason;
@@ -58,6 +59,7 @@ import dev.loupgarou.packetwrapper.WrapperPlayServerUpdateHealth;
 import dev.loupgarou.packetwrapper.WrapperPlayServerUpdateTime;
 import dev.loupgarou.roles.RChienLoupLG;
 import dev.loupgarou.roles.REnfantSauvageLG;
+import dev.loupgarou.roles.utils.FakeRoles;
 import dev.loupgarou.roles.utils.Role;
 import dev.loupgarou.roles.utils.RoleType;
 import dev.loupgarou.roles.utils.RoleWinType;
@@ -367,10 +369,18 @@ public class LGGame implements Listener{
 			Bukkit.broadcastMessage("§4§lUne erreur est survenue lors de la création des roles... Regardez la console !");
 			err.printStackTrace();
 		}
+
+		broadcastMessage("§2Attribution des rôles...");
+		for(LGPlayer lgp : getInGame()) {
+			lgp.getPlayer().getInventory().clear();
+			lgp.getPlayer().updateInventory();
+		}
 		
+		final List<Role> displayRoles = (this.config.isHideRole() ? FakeRoles.all() : getRoles());
 		new BukkitRunnable() {
-			int timeLeft = 5*2;
-			int actualRole = getRoles().size();
+			final int initalTimeLeft = 5*2;
+			int timeLeft = initalTimeLeft;
+			int actualRole = displayRoles.size();
 			@Override
 			public void run() {
 				if(--timeLeft == 0) {
@@ -378,18 +388,11 @@ public class LGGame implements Listener{
 					_start();
 					return;
 				}
-				if(timeLeft == 5*2-1) {
-					broadcastMessage("§2Attribution des rôles...");
-					for(LGPlayer lgp : getInGame()) {
-						lgp.getPlayer().getInventory().clear();
-						lgp.getPlayer().updateInventory();
-					}
-				}
 				
 				if(--actualRole < 0)
-					actualRole = getRoles().size()-1;
+					actualRole = displayRoles.size()-1;
 				
-				ItemStack stack = new ItemStack(LGCustomItems.getItem(getRoles().get(actualRole)));
+				ItemStack stack = new ItemStack(LGCustomItems.getItem(displayRoles.get(actualRole)));
 				for(LGPlayer lgp : getInGame()) {
 					lgp.getPlayer().getInventory().setItemInOffHand(stack);
 					lgp.getPlayer().updateInventory();
@@ -425,6 +428,8 @@ public class LGGame implements Listener{
 				return role1.getTurnOrder()-role2.getTurnOrder();
 			}
 		});
+		
+		Bukkit.getPluginManager().callEvent(new LGGameStartEvent(this));
 		
 		//Start day one
 		nextPreNight(10);
@@ -667,6 +672,9 @@ public class LGGame implements Listener{
 		
 		broadcastMessage(winType.getMessage());
 		for(LGPlayer lgp : getInGame()) {
+			for(LGSound sound : LGSound.values())
+				lgp.stopAudio(sound);
+			
 			lgp.setDead(false);
 			lgp.leaveChat();
 			lgp.joinChat(spectatorChat);
@@ -685,6 +693,9 @@ public class LGGame implements Listener{
 			
 			
 			Player p = lgp.getPlayer();
+			p.setExp(0);
+			p.setLevel(0);
+			p.getInventory().clear();
 			p.closeInventory();
 			lgp.showView();
 			for(PotionEffect effect : p.getActivePotionEffects())
@@ -693,7 +704,7 @@ public class LGGame implements Listener{
 		}
 		
 		for(LGPlayer lgp : getInGame())
-			if(lgp.getPlayer().isOnline()) {
+			if(lgp.getPlayer() != null && lgp.getPlayer().isOnline()) {
 				LGPlayer.removePlayer(lgp.getPlayer());
 				WrapperPlayServerScoreboardTeam team = new WrapperPlayServerScoreboardTeam();
 				team.setMode(Mode.TEAM_REMOVED);

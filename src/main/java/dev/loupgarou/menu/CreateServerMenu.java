@@ -8,7 +8,9 @@ import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 
+import dev.loupgarou.MainLg;
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGGameConfig;
 import dev.loupgarou.classes.LGGameConfig.CommunicationType;
@@ -119,7 +121,7 @@ public class CreateServerMenu {
 		ii.registerItem(
 				new ItemBuilder(Material.HAY_BLOCK)
 				.name("§6Sélection du type de tchat")
-				.lore(
+				.lore(//TODO verify is connected
 						Arrays.asList(
 								"§9Vocal sur Discord",
 								"",
@@ -186,11 +188,17 @@ public class CreateServerMenu {
 					
 					@Override
 					public void click(HumanEntity human, ItemStack item, ClickType clickType) {
+						human.sendMessage("§7Création de la partie en cours...");
 						human.closeInventory();
 						LGGame created = new LGGame(lgp, config);
-						if(!created.tryToJoin(lgp)) {
-							human.sendMessage("§cUne erreur est survenue lors de la création de votre partie ! #8841654");
-						}
+						new BukkitRunnable() {
+							
+							@Override
+							public void run() {
+								if(!created.tryToJoin(lgp))
+									human.sendMessage("§cUne erreur est survenue lors de la création de votre partie ! #8841654");
+							}
+						}.runTaskLater(MainLg.getInstance(), 20);
 					}
 				});
 		

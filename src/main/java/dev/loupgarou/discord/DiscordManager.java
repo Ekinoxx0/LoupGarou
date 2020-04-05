@@ -116,6 +116,26 @@ public class DiscordManager extends ListenerAdapter {
 		if(this.voices == null) return null;
 		
 		for(LGPlayer lgp : LGPlayer.all()) {
+			if(lgp == null) {//TODO rm
+				MainLg.debug("wtf lgp is null #13465");
+				continue;
+			}
+			if(lgp.getName() == null) {
+				MainLg.debug("wtf lgp.getName() is null #13465");
+				continue;
+			}
+			if(member.getUser() == null) {
+				MainLg.debug("wtf member.getUser() is null #13465");
+				continue;
+			}
+			if(member.getEffectiveName() == null) {
+				MainLg.debug("wtf member.getEffectiveName() is null #13465");
+				continue;
+			}
+			
+			if(member.getUser().getName().toLowerCase().contains(lgp.getName().toLowerCase()))
+				return lgp;
+			
 			if(member.getEffectiveName().toLowerCase().contains(lgp.getName().toLowerCase()))
 				return lgp;
 			
@@ -140,11 +160,11 @@ public class DiscordManager extends ListenerAdapter {
 		if(this.jda == null) return null;
 		if(this.voices == null) return null;
 		
-		for(Member m : this.voices.getMembers())
+		for(Member m : this.guild.getMembers())
 			if(m.getEffectiveName().toLowerCase().contains(playerName.toLowerCase()))
 				return m;
 
-		for(Member m : this.voices.getMembers())
+		for(Member m : this.guild.getMembers())
 			for(Role r : m.getRoles())
 				if(r.getName().equals("!" + playerName))
 					return m;

@@ -56,7 +56,7 @@ public class LGPlayer {
 	}
 	
 	public static LGPlayer removePlayer(Player player) {
-		return cachedPlayers.remove(player);//.remove();
+		return cachedPlayers.remove(player);
 	}
 	
 	public static void reset() {
@@ -66,7 +66,7 @@ public class LGPlayer {
 	@Getter @Setter private int place;
 	@Getter private Player player;
 	@Getter @Setter private boolean dead;
-	@Setter @Getter private Role role;
+	@Getter @Setter private Role role;
 	private LGChooseCallback chooseCallback;
 	private List<LGPlayer> blacklistedChoice = new ArrayList<>(0);
 	@Getter private VariableCache cache = new VariableCache();
@@ -137,7 +137,7 @@ public class LGPlayer {
 	public void choose(LGChooseCallback callback, LGPlayer... blacklisted) {
 		this.blacklistedChoice = blacklisted == null ? new ArrayList<LGPlayer>(0) : Arrays.asList(blacklisted);
 		this.chooseCallback = callback;
-		//sendMessage("§7§oTIP: Regardez un joueur et tapez le afin de le sélectionner.");
+		sendMessage("§7TIP: §oRegardez un joueur et tapez le afin de le sélectionner.");
 	}
 	public void stopChoosing() {
 		this.blacklistedChoice = null;

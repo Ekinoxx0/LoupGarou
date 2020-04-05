@@ -13,6 +13,8 @@ import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.events.daycycle.LGDayStartEvent;
 import dev.loupgarou.events.daycycle.LGNightStartEvent;
+import dev.loupgarou.events.game.LGGameJoinEvent;
+import dev.loupgarou.events.game.LGGameStartEvent;
 import dev.loupgarou.events.game.LGPlayerKilledEvent;
 import lombok.Getter;
 import lombok.NonNull;
@@ -58,25 +60,15 @@ public class DiscordChannelHandler implements Listener {
 			});
 	}
 	
-	public void start() {
-		for(LGPlayer lgp : this.game.getInGame()) {
-			Member m = this.discord.get(lgp);
-			
-			if(m == null) {
-				lgp.sendMessage("§cVous n'êtes pas lié sur discord !");
-				continue;
-			}
-			
-			final Member member = m;
-			discord.getGuild().moveVoiceMember(member, voice).queue(
-					(success) -> {
-						lgp.sendMessage("§9Vous avez été déplacé sur discord...");
-						member.mute(false).queue();
-					},
-					(failure) -> {
-						lgp.sendMessage("§cEchec pour vous déplacer sur discord !");
-					});
-		}
+	@EventHandler
+	public void onLGGameStart(LGGameStartEvent e) {
+		for(LGPlayer lgp : this.game.getInGame())
+			move(lgp);
+	}
+	
+	@EventHandler
+	public void onLGGameJoin(LGGameJoinEvent e) {
+		move(e.getPlayer());
 	}
 	
 	@EventHandler
@@ -94,10 +86,32 @@ public class DiscordChannelHandler implements Listener {
 		this.refresh(e.getKilled());
 	}
 	
+	public void move(LGPlayer lgp) {
+		MainLg.debug(this.game.getKey(), "Discord.move(" + lgp.getName() + ")");
+		Member m = this.discord.get(lgp);
+		
+		if(m == null) {
+			lgp.sendMessage("§cVous n'êtes pas lié sur discord !");
+			return;
+		}
+		
+		final Member member = m;
+		discord.getGuild().moveVoiceMember(member, voice).queue(
+				(success) -> {
+					lgp.sendMessage("§9Vous avez été déplacé sur discord...");
+					member.mute(false).queue();
+				},
+				(failure) -> {
+					lgp.sendMessage("§cEchec pour vous déplacer sur discord !");
+				});
+	
+	}
+	
 	public void refresh(LGPlayer lgp) {
 		Member member = this.discord.get(lgp);
 		if(member == null) return;
-		
+
+		MainLg.debug(this.game.getKey(), "Discord.refresh(" + lgp.getName() + ")");
 		member.mute(this.isChannelMuted | lgp.isDead()).queue();
 	}
 	
@@ -105,6 +119,7 @@ public class DiscordChannelHandler implements Listener {
 		if(this.voice == null) return;
 		if(this.isChannelMuted == mute) return;
 		this.isChannelMuted = mute;
+		MainLg.debug(this.game.getKey(), "Discord.muteChannel(" + mute + ")");
 		
 		for(Member member : this.voice.getMembers()) {
 			LGPlayer lgp = this.discord.get(member);

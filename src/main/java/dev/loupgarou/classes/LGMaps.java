@@ -64,7 +64,6 @@ public class LGMaps {
 		}
 		
 		public boolean isWorldValid() {
-			//TODO create worlds
 			for(World w : Bukkit.getWorlds())
 				if(w.getName().equals(world))
 					return true;
@@ -82,7 +81,7 @@ public class LGMaps {
 		@Getter private float yaw;
 		@Getter private float pitch;
 		
-		public LGLocation(Location l, LGMap map) throws IllegalArgumentException {
+		public LGLocation(@NonNull Location l, @NonNull LGMap map) throws IllegalArgumentException {
 			if(l.getWorld().getName() != map.getWorld()) throw new IllegalArgumentException();
 			this.map = map;
 			this.x = l.getBlockX();

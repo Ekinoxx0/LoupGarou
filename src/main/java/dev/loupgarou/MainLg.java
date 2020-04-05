@@ -20,6 +20,7 @@ import dev.loupgarou.classes.LGChat.LGChatCallback;
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGMaps;
 import dev.loupgarou.classes.LGPlayer;
+import dev.loupgarou.classes.LGWinType;
 import dev.loupgarou.commands.LoupGarouCommand;
 import dev.loupgarou.discord.DiscordManager;
 import dev.loupgarou.listeners.CancelListener;
@@ -115,6 +116,17 @@ public class MainLg extends JavaPlugin {
 	
 	@Override
 	public void onDisable() {
+		for(LGGame game : this.games) {
+			try {
+				game.endGame(LGWinType.NONE);
+			} catch(Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+
+		this.discord.getJda().removeEventListener(this.discord);
+		this.discord.getJda().shutdown();
+		
 		ProtocolLibrary.getProtocolManager().removePacketListeners(this);
 	}
 
