@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 
 import com.google.common.io.Files;
@@ -54,6 +55,7 @@ public class LGMaps {
 	public static class LGMap {
 		@NonNull @Getter private String name;
 		@Getter @NonNull private String world;
+		@Getter @NonNull private Material material;
 		@Getter private List<LGLocation> spawns = new ArrayList<LGLocation>();
 
 		public boolean isWorldValid() {

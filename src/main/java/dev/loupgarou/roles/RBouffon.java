@@ -95,7 +95,7 @@ public class RBouffon extends Role{
 		needToPlay.remove(player);
 		player.showView();
 		player.getCache().set(CacheType.BOUFFON_WIN, true);
-		MainLg.debug(getGame().getVote().toString());
+		MainLg.debug(getGame().getKey(), getGame().getVote().toString());
 		List<LGPlayer> choosable = getGame().getVote().getVotes(player);
 		StringJoiner sj = new StringJoiner("§6§o, §6§o§l");
 		for(LGPlayer lgp : choosable)
@@ -106,7 +106,7 @@ public class RBouffon extends Role{
 				
 		player.choose((choosen)->{
 			if(choosen != null) {
-				MainLg.debug(choosable+" / "+getGame().getVote().getVotes()+" "+getGame().getVote());
+				MainLg.debug(getGame().getKey(), choosable+" / "+getGame().getVote().getVotes()+" "+getGame().getVote());
 				if(!choosable.contains(choosen))
 					player.sendMessage("§7§l"+choosen.getName()+"§4 n'a pas voté pour vous.");
 				else if(choosen.isDead())

@@ -27,11 +27,13 @@ import dev.loupgarou.commands.subcommands.debug.NextNightCmd;
 import dev.loupgarou.commands.subcommands.debug.QuickCmd;
 import dev.loupgarou.commands.subcommands.spawns.AddMapCmd;
 import dev.loupgarou.commands.subcommands.spawns.AddSpawnCmd;
+import dev.loupgarou.commands.subcommands.spawns.ListMapCmd;
 import dev.loupgarou.commands.subcommands.spawns.LoadMapCmd;
 import dev.loupgarou.commands.subcommands.spawns.RemoveMapCmd;
 import dev.loupgarou.commands.subcommands.spawns.RemoveSpawnCmd;
 import dev.loupgarou.commands.subcommands.spawns.SaveMapCmd;
 import dev.loupgarou.commands.subcommands.spawns.ShowSpawnsCmd;
+import dev.loupgarou.commands.subcommands.spawns.TpMapCmd;
 import lombok.Getter;
 import lombok.NonNull;
 
@@ -56,7 +58,9 @@ public class LoupGarouCommand implements CommandExecutor, TabExecutor {
 		this.subs.add(new NextNightCmd(this));
 		this.subs.add(new QuickCmd(this));
 
+		this.subs.add(new TpMapCmd(this));
 		this.subs.add(new AddMapCmd(this));
+		this.subs.add(new ListMapCmd(this));
 		this.subs.add(new AddSpawnCmd(this));
 		this.subs.add(new LoadMapCmd(this));
 		this.subs.add(new RemoveMapCmd(this));

@@ -5,6 +5,7 @@ import java.util.Arrays;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
@@ -26,6 +27,8 @@ public class CreateServerMenu {
 		
 		@Override
 		public boolean close(HumanEntity human) {
+			if(human.getOpenInventory() == null && LGPlayer.thePlayer((Player) human).getGame() == null)
+				human.sendMessage("§6Annulation de la création de la partie...");
 			return true;
 		}
 	};
@@ -65,6 +68,8 @@ public class CreateServerMenu {
 						chooseMap(lgp, true);
 					}
 				});
+
+		ii.setCloseAction(canceledServerCreation);
 		
 		ii.openTo(lgp.getPlayer());
 	}
@@ -74,12 +79,10 @@ public class CreateServerMenu {
 		
 		ii.fill(null, true, null);
 		
-		Material[] mat = new Material[] {Material.POLISHED_GRANITE, Material.POLISHED_DIORITE};
-		
 		int i = 3;
 		for(LGMap map : LGMaps.getMapsInfo().getMaps()) {
 			ii.registerItem(
-					new ItemBuilder(mat[LGMaps.getMapsInfo().getMaps().indexOf(map)])
+					new ItemBuilder(map.getMaterial())
 					.name("§6" + map.getName())
 					.lore(
 							Arrays.asList(
@@ -95,8 +98,10 @@ public class CreateServerMenu {
 						}
 					});
 			
-			i += 2;
+			i++;
 		}
+		
+		ii.setCloseAction(canceledServerCreation);
 		
 		ii.openTo(lgp.getPlayer());
 	}
@@ -173,11 +178,11 @@ public class CreateServerMenu {
 					
 					@Override
 					public void click(HumanEntity human, ItemStack item, ClickType clickType) {
+						human.closeInventory();
 						LGGame created = new LGGame(24, lgp, config);
 						if(!created.tryToJoin(lgp)) {
-							
+							human.sendMessage("§c?");//TODO
 						}
-						human.closeInventory();
 					}
 				});
 		

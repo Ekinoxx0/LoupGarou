@@ -75,7 +75,7 @@ public class RChaperonRouge extends Role{
 	@EventHandler
 	public void onTour(LGRoleTurnEndEvent e) {
 		if(e.getGame() == getGame()) {
-			MainLg.debug("(ChaperonRouge-LGRoleTurnEndEvent)" + e.getPreviousRole().getName());
+			MainLg.debug(getGame().getKey(), "(ChaperonRouge-LGRoleTurnEndEvent)" + e.getPreviousRole().getName());
 			if(e.getPreviousRole() instanceof RLoupGarou) {
 				for(LGPlayer lgp : getGame().getAlive())
 					if(lgp.getCache().getBoolean(CacheType.CHAPERON_KILL)) {

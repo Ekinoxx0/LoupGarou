@@ -5,17 +5,18 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 
 import dev.loupgarou.MainLg;
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGGameConfig;
-import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.classes.LGMaps.LGMap;
+import dev.loupgarou.classes.LGPlayer;
 
 public class FakeRoles {
 	
 	@SuppressWarnings("deprecation")
-	private static final LGGame fakeGame = new LGGame(0, new LGPlayer("fake"), new LGGameConfig(new LGMap("fake", Bukkit.getWorlds().get(0).getName()), true));
+	private static final LGGame fakeGame = new LGGame(0, new LGPlayer("fake"), new LGGameConfig(new LGMap("fake", Bukkit.getWorlds().get(0).getName(), Material.AIR), true));
 	private static final HashMap<String, Role> roles = new HashMap<String, Role>();
 	
 	public static Role getRole(String name) {

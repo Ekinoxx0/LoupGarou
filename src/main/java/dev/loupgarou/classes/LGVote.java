@@ -82,7 +82,7 @@ public class LGVote {
 		boolean equal = false;
 		for(Entry<LGPlayer, List<LGPlayer>> entry : votes.entrySet())
 			if(entry.getValue().size() > max) {
-				MainLg.debug(entry.getKey()+" has "+entry.getValue().size()+" vote(s)");
+				MainLg.debug(game.getKey(), entry.getKey()+" has "+entry.getValue().size()+" vote(s)");
 				equal = false;
 				max = entry.getValue().size();
 				choosen = entry.getKey();

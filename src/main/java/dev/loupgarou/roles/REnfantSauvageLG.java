@@ -70,7 +70,7 @@ public class REnfantSauvageLG extends Role{
 	@Override
 	public void join(LGPlayer player, boolean sendMessage) {
 		super.join(player, sendMessage);
-		MainLg.debug(player.getName()+" a rejoint les LG (Enfant Sauvage)");
+		MainLg.debug(getGame().getKey(), player.getName()+" a rejoint les LG (Enfant Sauvage)");
 		player.setRole(this);
 		LGCustomItems.updateItem(player);
 		RLoupGarou lgRole = null;
@@ -90,7 +90,7 @@ public class REnfantSauvageLG extends Role{
 		}
 		
 		lgRole.join(player, false);
-		MainLg.debug(player.getName()+" -> Enfant Sauvage -> Camp trouvé & join");
+		MainLg.debug(getGame().getKey(), player.getName()+" -> Enfant Sauvage -> Camp trouvé & join");
 		for(LGPlayer lgp : lgRole.getPlayers())
 			if(lgp != player)
 				lgp.sendMessage("§7§l"+player.getName()+"§6 a rejoint les §c§lLoups-Garous§6.");

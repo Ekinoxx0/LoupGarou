@@ -142,7 +142,7 @@ public class RPyromane extends Role{
 			List<LGPlayer> liste = player.getCache().<List<LGPlayer>>get(CacheType.PYROMANE_ESSENCE);
 			LGPyromaneGasoilEvent event = new LGPyromaneGasoilEvent(getGame(), first);
 			Bukkit.getPluginManager().callEvent(event);
-			MainLg.debug("Gasoil of "+event.getPlayer().getName()+" cancelled : "+event.isCancelled());
+			MainLg.debug(getGame().getKey(), "Gasoil of "+event.getPlayer().getName()+" cancelled : "+event.isCancelled());
 			if(event.isCancelled())
 				player.sendMessage("§7§l"+event.getPlayer().getName()+"§c est immunisé.");
 			else {
@@ -183,9 +183,9 @@ public class RPyromane extends Role{
 			closeInventory(player);
 			if(lgp.getCache().<List<LGPlayer>>get(CacheType.PYROMANE_ESSENCE).size() != 0) {
 				List<LGPlayer> liste = lgp.getCache().<List<LGPlayer>>get(CacheType.PYROMANE_ESSENCE);
-				MainLg.debug(liste+" < liste des joueurs à kill par le pyro");
+				MainLg.debug(getGame().getKey(), liste+" < liste des joueurs à kill par le pyro");
 				for(LGPlayer scndPlayer : liste) {
-					MainLg.debug(scndPlayer.getName()+" mort: "+scndPlayer.isDead()+" & player: "+scndPlayer.getPlayer()+" / role:"+scndPlayer.getRole());
+					MainLg.debug(getGame().getKey(), scndPlayer.getName()+" mort: "+scndPlayer.isDead()+" & player: "+scndPlayer.getPlayer()+" / role:"+scndPlayer.getRole());
 					if(!scndPlayer.isDead() && scndPlayer.getPlayer() != null) {
 						getGame().kill(scndPlayer, Reason.PYROMANE);
 					}
@@ -233,7 +233,7 @@ public class RPyromane extends Role{
 							lgp.stopChoosing();
 							LGPyromaneGasoilEvent event = new LGPyromaneGasoilEvent(getGame(), choosen);
 							Bukkit.getPluginManager().callEvent(event);
-							MainLg.debug("Gasoil of "+event.getPlayer().getName()+" cancelled : "+event.isCancelled());
+							MainLg.debug(getGame().getKey(), "Gasoil of "+event.getPlayer().getName()+" cancelled : "+event.isCancelled());
 							if(event.isCancelled())
 								lgp.sendMessage("§7§l"+event.getPlayer().getName()+"§c est immunisée.");
 							else {
@@ -243,7 +243,7 @@ public class RPyromane extends Role{
 							if(first != null) {
 								event = new LGPyromaneGasoilEvent(getGame(), first);
 								Bukkit.getPluginManager().callEvent(event);
-								MainLg.debug("Gasoil of "+event.getPlayer().getName()+" cancelled : "+event.isCancelled());
+								MainLg.debug(getGame().getKey(), "Gasoil of "+event.getPlayer().getName()+" cancelled : "+event.isCancelled());
 								if(event.isCancelled())
 									lgp.sendMessage("§7§l"+event.getPlayer().getName()+"§c est immunisée.");
 								else {

@@ -22,7 +22,6 @@ import org.bukkit.WorldType;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
-import com.comphenix.protocol.wrappers.EnumWrappers.Difficulty;
 import com.comphenix.protocol.wrappers.EnumWrappers.NativeGameMode;
 
 public class WrapperPlayServerRespawn extends AbstractPacket {
@@ -45,7 +44,7 @@ public class WrapperPlayServerRespawn extends AbstractPacket {
 	 * @return The current Dimension
 	 */
 	public int getDimension() {
-		return handle.getIntegers().read(0);
+		return handle.getDimensions().read(0);
 	}
 
 	/**
@@ -54,27 +53,15 @@ public class WrapperPlayServerRespawn extends AbstractPacket {
 	 * @param value - new value.
 	 */
 	public void setDimension(int value) {
-		handle.getIntegers().write(0, value);
+		handle.getDimensions().write(0, value);
 	}
 
-	/**
-	 * Retrieve Difficulty.
-	 * <p>
-	 * Notes: 0 thru 3 for Peaceful, Easy, Normal, Hard.
-	 * 
-	 * @return The current Difficulty
-	 */
-	public Difficulty getDifficulty() {
-		return handle.getDifficulties().read(0);
+	public Long getHashedSeed() {
+		return handle.getLongs().read(0);
 	}
 
-	/**
-	 * Set Difficulty.
-	 * 
-	 * @param value - new value.
-	 */
-	public void setDifficulty(Difficulty value) {
-		handle.getDifficulties().write(0, value);
+	public void setHashedSeed(Long value) {
+		handle.getLongs().write(0, value);
 	}
 
 	/**

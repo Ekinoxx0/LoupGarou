@@ -198,6 +198,10 @@ public class MainLg extends JavaPlugin {
 		}
 	}
 	
+	public static void debug(String key, String s) {
+		debug("[" + key + "] " + s);
+	}
+	
 	public static void debug(String s) {
 		getInstance().getLogger().log(Level.INFO, s);
 		for(Player p : DEBUGS) {

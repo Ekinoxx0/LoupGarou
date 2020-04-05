@@ -14,7 +14,6 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.comphenix.protocol.wrappers.EnumWrappers.ChatType;
-import com.comphenix.protocol.wrappers.EnumWrappers.Difficulty;
 import com.comphenix.protocol.wrappers.EnumWrappers.NativeGameMode;
 import com.comphenix.protocol.wrappers.EnumWrappers.PlayerInfoAction;
 import com.comphenix.protocol.wrappers.EnumWrappers.TitleAction;
@@ -243,10 +242,10 @@ public class LGPlayer {
 			infos.sendPacket(getPlayer());
 			//Pour qu'il voit son skin changer (sa main et en f5), on lui dit qu'il respawn (alors qu'il n'est pas mort mais ça marche quand même mdr)
 			WrapperPlayServerRespawn respawn = new WrapperPlayServerRespawn();
-			respawn.setDifficulty(Difficulty.NORMAL);
-			respawn.setDimension(0);
+			respawn.setDimension(0);	
 			respawn.setLevelType(WorldType.NORMAL);
 			respawn.setGamemode(NativeGameMode.ADVENTURE);
+			respawn.setHashedSeed(0L);
 			respawn.sendPacket(getPlayer());
 			//Enfin, on le téléporte à sa potion actuelle car sinon il se verra dans le vide
 			getPlayer().teleport(getPlayer().getLocation());

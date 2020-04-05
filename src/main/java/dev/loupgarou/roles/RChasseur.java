@@ -70,7 +70,7 @@ public class RChasseur extends Role{
 		}, (currentPlayer, secondsLeft)->{
 			return currentPlayer == player ? "§9§lC'est à ton tour !" : "§6Le Chasseur choisit sa cible (§e"+secondsLeft+" s§6)";
 		});
-		MainLg.debug("tour de "+player.getName());
+		MainLg.debug(getGame().getKey(), "tour de "+player.getName());
 		getGame().broadcastMessage("§9"+getBroadcastedTask());
 		player.sendMessage("§6"+getTask());
 		//player.sendTitle("§6C'est à vous de jouer", "§a"+getTask(), 60);
@@ -100,31 +100,31 @@ public class RChasseur extends Role{
 	
 	@EventHandler
 	public void onPlayerKill(LGPlayerKilledEvent e) {
-		MainLg.debug(e.getKilled().getRole()+" "+this);
+		MainLg.debug(getGame().getKey(), e.getKilled().getRole()+" "+this);
 		if(e.getKilled().getRole() == this && e.getReason() != Reason.DISCONNECTED) {
 			needToPlay.add(e.getKilled());
-			MainLg.debug("added");
+			MainLg.debug(getGame().getKey(), "added");
 		}
 	}
 	@EventHandler
 	public void onDayStart(LGDayStartEvent e) {
 		if(e.getGame() != getGame())return;
-		MainLg.debug("day start "+needToPlay.size());
+		MainLg.debug(getGame().getKey(), "day start "+needToPlay.size());
 		
 		if(needToPlay.size() > 0)
 			e.setCancelled(true);
 		
 		if(!e.isCancelled())return;
-		MainLg.debug("cancel");
+		MainLg.debug(getGame().getKey(), "cancel");
 		new Runnable() {
 			public void run() {
 				if(needToPlay.size() == 0) {
-					MainLg.debug("finish");
+					MainLg.debug(getGame().getKey(), "finish");
 					e.getGame().startDay();
 					return;
 				}
 				LGPlayer player = needToPlay.remove(0);
-				MainLg.debug("> "+player.getName());
+				MainLg.debug(getGame().getKey(), "> "+player.getName());
 				onNightTurn(player, this);
 			}
 		}.run();

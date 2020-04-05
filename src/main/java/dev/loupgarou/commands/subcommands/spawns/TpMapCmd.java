@@ -1,9 +1,7 @@
 package dev.loupgarou.commands.subcommands.spawns;
 
-import java.io.IOException;
 import java.util.Arrays;
 
-import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -12,10 +10,10 @@ import dev.loupgarou.classes.LGMaps.LGMap;
 import dev.loupgarou.commands.LoupGarouCommand;
 import dev.loupgarou.commands.SubCommand;
 
-public class AddMapCmd extends SubCommand {
+public class TpMapCmd extends SubCommand {
 
-	public AddMapCmd(LoupGarouCommand cmd) {
-		super(cmd, Arrays.asList("addmap"));
+	public TpMapCmd(LoupGarouCommand cmd) {
+		super(cmd, Arrays.asList("tpmap"));
 	}
 
 	@Override
@@ -33,19 +31,18 @@ public class AddMapCmd extends SubCommand {
 			if(map.getName().equalsIgnoreCase(args[1]))
 				target = map;
 		
-		if (target != null) {
-			p.sendMessage("§cMap déjà existante : " + args[2]);
+		if (target == null) {
+			p.sendMessage("§cMap inconnue : " + args[2]);
 			return;
 		}
 		
-		LGMaps.getMapsInfo().getMaps().add(new LGMap(args[1], p.getWorld().getName(), Material.BEDROCK));
-		p.sendMessage("§aAjout de la map : " + args[1]);
-		try {
-			LGMaps.save(getMain());
-			p.sendMessage("§aSauvegarde des maps");
-		} catch (IOException e) {
-			p.sendMessage("§cImpossible de sauvegarder les maps... " + e.getMessage());
+		if(target.getSpawns().size() == 0) {
+			p.sendMessage("§cAucun spawn pour " + args[2]);
+			return;
 		}
+
+		p.teleport(target.getSpawns().get(0).toLocation());
+		p.sendMessage("§aTp spawn");
 	}
 
 }

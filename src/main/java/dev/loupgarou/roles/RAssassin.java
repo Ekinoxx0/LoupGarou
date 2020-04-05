@@ -95,7 +95,7 @@ public class RAssassin extends Role{
 	@EventHandler
 	public void onTour(LGRoleTurnEndEvent e) {
 		if(e.getGame() == getGame()) {
-			MainLg.debug("(Assassin-LGRoleTurnEndEvent)" + e.getPreviousRole().getName());
+			MainLg.debug(getGame().getKey(), "(Assassin-LGRoleTurnEndEvent)" + e.getPreviousRole().getName());
 			if(e.getPreviousRole() instanceof RLoupGarou) {
 				for(LGPlayer lgp : getGame().getAlive())
 					if(lgp.getCache().getBoolean(CacheType.ASSASSIN_PROTECTED)) {

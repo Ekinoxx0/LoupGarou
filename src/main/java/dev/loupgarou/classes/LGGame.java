@@ -198,7 +198,7 @@ public class LGGame implements Listener{
 	}
 	
 	public void kill(LGPlayer player, Reason reason) {
-		MainLg.debug("Kill "+player.getName()+" ("+player.getRole()+") for "+reason+" ("+(!deaths.containsValue(player) && !player.isDead())+")");
+		MainLg.debug(getKey(), "Kill "+player.getName()+" ("+player.getRole()+") for "+reason+" ("+(!deaths.containsValue(player) && !player.isDead())+")");
 		if(!deaths.containsValue(player) && !player.isDead()){
 			LGNightPlayerPreKilledEvent event = new LGNightPlayerPreKilledEvent(this, player, reason);
 			Bukkit.getPluginManager().callEvent(event);
@@ -209,7 +209,7 @@ public class LGGame implements Listener{
 	
 	public boolean tryToJoin(LGPlayer lgp) {
 		if(lgp.getPlayer() == null) {
-			MainLg.debug("TryToJoin of a null getPlayer() : " + lgp);
+			MainLg.debug(getKey(), "TryToJoin of a null getPlayer() : " + lgp);
 			return false;
 		}
 		
@@ -916,7 +916,7 @@ public class LGGame implements Listener{
 		Bukkit.getPluginManager().callEvent(event);
 		if(doEndGame && event.getWinType() != LGWinType.NONE)
 			endGame(event.getWinType());
-		MainLg.debug("Endgame > "+event.getWinType()+" ("+doEndGame+")");
+		MainLg.debug(getKey(), "Endgame > "+event.getWinType()+" ("+doEndGame+")");
 		return event.getWinType() != LGWinType.NONE;
 	}
 }

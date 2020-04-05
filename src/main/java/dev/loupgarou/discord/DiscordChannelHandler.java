@@ -74,7 +74,7 @@ public class DiscordChannelHandler {
 			
 			@Override
 			public void run() {
-				for(Member m : voice.getMembers()) {
+				for(Member m : currentVoice.getMembers()) {
 					m.mute(false).queue();
 					discord.getGuild().moveVoiceMember(m, discord.getEndGame()).complete();
 				}
