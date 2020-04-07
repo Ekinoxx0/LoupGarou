@@ -87,7 +87,7 @@ public class RMedium extends Role{
 		if(e.getGame() == getGame())
 			if(e.getPreviousRole() instanceof RLoupGarou)
 				for(LGPlayer lgp : getPlayers())
-					if(lgp.getChat() != getGame().getSpectatorChat()) {
+					if(lgp.getChat() != getGame().getSpectatorChat() && lgp.isRoleActive()) {
 						lgp.sendMessage("§6§oTu peux de nouveau parler aux morts...");
 						joinChat(lgp);
 					}
@@ -98,7 +98,8 @@ public class RMedium extends Role{
 		if(e.getGame() == getGame())
 			for(LGPlayer lgp : getPlayers()) {
 				lgp.sendMessage("§8§oTu perds le contact avec les morts...");
-				lgp.leaveChat();
+				if(lgp.isRoleActive())
+					lgp.leaveChat();
 			}
 	}
 }

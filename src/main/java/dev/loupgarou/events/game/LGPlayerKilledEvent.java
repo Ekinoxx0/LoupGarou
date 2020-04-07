@@ -45,6 +45,7 @@ public class LGPlayerKilledEvent extends LGEvent implements Cancellable {
 		PYROMANE("§7§l%s§4 est parti en fumée"),
 		PIRATE("§7§l%s§4 était l'otage"),
 		FAUCHEUR("§7§l%s§4 a égaré son âme"),
+		CHASSEUR_DE_VAMPIRE("§7§l%s§4 s'est fait purifier"),
 		
 		DONT_DIE("§7§l%s§4 est mort pour rien");
 		

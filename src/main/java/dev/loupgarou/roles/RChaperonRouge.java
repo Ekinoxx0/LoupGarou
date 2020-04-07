@@ -62,7 +62,7 @@ public class RChaperonRouge extends Role{
 	
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onKill(LGNightPlayerPreKilledEvent e) {
-		if(e.getKilled().getRole() == this && e.getReason() == Reason.LOUP_GAROU || e.getReason() == Reason.GM_LOUP_GAROU) {
+		if(e.getKilled().getRole() == this && e.getReason() == Reason.LOUP_GAROU || e.getReason() == Reason.GM_LOUP_GAROU && e.getKilled().isRoleActive()) {
 			for(Role role : getGame().getRoles())
 				if(role instanceof RChasseur)
 					if(role.getPlayers().size() > 0){
@@ -78,14 +78,14 @@ public class RChaperonRouge extends Role{
 			MainLg.debug(getGame().getKey(), "(ChaperonRouge-LGRoleTurnEndEvent)" + e.getPreviousRole().getName());
 			if(e.getPreviousRole() instanceof RLoupGarou) {
 				for(LGPlayer lgp : getGame().getAlive())
-					if(lgp.getCache().getBoolean(CacheType.CHAPERON_KILL)) {
+					if(lgp.getCache().getBoolean(CacheType.CHAPERON_KILL) && lgp.isRoleActive()) {
 						for(LGPlayer l : getGame().getInGame())
 							if(l.getRoleType() == RoleType.LOUP_GAROU)
 								l.sendMessage("§cVotre cible est immunisée.");
 					}
 			}else if(e.getPreviousRole() instanceof RGrandMechantLoup) {
 				for(LGPlayer lgp : getGame().getAlive())
-					if(lgp.getCache().getBoolean(CacheType.CHAPERON_KILL)) {
+					if(lgp.getCache().getBoolean(CacheType.CHAPERON_KILL) && lgp.isRoleActive()) {
 						for(LGPlayer l : e.getPreviousRole().getPlayers())
 							l.sendMessage("§cVotre cible est immunisée.");
 					}

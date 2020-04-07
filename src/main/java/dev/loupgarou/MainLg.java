@@ -34,6 +34,7 @@ import dev.loupgarou.roles.RAssassin;
 import dev.loupgarou.roles.RBouffon;
 import dev.loupgarou.roles.RChaperonRouge;
 import dev.loupgarou.roles.RChasseur;
+import dev.loupgarou.roles.RChasseurDeVampire;
 import dev.loupgarou.roles.RChienLoup;
 import dev.loupgarou.roles.RCorbeau;
 import dev.loupgarou.roles.RCupidon;
@@ -48,12 +49,15 @@ import dev.loupgarou.roles.RLoupGarou;
 import dev.loupgarou.roles.RLoupGarouBlanc;
 import dev.loupgarou.roles.RLoupGarouNoir;
 import dev.loupgarou.roles.RMedium;
+import dev.loupgarou.roles.RMontreurDOurs;
 import dev.loupgarou.roles.RPetiteFille;
 import dev.loupgarou.roles.RPirate;
 import dev.loupgarou.roles.RPretre;
+import dev.loupgarou.roles.RPronostiqueur;
 import dev.loupgarou.roles.RPyromane;
 import dev.loupgarou.roles.RSorciere;
 import dev.loupgarou.roles.RSurvivant;
+import dev.loupgarou.roles.RVampire;
 import dev.loupgarou.roles.RVillageois;
 import dev.loupgarou.roles.RVoleur;
 import dev.loupgarou.roles.RVoyante;
@@ -169,6 +173,7 @@ public class MainLg extends JavaPlugin {
 			roles.put("LoupGarou", RLoupGarou.class.getConstructor(LGGame.class));
 			roles.put("LoupGarouNoir", RLoupGarouNoir.class.getConstructor(LGGame.class));
 			roles.put("LoupGarouBlanc", RLoupGarouBlanc.class.getConstructor(LGGame.class));
+			roles.put("LoupFeutrer", RLoupFeutrer.class.getConstructor(LGGame.class));
 			roles.put("GrandMechantLoup", RGrandMechantLoup.class.getConstructor(LGGame.class));
 
 			roles.put("Pyromane", RPyromane.class.getConstructor(LGGame.class));
@@ -196,7 +201,10 @@ public class MainLg extends JavaPlugin {
 			roles.put("EnfantSauvage", REnfantSauvage.class.getConstructor(LGGame.class));
 			roles.put("ChienLoup", RChienLoup.class.getConstructor(LGGame.class));
 			roles.put("Voleur", RVoleur.class.getConstructor(LGGame.class));
-			roles.put("LoupFeutrer", RLoupFeutrer.class.getConstructor(LGGame.class));
+			roles.put("Vampire", RVampire.class.getConstructor(LGGame.class));
+			roles.put("Pronostiqueur", RPronostiqueur.class.getConstructor(LGGame.class));
+			roles.put("MontreurDOurs", RMontreurDOurs.class.getConstructor(LGGame.class));
+			roles.put("ChasseurDeVampire", RChasseurDeVampire.class.getConstructor(LGGame.class));
 			
 			/*
 			 * L'Ancien

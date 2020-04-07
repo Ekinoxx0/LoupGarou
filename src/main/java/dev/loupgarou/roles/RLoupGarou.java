@@ -1,6 +1,7 @@
 package dev.loupgarou.roles;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -109,7 +110,7 @@ public class RLoupGarou extends Role{
 		vote.start(getPlayers(), getPlayers(), ()->{
 			onNightTurnEnd();
 			callback.run();
-		});
+		}, Collections.emptyList());//TODO LoupGarou Cannot kill themself ?
 	}
 	private void onNightTurnEnd() {
 		for(LGPlayer lgp : getGame().getAlive())

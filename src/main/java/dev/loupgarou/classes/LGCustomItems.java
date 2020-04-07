@@ -86,6 +86,7 @@ public class LGCustomItems {
 	public static enum LGCustomItemsConstraints{
 		INFECTED("infecte"),
 		MAYOR("maire"),
+		VAMPIRE_INFECTE("vampire-infecte"),
 		DEAD("mort");
 		@Getter private final String name;
 	}

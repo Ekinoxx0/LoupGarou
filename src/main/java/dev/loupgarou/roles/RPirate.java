@@ -177,7 +177,7 @@ public class RPirate extends Role{
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onPlayerKilled(LGPlayerKilledEvent e) {
 		if(e.getGame() == getGame() && e.getReason() == Reason.VOTE)
-			if(e.getKilled().getCache().has(CacheType.PIRATE_OTAGE)) {
+			if(e.getKilled().getCache().has(CacheType.PIRATE_OTAGE) && e.getKilled().isRoleActive()) {
 				LGPlayer otage = e.getKilled().getCache().remove(CacheType.PIRATE_OTAGE);
 				if(!otage.isDead() && otage.getCache().get(CacheType.PIRATE_OTAGE_D) == e.getKilled()) {
 					getGame().broadcastMessage("§7§l"+e.getKilled().getName()+"§6 est "+getName()+"§6, c'est son otage qui va mourir.");

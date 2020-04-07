@@ -95,10 +95,15 @@ public class DiscordLinkServer {
 					return;
 				}
 
-				String url = inputReader.next().split(" ")[1];
+				String readed = inputReader.next();
+				String url = readed.split(" ")[1];
 				HashMap<String, String> arguments = new HashMap<String, String>();
-				
-				System.out.println(url);//TODO rm
+
+				System.out.println(readed);//TODO rm
+				while(inputReader.hasNext()) {
+					System.out.println(inputReader.next());//TODO rm
+				}
+				System.out.println("url:" + url);//TODO rm
 				if(url.contains("#")) {//Contains wtf arguments
 					String argsRaw = url.split("[#]")[1];
 					url = url.split("[#]")[0];

@@ -6,8 +6,8 @@ import org.bukkit.event.EventPriority;
 import dev.loupgarou.MainLg;
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
-import dev.loupgarou.classes.LGWinType;
 import dev.loupgarou.classes.LGPlayer.LGChooseCallback;
+import dev.loupgarou.classes.LGWinType;
 import dev.loupgarou.events.daycycle.LGNightEndEvent;
 import dev.loupgarou.events.daycycle.LGNightPlayerPreKilledEvent;
 import dev.loupgarou.events.game.LGEndCheckEvent;
@@ -15,6 +15,7 @@ import dev.loupgarou.events.game.LGGameEndEvent;
 import dev.loupgarou.events.game.LGPlayerKilledEvent.Reason;
 import dev.loupgarou.events.roles.LGPyromaneGasoilEvent;
 import dev.loupgarou.events.roles.LGRoleTurnEndEvent;
+import dev.loupgarou.events.roles.LGVampiredEvent;
 import dev.loupgarou.roles.utils.Role;
 import dev.loupgarou.roles.utils.RoleType;
 import dev.loupgarou.roles.utils.RoleWinType;
@@ -86,7 +87,7 @@ public class RAssassin extends Role{
 	
 	@EventHandler
 	public void onKill(LGNightPlayerPreKilledEvent e) {
-		if(e.getKilled().getRole() == this && e.getReason() == Reason.LOUP_GAROU || e.getReason() == Reason.GM_LOUP_GAROU) {//Les assassins ne peuvent pas mourir la nuit !
+		if(e.getKilled().getRole() == this && e.getReason() == Reason.LOUP_GAROU || e.getReason() == Reason.GM_LOUP_GAROU && e.getKilled().isRoleActive()) {//Les assassins ne peuvent pas mourir la nuit !
 			e.setReason(Reason.DONT_DIE);
 			e.getKilled().getCache().set(CacheType.ASSASSIN_PROTECTED, true);
 		}
@@ -115,8 +116,13 @@ public class RAssassin extends Role{
 	
 	@EventHandler
 	public void onPyroGasoil(LGPyromaneGasoilEvent e) {
-		if(e.getPlayer().getRole() == this)
+		if(e.getPlayer().getRole() == this && e.getPlayer().isRoleActive())
 			e.setCancelled(true);
+	}
+	@EventHandler
+	public void onVampired(LGVampiredEvent e) {
+		if(e.getPlayer().getRole() == this && e.getPlayer().isRoleActive())
+			e.setImmuned(true);
 	}
 	
 	@EventHandler
@@ -131,8 +137,13 @@ public class RAssassin extends Role{
 	@EventHandler
 	public void onEndgameCheck(LGEndCheckEvent e) {
 		if(e.getGame() == getGame() && e.getWinType() == LGWinType.SOLO) {
-			if(getPlayers().size() > 0)
+			if(getPlayers().size() > 0) {
+				if(getPlayers().size() > 1)
+					for(LGPlayer lgp : getPlayers())
+						if(!lgp.isRoleActive())
+							return;
 				e.setWinType(LGWinType.ASSASSIN);
+			}
 		}
 	}
 	

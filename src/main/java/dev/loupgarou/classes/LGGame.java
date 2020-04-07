@@ -3,6 +3,7 @@ package dev.loupgarou.classes;
 import java.lang.reflect.Constructor;
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -53,6 +54,7 @@ import dev.loupgarou.events.vote.LGPeopleVoteStartEvent;
 import dev.loupgarou.events.vote.LGVoteLeaderChange;
 import dev.loupgarou.menu.RoleMenu;
 import dev.loupgarou.packetwrapper.WrapperPlayServerChat;
+import dev.loupgarou.packetwrapper.WrapperPlayServerEntityDestroy;
 import dev.loupgarou.packetwrapper.WrapperPlayServerExperience;
 import dev.loupgarou.packetwrapper.WrapperPlayServerPlayerInfo;
 import dev.loupgarou.packetwrapper.WrapperPlayServerScoreboardTeam;
@@ -66,11 +68,11 @@ import dev.loupgarou.roles.utils.Role;
 import dev.loupgarou.roles.utils.RoleType;
 import dev.loupgarou.roles.utils.RoleWinType;
 import dev.loupgarou.scoreboard.CustomScoreboard;
+import dev.loupgarou.utils.CommonText.PrefixType;
 import dev.loupgarou.utils.MultipleValueMap;
 import dev.loupgarou.utils.SoundUtils.LGSound;
 import dev.loupgarou.utils.VariableCache.CacheType;
 import dev.loupgarou.utils.VariousUtils;
-import dev.loupgarou.utils.CommonText.PrefixType;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
@@ -237,17 +239,41 @@ public class LGGame implements Listener{
 			return false;
 		}
 		
-		lgp.getPlayer().removePotionEffect(PotionEffectType.INVISIBILITY);
-		VariousUtils.setWarning(lgp.getPlayer(), false);
+		Player p = lgp.getPlayer();
+		
+		VariousUtils.setWarning(p, false);
 		if(lgp.isMuted())
 			lgp.resetMuted();
+		
+
+		//TODO Verify Clear votes
+
+		WrapperPlayServerEntityDestroy destroy = new WrapperPlayServerEntityDestroy();
+		destroy.setEntityIds(new int[] {Integer.MIN_VALUE+p.getEntityId()});
+		int[] ids = new int[getInGame().size()+1];
+		for(int i = 0;i<getInGame().size();i++) {
+			Player l = getInGame().get(i).getPlayer();
+			if(l == null)
+				continue;
+			ids[i] = Integer.MIN_VALUE+l.getEntityId();
+			destroy.sendPacket(l);
+		}
+
+		ids[ids.length-1] = -p.getEntityId();// Clear voting
+
+		destroy = new WrapperPlayServerEntityDestroy();
+		destroy.setEntityIds(ids);
+		destroy.sendPacket(p);
+
+		// End clear votes/voting
 
 		lgp.updateOwnSkin();
-		lgp.getPlayer().setWalkSpeed(0.2f);
-		lgp.getPlayer().getInventory().clear();
-		lgp.getPlayer().teleport(getConfig().getMap().getSpawns().get(0).toLocation(getConfig().getMap()));
-		lgp.getPlayer().updateInventory();
-		lgp.getPlayer().closeInventory();
+		p.removePotionEffect(PotionEffectType.INVISIBILITY);
+		p.setWalkSpeed(0.2f);
+		p.getInventory().clear();
+		p.teleport(getConfig().getMap().getSpawns().get(0).toLocation(getConfig().getMap()));
+		p.updateInventory();
+		p.closeInventory();
 
 		lgp.setGame(this);
 		lgp.joinChat(dayChat);
@@ -272,7 +298,7 @@ public class LGGame implements Listener{
 			}
 		}
 			
-		lgp.getPlayer().setGameMode(GameMode.ADVENTURE);
+		p.setGameMode(GameMode.ADVENTURE);
 		broadcastMessage(PrefixType.PARTIE + "§7Le joueur §8"+lgp.getName()+"§7 a rejoint la partie §9(§8"+inGame.size()+"§7/§8"+config.getMap().getSpawns().size()+"§9)");
 			
 		Bukkit.getPluginManager().callEvent(new LGGameJoinEvent(this, lgp));
@@ -613,7 +639,7 @@ public class LGGame implements Listener{
 			if(vote != null)
 				vote.remove(killed);
 			
-			broadcastMessage(String.format(reason.getMessage(), killed.getName())+", il était "+killed.getRole().getName()+(killed.getCache().getBoolean(CacheType.INFECTED) ? " §c§l(Infecté)" : "")+"§4.");
+			broadcastMessage(String.format(reason.getMessage(), killed.getName())+", il était "+killed.getRole().getName()+(killed.getCache().getBoolean(CacheType.INFECTED) ? " §c§l(Infecté)" : "")+(killed.getCache().getBoolean(CacheType.VAMPIRE) ? " §5§l(Vampire)" : "")+"§4.");
 			
 			//Lightning effect
 			killed.getPlayer().getWorld().strikeLightningEffect(killed.getPlayer().getLocation());
@@ -670,6 +696,7 @@ public class LGGame implements Listener{
 			return;
 
 		MainLg.debug(getKey(), "Ending game.");
+		cancelWait();
 		ended = true;
 		//We unregister every role listener because they are unused after the game's end !
 		for(Role role : getRoles()) {
@@ -688,6 +715,7 @@ public class LGGame implements Listener{
 			lgp.joinChat(spectatorChat);
 			
 			lgp.setScoreboard(null);
+			lgp.showView();
 			
 			lgp.sendTitle("§7§lÉgalité", "§8Personne n'a gagné...", 200);
 			
@@ -701,6 +729,8 @@ public class LGGame implements Listener{
 			
 			
 			Player p = lgp.getPlayer();
+			if(p == null) continue;
+			
 			VariousUtils.setWarning(p, false);
 			p.setWalkSpeed(0.2f);
 			p.setExp(0);
@@ -708,20 +738,18 @@ public class LGGame implements Listener{
 			p.getInventory().clear();
 			p.closeInventory();
 			p.teleport(Bukkit.getWorlds().get(0).getSpawnLocation());
-			lgp.showView();
 			for(PotionEffect effect : p.getActivePotionEffects())
 				p.removePotionEffect(effect.getType());
 			p.setWalkSpeed(0.2f);
+			
+			WrapperPlayServerScoreboardTeam team = new WrapperPlayServerScoreboardTeam();
+			team.setMode(Mode.TEAM_REMOVED);
+			team.setName("you_are");
+			team.sendPacket(p);
 		}
 		
 		for(LGPlayer lgp : getInGame())
-			if(lgp.getPlayer() != null && lgp.getPlayer().isOnline()) {
-				LGPlayer.removePlayer(lgp.getPlayer());
-				WrapperPlayServerScoreboardTeam team = new WrapperPlayServerScoreboardTeam();
-				team.setMode(Mode.TEAM_REMOVED);
-				team.setName("you_are");
-				team.sendPacket(lgp.getPlayer());
-			}
+			LGPlayer.removePlayer(lgp.getPlayer());
 		
 		MainLg.getInstance().getGames().remove(this);
 		if(this.discord != null)
@@ -870,7 +898,7 @@ public class LGGame implements Listener{
 			
 			broadcastMessage("§7§l"+mayor.getName()+"§6 devient le §5§lCapitaine §6du village.");
 			peopleVote();
-		});
+		}, Collections.emptyList());
 	}
 	@Getter private LGVote vote;
 	boolean isPeopleVote = false;
@@ -918,7 +946,7 @@ public class LGGame implements Listener{
 		return checkEndGame(true);
 	}
 	public boolean checkEndGame(boolean doEndGame) {
-		int goodGuy = 0, badGuy = 0, solo = 0;
+		int goodGuy = 0, badGuy = 0, solo = 0, vampires = 0;
 		for(LGPlayer lgp : getAlive())
 			if(lgp.getRoleWinType() == RoleWinType.LOUP_GAROU)
 				badGuy++;
@@ -926,13 +954,18 @@ public class LGGame implements Listener{
 				goodGuy++;
 			else if(lgp.getRoleWinType() == RoleWinType.SEUL)
 				solo++;
+			else if(lgp.getRoleWinType() == RoleWinType.VAMPIRE)
+				vampires++;
 		LGEndCheckEvent event = new LGEndCheckEvent(this, goodGuy == 0 || badGuy == 0 ? (goodGuy+badGuy == 0 ? LGWinType.EQUAL : (goodGuy > 0 ? LGWinType.VILLAGEOIS : LGWinType.LOUPGAROU)) : LGWinType.NONE);
 		
-		if((badGuy+goodGuy > 0 && solo > 0) || solo > 1)
+		if((badGuy+goodGuy > 0 && solo > 0) || solo > 1 || (badGuy+goodGuy > 0 && vampires > 0) || (solo > 0 && vampires > 0))
 			event.setWinType(LGWinType.NONE);
-		
-		if(badGuy+goodGuy == 0 && solo == 1)
+
+		if(badGuy+goodGuy == 0 && solo == 1 && vampires == 0)
 			event.setWinType(LGWinType.SOLO);
+		
+		if(badGuy+goodGuy == 0 && solo == 0 && vampires > 0)
+			event.setWinType(LGWinType.VAMPIRE);
 		
 		Bukkit.getPluginManager().callEvent(event);
 		if(doEndGame && event.getWinType() != LGWinType.NONE)

@@ -46,7 +46,7 @@ public class LGVote {
 	@Getter private final HashMap<LGPlayer, List<LGPlayer>> votes = new HashMap<LGPlayer, List<LGPlayer>>();
 	private int votesSize = 0;
 	private LGPlayer mayor;
-	private ArrayList<LGPlayer> latestTop = new ArrayList<LGPlayer>();
+	private ArrayList<LGPlayer> latestTop = new ArrayList<LGPlayer>(), blacklisted = new ArrayList<LGPlayer>();
 	@SuppressWarnings("unused")
 	private final boolean positiveVote, randomIfEqual;
 	@Getter private boolean mayorVote;
@@ -60,7 +60,7 @@ public class LGVote {
 		this.positiveVote = positiveVote;
 		this.randomIfEqual = randomIfEqual;
 	}
-	public void start(List<LGPlayer> participants, List<LGPlayer> viewers, Runnable callback) {
+	public void start(List<LGPlayer> participants, List<LGPlayer> viewers, Runnable callback, List<LGPlayer> blacklisted) {
 		this.callback = callback;
 		this.participants = participants;
 		this.viewers = viewers;
@@ -198,6 +198,11 @@ public class LGVote {
 	}
 	
 	public void vote(LGPlayer voter, LGPlayer voted) {
+		if(blacklisted.contains(voted)) {
+			voter.sendMessage("§cVous ne pouvez pas votre pour §7§l"+voted.getName()+"§c.");
+			return;
+		}
+		
 		if(voted == voter.getCache().get(CacheType.VOTE))
 			voted = null;
 		
@@ -215,8 +220,8 @@ public class LGVote {
 			votesSize++;
 		if(voter.getCache().has(CacheType.VOTE))
 			votesSize--;
-		
-		if(votesSize == participants.size() && timeout > littleTimeout) {
+
+		if(votesSize == participants.size() && game.getWaitTicks() > littleTimeout*20) {
 			this.quick(littleTimeout);
 		}
 		boolean changeVote = false;

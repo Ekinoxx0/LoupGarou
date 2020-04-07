@@ -68,7 +68,7 @@ public class RPetiteFille extends Role{
 					if(role instanceof RLoupGarou) {
 						RLoupGarou lgRole = (RLoupGarou)role;
 						for(LGPlayer player : getPlayers())
-							if(!player.getCache().getBoolean(CacheType.INFECTED))
+							if(!player.getCache().getBoolean(CacheType.INFECTED) && player.isRoleActive())
 								player.joinChat(lgRole.getChat(), (sender, message)->{
 									return "§c"+customNames.get(lgRole.getPlayers().indexOf(sender))+" §6» §f"+message;
 								}, true);
@@ -76,7 +76,7 @@ public class RPetiteFille extends Role{
 					}
 			if(e.getPreviousRole() instanceof RLoupGarou)
 				for(LGPlayer player : getPlayers())
-					if(!player.getCache().getBoolean(CacheType.INFECTED))
+					if(!player.getCache().getBoolean(CacheType.INFECTED) && player.isRoleActive())
 						player.leaveChat();
 		}
 	}

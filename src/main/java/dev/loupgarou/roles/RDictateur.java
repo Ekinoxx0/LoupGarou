@@ -197,7 +197,7 @@ public class RDictateur extends Role{
 	}
 	public void onTurn(Cancellable e) {
 		for(LGPlayer lgp : getPlayers())
-			if(lgp.getCache().getBoolean(CacheType.JUST_COUP_D_ETAT))
+			if(lgp.getCache().getBoolean(CacheType.JUST_COUP_D_ETAT) && lgp.isRoleActive())
 				e.setCancelled(true);
 		
 		if(!e.isCancelled())

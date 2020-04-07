@@ -2,9 +2,11 @@ package dev.loupgarou.roles.utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import dev.loupgarou.MainLg;
 import dev.loupgarou.classes.LGCustomItems;
@@ -57,7 +59,37 @@ public abstract class Role implements Listener{
 					return;
 				}
 				LGPlayer player = players.remove(0);
-				getGame().wait(getTimeout(), ()->{
+				
+				if(player.isRoleActive()) {
+					getGame().wait(getTimeout(), ()->{
+						try {
+							Role.this.onNightTurnTimeout(player);
+						}catch(Exception err) {
+							System.out.println("Error when timeout role");
+							err.printStackTrace();
+						}
+						this.run();
+					}, (currentPlayer, secondsLeft)->{
+						return currentPlayer == player ? "§9§lC'est à ton tour !" : "§6C'est au tour "+getFriendlyName()+" §6(§e"+secondsLeft+" s§6)";
+					});
+					player.sendMessage("§6"+getTask());
+				//	player.sendTitle("§6C'est à vous de jouer", "§a"+getTask(), 100);
+					onNightTurn(player, this);
+				} else {
+					getGame().wait(getTimeout(), ()->{}, (currentPlayer, secondsLeft)->{
+						return currentPlayer == player ? "§c§lTu ne peux pas jouer" : "§6C'est au tour "+getFriendlyName()+" §6(§e"+secondsLeft+" s§6)";
+					});
+					Runnable run = this;
+					new BukkitRunnable() {
+
+						@Override
+						public void run() {
+							run.run();
+						}
+					}.runTaskLater(MainLg.getInstance(), 20*(ThreadLocalRandom.current().nextInt(getTimeout()/3*2-4)+4));
+				}
+				
+				/*getGame().wait(getTimeout(), ()->{
 					try {
 						Role.this.onNightTurnTimeout(player);
 					}catch(Exception err) {
@@ -69,7 +101,7 @@ public abstract class Role implements Listener{
 					return currentPlayer == player ? "§9§lC'est à ton tour !" : (Role.this.game.getConfig().isHideRole() ? "§6C'est au tour de quelqu'un..." : "§6C'est au tour " + getFriendlyName()) + " §6(§e"+secondsLeft+" s§6)";
 				});
 				player.sendMessage("§6" + getTask());
-				onNightTurn(player, this);
+				onNightTurn(player, this);*/
 			}
 		}.run();
 	}

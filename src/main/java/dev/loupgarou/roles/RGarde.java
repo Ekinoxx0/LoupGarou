@@ -11,6 +11,7 @@ import dev.loupgarou.classes.LGPlayer.LGChooseCallback;
 import dev.loupgarou.events.daycycle.LGNightPlayerPreKilledEvent;
 import dev.loupgarou.events.daycycle.LGPreDayStartEvent;
 import dev.loupgarou.events.game.LGPlayerKilledEvent.Reason;
+import dev.loupgarou.events.roles.LGVampiredEvent;
 import dev.loupgarou.roles.utils.Role;
 import dev.loupgarou.roles.utils.RoleType;
 import dev.loupgarou.roles.utils.RoleWinType;
@@ -111,6 +112,11 @@ public class RGarde extends Role{
 			e.getKilled().getCache().remove(CacheType.GARDE_PROTECTED);
 			e.setReason(Reason.DONT_DIE);
 		}
+	}
+	@EventHandler
+	public void onVampired(LGVampiredEvent e) {
+		if(e.getGame() == getGame() && e.getPlayer().getCache().getBoolean(CacheType.GARDE_PROTECTED))
+			e.setProtect(true);
 	}
 	@EventHandler
 	public void onDayStart(LGPreDayStartEvent e) {

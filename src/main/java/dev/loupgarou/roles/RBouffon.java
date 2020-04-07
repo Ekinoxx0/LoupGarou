@@ -131,7 +131,7 @@ public class RBouffon extends Role{
 	
 	@EventHandler
 	public void onPlayerKill(LGPlayerKilledEvent e) {
-		if(e.getKilled().getRole() == this && e.getReason() == Reason.VOTE) {
+		if(e.getKilled().getRole() == this && e.getReason() == Reason.VOTE && e.getKilled().isRoleActive()) {
 			needToPlay.add(e.getKilled());
 			getGame().broadcastMessage("§9§oQuelle erreur, le "+getName()+"§9§o aura droit à sa vengeance...");
 			e.getKilled().sendMessage("§6Tu as rempli ta mission, l'heure de la vengeance a sonné.");
