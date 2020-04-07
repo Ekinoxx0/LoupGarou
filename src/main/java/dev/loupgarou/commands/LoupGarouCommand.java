@@ -10,22 +10,22 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 
 import dev.loupgarou.MainLg;
-import dev.loupgarou.commands.subcommands.EndCmd;
-import dev.loupgarou.commands.subcommands.JoinCmd;
-import dev.loupgarou.commands.subcommands.LeaveCmd;
+import dev.loupgarou.commands.subcommands.DiscordCmd;
 import dev.loupgarou.commands.subcommands.MainMenuCmd;
-import dev.loupgarou.commands.subcommands.MenuCmd;
-import dev.loupgarou.commands.subcommands.StartCmd;
+import dev.loupgarou.commands.subcommands.ReloadPacksCmd;
 import dev.loupgarou.commands.subcommands.config.HideRoleCmd;
 import dev.loupgarou.commands.subcommands.config.HideVoteCmd;
 import dev.loupgarou.commands.subcommands.config.HideVoteExtraCmd;
-import dev.loupgarou.commands.subcommands.config.ReloadConfigCmd;
-import dev.loupgarou.commands.subcommands.config.ReloadPacksCmd;
+import dev.loupgarou.commands.subcommands.config.MenuCmd;
 import dev.loupgarou.commands.subcommands.debug.DebugCmd;
 import dev.loupgarou.commands.subcommands.debug.DebugResetPlCmd;
 import dev.loupgarou.commands.subcommands.debug.NextDayCmd;
 import dev.loupgarou.commands.subcommands.debug.NextNightCmd;
 import dev.loupgarou.commands.subcommands.debug.QuickCmd;
+import dev.loupgarou.commands.subcommands.game.EndCmd;
+import dev.loupgarou.commands.subcommands.game.JoinCmd;
+import dev.loupgarou.commands.subcommands.game.LeaveCmd;
+import dev.loupgarou.commands.subcommands.game.StartCmd;
 import dev.loupgarou.commands.subcommands.spawns.AddMapCmd;
 import dev.loupgarou.commands.subcommands.spawns.AddSpawnCmd;
 import dev.loupgarou.commands.subcommands.spawns.ListMapCmd;
@@ -50,7 +50,6 @@ public class LoupGarouCommand implements CommandExecutor, TabExecutor {
 		this.subs.add(new HideRoleCmd(this));
 		this.subs.add(new HideVoteCmd(this));
 		this.subs.add(new HideVoteExtraCmd(this));
-		this.subs.add(new ReloadConfigCmd(this));
 		this.subs.add(new ReloadPacksCmd(this));
 		
 		this.subs.add(new DebugCmd(this));
@@ -69,6 +68,7 @@ public class LoupGarouCommand implements CommandExecutor, TabExecutor {
 		this.subs.add(new SaveMapCmd(this));
 		this.subs.add(new ShowSpawnsCmd(this));
 
+		this.subs.add(new DiscordCmd(this));
 		this.subs.add(new EndCmd(this));
 		this.subs.add(new JoinCmd(this));
 		this.subs.add(new LeaveCmd(this));

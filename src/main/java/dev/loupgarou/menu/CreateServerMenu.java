@@ -7,6 +7,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -17,23 +18,24 @@ import dev.loupgarou.classes.LGGameConfig.CommunicationType;
 import dev.loupgarou.classes.LGMaps;
 import dev.loupgarou.classes.LGMaps.LGMap;
 import dev.loupgarou.classes.LGPlayer;
+import dev.loupgarou.utils.CommonText.PrefixType;
 import dev.loupgarou.utils.InteractInventory;
 import dev.loupgarou.utils.InteractInventory.InventoryCall;
 import dev.loupgarou.utils.InteractInventory.InventoryClose;
 import dev.loupgarou.utils.ItemBuilder;
-import dev.loupgarou.utils.CommonText.PrefixType;
 import lombok.NonNull;
 
 public class CreateServerMenu {
 	
 	private static final InventoryClose canceledServerCreation = new InventoryClose() {
 		
+		public void nextTick(InteractInventory ii, HumanEntity human) {
+			if(human.getOpenInventory().getType() == InventoryType.CRAFTING && LGPlayer.thePlayer((Player) human).getGame() == null)
+				human.sendMessage(PrefixType.PARTIE + "§6Annulation de la création de la partie...");
+		};
+		
 		@Override
-		public boolean close(HumanEntity human) {
-			if(human.getOpenInventory() == null && LGPlayer.thePlayer((Player) human).getGame() == null)
-				human.sendMessage("§6Annulation de la création de la partie...");
-			return true;
-		}
+		public boolean close(InteractInventory ii, HumanEntity human) { return true; }
 	};
 
 	public static void openMenu(@NonNull LGPlayer lgp) {
@@ -189,7 +191,7 @@ public class CreateServerMenu {
 					
 					@Override
 					public void click(HumanEntity human, ItemStack item, ClickType clickType) {
-						human.sendMessage("§7Création de la partie en cours...");
+						human.sendMessage(PrefixType.PARTIE + "§7Création de la partie en cours...");
 						human.closeInventory();
 						LGGame created = new LGGame(lgp, config);
 						new BukkitRunnable() {
@@ -197,7 +199,7 @@ public class CreateServerMenu {
 							@Override
 							public void run() {
 								if(!created.tryToJoin(lgp))
-									human.sendMessage("§cUne erreur est survenue lors de la création de votre partie ! #8841654");
+									human.sendMessage(PrefixType.PARTIE + "§cUne erreur est survenue lors de la création de votre partie ! #8841654");
 							}
 						}.runTaskLater(MainLg.getInstance(), 20);
 					}

@@ -33,9 +33,9 @@ public class HideRoleCmd extends SubCommand {
 		
 		lgp.getGame().getConfig().setHideRole(!lgp.getGame().getConfig().isHideRole());
 		if(lgp.getGame().getConfig().isHideRole()) {
-			cs.sendMessage("§cComposition cachée");
+			cs.sendMessage(PrefixType.PARTIE + "§cComposition cachée");
 		} else {
-			cs.sendMessage("§9Composition affichée");
+			cs.sendMessage(PrefixType.PARTIE + "§9Composition affichée");
 		}
 	}
 	

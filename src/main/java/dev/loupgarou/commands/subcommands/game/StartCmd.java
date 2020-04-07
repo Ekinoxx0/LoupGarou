@@ -1,4 +1,4 @@
-package dev.loupgarou.commands.subcommands;
+package dev.loupgarou.commands.subcommands.game;
 
 import java.util.Arrays;
 
@@ -8,37 +8,32 @@ import org.bukkit.entity.Player;
 
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
-import dev.loupgarou.classes.LGWinType;
 import dev.loupgarou.commands.LoupGarouCommand;
 import dev.loupgarou.commands.SubCommand;
 import dev.loupgarou.utils.CommonText.PrefixType;
 
-public class EndCmd extends SubCommand {
+public class StartCmd extends SubCommand {
 
-	public EndCmd(LoupGarouCommand cmd) {
-		super(cmd, Arrays.asList("end", "stop"));
+	public StartCmd(LoupGarouCommand cmd) {
+		super(cmd, Arrays.asList("start"));
 	}
 
 	@Override
 	public void execute(CommandSender cs, String label, String[] args) {
 		if (args.length == 1) {
 			if(cs instanceof Player) {
-				LGPlayer lgp = LGPlayer.thePlayer((Player) cs);
-				LGGame gameTarget = lgp.getGame();
+				LGGame gameTarget = LGPlayer.thePlayer((Player) cs).getGame();
 				if (gameTarget == null) {
 					cs.sendMessage(PrefixType.PARTIE + "§cVous n'êtes pas en partie !");
 					return;
 				}
-				
-				if(gameTarget.getOwner() == lgp) {
-					stopGame(gameTarget);
-				} else {
-					cs.sendMessage(PrefixType.PARTIE + "§cVous n'êtes pas propriétaire...");
-				}
+
+				gameTarget.updateStart();
 			} else {
 				cs.sendMessage(PrefixType.PARTIE + "§cMerci de donner le nom d'un joueur en argument");
 			}
-		} else if (args.length == 2 && cs.hasPermission(BASE_PERM + "." + getAliases().get(0))) {
+			return;
+		} else if (args.length == 2) {
 			Player target = Bukkit.getPlayer(args[1]);
 			if (target == null) {
 				cs.sendMessage(PrefixType.PARTIE + "§cJoueur inconnu !");
@@ -51,17 +46,12 @@ public class EndCmd extends SubCommand {
 				return;
 			}
 
-			stopGame(gameTarget);
+			gameTarget.updateStart();
 			cs.sendMessage(PrefixType.PARTIE + "§6Partie arrêtée avec succès !");
+			return;
 		} else {
 			cs.sendMessage(PrefixType.PARTIE + "§cArgument inconnu...");
 		}
 	}
 	
-	private void stopGame(LGGame gameTarget) {
-		gameTarget.cancelWait();
-		gameTarget.endGame(LGWinType.EQUAL);
-		gameTarget.broadcastMessage(PrefixType.PARTIE + "§cLa partie a été arrêtée de force !");
-	}
-
 }

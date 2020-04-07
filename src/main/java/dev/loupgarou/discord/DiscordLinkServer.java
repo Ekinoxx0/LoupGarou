@@ -17,6 +17,8 @@ import javax.security.auth.login.LoginException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
+import com.google.gson.Gson;
+
 import dev.loupgarou.MainLg;
 import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.utils.RandomString;
@@ -26,6 +28,9 @@ import net.dv8tion.jda.api.AccountType;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 
+/*
+ * TODO verify woring
+ */
 public class DiscordLinkServer {
 
 	private static final File file = new File(MainLg.getInstance().getDataFolder(), "discordlink.yml");
@@ -93,21 +98,14 @@ public class DiscordLinkServer {
 				String url = inputReader.next().split(" ")[1];
 				HashMap<String, String> arguments = new HashMap<String, String>();
 				
-				if(url.contains("?")) {//Contains GET arguments
-					String argsRaw = url.split("[?]")[1];
-					url = url.split("[?]")[0];
-					
-					for(String arg : argsRaw.split("[&]")) {
-						if(arg.contains("="))
-							arguments.put(arg.split("[=]")[0], arg.split("[=]")[1]);
-					}
-				}
-				
+				System.out.println(url);//TODO rm
 				if(url.contains("#")) {//Contains wtf arguments
 					String argsRaw = url.split("[#]")[1];
 					url = url.split("[#]")[0];
+					System.out.println(argsRaw);//TODO rm
 					
 					for(String arg : argsRaw.split("[&]")) {
+						System.out.println(arg);//TODO rm
 						if(arg.contains("="))
 							arguments.put(arg.split("[=]")[0], arg.split("[=]")[1]);
 					}
@@ -120,7 +118,7 @@ public class DiscordLinkServer {
 						link(arguments.get("access_token"), arguments.get("state"));
 						sendText(out, "Fermez la page.");
 					} else {
-						throw new IllegalStateException("No code | state");
+						throw new IllegalStateException(new Gson().toJson(arguments));
 					}
 					break;
 					
@@ -171,7 +169,7 @@ public class DiscordLinkServer {
 	public void generateLink(@NonNull LGPlayer lgp) {
 		String hash = RandomString.toSHA1(lgp.getName());
 		links.put(hash, lgp);
-		String link = "https://discordapp.com/api/oauth2/authorize?response_type=token&state=" + hash + "&client_id=690997265384603830&redirect_uri=http%3A%2F%2Fwondalia.com%3A25564%2Fdiscord&response_type=code&scope=identify%20guilds";
+		String link = "https://discordapp.com/api/oauth2/authorize?response_type=token&state=" + hash + "&client_id=690997265384603830&redirect_uri=http%3A%2F%2Fwondalia.com%3A25564%2Fdiscord&scope=identify%20guilds";
 		
 		lgp.sendMessage(PrefixType.DISCORD + "§9§lLiaison Discord : ");
 		lgp.sendMessage(PrefixType.DISCORD + "§9" + link);

@@ -144,12 +144,12 @@ public class RChienLoup extends Role{
 		ii.setCloseAction(new InventoryClose() {
 			
 			@Override
-			public boolean close(HumanEntity human) {
+			public boolean close(InteractInventory ii, HumanEntity human) {
 				return lgp.getRole() != RChienLoup.this || getGame().isEnded() || lgp.getCache().getBoolean(CacheType.HAS_CHOOSEN_CHIEN_LOUP);
 			}
 
 			@Override
-			public void nextTick(HumanEntity human) {
+			public void nextTick(InteractInventory ii, HumanEntity human) {
 				if(lgp.getRole() != RChienLoup.this) return;
 				if(getGame().isEnded()) return;
 				

@@ -130,10 +130,6 @@ public class LGGame implements Listener{
 		for(LGPlayer lgp : inGame)
 			lgp.sendMessage(msg);
 	}
-	public void broadcastSpacer() {
-		for(LGPlayer lgp : inGame)
-			lgp.getPlayer().sendMessage("\n");
-	}
 
 	private BukkitTask waitTask;
 	public void wait(int seconds, Runnable callback) {
@@ -547,7 +543,7 @@ public class LGGame implements Listener{
 	private void nextNight() {
 		if(ended)return;
 		night++;
-		broadcastSpacer();
+		broadcastMessage("\n");
 		broadcastMessage("§9----------- §lNuit n°"+night+"§9 -----------");
 		broadcastMessage("§8§oLa nuit tombe sur le village...");
 		
@@ -751,7 +747,7 @@ public class LGGame implements Listener{
 	}
 	public void endNight() {
 		if(ended)return;
-		broadcastSpacer();
+		broadcastMessage("\n");
 		broadcastMessage("§9----------- §lJour n°"+night+"§9 -----------");
 		broadcastMessage("§8§oLe jour se lève sur le village...");
 		

@@ -11,6 +11,7 @@ import dev.loupgarou.classes.LGMaps;
 import dev.loupgarou.classes.LGMaps.LGMap;
 import dev.loupgarou.commands.LoupGarouCommand;
 import dev.loupgarou.commands.SubCommand;
+import dev.loupgarou.utils.CommonText.PrefixType;
 
 public class AddMapCmd extends SubCommand {
 
@@ -34,17 +35,17 @@ public class AddMapCmd extends SubCommand {
 				target = map;
 		
 		if (target != null) {
-			p.sendMessage("§cMap déjà existante : " + args[2]);
+			p.sendMessage(PrefixType.PARTIE + "§cMap déjà existante : " + args[2]);
 			return;
 		}
 		
 		LGMaps.getMapsInfo().getMaps().add(new LGMap(args[1], p.getWorld().getName(), Material.BEDROCK));
-		p.sendMessage("§aAjout de la map : " + args[1]);
+		p.sendMessage(PrefixType.PARTIE + "§aAjout de la map : " + args[1]);
 		try {
 			LGMaps.save(getMain());
-			p.sendMessage("§aSauvegarde des maps");
+			p.sendMessage(PrefixType.PARTIE + "§aSauvegarde des maps");
 		} catch (IOException e) {
-			p.sendMessage("§cImpossible de sauvegarder les maps... " + e.getMessage());
+			p.sendMessage(PrefixType.PARTIE + "§cImpossible de sauvegarder les maps... " + e.getMessage());
 		}
 	}
 

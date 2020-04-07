@@ -54,12 +54,13 @@ public class InteractInventory implements Listener{
 	}
 	
 	public static abstract class InventoryClose {
-		public void nextTick(HumanEntity human) {}
+		public void nextTick(InteractInventory ii, HumanEntity human) {}
 		/**
+		 * @param inv 
 		 * @param human Human who close this inventory
 		 * @return Delete on close ?
 		 */
-		public abstract boolean close(HumanEntity human);
+		public abstract boolean close(InteractInventory ii, HumanEntity human);
 	}
 
 	public static class InventoryMaterial {
@@ -352,12 +353,12 @@ public class InteractInventory implements Listener{
     public void onInventoryClose(InventoryCloseEvent e) {
         if (e.getInventory().equals(inv)) {
         	if (closeAction != null) {
-        		deleteOnClose = closeAction.close(e.getPlayer());
+        		deleteOnClose = closeAction.close(this, e.getPlayer());
         		new BukkitRunnable() {
 					
 					@Override
 					public void run() {
-						closeAction.nextTick(e.getPlayer());
+						closeAction.nextTick(InteractInventory.this, e.getPlayer());
 					}
 				}.runTaskLater(MainLg.getInstance(), 1);
         	}

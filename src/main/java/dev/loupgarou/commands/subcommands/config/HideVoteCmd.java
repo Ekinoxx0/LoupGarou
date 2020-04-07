@@ -33,9 +33,9 @@ public class HideVoteCmd extends SubCommand {
 		
 		lgp.getGame().getConfig().setHideVote(!lgp.getGame().getConfig().isHideVote());
 		if(lgp.getGame().getConfig().isHideVote()) {
-			cs.sendMessage("§cVote cachée");
+			cs.sendMessage(PrefixType.PARTIE + "§cVote cachée");
 		} else {
-			cs.sendMessage("§9Vote affichés");
+			cs.sendMessage(PrefixType.PARTIE + "§9Vote affichés");
 		}
 	}
 	

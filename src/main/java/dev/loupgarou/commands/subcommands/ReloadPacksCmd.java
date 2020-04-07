@@ -1,4 +1,4 @@
-package dev.loupgarou.commands.subcommands.config;
+package dev.loupgarou.commands.subcommands;
 
 import java.util.Arrays;
 
