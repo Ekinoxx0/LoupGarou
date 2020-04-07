@@ -42,16 +42,4 @@ public enum CharManager {
 		return c;
 	}
 	
-	public static String cryptString(String name){
-		StringBuilder sb = new StringBuilder("§k");
-		for(char c : name.toCharArray()){
-			if(Character.isLowerCase(c)){
-				sb.append("x");
-			}else{
-				sb.append("X");
-			}
-		}
-		return sb.toString();
-	}
-	
 }

@@ -193,7 +193,18 @@ public class CommonText {
 	/*
 	 * 
 	 */
-
+	
+	public static String cryptString(String name){
+		StringBuilder sb = new StringBuilder("§k");
+		for(char c : name.toCharArray()){
+			if(Character.isLowerCase(c)){
+				sb.append("x");
+			}else{
+				sb.append("X");
+			}
+		}
+		return sb.toString();
+	}
 
 	public static boolean allowPassword(String value) {
 		return value.matches("^[0-9a-zA-Z,&é\"'(è_çà)/=+!:;$*ù@-]+$");
