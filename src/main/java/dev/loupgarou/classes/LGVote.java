@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.StringJoiner;
 
 import org.bukkit.Bukkit;
@@ -16,7 +17,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.comphenix.protocol.wrappers.EnumWrappers.ItemSlot;
+import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.WrappedDataWatcher;
+import com.comphenix.protocol.wrappers.WrappedDataWatcher.WrappedDataWatcherObject;
 import com.comphenix.protocol.wrappers.WrappedWatchableObject;
 
 import dev.loupgarou.MainLg;
@@ -33,6 +36,7 @@ import dev.loupgarou.utils.VariousUtils;
 import lombok.Getter;
 
 public class LGVote {
+	
 	@Getter LGPlayer choosen;
 	private int timeout, initialTimeout, littleTimeout;
 	private Runnable callback;
@@ -272,6 +276,10 @@ public class LGVote {
 	private void updateVotes(LGPlayer voted) {
 		updateVotes(voted, false);
 	}
+	WrappedDataWatcherObject invisible = new WrappedDataWatcherObject(0, WrappedDataWatcher.Registry.get(Byte.class)),
+			 noGravity = new WrappedDataWatcherObject(5, WrappedDataWatcher.Registry.get(Boolean.class)),
+			 customNameVisible = new WrappedDataWatcherObject(3, WrappedDataWatcher.Registry.get(Boolean.class)),
+			 customName = new WrappedDataWatcherObject(2, WrappedDataWatcher.Registry.getChatComponentSerializer(true));
 	private void updateVotes(LGPlayer voted, boolean kill) {
 		int entityId = Integer.MIN_VALUE+voted.getPlayer().getEntityId();
 		WrapperPlayServerEntityDestroy destroy = new WrapperPlayServerEntityDestroy();
@@ -306,17 +314,15 @@ public class LGVote {
 			int votesNbr = votes.get(voted).size();
 			WrapperPlayServerEntityMetadata meta = new WrapperPlayServerEntityMetadata();
 			meta.setEntityID(entityId);
-
-            WrappedDataWatcher watcher = new WrappedDataWatcher(
-            		Arrays.asList(
-            				new WrappedWatchableObject(0, (byte)0x20), 
-            				new WrappedWatchableObject(5, true), 
-            				new WrappedWatchableObject(3, true), 
-            				new WrappedWatchableObject(2, "§6§l"+votesNbr+"§e vote"+(votesNbr > 1 ? "s" : "")), 
-            				new WrappedWatchableObject(7, null)
-            				));
-            
-            meta.setMetadata(watcher.getWatchableObjects());
+			
+			meta.setMetadata(
+					Arrays.asList(
+							new WrappedWatchableObject(invisible, (byte) 0x20),
+							new WrappedWatchableObject(noGravity, true),
+							new WrappedWatchableObject(customNameVisible, true),
+							new WrappedWatchableObject(customName, Optional.ofNullable(WrappedChatComponent.fromText("§6§l"+votesNbr+"§e vote"+(votesNbr > 1 ? "s" : "")).getHandle()))
+							)
+					);
 			
 			if(!this.game.getConfig().isHideVoteExtra()) {
 				for(LGPlayer lgp : viewers) {
@@ -352,11 +358,12 @@ public class LGVote {
 			
 			WrapperPlayServerEntityMetadata meta = new WrapperPlayServerEntityMetadata();
 			meta.setEntityID(entityId);
-            WrappedDataWatcher watcher = new WrappedDataWatcher();
-            watcher.setObject(0, 0x20);//INVISIBLE
-            watcher.setObject(5, true);//NO GRAVITY
-            
-            meta.setMetadata(watcher.getWatchableObjects());
+			meta.setMetadata(
+					Arrays.asList(
+							new WrappedWatchableObject(invisible, (byte) 0x20),
+							new WrappedWatchableObject(noGravity, true)
+							)
+					);
 			meta.sendPacket(to.getPlayer());
 			
 			WrapperPlayServerEntityLook look = new WrapperPlayServerEntityLook();
@@ -404,11 +411,14 @@ public class LGVote {
 			
 			WrapperPlayServerEntityMetadata meta = new WrapperPlayServerEntityMetadata();
 			meta.setEntityID(entityId);
-            WrappedDataWatcher watcher = new WrappedDataWatcher();
-            watcher.setObject(0, 0x20);//INVISIBLE
-            watcher.setObject(5, true);//NO GRAVITY
+
+			meta.setMetadata(
+					Arrays.asList(
+							new WrappedWatchableObject(invisible, (byte) 0x20),
+							new WrappedWatchableObject(noGravity, true)
+							)
+					);
             
-            meta.setMetadata(watcher.getWatchableObjects());
 			meta.sendPacket(to.getPlayer());
 			
 			WrapperPlayServerEntityLook look = new WrapperPlayServerEntityLook();

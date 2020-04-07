@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -57,7 +58,7 @@ public class LGMaps {
 		@Getter @NonNull private String world;
 		@Getter @NonNull private Material material;
 		@Getter @NonNull private String description = "En cours de création...";
-		@Getter private List<LGLocation> spawns = new ArrayList<LGLocation>();
+		@Getter private LinkedList<LGLocation> spawns = new LinkedList<LGLocation>();
 		
 		public boolean isValid() {
 			return isWorldValid() && spawns.size() != 0;
@@ -89,7 +90,7 @@ public class LGMaps {
 		}
 		
 		public Location toLocation(@NonNull LGMap map) {
-			return new Location(Bukkit.getWorld(map.getWorld()), x, y, z, yaw, pitch);
+			return new Location(Bukkit.getWorld(map.getWorld()), x + 0.5, y, z + 0.5, yaw, pitch);
 		}
 	}
 	

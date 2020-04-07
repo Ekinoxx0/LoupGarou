@@ -1,5 +1,7 @@
 package dev.loupgarou.utils;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
 public class RandomString {
@@ -27,5 +29,15 @@ public class RandomString {
         for (int i = 0; i < count; ++i)
             sb.append(SIMPLE_ALPHABET.charAt(RANDOM.nextInt(SIMPLE_ALPHABET.length())));
         return sb.toString();
+    }
+    
+    public static String toSHA1(String s) {
+        MessageDigest md = null;
+        try {
+            md = MessageDigest.getInstance("SHA-1");
+        } catch(NoSuchAlgorithmException e) {
+            return generate(s.length());
+        } 
+        return new String(md.digest(s.getBytes()));
     }
 }

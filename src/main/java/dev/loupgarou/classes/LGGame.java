@@ -5,6 +5,7 @@ import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -50,6 +51,7 @@ import dev.loupgarou.events.roles.LGRoleTurnEndEvent;
 import dev.loupgarou.events.vote.LGMayorVoteStartEvent;
 import dev.loupgarou.events.vote.LGPeopleVoteStartEvent;
 import dev.loupgarou.events.vote.LGVoteLeaderChange;
+import dev.loupgarou.menu.RoleMenu;
 import dev.loupgarou.packetwrapper.WrapperPlayServerChat;
 import dev.loupgarou.packetwrapper.WrapperPlayServerExperience;
 import dev.loupgarou.packetwrapper.WrapperPlayServerPlayerInfo;
@@ -246,6 +248,7 @@ public class LGGame implements Listener{
 		lgp.updateOwnSkin();
 		lgp.getPlayer().setWalkSpeed(0.2f);
 		lgp.getPlayer().getInventory().clear();
+		lgp.getPlayer().teleport(getConfig().getMap().getSpawns().get(0).toLocation(getConfig().getMap()));
 		lgp.getPlayer().updateInventory();
 		lgp.getPlayer().closeInventory();
 
@@ -331,8 +334,8 @@ public class LGGame implements Listener{
 		MainLg main = MainLg.getInstance();
 		
 		//Registering roles
-		List<LGLocation> original = getConfig().getMap().getSpawns();
-		List<LGLocation> spawnList = new ArrayList<LGLocation>(original);
+		LinkedList<LGLocation> original = getConfig().getMap().getSpawns();
+		LinkedList<LGLocation> spawnList = new LinkedList<LGLocation>(original);
 		
 		if(spawnList.size() < getInGame().size()) {
 			broadcastMessage("§cPas assez de spawn ! Merci de signaler ce code d'erreur : #8156");
@@ -469,11 +472,19 @@ public class LGGame implements Listener{
 				lgp.getScoreboard().getLine(i).delete();
 	}
 	public List<LGPlayer> getAlive(){
-		ArrayList<LGPlayer> alive = new ArrayList<LGPlayer>();
+		List<LGPlayer> alive = new ArrayList<LGPlayer>();
 		for(LGPlayer lgp : getInGame())
 			if(!lgp.isDead())
 				alive.add(lgp);
 		return alive;
+	}
+	
+	public List<LGPlayer> getDeads(){
+		List<LGPlayer> deads = new ArrayList<LGPlayer>();
+		for(LGPlayer lgp : getInGame())
+			if(lgp.isDead())
+				deads.add(lgp);
+		return deads;
 	}
 	
 	private void verifyMayorStillAlive() {
@@ -693,10 +704,13 @@ public class LGGame implements Listener{
 			
 			
 			Player p = lgp.getPlayer();
+			VariousUtils.setWarning(p, false);
+			p.setWalkSpeed(0.2f);
 			p.setExp(0);
 			p.setLevel(0);
 			p.getInventory().clear();
 			p.closeInventory();
+			p.teleport(Bukkit.getWorlds().get(0).getSpawnLocation());
 			lgp.showView();
 			for(PotionEffect effect : p.getActivePotionEffects())
 				p.removePotionEffect(effect.getType());
@@ -928,5 +942,15 @@ public class LGGame implements Listener{
 			endGame(event.getWinType());
 		MainLg.debug(getKey(), "Endgame > "+event.getWinType()+" ("+doEndGame+")");
 		return event.getWinType() != LGWinType.NONE;
+	}
+	
+	private final RoleMenu roleMenu = new RoleMenu(this);
+	public void openRoleMenu(LGPlayer lgp) {
+		if(getConfig().isHideRole()) {
+			lgp.sendMessage("§cLes rôles sont cachés durant cette partie...");
+			return;
+		}
+		
+		roleMenu.openMenu(lgp);
 	}
 }

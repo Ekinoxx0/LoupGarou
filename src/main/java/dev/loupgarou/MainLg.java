@@ -124,8 +124,18 @@ public class MainLg extends JavaPlugin {
 			}
 		}
 
-		this.discord.getJda().removeEventListener(this.discord);
-		this.discord.getJda().shutdown();
+		try {
+			this.discord.getJda().removeEventListener(this.discord);
+			this.discord.getJda().shutdown();
+		} catch(Exception ex) {
+			ex.printStackTrace();
+		}
+		
+		try {
+			this.discord.getLinkServer().close();
+		} catch(Exception ex) {
+			ex.printStackTrace();
+		}
 		
 		ProtocolLibrary.getProtocolManager().removePacketListeners(this);
 	}

@@ -8,12 +8,11 @@ import org.bukkit.entity.Player;
 import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.commands.LoupGarouCommand;
 import dev.loupgarou.commands.SubCommand;
-import dev.loupgarou.menu.RoleMenu;
 
 public class MenuCmd extends SubCommand {
 
 	public MenuCmd(LoupGarouCommand cmd) {
-		super(cmd, Arrays.asList("menu"));
+		super(cmd, Arrays.asList("role", "roles", "rolemenu", "rolesmenu", "menuroles"));
 	}
 
 	@Override
@@ -26,12 +25,7 @@ public class MenuCmd extends SubCommand {
 			return;
 		}
 		
-		if(lgp.getGame().getConfig().isHideRole()) {
-			lgp.sendMessage("§cLes rôles sont cachés durant cette partie...");
-			return;
-		}
-		
-		RoleMenu.openMenu(lgp);
+		lgp.getGame().openRoleMenu(lgp);
 	}
 	
 	@Override

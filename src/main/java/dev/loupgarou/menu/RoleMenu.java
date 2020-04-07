@@ -10,30 +10,42 @@ import org.bukkit.inventory.ItemStack;
 
 import dev.loupgarou.MainLg;
 import dev.loupgarou.classes.LGCustomItems;
+import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.roles.utils.FakeRoles;
 import dev.loupgarou.utils.InteractInventory;
 import dev.loupgarou.utils.InteractInventory.InventoryCall;
 import dev.loupgarou.utils.ItemBuilder;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 /**
- * TODO : Reload on modif
- * TODO : Verify working during pre game 
+ * TODO add item in waiting
+ * TODO add tip to shift clic
+ * TODO Auto role
+ * TODO Save compo
  */
+@RequiredArgsConstructor
 public class RoleMenu {
 	
-	public static void openMenu(LGPlayer lgp) {
-		if(lgp.getGame() == null) {
-			lgp.sendMessage("§cVous n'êtes pas en partie...");
-			return;
+	private static final String TITLE = "Sélection des rôles";
+	private @NonNull final LGGame game;
+
+	public void openMenu(LGPlayer lgp) {
+		if(game.getConfig().isHideRole()) {
+			validate(lgp);
+		} else {
+			openRealMenu(lgp);
 		}
-		
-		InteractInventory ii = new InteractInventory(Bukkit.createInventory(null, 4 * 9, "Sélection des rôles"));
+	}
+	
+	private void openRealMenu(LGPlayer lgp) {
+		InteractInventory ii = new InteractInventory(Bukkit.createInventory(null, 4 * 9, TITLE));
 		
 		int i = 0;
 		int total = 0;
 		for(String roleName : MainLg.getInstance().getRoles().keySet()) {
-			int nbRole = lgp.getGame().getConfig().getRoles().get(roleName);
+			int nbRole = game.getConfig().getRoles().get(roleName);
 			total += nbRole;
 			ii.registerItem(
 					new ItemBuilder(LGCustomItems.getItemMenu(FakeRoles.getRole(roleName)))
@@ -48,38 +60,41 @@ public class RoleMenu {
 						
 						@Override
 						public void click(HumanEntity human, ItemStack item, ClickType clickType) {
-							if(lgp.getGame().getOwner() != lgp) {
+							if(game.getOwner() != lgp) {
 								lgp.sendMessage("§cVous n'êtes pas le propriétaire de la partie...");
 								return;
 							}
 							
 							int modif = 0;
-								
+							
 							switch(clickType) {
 							
 							case RIGHT:
-							case LEFT:
-							case MIDDLE:
-								modif = +1;
-								break;
-									
-							case SHIFT_LEFT:
 							case SHIFT_RIGHT:
 								modif = -1;
 								if(nbRole <= 0)
 									modif = 0;
 								break;
+								
+							case LEFT:
+							case SHIFT_LEFT:
+								modif = +1;
+								break;
 									
 							default:
 								return;
 							}
-								
-							if(modif != 0) {
-								human.sendMessage(MainLg.getPrefix()+"§6Il y aura §e" + (nbRole + modif) + " §6" + roleName);
-								lgp.getGame().getConfig().getRoles().replace(roleName, nbRole + modif);
+							
+							if(modif == 0) return;
+							
+							human.sendMessage(MainLg.getPrefix()+"§6Il y aura §e" + (nbRole + modif) + " §6" + roleName);
+							game.getConfig().getRoles().replace(roleName, nbRole + modif);
+							
+							//Update all opened inventory
+							for(LGPlayer lInGame : game.getInGame()) {
+								if(lInGame.getPlayer() != null && lInGame.getPlayer().getOpenInventory() != null && lInGame.getPlayer().getOpenInventory().getTitle().equals(TITLE))
+									openRealMenu(lInGame);
 							}
-								
-							openMenu(lgp);
 						}
 			});
 			i++;
@@ -94,31 +109,70 @@ public class RoleMenu {
 		ii.openTo(lgp.getPlayer());
 	}
 	
+	private void validate(@NonNull LGPlayer lgp) {
+		InteractInventory ii = new InteractInventory(Bukkit.createInventory(null, 9, "Valider votre choix..."));
+		
+		ii.fill(null, true, null);
+		
+		ii.registerItem(
+				new ItemBuilder(Material.GOLD_NUGGET)
+				.name("§6Voulez-vous vraiment dévoiler la configuration ?")
+				.lore(
+						Arrays.asList(
+								"En accèdant à ce menu vous vous dévoilerez la composition de la partie..."
+								)
+						)
+				.build(), 
+				3, 0, true, 
+				new InventoryCall() {
+					
+					@Override
+					public void click(HumanEntity human, ItemStack item, ClickType clickType) {
+						openMenu(lgp);
+					}
+				});
+		
+		ii.registerItem(
+				new ItemBuilder(Material.IRON_NUGGET)
+				.name("§cAnnuler")
+				.lore(
+						Arrays.asList(
+								)
+						)
+				.build(), 
+				5, 0, true, 
+				new InventoryCall() {
+					
+					@Override
+					public void click(HumanEntity human, ItemStack item, ClickType clickType) {
+						human.closeInventory();
+					}
+				});
+		
+		ii.openTo(lgp.getPlayer());
+	}
+	
 	/*
 	 */
 	
-	public static String optimizeLines(String lore) {
-		int maxWord = 5;
+	private static String optimizeLines(String text) {
+		int nbWordPerLines = 5;
 		
 		int a = 0;
 		int b = 0;
 		
-		for(String s : lore.split(" ")){
+		for(String s : text.split(" ")){
 			a += s.length();
 			b++;
 			if(a >= 40){
-				maxWord--;
+				nbWordPerLines--;
 			}
-			if(b >= maxWord){
+			if(b >= nbWordPerLines){
 				a = 0;
 				b = 0;
 			}
 		}
 		
-		return optimizeLines(lore, maxWord);
-	}
-
-	public static String optimizeLines(String text, int nbWordPerLines) {
     	String result = "";
     	String[] words = text.split(" ");
     	

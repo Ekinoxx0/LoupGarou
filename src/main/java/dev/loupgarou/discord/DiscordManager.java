@@ -13,6 +13,7 @@ import lombok.Getter;
 import lombok.NonNull;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Category;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
@@ -39,11 +40,12 @@ public class DiscordManager extends ListenerAdapter {
 	@Getter private final Guild guild;
 	@Getter private final Category voices;
 	@Getter private final VoiceChannel endGame;
+	@Getter private final DiscordLinkServer linkServer;
 	private final List<DiscordChannelHandler> handlers;
 	
 	public DiscordManager(MainLg main) throws Exception {
 		this.handlers = new ArrayList<DiscordChannelHandler>();
-		this.jda = new JDABuilder(TOKEN).build();
+		this.jda = new JDABuilder(TOKEN).setActivity(Activity.watching("des loups.")).build();
 	    this.jda.addEventListener(this);
 	    try {
 			this.jda.awaitReady();
@@ -63,12 +65,26 @@ public class DiscordManager extends ListenerAdapter {
 
 		for(VoiceChannel voice : this.voices.getVoiceChannels())
 			voice.delete().queue();
+
+		this.linkServer = new DiscordLinkServer();
 	}
 	
     public void onVoiceUpdateNoLink(GuildVoiceUpdateEvent e) {
     	if(e.getChannelJoined() == null) return;
 		if(!this.voices.getChannels().contains(e.getChannelJoined())) return;
-		e.getEntity().mute(true).queue();
+
+		DiscordChannelHandler handler = null;
+		for(DiscordChannelHandler h : this.handlers)
+			if(h.getVoice().equals(e.getChannelJoined())) handler = h;
+
+		if(handler == null) {
+			MainLg.debug("Voice channel not recognize...");
+			this.guild.moveVoiceMember(e.getEntity(), this.endGame).complete();
+			e.getChannelJoined().delete().queue();
+			return;
+		}
+		
+		e.getEntity().mute(handler.isChannelMuted()).queue();
 	}
 	
 	@Override
@@ -130,7 +146,9 @@ public class DiscordManager extends ListenerAdapter {
 			lgp.sendMessage(MainLg.getPrefix() + "§cVous avez quitté un salon de jeu Loup Garou.");
 			e.getEntity().mute(false).queue();
 		} else {
+			//Joined a random
 			//Moved from random to random
+			e.getEntity().mute(false).queue();
 		}
     }
 	
@@ -154,7 +172,6 @@ public class DiscordManager extends ListenerAdapter {
 		if(this.voices == null) return null;
 		
 		for(LGPlayer lgp : LGPlayer.all()) {
-			
 			if(member.getUser().getName().toLowerCase().contains(lgp.getName().toLowerCase()))
 				return lgp;
 			
@@ -170,7 +187,16 @@ public class DiscordManager extends ListenerAdapter {
 	}
 	
 	public Member get(@NonNull LGPlayer lgp) {
-		Member m = get(lgp.getName());
+		if(this.jda == null) return null;
+		if(this.voices == null) return null;
+		Member m = null;
+		
+		long id = this.linkServer.getLinked(lgp);
+		if(id > 0)
+			m = this.guild.getMemberById(id);
+		
+		if(m == null)
+			m = get(lgp.getName());
 		
 		if(m == null && lgp.getPlayer() == null)
 			m = get(lgp.getPlayer().getName());
@@ -181,15 +207,20 @@ public class DiscordManager extends ListenerAdapter {
 	private Member get(@NonNull String playerName) {
 		if(this.jda == null) return null;
 		if(this.voices == null) return null;
-		
-		for(Member m : this.guild.getMembers())
-			if(m.getEffectiveName().toLowerCase().contains(playerName.toLowerCase()))
-				return m;
 
 		for(Member m : this.guild.getMembers())
 			for(Role r : m.getRoles())
 				if(r.getName().equals("!" + playerName))
 					return m;
+		
+		Member find = null;
+		for(Member m : this.guild.getMembers()) {
+			if(m.getEffectiveName().toLowerCase().equals(playerName.toLowerCase()))
+				if(find != null)
+					return null;
+				else
+					find = m;
+		}
 		
 		return null;
 	}

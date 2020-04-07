@@ -1,6 +1,7 @@
 package dev.loupgarou.commands.subcommands.spawns;
 
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.Random;
 
 import org.bukkit.Location;
@@ -12,6 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.comphenix.protocol.wrappers.EnumWrappers.ItemSlot;
+import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.WrappedDataWatcher;
 import com.comphenix.protocol.wrappers.WrappedDataWatcher.WrappedDataWatcherObject;
 import com.comphenix.protocol.wrappers.WrappedWatchableObject;
@@ -75,7 +77,9 @@ public class ShowSpawnsCmd extends SubCommand {
 	}
 
 	WrappedDataWatcherObject invisible = new WrappedDataWatcherObject(0, WrappedDataWatcher.Registry.get(Byte.class)),
-			noGravity = new WrappedDataWatcherObject(5, WrappedDataWatcher.Registry.get(Boolean.class));
+			 noGravity = new WrappedDataWatcherObject(5, WrappedDataWatcher.Registry.get(Boolean.class)),
+			 customNameVisible = new WrappedDataWatcherObject(3, WrappedDataWatcher.Registry.get(Boolean.class)),
+			 customName = new WrappedDataWatcherObject(2, WrappedDataWatcher.Registry.getChatComponentSerializer(true));
 
 	private void showArrow(Player p, Location loc, int time, int n) {
 		final int entityId = new Random().nextInt(500000) + 10000;
@@ -96,9 +100,36 @@ public class ShowSpawnsCmd extends SubCommand {
 
 			WrapperPlayServerEntityMetadata meta = new WrapperPlayServerEntityMetadata();
 			meta.setEntityID(entityId);
-			meta.setMetadata(Arrays.asList(new WrappedWatchableObject(invisible, (byte) 0x20),
-					new WrappedWatchableObject(noGravity, true)));
+			meta.setMetadata(
+					Arrays.asList(
+							new WrappedWatchableObject(invisible, (byte) 0x20),
+							new WrappedWatchableObject(noGravity, true)
+							)
+					);
 			meta.sendPacket(p);
+			
+			int itemId = entityId+1;
+			WrapperPlayServerSpawnEntityLiving itemSpawn = new WrapperPlayServerSpawnEntityLiving();
+			itemSpawn.setEntityID(itemId);
+			itemSpawn.setType(EntityType.DROPPED_ITEM);
+			itemSpawn.setX(loc.getX());
+			itemSpawn.setY(loc.getY()+0.3);
+			itemSpawn.setZ(loc.getZ());
+			itemSpawn.sendPacket(p);
+			
+
+			WrapperPlayServerEntityMetadata itemMeta = new WrapperPlayServerEntityMetadata();
+			itemMeta.setEntityID(itemId);
+			
+			itemMeta.setMetadata(
+					Arrays.asList(
+							new WrappedWatchableObject(invisible, (byte) 0x20),
+							new WrappedWatchableObject(noGravity, true),
+							new WrappedWatchableObject(customNameVisible, true),
+							new WrappedWatchableObject(customName, Optional.ofNullable(WrappedChatComponent.fromText("" + n).getHandle()))
+							)
+					);
+			itemMeta.sendPacket(p);
 
 			new BukkitRunnable() {
 
@@ -107,8 +138,7 @@ public class ShowSpawnsCmd extends SubCommand {
 					WrapperPlayServerEntityEquipment equip = new WrapperPlayServerEntityEquipment();
 					equip.setEntityID(entityId);
 					equip.setSlot(ItemSlot.HEAD);
-					ItemStack skull = new ItemStack(Material.EMERALD);
-					equip.setItem(skull);
+					equip.setItem(new ItemStack(Material.EMERALD));
 					equip.sendPacket(p);
 				}
 			}.runTaskLater(MainLg.getInstance(), 2);
@@ -120,6 +150,9 @@ public class ShowSpawnsCmd extends SubCommand {
 					WrapperPlayServerEntityDestroy destroy = new WrapperPlayServerEntityDestroy();
 					destroy.setEntityIds(new int[] { entityId });
 					destroy.sendPacket(p);
+					WrapperPlayServerEntityDestroy destroyItem = new WrapperPlayServerEntityDestroy();
+					destroyItem.setEntityIds(new int[] { itemId });
+					destroyItem.sendPacket(p);
 				}
 			}.runTaskLater(MainLg.getInstance(), time * 20);
 		}

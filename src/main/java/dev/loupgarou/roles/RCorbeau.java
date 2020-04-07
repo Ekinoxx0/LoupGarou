@@ -100,9 +100,8 @@ public class RCorbeau extends Role{
 							//TODO Remake LGPlayer bad impl
 							getGame().getVote().vote(new LGPlayer("§a§lLe corbeau"), lgp);
 							getGame().getVote().vote(new LGPlayer("§a§lLe corbeau"), lgp);
-							if(!e.getGame().getConfig().isHideVoteExtra()) {
+							if(!e.getGame().getConfig().isHideVoteExtra())
 								getGame().broadcastMessage("§7§l"+lgp.getName()+"§6 a reçu la visite du "+getName()+"§6.");
-							}
 						}
 					}.runTask(MainLg.getInstance());
 					
@@ -113,7 +112,5 @@ public class RCorbeau extends Role{
 	protected void onNightTurnTimeout(LGPlayer player) {
 		player.stopChoosing();
 		player.hideView();
-		//player.sendTitle("§cVous n'avez regardé aucun rôle", "§4Vous avez mis trop de temps à vous décider...", 80);
-		//player.sendMessage("§cVous n'avez pas utilisé votre pouvoir cette nuit.");
 	}
 }

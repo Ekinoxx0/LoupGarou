@@ -1,5 +1,9 @@
 package dev.loupgarou.discord;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.bukkit.Bukkit;
@@ -18,6 +22,7 @@ import dev.loupgarou.events.game.LGGameStartEvent;
 import dev.loupgarou.events.game.LGPlayerKilledEvent;
 import lombok.Getter;
 import lombok.NonNull;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Invite;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.VoiceChannel;
@@ -52,6 +57,25 @@ public class DiscordChannelHandler implements Listener {
 						 game.broadcastMessage("§cSalon créé, mais une erreur est survenue lors de la création de l'invitation...");
 						 failure.printStackTrace();
 					 });
+				
+				Member owner = discord.get(game.getOwner());
+				if(owner != null) {
+					voice.getManager()
+						.putPermissionOverride(owner, 
+							Arrays.asList(
+									Permission.VOICE_DEAF_OTHERS,
+									Permission.VOICE_MOVE_OTHERS,
+									Permission.VOICE_MUTE_OTHERS,
+									Permission.VOICE_USE_VAD,
+									Permission.PRIORITY_SPEAKER
+									), 
+							Collections.emptyList()).queue(
+									(success) -> {},
+									(failure) -> {
+										 game.getOwner().sendMessage("§cUne erreur est survenue de l'attribution de vos permissions discord.");
+									});
+				}
+				
 			},
 			(failure) -> {
 				game.broadcastMessage("§cUne erreur est survenue sur lors de la création du salon discord...");
@@ -100,7 +124,8 @@ public class DiscordChannelHandler implements Listener {
 			discord.getGuild().moveVoiceMember(member, voice).queue(
 					(success) -> {
 						lgp.sendMessage("§9Vous avez été déplacé sur discord...");
-						member.mute(false).queue();
+						if(member.getVoiceState().isGuildMuted())
+							member.mute(false).queue();
 					},
 					(failure) -> {
 						lgp.sendMessage("§cEchec pour vous déplacer sur discord !");
@@ -125,15 +150,26 @@ public class DiscordChannelHandler implements Listener {
 		this.isChannelMuted = mute;
 		MainLg.debug(this.game.getKey(), "Discord.muteChannel(" + mute + ")");
 		
-		for(Member member : this.voice.getMembers()) {
-			LGPlayer lgp = this.discord.get(member);
-			if(lgp == null) {
-				member.mute(mute).queue();
-				continue;
-			}
-
-			member.mute(mute | lgp.isDead()).queue();
+		if(mute) {
+			for(Member member : this.voice.getMembers())
+				if(!member.getVoiceState().isGuildMuted())
+					member.mute(true).queue();
+			return;
 		}
+		
+		List<Member> has = new ArrayList<Member>();
+		
+		for(LGPlayer lgp : this.game.getDeads()) {
+			Member deadMember = this.discord.get(lgp);
+			if(!deadMember.getVoiceState().isGuildMuted())
+				deadMember.mute(true).queue();
+			has.add(deadMember);
+		}
+
+		for(Member member : this.voice.getMembers())
+			if(!has.contains(member))
+				if(member.getVoiceState().isGuildMuted())
+					member.mute(false).queue();
 	}
 	
 	public boolean isValid() {
@@ -148,8 +184,11 @@ public class DiscordChannelHandler implements Listener {
 
 		final VoiceChannel currentVoice = voice;
 		for(Member m : currentVoice.getMembers()) {
-			m.mute(false).queue();
-			discord.getGuild().moveVoiceMember(m, discord.getEndGame()).queue();
+			try {
+				if(m.getVoiceState().isGuildMuted())
+					m.mute(false).queue();
+				discord.getGuild().moveVoiceMember(m, discord.getEndGame()).queue();
+			} catch(Exception ex) {}
 		}
 		
 		new BukkitRunnable() {

@@ -13,7 +13,7 @@ import dev.loupgarou.menu.MainMenu;
 public class MainMenuCmd extends SubCommand {
 
 	public MainMenuCmd(LoupGarouCommand cmd) {
-		super(cmd, Arrays.asList("mainmenu"));
+		super(cmd, Arrays.asList("menu", "mainmenu", "menumain"));
 	}
 
 	@Override
