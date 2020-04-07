@@ -20,6 +20,7 @@ import dev.loupgarou.events.daycycle.LGNightStartEvent;
 import dev.loupgarou.events.game.LGGameJoinEvent;
 import dev.loupgarou.events.game.LGGameStartEvent;
 import dev.loupgarou.events.game.LGPlayerKilledEvent;
+import dev.loupgarou.utils.CommonText.PrefixType;
 import lombok.Getter;
 import lombok.NonNull;
 import net.dv8tion.jda.api.Permission;
@@ -50,11 +51,11 @@ public class DiscordChannelHandler implements Listener {
 					 .setMaxUses(100)
 					 .queue((invite) -> {
 						 this.invite = invite;
-						 game.getOwner().sendMessage("§2Création du salon finalisé, rejoignez le discord via : " + invite.getUrl());
+						 game.getOwner().sendMessage(PrefixType.DISCORD + "§2Création du salon finalisé, rejoignez le discord via : " + invite.getUrl());
 						 Bukkit.getPluginManager().registerEvents(DiscordChannelHandler.this, MainLg.getInstance());
 					 },
 					 (failure) -> {
-						 game.broadcastMessage("§cSalon créé, mais une erreur est survenue lors de la création de l'invitation...");
+						 game.broadcastMessage(PrefixType.DISCORD + "§cSalon créé, mais une erreur est survenue lors de la création de l'invitation...");
 						 failure.printStackTrace();
 					 });
 				
@@ -72,13 +73,13 @@ public class DiscordChannelHandler implements Listener {
 							Collections.emptyList()).queue(
 									(success) -> {},
 									(failure) -> {
-										 game.getOwner().sendMessage("§cUne erreur est survenue de l'attribution de vos permissions discord.");
+										 game.getOwner().sendMessage(PrefixType.DISCORD + "§cUne erreur est survenue de l'attribution de vos permissions discord.");
 									});
 				}
 				
 			},
 			(failure) -> {
-				game.broadcastMessage("§cUne erreur est survenue sur lors de la création du salon discord...");
+				game.broadcastMessage(PrefixType.DISCORD + "§cUne erreur est survenue sur lors de la création du salon discord...");
 				failure.printStackTrace();
 				this.destroy();
 			});
@@ -115,7 +116,7 @@ public class DiscordChannelHandler implements Listener {
 		Member m = this.discord.get(lgp);
 		
 		if(m == null) {
-			lgp.sendMessage("§cVous n'êtes pas lié sur discord !");
+			lgp.sendMessage(PrefixType.DISCORD + "§cVous n'êtes pas lié sur discord !");
 			return;
 		}
 		
@@ -123,7 +124,7 @@ public class DiscordChannelHandler implements Listener {
 		try {
 			discord.getGuild().moveVoiceMember(member, voice).queue(
 					(success) -> {
-						lgp.sendMessage("§9Vous avez été déplacé sur discord...");
+						lgp.sendMessage(PrefixType.DISCORD + "§9Vous avez été déplacé sur discord...");
 						if(member.getVoiceState().isGuildMuted())
 							member.mute(false).queue();
 					},
@@ -131,7 +132,7 @@ public class DiscordChannelHandler implements Listener {
 						lgp.sendMessage("§cEchec pour vous déplacer sur discord !");
 					});
 		} catch(IllegalStateException ex) {
-			lgp.sendMessage("§cVous n'êtes pas connecté sur discord...");
+			lgp.sendMessage(PrefixType.DISCORD + "§cVous n'êtes pas connecté sur discord...");
 		}
 	
 	}
@@ -199,7 +200,7 @@ public class DiscordChannelHandler implements Listener {
 		}.runTaskLaterAsynchronously(MainLg.getInstance(), 20);
 		
 		if(game != null)
-			game.broadcastMessage("§6Destruction de la liaison Discord...");
+			game.broadcastMessage(PrefixType.DISCORD + "§6Destruction de la liaison Discord...");
 		
 		this.invite = null;
 		this.voice = null;

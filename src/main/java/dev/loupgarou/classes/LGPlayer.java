@@ -106,7 +106,7 @@ public class LGPlayer {
 	}
 	public void sendMessage(String msg) {
 		if(this.player != null)
-			getPlayer().sendMessage(MainLg.getPrefix()+msg);
+			getPlayer().sendMessage(msg);
 	}
 	public void sendTitle(String title, String subTitle, int stay) {
 		if(this.player != null) {

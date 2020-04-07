@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.commands.LoupGarouCommand;
 import dev.loupgarou.commands.SubCommand;
+import dev.loupgarou.utils.CommonText.PrefixType;
 
 public class HideRoleCmd extends SubCommand {
 
@@ -21,12 +22,12 @@ public class HideRoleCmd extends SubCommand {
 		LGPlayer lgp = LGPlayer.thePlayer((Player) cs);
 		
 		if(lgp.getGame() == null) {
-			lgp.sendMessage("§cVous n'êtes pas en partie...");
+			lgp.sendMessage(PrefixType.PARTIE + "§cVous n'êtes pas en partie...");
 			return;
 		}
 		
 		if(lgp.getGame().getOwner() != lgp) {
-			lgp.sendMessage("§cVous n'êtes pas le propriétaire de la partie...");
+			lgp.sendMessage(PrefixType.PARTIE + "§cVous n'êtes pas le propriétaire de la partie...");
 			return;
 		}
 		

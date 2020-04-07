@@ -21,6 +21,7 @@ import dev.loupgarou.utils.InteractInventory;
 import dev.loupgarou.utils.InteractInventory.InventoryCall;
 import dev.loupgarou.utils.InteractInventory.InventoryClose;
 import dev.loupgarou.utils.ItemBuilder;
+import dev.loupgarou.utils.CommonText.PrefixType;
 import lombok.NonNull;
 
 public class CreateServerMenu {
@@ -37,7 +38,7 @@ public class CreateServerMenu {
 
 	public static void openMenu(@NonNull LGPlayer lgp) {
 		if(lgp.getGame() != null) {
-			lgp.sendMessage("§cVous êtes déjà en partie...");
+			lgp.sendMessage(PrefixType.PARTIE + "§cVous êtes déjà en partie...");
 			return;
 		}
 		

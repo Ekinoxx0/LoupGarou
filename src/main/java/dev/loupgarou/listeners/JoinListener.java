@@ -22,6 +22,7 @@ import dev.loupgarou.MainLg;
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.packetwrapper.WrapperPlayServerScoreboardTeam;
+import dev.loupgarou.utils.CommonText.PrefixType;
 
 public class JoinListener implements Listener{
 	
@@ -72,7 +73,7 @@ public class JoinListener implements Listener{
 				LGGame custom = MainLg.getInstance().findGame(hostn[0]);
 				
 				if(custom == null) {
-					lgp.sendMessage(MainLg.getPrefix() + "§cAucune partie avec le code : §4§l" + hostn[0]);
+					lgp.sendMessage(PrefixType.PARTIE + "§cAucune partie avec le code : §4§l" + hostn[0]);
 				} else {
 					custom.tryToJoin(lgp);
 				}
@@ -95,9 +96,9 @@ public class JoinListener implements Listener{
 			lgp.showView();
 			//lgp.join(MainLg.getInstance().getCurrentGame());
 		} else if(e.getStatus() == Status.DECLINED) {
-			e.getPlayer().sendMessage(MainLg.getPrefix()+"§cVous avez refuser le ressource pack !");
+			e.getPlayer().sendMessage(PrefixType.RESSOURCEPACK + "§cVous avez refuser le ressource pack !");
 		} else if(e.getStatus() == Status.FAILED_DOWNLOAD) {
-			e.getPlayer().kickPlayer(MainLg.getPrefix()+"§cIl vous faut le resourcepack pour jouer !");
+			e.getPlayer().kickPlayer(PrefixType.RESSOURCEPACK + "§cIl vous faut le resourcepack pour jouer !");
 		}
 	}
 	@EventHandler

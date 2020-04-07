@@ -13,9 +13,11 @@ import dev.loupgarou.classes.LGCustomItems;
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.roles.utils.FakeRoles;
+import dev.loupgarou.utils.CommonText;
 import dev.loupgarou.utils.InteractInventory;
 import dev.loupgarou.utils.InteractInventory.InventoryCall;
 import dev.loupgarou.utils.ItemBuilder;
+import dev.loupgarou.utils.CommonText.PrefixType;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
@@ -53,7 +55,7 @@ public class RoleMenu {
 						.lore(Arrays.asList(
 								"§7" + nbRole,
 								"",
-								"§f" + optimizeLines(FakeRoles.getRole(roleName).getDescription())
+								"§f" + CommonText.optimizeLines(FakeRoles.getRole(roleName).getDescription())
 								))
 						.build(), 
 					i, true, new InventoryCall() {
@@ -61,7 +63,7 @@ public class RoleMenu {
 						@Override
 						public void click(HumanEntity human, ItemStack item, ClickType clickType) {
 							if(game.getOwner() != lgp) {
-								lgp.sendMessage("§cVous n'êtes pas le propriétaire de la partie...");
+								lgp.sendMessage(PrefixType.PARTIE + "§cVous n'êtes pas le propriétaire de la partie...");
 								return;
 							}
 							
@@ -87,7 +89,7 @@ public class RoleMenu {
 							
 							if(modif == 0) return;
 							
-							human.sendMessage(MainLg.getPrefix()+"§6Il y aura §e" + (nbRole + modif) + " §6" + roleName);
+							human.sendMessage(PrefixType.PARTIE + "§6Il y aura §e" + (nbRole + modif) + " §6" + roleName);
 							game.getConfig().getRoles().replace(roleName, nbRole + modif);
 							
 							//Update all opened inventory
@@ -150,54 +152,6 @@ public class RoleMenu {
 				});
 		
 		ii.openTo(lgp.getPlayer());
-	}
-	
-	/*
-	 */
-	
-	private static String optimizeLines(String text) {
-		int nbWordPerLines = 5;
-		
-		int a = 0;
-		int b = 0;
-		
-		for(String s : text.split(" ")){
-			a += s.length();
-			b++;
-			if(a >= 40){
-				nbWordPerLines--;
-			}
-			if(b >= nbWordPerLines){
-				a = 0;
-				b = 0;
-			}
-		}
-		
-    	String result = "";
-    	String[] words = text.split(" ");
-    	
-    	String currentLine = "";
-    	int wordCountInLine = 0;
-    	for (String word : words) {
-    		currentLine += word + " ";
-    		
-    		if (wordCountInLine >= nbWordPerLines) {
-    			result += currentLine + "\n";
-    			char color = 'f';
-    			
-    			char[] charCurrentLine = currentLine.toCharArray();
-    			for (int j = 0; j < charCurrentLine.length; j++)
-    				if(charCurrentLine[j] == '§')
-    					color = charCurrentLine[j + 1];
-    			
-    			currentLine = "§" + color;
-    			wordCountInLine = 0;
-    		}
-    		wordCountInLine++;
-    	}
-		result += currentLine + "\n";//Add final line
-    	
-    	return result;
 	}
 	
 }

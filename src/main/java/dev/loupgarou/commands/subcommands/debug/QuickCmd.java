@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.commands.LoupGarouCommand;
 import dev.loupgarou.commands.SubCommand;
+import dev.loupgarou.utils.CommonText.PrefixType;
 
 public class QuickCmd extends SubCommand {
 
@@ -21,24 +22,24 @@ public class QuickCmd extends SubCommand {
 		LGPlayer lgp = LGPlayer.thePlayer((Player) cs);
 
 		if(lgp.getGame() == null) {
-			lgp.sendMessage("§cVous n'êtes pas en partie...");
+			lgp.sendMessage(PrefixType.PARTIE + "§cVous n'êtes pas en partie...");
 			return;
 		}
 		
 		if(lgp.getGame().getOwner() != lgp) {
-			lgp.sendMessage("§cVous n'êtes pas le propriétaire de la partie...");
+			lgp.sendMessage(PrefixType.PARTIE + "§cVous n'êtes pas le propriétaire de la partie...");
 			return;
 		}
 		
 		if (lgp.getGame() != null) {
-			if (lgp.getGame().getVote() != null) {
+			if (lgp.getGame().getVote() != null) {//TODO fix quick
 				lgp.getGame().getVote().quick(20);
-				cs.sendMessage("§aQuick timer");
+				cs.sendMessage(PrefixType.PARTIE + "§aQuick timer");
 			} else {
-				cs.sendMessage("§cNo vote!");
+				cs.sendMessage(PrefixType.PARTIE + "§cNo vote!");
 			}
 		} else {
-			cs.sendMessage("§cNo game");
+			cs.sendMessage(PrefixType.PARTIE + "§cNo game");
 		}
 	}
 

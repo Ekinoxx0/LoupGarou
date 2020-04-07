@@ -68,7 +68,6 @@ public class MainLg extends JavaPlugin {
 	@Getter private static MainLg instance;
 	@Getter private final static List<Player> DEBUGS = new ArrayList<Player>();
 	@Getter private LinkedHashMap<String, Constructor<? extends Role>> roles = new LinkedHashMap<String, Constructor<? extends Role>>();
-	@Getter private static String prefix = "";
 	
 	@Getter private List<LGGame> games = new ArrayList<LGGame>();
 	@Getter private DiscordManager discord;

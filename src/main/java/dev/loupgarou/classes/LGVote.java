@@ -206,7 +206,7 @@ public class LGVote {
 		if(System.currentTimeMillis() - (Long) voter.getCache().get(CacheType.LAST_VOTE_TIME) < 2000L && this.game.isPeopleVote) {
 			if(voter.getPlayer() != null)
 				voter.getPlayer().playSound(voter.getPlayer().getLocation(), Sound.ENTITY_VILLAGER_NO, 1F, 1F);
-			voter.sendMessage(MainLg.getPrefix() + "§7Merci de ne pas spam les votes !");
+			voter.sendMessage("§7Merci de ne pas spam les votes !");
 			return;
 		}
 		voter.getCache().set(CacheType.LAST_VOTE_TIME, System.currentTimeMillis());

@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.commands.LoupGarouCommand;
 import dev.loupgarou.commands.SubCommand;
+import dev.loupgarou.utils.CommonText.PrefixType;
 
 public class MenuCmd extends SubCommand {
 
@@ -21,7 +22,7 @@ public class MenuCmd extends SubCommand {
 		LGPlayer lgp = LGPlayer.thePlayer((Player) cs);
 
 		if(lgp.getGame() == null) {
-			lgp.sendMessage("§cVous n'êtes pas en partie...");
+			lgp.sendMessage(PrefixType.PARTIE + "§cVous n'êtes pas en partie...");
 			return;
 		}
 		

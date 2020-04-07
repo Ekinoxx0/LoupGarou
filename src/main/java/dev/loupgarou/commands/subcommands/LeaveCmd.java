@@ -6,11 +6,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import dev.loupgarou.MainLg;
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.commands.LoupGarouCommand;
 import dev.loupgarou.commands.SubCommand;
+import dev.loupgarou.utils.CommonText.PrefixType;
 
 public class LeaveCmd extends SubCommand {
 
@@ -24,32 +24,32 @@ public class LeaveCmd extends SubCommand {
 			if(cs instanceof Player) {
 				LGGame gameTarget = LGPlayer.thePlayer((Player) cs).getGame();
 				if (gameTarget == null) {
-					cs.sendMessage(MainLg.getPrefix() + "§cVous n'êtes pas en partie !");
+					cs.sendMessage(PrefixType.PARTIE + "§cVous n'êtes pas en partie !");
 					return;
 				}
 
 				gameTarget.leave(LGPlayer.thePlayer((Player) cs));
 			} else {
-				cs.sendMessage(MainLg.getPrefix() + "§cMerci de donner le nom d'un joueur en argument");
+				cs.sendMessage(PrefixType.PARTIE + "§cMerci de donner le nom d'un joueur en argument");
 			}
 			return;
 		} else if (args.length == 2 && cs.hasPermission(BASE_PERM + "." + getAliases().get(0))) {
 			Player target = Bukkit.getPlayer(args[1]);
 			if (target == null) {
-				cs.sendMessage(MainLg.getPrefix() + "§cJoueur inconnu !");
+				cs.sendMessage(PrefixType.PARTIE + "§cJoueur inconnu !");
 				return;
 			}
 			
 			LGGame gameTarget = LGPlayer.thePlayer(target).getGame();
 			if (gameTarget == null) {
-				cs.sendMessage(MainLg.getPrefix() + "§cLe joueur n'est pas en partie !");
+				cs.sendMessage(PrefixType.PARTIE + "§cLe joueur n'est pas en partie !");
 				return;
 			}
 			
 			gameTarget.leave(LGPlayer.thePlayer(target));
 			return;
 		} else {
-			cs.sendMessage(MainLg.getPrefix() + "§cArgument inconnu...");
+			cs.sendMessage(PrefixType.PARTIE + "§cArgument inconnu...");
 		}
 	}
 	

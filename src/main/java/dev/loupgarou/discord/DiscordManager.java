@@ -9,6 +9,7 @@ import com.google.common.io.CharStreams;
 
 import dev.loupgarou.MainLg;
 import dev.loupgarou.classes.LGPlayer;
+import dev.loupgarou.utils.CommonText.PrefixType;
 import lombok.Getter;
 import lombok.NonNull;
 import net.dv8tion.jda.api.JDA;
@@ -98,12 +99,12 @@ public class DiscordManager extends ListenerAdapter {
 		
 		if(e.getChannelJoined() == null) {
 			//Disconnected
-			lgp.sendMessage(MainLg.getPrefix() + "§5Déconnecté du discord...");
+			lgp.sendMessage(PrefixType.DISCORD + "§5Déconnecté du discord...");
 			return;
 		}
 		
 		if(e.getChannelLeft() == null)
-			lgp.sendMessage(MainLg.getPrefix() + "§2Connecté au discord");
+			lgp.sendMessage(PrefixType.DISCORD + "§2Connecté au discord");
 		
 		if(this.voices.getChannels().contains(e.getChannelJoined())) {
 			DiscordChannelHandler handler = null;
@@ -112,7 +113,7 @@ public class DiscordManager extends ListenerAdapter {
 			
 			if(handler == null) {
 				MainLg.debug("Voice channel not recognize...");
-				lgp.sendMessage("§cUne erreur est survenue... #544891");
+				lgp.sendMessage(PrefixType.DISCORD + "§cUne erreur est survenue... #544891");
 				this.guild.moveVoiceMember(e.getEntity(), this.endGame).complete();
 				e.getChannelJoined().delete().queue();
 				return;
@@ -120,18 +121,18 @@ public class DiscordManager extends ListenerAdapter {
 			
 			if(handler.getGame().isStarted() || handler.getGame().isEnded()) {
 				if(lgp.getGame() == handler.getGame()) {
-					lgp.sendMessage("§aVous vous êtes reconnecté au salon de votre partie...");
+					lgp.sendMessage(PrefixType.DISCORD + "§aVous vous êtes reconnecté au salon de votre partie...");
 					e.getEntity().mute(lgp.isDead() | !handler.getGame().isDay()).queue();
 				} else {
-					lgp.sendMessage("§6Vous êtes connecté sur une partie qui n'est pas la vôtre !");
+					lgp.sendMessage(PrefixType.DISCORD + "§6Vous êtes connecté sur une partie qui n'est pas la vôtre !");
 					e.getEntity().mute(true).queue();
 				}
 				return;
 			} else {
 				if(handler.getGame().getOwner() == lgp) {
-					lgp.sendMessage("§aVous êtes connecté à votre partie");
+					lgp.sendMessage(PrefixType.DISCORD + "§aVous êtes connecté à votre partie");
 				} else {
-					lgp.sendMessage("§aVous êtes connecté à la partie " + (handler.getGame().getConfig().isPrivateGame() ? "privée" : "publique") + " de " + handler.getGame().getOwner().getName());
+					lgp.sendMessage(PrefixType.DISCORD + "§aVous êtes connecté à la partie " + (handler.getGame().getConfig().isPrivateGame() ? "privée" : "publique") + " de " + handler.getGame().getOwner().getName());
 				}
 				e.getEntity().mute(false).queue();
 			}
@@ -143,7 +144,7 @@ public class DiscordManager extends ListenerAdapter {
 			}
 		} else if(leftGameChannel) {
 			//Moved from game to random
-			lgp.sendMessage(MainLg.getPrefix() + "§cVous avez quitté un salon de jeu Loup Garou.");
+			lgp.sendMessage(PrefixType.DISCORD + "§cVous avez quitté un salon de jeu Loup Garou.");
 			e.getEntity().mute(false).queue();
 		} else {
 			//Joined a random

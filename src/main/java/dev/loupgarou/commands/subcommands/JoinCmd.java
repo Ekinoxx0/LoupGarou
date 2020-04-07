@@ -11,6 +11,7 @@ import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.commands.LoupGarouCommand;
 import dev.loupgarou.commands.SubCommand;
+import dev.loupgarou.utils.CommonText.PrefixType;
 
 public class JoinCmd extends SubCommand {
 
@@ -25,46 +26,46 @@ public class JoinCmd extends SubCommand {
 				LGPlayer lgp = LGPlayer.thePlayer((Player) cs);
 				LGGame gameTarget = lgp.getGame();
 				if (gameTarget != null) {
-					cs.sendMessage(MainLg.getPrefix() + "§cVous êtes déjà en partie !");
+					cs.sendMessage(PrefixType.PARTIE + "§cVous êtes déjà en partie !");
 					return;
 				}
 				
 				gameTarget = MainLg.getInstance().findGame(args[1]);
 				
 				if(gameTarget == null) {
-					cs.sendMessage(MainLg.getPrefix() + "§cAucune partie avec ce code");
+					cs.sendMessage(PrefixType.PARTIE + "§cAucune partie avec ce code");
 					return;
 				}
 
-				cs.sendMessage(MainLg.getPrefix() + "§7Vous rejoignez la partie §l" + args[1].toUpperCase());
+				cs.sendMessage(PrefixType.PARTIE + "§7Vous rejoignez la partie §l" + args[1].toUpperCase());
 				gameTarget.tryToJoin(lgp);
 			} else {
-				cs.sendMessage(MainLg.getPrefix() + "§cMerci de donner le nom d'un joueur en argument");
+				cs.sendMessage(PrefixType.PARTIE + "§cMerci de donner le nom d'un joueur en argument");
 			}
 		} else if (args.length == 3 && cs.hasPermission(BASE_PERM + "." + getAliases().get(0))) {
 			Player target = Bukkit.getPlayer(args[1]);
 			if (target == null) {
-				cs.sendMessage(MainLg.getPrefix() + "§cJoueur inconnu !");
+				cs.sendMessage(PrefixType.PARTIE + "§cJoueur inconnu !");
 				return;
 			}
 			
 			LGGame gameTarget = LGPlayer.thePlayer(target).getGame();
 			if (gameTarget != null) {
-				cs.sendMessage(MainLg.getPrefix() + "§cLe joueur est déjà en partie !");
+				cs.sendMessage(PrefixType.PARTIE + "§cLe joueur est déjà en partie !");
 				return;
 			}
 
 			gameTarget = MainLg.getInstance().findGame(args[1]);
 			
 			if(gameTarget == null) {
-				cs.sendMessage(MainLg.getPrefix() + "§cAucune partie avec ce code");
+				cs.sendMessage(PrefixType.PARTIE + "§cAucune partie avec ce code");
 				return;
 			}
 
-			cs.sendMessage(MainLg.getPrefix() + "§7Vous essayez de faire rejoindre la partie §l" + args[1].toUpperCase());
+			cs.sendMessage(PrefixType.PARTIE + "§7Vous essayez de faire rejoindre la partie §l" + args[1].toUpperCase());
 			gameTarget.tryToJoin(LGPlayer.thePlayer(target));
 		} else {
-			cs.sendMessage(MainLg.getPrefix() + "§cArgument inconnu...");
+			cs.sendMessage(PrefixType.PARTIE + "§cArgument inconnu...");
 		}
 	}
 	

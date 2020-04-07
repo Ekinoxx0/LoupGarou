@@ -70,6 +70,7 @@ import dev.loupgarou.utils.MultipleValueMap;
 import dev.loupgarou.utils.SoundUtils.LGSound;
 import dev.loupgarou.utils.VariableCache.CacheType;
 import dev.loupgarou.utils.VariousUtils;
+import dev.loupgarou.utils.CommonText.PrefixType;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
@@ -108,8 +109,8 @@ public class LGGame implements Listener{
 		this.owner = owner;
 		this.config = config;
 		this.key = MainLg.getInstance().generateKey();
-		owner.sendMessage("§6Clé de partie : " + this.key);//TODO modify
-		owner.sendMessage("§6IP : " + this.key + ".lg.wondalia.com");
+		owner.sendMessage(PrefixType.PARTIE + "§6Clé de partie : " + this.key);//TODO modify
+		owner.sendMessage(PrefixType.PARTIE + "§6IP : " + this.key + ".lg.wondalia.com");
 		Bukkit.getPluginManager().registerEvents(this, MainLg.getInstance());
 		
 		this.discord = config.getCom() == CommunicationType.DISCORD ? new DiscordChannelHandler(this) : null;
@@ -216,27 +217,27 @@ public class LGGame implements Listener{
 		}
 		
 		if(lgp.getGame() != null) {
-			lgp.sendMessage("§cVous devez d'abord quitter votre partie...");
+			lgp.sendMessage(PrefixType.PARTIE + "§cVous devez d'abord quitter votre partie...");
 			return false;
 		}
 
 		if(lgp.getPlayer().getGameMode() == GameMode.SPECTATOR) {
-			lgp.sendMessage("§cÉtant en mode spectateur, vous ne rejoignez pas la partie !");
+			lgp.sendMessage(PrefixType.PARTIE + "§cÉtant en mode spectateur, vous ne rejoignez pas la partie !");
 			return false;
 		}
 		
 		if(started) {
-			lgp.sendMessage("§cPartie déjà démarrée !");
+			lgp.sendMessage(PrefixType.PARTIE + "§cPartie déjà démarrée !");
 			return false;
 		}
 		
 		if(ended) {
-			lgp.sendMessage("§cPartie finie !");
+			lgp.sendMessage(PrefixType.PARTIE + "§cPartie finie !");
 			return false;
 		}
 		
 		if(inGame.size() >= config.getMap().getSpawns().size()) {
-			lgp.sendMessage("§cPartie pleine !");
+			lgp.sendMessage(PrefixType.PARTIE + "§cPartie pleine !");
 			return false;
 		}
 		
@@ -276,7 +277,7 @@ public class LGGame implements Listener{
 		}
 			
 		lgp.getPlayer().setGameMode(GameMode.ADVENTURE);
-		broadcastMessage("§7Le joueur §8"+lgp.getName()+"§7 a rejoint la partie §9(§8"+inGame.size()+"§7/§8"+config.getMap().getSpawns().size()+"§9)");
+		broadcastMessage(PrefixType.PARTIE + "§7Le joueur §8"+lgp.getName()+"§7 a rejoint la partie §9(§8"+inGame.size()+"§7/§8"+config.getMap().getSpawns().size()+"§9)");
 			
 		Bukkit.getPluginManager().callEvent(new LGGameJoinEvent(this, lgp));
 		return true;
@@ -291,7 +292,7 @@ public class LGGame implements Listener{
 		if(startingTask != null) {
 			startingTask.cancel();
 			startingTask = null;
-			broadcastMessage("§c§o" + lgp.getName() + " s'est déconnecté. Le décompte de lancement a donc été arrêté.");
+			broadcastMessage(PrefixType.PARTIE + "§c§o" + lgp.getName() + " s'est déconnecté. Le décompte de lancement a donc été arrêté.");
 		}
 		
 		if(this.getInGame().isEmpty())
@@ -319,9 +320,9 @@ public class LGGame implements Listener{
 				}
 			}else if(startingTask != null) {
 				startingTask.cancel();
-				broadcastMessage("§c§oLe démarrage de la partie a été annulé car une personne l'a quittée !");
+				broadcastMessage(PrefixType.PARTIE + "§c§oLe démarrage de la partie a été annulé car une personne l'a quittée !");
 			} else if(inGame.size() != config.getNumberConfigRoles()) {
-				broadcastMessage("§cDémarrage impossible car le nombre de joueur ne correspond pas aux rôles configurés");
+				broadcastMessage(PrefixType.PARTIE + "§cDémarrage impossible car le nombre de joueur ne correspond pas aux rôles configurés");
 			}
 	}
 	public void start() {
@@ -338,7 +339,7 @@ public class LGGame implements Listener{
 		LinkedList<LGLocation> spawnList = new LinkedList<LGLocation>(original);
 		
 		if(spawnList.size() < getInGame().size()) {
-			broadcastMessage("§cPas assez de spawn ! Merci de signaler ce code d'erreur : #8156");
+			broadcastMessage(PrefixType.PARTIE + "§cPas assez de spawn ! Merci de signaler ce code d'erreur : #8156");
 			return;
 		}
 		
@@ -360,7 +361,7 @@ public class LGGame implements Listener{
 				lgp.getScoreboard().getLine(0).setDisplayName("§6Attribution des rôles...");
 			}
 		} catch(Exception ex) {
-			Bukkit.broadcastMessage("§4§lUne erreur est survenue lors de la tp aux spawns... Regardez la console !");
+			broadcastMessage("§4§lUne erreur est survenue lors de la tp aux spawns... Regardez la console !");
 			ex.printStackTrace();
 		}
 		
@@ -369,7 +370,7 @@ public class LGGame implements Listener{
 				if(getConfig().getRoles().get(role.getKey()) > 0)
 					roles.add(role.getValue().newInstance(this));
 		}catch(Exception err) {
-			Bukkit.broadcastMessage("§4§lUne erreur est survenue lors de la création des roles... Regardez la console !");
+			broadcastMessage("§4§lUne erreur est survenue lors de la création des roles... Regardez la console !");
 			err.printStackTrace();
 		}
 
@@ -404,7 +405,7 @@ public class LGGame implements Listener{
 		}.runTaskTimer(MainLg.getInstance(), 0, 4);
 	}
 	private void _start() {
-		broadcastMessage("§8§oDébut de la partie...");
+		broadcastMessage(PrefixType.PARTIE + "§8§oDébut de la partie...");
 		//Give roles...
 		List<LGPlayer> toGive = new ArrayList<LGPlayer>(inGame);
 		started = false;
@@ -681,7 +682,7 @@ public class LGGame implements Listener{
 		}
 		HandlerList.unregisterAll(this);
 		
-		broadcastMessage(winType.getMessage());
+		broadcastMessage(PrefixType.PARTIE + winType.getMessage());
 		for(LGPlayer lgp : getInGame()) {
 			for(LGSound sound : LGSound.values())
 				lgp.stopAudio(sound);
@@ -947,7 +948,7 @@ public class LGGame implements Listener{
 	private final RoleMenu roleMenu = new RoleMenu(this);
 	public void openRoleMenu(LGPlayer lgp) {
 		if(getConfig().isHideRole()) {
-			lgp.sendMessage("§cLes rôles sont cachés durant cette partie...");
+			lgp.sendMessage(PrefixType.PARTIE + "§cLes rôles sont cachés durant cette partie...");
 			return;
 		}
 		

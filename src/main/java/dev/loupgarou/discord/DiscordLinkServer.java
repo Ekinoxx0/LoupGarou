@@ -20,6 +20,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import dev.loupgarou.MainLg;
 import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.utils.RandomString;
+import dev.loupgarou.utils.CommonText.PrefixType;
 import lombok.NonNull;
 import net.dv8tion.jda.api.AccountType;
 import net.dv8tion.jda.api.JDA;
@@ -172,8 +173,8 @@ public class DiscordLinkServer {
 		links.put(hash, lgp);
 		String link = "https://discordapp.com/api/oauth2/authorize?response_type=token&state=" + hash + "&client_id=690997265384603830&redirect_uri=http%3A%2F%2Fwondalia.com%3A25564%2Fdiscord&response_type=code&scope=identify%20guilds";
 		
-		lgp.sendMessage("§9§lLiaison Discord : ");
-		lgp.sendMessage("§9" + link);
+		lgp.sendMessage(PrefixType.DISCORD + "§9§lLiaison Discord : ");
+		lgp.sendMessage(PrefixType.DISCORD + "§9" + link);
 	}
 
 	private void link(@NonNull String access_token, @NonNull String state) {
