@@ -23,6 +23,10 @@ public class RAnge extends Role{
 		super(game);
 	}
 	@Override
+	public int getMaxNb() {
+		return Integer.MAX_VALUE;
+	}
+	@Override
 	public RoleType getType() {
 		return RoleType.NEUTRAL;
 	}

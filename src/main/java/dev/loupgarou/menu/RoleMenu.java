@@ -13,11 +13,12 @@ import dev.loupgarou.classes.LGCustomItems;
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.roles.utils.FakeRoles;
+import dev.loupgarou.roles.utils.Role;
 import dev.loupgarou.utils.CommonText;
+import dev.loupgarou.utils.CommonText.PrefixType;
 import dev.loupgarou.utils.InteractInventory;
 import dev.loupgarou.utils.InteractInventory.InventoryCall;
 import dev.loupgarou.utils.ItemBuilder;
-import dev.loupgarou.utils.CommonText.PrefixType;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
@@ -49,13 +50,14 @@ public class RoleMenu {
 		for(String roleName : MainLg.getInstance().getRoles().keySet()) {
 			int nbRole = game.getConfig().getRoles().get(roleName);
 			total += nbRole;
+			Role fakeRole = FakeRoles.getRole(roleName);
 			ii.registerItem(
-					new ItemBuilder(LGCustomItems.getItemMenu(FakeRoles.getRole(roleName)))
-						.name(FakeRoles.getRole(roleName).getColor() + roleName)
+					new ItemBuilder(LGCustomItems.getItemMenu(fakeRole))
+						.name(fakeRole.getColor() + roleName)
 						.lore(Arrays.asList(
 								"§7" + nbRole,
 								"",
-								"§f" + CommonText.optimizeLines(FakeRoles.getRole(roleName).getDescription())
+								"§f" + CommonText.optimizeLines(fakeRole.getDescription())
 								))
 						.build(), 
 					i, true, new InventoryCall() {
@@ -88,6 +90,7 @@ public class RoleMenu {
 							}
 							
 							if(modif == 0) return;
+							if(nbRole + modif > fakeRole.getMaxNb()) return;
 							
 							human.sendMessage(PrefixType.PARTIE + "§6Il y aura §e" + (nbRole + modif) + " §6" + roleName);
 							game.getConfig().getRoles().replace(roleName, nbRole + modif);

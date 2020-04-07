@@ -16,6 +16,11 @@ public class RVoleur extends Role {
 	public RVoleur(LGGame game) {
 		super(game);
 	}
+	
+	@Override
+	public int getMaxNb() {
+		return Integer.MAX_VALUE;
+	}
 
 	@Override
 	public String getColor() {

@@ -18,6 +18,10 @@ public class RLoupFeutrer extends Role {
     public RLoupFeutrer(LGGame game) {
         super(game);
     }
+	@Override
+	public int getMaxNb() {
+		return Integer.MAX_VALUE;
+	}
     @Override
     public String getColor() {
         return "§c";

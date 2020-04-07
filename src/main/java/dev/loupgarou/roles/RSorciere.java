@@ -50,9 +50,12 @@ public class RSorciere extends Role{
 		cancel.setItemMeta(meta);
 	}
 	
-	
 	public RSorciere(LGGame game) {
 		super(game);
+	}
+	@Override
+	public int getMaxNb() {
+		return Integer.MAX_VALUE;
 	}
 	@Override
 	public RoleType getType() {

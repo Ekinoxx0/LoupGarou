@@ -15,6 +15,10 @@ public class RChienLoupLG extends Role{
 		super(game);
 	}
 	@Override
+	public int getMaxNb() {
+		return Integer.MAX_VALUE;
+	}
+	@Override
 	public String getColor() {
 		for(LGPlayer lgp : getPlayers())
 			if(lgp.getPlayer() != null && lgp.getPlayer().hasPotionEffect(PotionEffectType.INVISIBILITY))

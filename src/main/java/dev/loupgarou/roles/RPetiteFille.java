@@ -26,6 +26,10 @@ public class RPetiteFille extends Role{
 		return RoleWinType.VILLAGE;
 	}
 	@Override
+	public int getMaxNb() {
+		return Integer.MAX_VALUE;
+	}
+	@Override
 	public String getColor() {
 		return "§a";
 	}
@@ -58,8 +62,7 @@ public class RPetiteFille extends Role{
 		return -1;
 	}
 	
-	List<String> customNames = Arrays.asList("Loup Glouton", "Loup Méchant", "Loup Burlesque", "Loup Peureux", "Loup Malingre", "Loup Gentil", "Loup Tueur", "Loup Énervé", "Loup Docteur");
-	
+	private final static List<String> customNames = Arrays.asList("Loup Glouton", "Loup Méchant", "Loup Burlesque", "Loup Peureux", "Loup Malingre", "Loup Gentil", "Loup Tueur", "Loup Énervé", "Loup Docteur");
 	@EventHandler
 	public void onChangeRole(LGRoleTurnEndEvent e) {
 		if(e.getGame() == getGame()) {

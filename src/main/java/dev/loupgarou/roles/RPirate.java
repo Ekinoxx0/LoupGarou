@@ -50,6 +50,11 @@ public class RPirate extends Role{
 	}
 	
 	@Override
+	public int getMaxNb() {
+		return Integer.MAX_VALUE;
+	}
+	
+	@Override
 	public String getColor() {
 		return "§a";
 	}

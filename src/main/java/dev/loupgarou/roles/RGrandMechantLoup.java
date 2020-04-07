@@ -16,6 +16,11 @@ public class RGrandMechantLoup extends Role{
 	public RGrandMechantLoup(LGGame game) {
 		super(game);
 	}
+	
+	@Override
+	public int getMaxNb() {
+		return Integer.MAX_VALUE;
+	}
 
 	@Override
 	public String getColor() {
