@@ -46,10 +46,9 @@ public class RoleMenu {
 		InteractInventory ii = new InteractInventory(Bukkit.createInventory(null, 4 * 9, TITLE));
 		
 		int i = 0;
-		int total = 0;
+		int total = game.getConfig().getTotalConfiguredRoles();
 		for(String roleName : MainLg.getInstance().getRoles().keySet()) {
 			int nbRole = game.getConfig().getRoles().get(roleName);
-			total += nbRole;
 			Role fakeRole = FakeRoles.getRole(roleName);
 			ii.registerItem(
 					new ItemBuilder(LGCustomItems.getItemMenu(fakeRole))
@@ -89,17 +88,23 @@ public class RoleMenu {
 								return;
 							}
 							
+							if(modif > 0 && total >= game.getConfig().getMap().getSpawns().size()) {
+								human.sendMessage(PrefixType.PARTIE + "§cVous avez configurer le nombre maximum de rôle !");
+								return;
+							}
+							if(nbRole + modif > fakeRole.getMaxNb()) {
+								human.sendMessage(PrefixType.PARTIE + "§cImpossible de définir plus de " + fakeRole.getMaxNb() + " " + roleName);
+								return;
+							}
 							if(modif == 0) return;
-							if(nbRole + modif > fakeRole.getMaxNb()) return;
 							
-							human.sendMessage(PrefixType.PARTIE + "§6Il y aura §e" + (nbRole + modif) + " §6" + roleName);
+							human.sendMessage(PrefixType.PARTIE + "§6Il y aura §e" + (nbRole + modif) + " " + roleName);
 							game.getConfig().getRoles().replace(roleName, nbRole + modif);
 							
 							//Update all opened inventory
-							for(LGPlayer lInGame : game.getInGame()) {
+							for(LGPlayer lInGame : game.getInGame())
 								if(lInGame.getPlayer() != null && lInGame.getPlayer().getOpenInventory() != null && lInGame.getPlayer().getOpenInventory().getTitle().equals(TITLE))
 									openRealMenu(lInGame);
-							}
 						}
 			});
 			i++;

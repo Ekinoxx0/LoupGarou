@@ -36,12 +36,10 @@ public class LGGameConfig {
 	 * Methods
 	 */
 	
-	public int getNumberConfigRoles(){
+	public int getTotalConfiguredRoles(){
 		int total = 0;
-		
 		for(Entry<String, Integer> entry : roles.entrySet())
 			total += entry.getValue();
-		
 		return total;
 	}
 	

@@ -322,7 +322,7 @@ public class LGGame implements Listener{
 	}
 	public void updateStart() {
 		if(!isStarted())
-			if(inGame.size() == config.getNumberConfigRoles()) {//Il faut que la partie soit totalement remplie pour qu'elle démarre car sinon, tous les rôles ne seraient pas distribués
+			if(inGame.size() == config.getTotalConfiguredRoles()) {//Il faut que la partie soit totalement remplie pour qu'elle démarre car sinon, tous les rôles ne seraient pas distribués
 				for(LGPlayer lgp : getInGame()) {
 					CustomScoreboard scoreboard = new CustomScoreboard("§7"/*[§9Loup-Garou§7]*/, lgp);
 					scoreboard.getLine(0).setDisplayName("§6La partie va démarrer...");
@@ -343,7 +343,7 @@ public class LGGame implements Listener{
 			}else if(startingTask != null) {
 				startingTask.cancel();
 				broadcastMessage(PrefixType.PARTIE + "§c§oLe démarrage de la partie a été annulé car une personne l'a quittée !");
-			} else if(inGame.size() != config.getNumberConfigRoles()) {
+			} else if(inGame.size() != config.getTotalConfiguredRoles()) {
 				broadcastMessage(PrefixType.PARTIE + "§cDémarrage impossible car le nombre de joueur ne correspond pas aux rôles configurés");
 			}
 	}
