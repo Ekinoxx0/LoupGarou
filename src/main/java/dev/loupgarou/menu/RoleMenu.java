@@ -114,7 +114,13 @@ public class RoleMenu {
 				new ItemBuilder(LGCustomItems.getSpecialItem(SpecialItems.CHECK))
 					.name("§aTotal : " + total)
 					.build(), 
-				4*9-1, true, null);
+				4*9-1, true, new InventoryCall() {
+					
+					@Override
+					public void click(HumanEntity human, ItemStack item, ClickType clickType) {
+						human.closeInventory();
+					}
+				});
 		
 		ii.openTo(lgp.getPlayer());
 	}

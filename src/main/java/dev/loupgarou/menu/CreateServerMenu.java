@@ -124,7 +124,7 @@ public class CreateServerMenu {
 		ii.fill(null, true, null);
 		
 		ii.registerItem(
-				new ItemBuilder(LGCustomItems.getItemMenu(FakeRoles.getRole("Bourreau")))
+				new ItemBuilder(LGCustomItems.getItemMenu(FakeRoles.getRole("Assassin")))
 				.name("§6Sélection du type de tchat")
 				.lore(//TODO verify is connected
 						Arrays.asList(
