@@ -418,10 +418,8 @@ public class LGGame implements Listener{
 				if(--actualRole < 0)
 					actualRole = displayRoles.size()-1;
 				
-				ItemStack stack = new ItemStack(LGCustomItems.getItem(displayRoles.get(actualRole)));
 				for(LGPlayer lgp : getInGame()) {
-					lgp.getPlayer().getInventory().setItemInOffHand(stack);
-					lgp.getPlayer().updateInventory();
+					LGCustomItems.updateItem(lgp, LGCustomItems.getItem(displayRoles.get(actualRole)));
 				}
 			}
 		}.runTaskTimer(MainLg.getInstance(), 0, 4);

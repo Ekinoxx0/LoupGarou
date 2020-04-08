@@ -1,7 +1,6 @@
 package dev.loupgarou.classes;
 
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +22,16 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 public class LGCustomItems {
+	
+	public static enum SpecialItems {
+		ARROW,
+		CROSS,
+		CHECK,
+		HEART,
+		LIFE_POTION,
+		DEATH_POTION;
+	}
+	
 	public static HashMap<String, HashMap<String, Material>> mappings = new HashMap<String, HashMap<String,Material>>();
 	static {
 		JSONParser parser = new JSONParser();
@@ -43,24 +52,36 @@ public class LGCustomItems {
 		}
 	}
 	
+	public static Material getSpecialItem(@NonNull SpecialItems special) {
+		return mappings.get("specials").get(special.toString().toLowerCase());
+	}
+	
 	public static Material getItem(@NonNull Role role) {
+		if(!mappings.containsKey(role.getClass().getSimpleName().substring(1))) {
+			MainLg.debug("No material specified in mappings(" + mappings.size() + ") for : '" + role.getClass().getSimpleName().substring(1) + "'");
+			return Material.STONE;
+		}
 		return mappings.get(role.getClass().getSimpleName().substring(1)).get("");
 	}
 	
 	public static Material getItemMenu(@NonNull Role role) {
+		if(!mappings.containsKey(role.getClass().getSimpleName().substring(1))) {
+			MainLg.debug("No material specified in mappings(" + mappings.size() + ") for : '" + role.getClass().getSimpleName().substring(1) + "'");
+			return Material.STONE;
+		}
 		return mappings.get(role.getClass().getSimpleName().substring(1)).get("menu");
 	}
 	
-	public static Material getItem(@NonNull LGPlayer player, @NonNull List<LGCustomItemsConstraints> constraints) {
+	private static Material getItem(@NonNull LGPlayer player, @NonNull List<LGCustomItemsConstraints> constraints) {
 		Bukkit.getPluginManager().callEvent(new LGCustomItemChangeEvent(player.getGame(), player, constraints));
 		Collections.sort(constraints);
 		
 		String roleName = player.getRole().getClass().getSimpleName().substring(1);
 		if(!mappings.containsKey(roleName)) {
 			MainLg.debug("No material specified in mappings(" + mappings.size() + ") for : '" + roleName + "'");
-			return Material.AIR;
+			return Material.STONE;
 		}
-		
+
 		HashMap<String, Material> mapps = mappings.get(roleName);
 		StringJoiner sj = new StringJoiner("_");
 		for(LGCustomItemsConstraints constraint : constraints)
@@ -68,17 +89,16 @@ public class LGCustomItems {
 		return mapps.get(sj.toString());
 	}
 	
-	public static Material getItem(@NonNull LGPlayer player) {
-		return getItem(player, new ArrayList<LGCustomItemsConstraints>());
-	}
-	
 	public static void updateItem(@NonNull LGPlayer lgp) {
-		lgp.getPlayer().getInventory().setItemInOffHand(new ItemStack(getItem(lgp)));
-		lgp.getPlayer().updateInventory();
+		updateItem(lgp, getItem(lgp, Collections.emptyList()));
 	}
 
 	public static void updateItem(@NonNull LGPlayer lgp, @NonNull List<LGCustomItemsConstraints> constraints) {
-		lgp.getPlayer().getInventory().setItemInOffHand(new ItemStack(getItem(lgp, constraints)));
+		updateItem(lgp, getItem(lgp, constraints));
+	}
+	
+	public static void updateItem(@NonNull LGPlayer lgp, @NonNull Material material) {
+		lgp.getPlayer().getInventory().setItemInOffHand(new ItemStack(material));
 		lgp.getPlayer().updateInventory();
 	}
 	
@@ -86,7 +106,7 @@ public class LGCustomItems {
 	public static enum LGCustomItemsConstraints{
 		INFECTED("infecte"),
 		MAYOR("maire"),
-		VAMPIRE_INFECTE("vampire-infecte"),
+		VAMPIRE("vampire"),
 		DEAD("mort");
 		@Getter private final String name;
 	}

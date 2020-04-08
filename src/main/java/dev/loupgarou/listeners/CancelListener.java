@@ -33,7 +33,6 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerItemDamageEvent;
-import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
@@ -69,12 +68,6 @@ public class CancelListener implements Listener{
 		e.setCancelled(true);
 	}
 
-	@EventHandler
-	public void onPlayerItemHeld(PlayerItemHeldEvent e) {
-		if(e.getPlayer().getGameMode() == GameMode.CREATIVE) return;
-		//e.getPlayer().getInventory().setHeldItemSlot(0);
-	}
-	
 	@EventHandler
 	public void onWeatherChange(WeatherChangeEvent e) {
 		e.setCancelled(true);

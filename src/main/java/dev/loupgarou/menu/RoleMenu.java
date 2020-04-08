@@ -3,13 +3,13 @@ package dev.loupgarou.menu;
 import java.util.Arrays;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
 import dev.loupgarou.MainLg;
 import dev.loupgarou.classes.LGCustomItems;
+import dev.loupgarou.classes.LGCustomItems.SpecialItems;
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.roles.utils.FakeRoles;
@@ -111,7 +111,7 @@ public class RoleMenu {
 		}
 		
 		ii.registerItem(
-				new ItemBuilder(Material.GOLD_NUGGET)
+				new ItemBuilder(LGCustomItems.getSpecialItem(SpecialItems.CHECK))
 					.name("§aTotal : " + total)
 					.build(), 
 				4*9-1, true, null);
@@ -125,7 +125,7 @@ public class RoleMenu {
 		ii.fill(null, true, null);
 		
 		ii.registerItem(
-				new ItemBuilder(Material.GOLD_NUGGET)
+				new ItemBuilder(LGCustomItems.getSpecialItem(SpecialItems.CHECK))
 				.name("§6Voulez-vous vraiment dévoiler la configuration ?")
 				.lore(
 						Arrays.asList(
@@ -143,7 +143,7 @@ public class RoleMenu {
 				});
 		
 		ii.registerItem(
-				new ItemBuilder(Material.IRON_NUGGET)
+				new ItemBuilder(LGCustomItems.getSpecialItem(SpecialItems.CROSS))
 				.name("§cAnnuler")
 				.lore(
 						Arrays.asList(

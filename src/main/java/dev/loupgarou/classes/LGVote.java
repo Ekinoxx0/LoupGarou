@@ -10,7 +10,6 @@ import java.util.StringJoiner;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
@@ -23,6 +22,7 @@ import com.comphenix.protocol.wrappers.WrappedDataWatcher.WrappedDataWatcherObje
 import com.comphenix.protocol.wrappers.WrappedWatchableObject;
 
 import dev.loupgarou.MainLg;
+import dev.loupgarou.classes.LGCustomItems.SpecialItems;
 import dev.loupgarou.classes.LGGame.TextGenerator;
 import dev.loupgarou.classes.LGPlayer.LGChooseCallback;
 import dev.loupgarou.events.vote.LGVoteLeaderChange;
@@ -384,7 +384,7 @@ public class LGVote {
 					WrapperPlayServerEntityEquipment equip = new WrapperPlayServerEntityEquipment();
 					equip.setEntityID(entityId);
 					equip.setSlot(ItemSlot.HEAD);
-			        ItemStack skull = new ItemStack(Material.EMERALD);
+			        ItemStack skull = new ItemStack(LGCustomItems.getSpecialItem(SpecialItems.ARROW));
 					equip.setItem(skull);
 					equip.sendPacket(to.getPlayer());
 				}
@@ -439,7 +439,7 @@ public class LGVote {
 					WrapperPlayServerEntityEquipment equip = new WrapperPlayServerEntityEquipment();
 					equip.setEntityID(entityId);
 					equip.setSlot(ItemSlot.HEAD);
-			        ItemStack skull = new ItemStack(Material.EMERALD);
+			        ItemStack skull = new ItemStack(LGCustomItems.getSpecialItem(SpecialItems.ARROW));
 					equip.setItem(skull);
 					equip.sendPacket(to.getPlayer());
 				}

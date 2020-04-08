@@ -17,6 +17,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import dev.loupgarou.MainLg;
 import dev.loupgarou.classes.LGCustomItems;
 import dev.loupgarou.classes.LGCustomItems.LGCustomItemsConstraints;
+import dev.loupgarou.classes.LGCustomItems.SpecialItems;
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.classes.LGVote;
@@ -32,7 +33,7 @@ public class RLoupGarouNoir extends Role{
 	static ItemStack[] items = new ItemStack[9];
 	static ItemStack[] skip = new ItemStack[9];
 	static {
-		items[3] = new ItemStack(Material.IRON_NUGGET);
+		items[3] = new ItemStack(LGCustomItems.getSpecialItem(SpecialItems.CROSS));
 		ItemMeta meta = items[3].getItemMeta();
 		meta.setDisplayName("§7§lNe rien faire");
 		meta.setLore(Arrays.asList("§8Passez votre tour"));
@@ -190,7 +191,7 @@ public class RLoupGarouNoir extends Role{
 						if(role instanceof RLoupGarou)
 							if(!player.isDead()) {//Si il n'a pas été tué je ne sais comment
 								role.join(player, false);
-								player.getPlayer().getInventory().setItemInOffHand(new ItemStack(LGCustomItems.getItem(player)));
+								LGCustomItems.updateItem(player);
 							}
 					
 					for(LGPlayer lgp : getGame().getInGame()) {

@@ -12,12 +12,14 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import dev.loupgarou.MainLg;
+import dev.loupgarou.classes.LGCustomItems;
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGGameConfig;
 import dev.loupgarou.classes.LGGameConfig.CommunicationType;
 import dev.loupgarou.classes.LGMaps;
 import dev.loupgarou.classes.LGMaps.LGMap;
 import dev.loupgarou.classes.LGPlayer;
+import dev.loupgarou.classes.LGCustomItems.SpecialItems;
 import dev.loupgarou.utils.CommonText.PrefixType;
 import dev.loupgarou.utils.InteractInventory;
 import dev.loupgarou.utils.InteractInventory.InventoryCall;
@@ -176,13 +178,14 @@ public class CreateServerMenu {
 		ii.fill(null, true, null);
 		
 		ii.registerItem(
-				new ItemBuilder(Material.GOLD_NUGGET)
+				new ItemBuilder(LGCustomItems.getSpecialItem(SpecialItems.CHECK))
 				.name("§2Valider la configuration :")
 				.lore(
 						Arrays.asList(
 								"",
 								"§7Map : " + config.getMap().getName(),
-								"§7Communication : " + config.getCom()
+								"§7Communication : " + config.getCom(),
+								"§7Places maximum : " + config.getMap().getSpawns().size()
 								)
 						)
 				.build(), 
@@ -206,7 +209,7 @@ public class CreateServerMenu {
 				});
 		
 		ii.registerItem(
-				new ItemBuilder(Material.IRON_NUGGET)
+				new ItemBuilder(LGCustomItems.getSpecialItem(SpecialItems.CROSS))
 				.name("§cAnnuler")
 				.lore(
 						Arrays.asList(

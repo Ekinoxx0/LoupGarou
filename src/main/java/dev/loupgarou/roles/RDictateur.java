@@ -18,6 +18,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import dev.loupgarou.MainLg;
+import dev.loupgarou.classes.LGCustomItems;
+import dev.loupgarou.classes.LGCustomItems.SpecialItems;
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.events.daycycle.LGNightStartEvent;
@@ -37,7 +39,7 @@ public class RDictateur extends Role{
 	static private Inventory inventory;
 	static private String inventoryTitle = "§7Veux-tu faire un coup d'état ?";
 	static {
-		items[3] = new ItemStack(Material.IRON_NUGGET);
+		items[3] = new ItemStack(LGCustomItems.getSpecialItem(SpecialItems.CROSS));
 		ItemMeta meta = items[3].getItemMeta();
 		meta.setDisplayName("§7§lNe rien faire");
 		meta.setLore(Arrays.asList("§8Passez votre tour"));
@@ -162,7 +164,7 @@ public class RDictateur extends Role{
 	public void onClick(PlayerInteractEvent e) {
 		Player p = e.getPlayer();
 		LGPlayer player = LGPlayer.thePlayer(p);
-		if(e.getItem() != null && e.getItem().getType() == Material.IRON_NUGGET && player.getRole() == this) {
+		if(e.getItem() != null && e.getItem().getType() == LGCustomItems.getSpecialItem(SpecialItems.CROSS) && player.getRole() == this) {
 			getGame().cancelWait();
 			player.stopChoosing();
 			p.getInventory().setItem(8, null);

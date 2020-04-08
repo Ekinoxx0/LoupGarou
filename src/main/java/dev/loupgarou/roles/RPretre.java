@@ -19,9 +19,11 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import com.comphenix.protocol.wrappers.WrappedDataWatcher;
 import com.comphenix.protocol.wrappers.WrappedDataWatcher.WrappedDataWatcherObject;
+import com.comphenix.protocol.wrappers.WrappedWatchableObject;
 
 import dev.loupgarou.MainLg;
 import dev.loupgarou.classes.LGCustomItems;
+import dev.loupgarou.classes.LGCustomItems.SpecialItems;
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.classes.LGPlayer.LGChooseCallback;
@@ -33,13 +35,11 @@ import dev.loupgarou.roles.utils.RoleType;
 import dev.loupgarou.roles.utils.RoleWinType;
 import dev.loupgarou.utils.VariousUtils;
 
-import com.comphenix.protocol.wrappers.WrappedWatchableObject;
-
 public class RPretre extends Role{
 	//TODO Replace with InteractInventory
 	static ItemStack[] items = new ItemStack[9];
 	static {
-		items[3] = new ItemStack(Material.IRON_NUGGET);
+		items[3] = new ItemStack(LGCustomItems.getSpecialItem(SpecialItems.CROSS));
 		ItemMeta meta = items[3].getItemMeta();
 		meta.setDisplayName("§7§lNe rien faire");
 		meta.setLore(Arrays.asList("§8Passez votre tour"));

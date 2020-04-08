@@ -232,7 +232,7 @@ public class RVampire extends Role{
 	public void onCustomItemChange(LGCustomItemChangeEvent e) {
 		if(e.getGame() == getGame())
 			if(e.getPlayer().getCache().getBoolean(CacheType.VAMPIRE))
-				e.getConstraints().add(LGCustomItemsConstraints.VAMPIRE_INFECTE);
+				e.getConstraints().add(LGCustomItemsConstraints.VAMPIRE);
 	}
 
 }

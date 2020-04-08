@@ -18,6 +18,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import dev.loupgarou.MainLg;
+import dev.loupgarou.classes.LGCustomItems;
+import dev.loupgarou.classes.LGCustomItems.SpecialItems;
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.classes.LGPlayer.LGChooseCallback;
@@ -38,12 +40,12 @@ public class RPyromane extends Role{
 	static ItemStack[] items = new ItemStack[9];
 	static ItemStack cancel, nothing;
 	static {
-		cancel = new ItemStack(Material.IRON_NUGGET);
+		cancel = new ItemStack(LGCustomItems.getSpecialItem(SpecialItems.CROSS));
 		ItemMeta meta = cancel.getItemMeta();
 		meta.setDisplayName("§7§lAnnuler");
 		meta.setLore(Arrays.asList("§8Rouvrir le menu"));
 		cancel.setItemMeta(meta);
-		nothing = new ItemStack(Material.IRON_NUGGET);
+		nothing = new ItemStack(LGCustomItems.getSpecialItem(SpecialItems.CROSS));
 		meta = nothing.getItemMeta();
 		meta.setDisplayName("§7§lNe rien faire");
 		nothing.setItemMeta(meta);

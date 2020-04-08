@@ -3,6 +3,7 @@ package dev.loupgarou;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.logging.Level;
@@ -169,42 +170,46 @@ public class MainLg extends JavaPlugin {
 	}
 	
 	private void loadRoles() {
-		try {
-			roles.put("LoupGarou", RLoupGarou.class.getConstructor(LGGame.class));
-			roles.put("LoupGarouNoir", RLoupGarouNoir.class.getConstructor(LGGame.class));
-			roles.put("LoupGarouBlanc", RLoupGarouBlanc.class.getConstructor(LGGame.class));
-			roles.put("LoupFeutrer", RLoupFeutrer.class.getConstructor(LGGame.class));
-			roles.put("GrandMechantLoup", RGrandMechantLoup.class.getConstructor(LGGame.class));
+		List<Class<? extends Role>> roles = Arrays.asList(
+				RLoupGarou.class,
+				RLoupGarouNoir.class,
+				RLoupGarouBlanc.class,
+				RLoupFeutrer.class,
+				RGrandMechantLoup.class,
 
-			roles.put("Pyromane", RPyromane.class.getConstructor(LGGame.class));
-			roles.put("Assassin", RAssassin.class.getConstructor(LGGame.class));
-			roles.put("Survivant", RSurvivant.class.getConstructor(LGGame.class));
-			roles.put("Bouffon", RBouffon.class.getConstructor(LGGame.class));
-			roles.put("Ange", RAnge.class.getConstructor(LGGame.class));
+				RPyromane.class,
+				RAssassin.class,
+				RSurvivant.class,
+				RBouffon.class,
+				RAnge.class,
 
-			roles.put("Villageois", RVillageois.class.getConstructor(LGGame.class));
-			roles.put("Voyante", RVoyante.class.getConstructor(LGGame.class));
-			roles.put("Detective", RDetective.class.getConstructor(LGGame.class));
-			roles.put("Sorciere", RSorciere.class.getConstructor(LGGame.class));
-			roles.put("Chasseur", RChasseur.class.getConstructor(LGGame.class));
-			roles.put("Cupidon", RCupidon.class.getConstructor(LGGame.class));
-			roles.put("Corbeau", RCorbeau.class.getConstructor(LGGame.class));
-			roles.put("Garde", RGarde.class.getConstructor(LGGame.class));
-			roles.put("Medium", RMedium.class.getConstructor(LGGame.class));
-			roles.put("Dictateur", RDictateur.class.getConstructor(LGGame.class));
-			roles.put("PetiteFille", RPetiteFille.class.getConstructor(LGGame.class));
-			roles.put("ChaperonRouge", RChaperonRouge.class.getConstructor(LGGame.class));
-			roles.put("Pirate", RPirate.class.getConstructor(LGGame.class));
-			roles.put("Pretre", RPretre.class.getConstructor(LGGame.class));
-			roles.put("Faucheur", RFaucheur.class.getConstructor(LGGame.class));
+				RVillageois.class,
+				RVoyante.class,
+				RDetective.class,
+				RSorciere.class,
+				RChasseur.class,
+				RCupidon.class,
+				RCorbeau.class,
+				RGarde.class,
+				RMedium.class,
+				RDictateur.class,
+				RPetiteFille.class,
+				RChaperonRouge.class,
+				RPirate.class,
+				RPretre.class,
+				RFaucheur.class,
+					
+				REnfantSauvage.class,
+				RChienLoup.class,
+				RVoleur.class,
+				RVampire.class,
+				RPronostiqueur.class,
+				RMontreurDOurs.class,
+				RChasseurDeVampire.class
+			);
 			
-			roles.put("EnfantSauvage", REnfantSauvage.class.getConstructor(LGGame.class));
-			roles.put("ChienLoup", RChienLoup.class.getConstructor(LGGame.class));
-			roles.put("Voleur", RVoleur.class.getConstructor(LGGame.class));
-			roles.put("Vampire", RVampire.class.getConstructor(LGGame.class));
-			roles.put("Pronostiqueur", RPronostiqueur.class.getConstructor(LGGame.class));
-			roles.put("MontreurDOurs", RMontreurDOurs.class.getConstructor(LGGame.class));
-			roles.put("ChasseurDeVampire", RChasseurDeVampire.class.getConstructor(LGGame.class));
+		for(Class<? extends Role> role : roles)
+			registerRole(role);
 			
 			/*
 			 * L'Ancien
@@ -225,6 +230,11 @@ public class MainLg extends JavaPlugin {
 			 * Garde->Salvateur
 			 * 
 			 */
+	}
+	
+	private void registerRole(Class<? extends Role> role) {
+		try {
+			roles.put(role.getClass().getSimpleName().substring(1), role.getConstructor(LGGame.class));
 		} catch (NoSuchMethodException | SecurityException e) {
 			e.printStackTrace();
 		}

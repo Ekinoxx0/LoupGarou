@@ -2,7 +2,6 @@ package dev.loupgarou.roles;
 
 import java.util.Arrays;
 
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -10,10 +9,12 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import dev.loupgarou.classes.LGCustomItems;
+import dev.loupgarou.classes.LGCustomItems.SpecialItems;
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
-import dev.loupgarou.classes.LGWinType;
 import dev.loupgarou.classes.LGPlayer.LGChooseCallback;
+import dev.loupgarou.classes.LGWinType;
 import dev.loupgarou.events.game.LGEndCheckEvent;
 import dev.loupgarou.events.game.LGGameEndEvent;
 import dev.loupgarou.events.game.LGPlayerKilledEvent.Reason;
@@ -25,7 +26,7 @@ public class RLoupGarouBlanc extends Role{
 	//TODO Replace with InteractInventory
 	private static ItemStack skip;
 	static {
-		skip = new ItemStack(Material.IRON_NUGGET);
+		skip = new ItemStack(LGCustomItems.getSpecialItem(SpecialItems.CROSS));
 		ItemMeta meta = skip.getItemMeta();
 		meta.setDisplayName("§7§lNe rien faire");
 		meta.setLore(Arrays.asList("§8Passez votre tour"));
@@ -131,7 +132,7 @@ public class RLoupGarouBlanc extends Role{
 	public void onClick(PlayerInteractEvent e) {
 		Player p = e.getPlayer();
 		LGPlayer player = LGPlayer.thePlayer(p);
-		if(e.getItem() != null && e.getItem().getType() == Material.IRON_NUGGET && player.getRole() == this) {
+		if(e.getItem() != null && e.getItem().getType() == LGCustomItems.getSpecialItem(SpecialItems.CROSS) && player.getRole() == this) {
 			player.stopChoosing();
 			p.getInventory().setItem(8, null);
 			p.updateInventory();

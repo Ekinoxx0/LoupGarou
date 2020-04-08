@@ -5,7 +5,6 @@ import java.util.Optional;
 import java.util.Random;
 
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -19,6 +18,8 @@ import com.comphenix.protocol.wrappers.WrappedDataWatcher.WrappedDataWatcherObje
 import com.comphenix.protocol.wrappers.WrappedWatchableObject;
 
 import dev.loupgarou.MainLg;
+import dev.loupgarou.classes.LGCustomItems;
+import dev.loupgarou.classes.LGCustomItems.SpecialItems;
 import dev.loupgarou.classes.LGMaps;
 import dev.loupgarou.classes.LGMaps.LGLocation;
 import dev.loupgarou.classes.LGMaps.LGMap;
@@ -138,7 +139,7 @@ public class ShowSpawnsCmd extends SubCommand {
 					WrapperPlayServerEntityEquipment equip = new WrapperPlayServerEntityEquipment();
 					equip.setEntityID(entityId);
 					equip.setSlot(ItemSlot.HEAD);
-					equip.setItem(new ItemStack(Material.EMERALD));
+					equip.setItem(new ItemStack(LGCustomItems.getSpecialItem(SpecialItems.ARROW)));
 					equip.sendPacket(p);
 				}
 			}.runTaskLater(MainLg.getInstance(), 2);

@@ -3,7 +3,6 @@ package dev.loupgarou.roles;
 import java.util.Arrays;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -14,6 +13,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import dev.loupgarou.MainLg;
+import dev.loupgarou.classes.LGCustomItems;
+import dev.loupgarou.classes.LGCustomItems.SpecialItems;
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.classes.LGWinType;
@@ -83,12 +84,12 @@ public class RSurvivant extends Role{
 		ItemStack[] items = new ItemStack[9];
 		VariableCache cache = LGPlayer.thePlayer(player).getCache();
 		if(cache.<Integer>get(CacheType.SURVIVANT_LEFT) > 0) {
-			items[3] = new ItemStack(Material.IRON_NUGGET);
+			items[3] = new ItemStack(LGCustomItems.getSpecialItem(SpecialItems.CROSS));
 			ItemMeta meta = items[3].getItemMeta();
 			meta.setDisplayName("§7§lNe rien faire");
 			meta.setLore(Arrays.asList("§8Passez votre tour"));
 			items[3].setItemMeta(meta);
-			items[5] = new ItemStack(Material.GOLD_NUGGET);
+			items[5] = new ItemStack(LGCustomItems.getSpecialItem(SpecialItems.CHECK));
 			meta = items[5].getItemMeta();
 			meta.setDisplayName("§2§lSe protéger (§6§l"+cache.<Integer>get(CacheType.SURVIVANT_LEFT)+"§2§l restant)");
 			meta.setLore(Arrays.asList(
@@ -96,7 +97,7 @@ public class RSurvivant extends Role{
 					"§8  les §c§lLoups§8 cette nuit."));
 			items[5].setItemMeta(meta);
 		} else {
-			items[4] = new ItemStack(Material.IRON_NUGGET);
+			items[4] = new ItemStack(LGCustomItems.getSpecialItem(SpecialItems.CROSS));
 			ItemMeta meta = items[4].getItemMeta();
 			meta.setDisplayName("§7§lNe rien faire");
 			meta.setLore(Arrays.asList("§8Passez votre tour"));
@@ -138,13 +139,13 @@ public class RSurvivant extends Role{
 			
 		if(lgp.getRole() != this || item == null || item.getItemMeta() == null)return;
 
-		if(item.getType() == Material.IRON_NUGGET) {
+		if(item.getType() == LGCustomItems.getSpecialItem(SpecialItems.CROSS)) {
 			e.setCancelled(true);
 			lgp.sendMessage("§4§oTu es sans défense...");
 			closeInventory(player);
 			lgp.hideView();
 			callback.run();
-		}else if(item.getType() == Material.GOLD_NUGGET) {
+		}else if(item.getType() == LGCustomItems.getSpecialItem(SpecialItems.CHECK)) {
 			e.setCancelled(true);
 			closeInventory(player);
 			lgp.sendActionBarMessage("§9§lTu as décidé de te protéger.");

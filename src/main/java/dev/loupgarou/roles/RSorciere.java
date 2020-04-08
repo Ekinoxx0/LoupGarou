@@ -16,6 +16,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import dev.loupgarou.MainLg;
+import dev.loupgarou.classes.LGCustomItems;
+import dev.loupgarou.classes.LGCustomItems.SpecialItems;
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.events.game.LGPlayerKilledEvent.Reason;
@@ -30,21 +32,21 @@ public class RSorciere extends Role{
 	private static ItemStack[] items = new ItemStack[4];
 	private static ItemStack cancel;
 	static {
-		items[0] = new ItemStack(Material.PURPLE_DYE, 1);
+		items[0] = new ItemStack(LGCustomItems.getSpecialItem(SpecialItems.LIFE_POTION), 1);
 		ItemMeta meta = items[0].getItemMeta();
 		meta.setDisplayName("§a§lPotion de vie");
 		meta.setLore(Arrays.asList("§2Sauve la cible des §c§lLoups§2."));
 		items[0].setItemMeta(meta);
-		items[1] = new ItemStack(Material.IRON_NUGGET);
+		items[1] = new ItemStack(LGCustomItems.getSpecialItem(SpecialItems.CROSS));
 		meta = items[1].getItemMeta();
 		meta.setDisplayName("§7§lNe rien faire");
 		items[1].setItemMeta(meta);
-		items[2] = new ItemStack(Material.LIGHT_BLUE_DYE, 1);
+		items[2] = new ItemStack(LGCustomItems.getSpecialItem(SpecialItems.DEATH_POTION), 1);
 		meta = items[2].getItemMeta();
 		meta.setDisplayName("§c§lPotion de mort");
 		meta.setLore(Arrays.asList("§cTue la personne de ton choix."));
 		items[2].setItemMeta(meta);
-		cancel = new ItemStack(Material.IRON_NUGGET);
+		cancel = new ItemStack(LGCustomItems.getSpecialItem(SpecialItems.CROSS));
 		meta = cancel.getItemMeta();
 		meta.setDisplayName("§c§lRevenir au choix des potions");
 		cancel.setItemMeta(meta);
@@ -189,7 +191,7 @@ public class RSorciere extends Role{
 	public void onClick(PlayerInteractEvent e) {
 		Player p = e.getPlayer();
 		LGPlayer player = LGPlayer.thePlayer(p);
-		if(e.getItem() != null && e.getItem().getType() == Material.IRON_NUGGET && player.getRole() == this) {
+		if(e.getItem() != null && e.getItem().getType() == LGCustomItems.getSpecialItem(SpecialItems.CROSS) && player.getRole() == this) {
 			player.stopChoosing();
 			p.getInventory().setItem(8, null);
 			p.updateInventory();

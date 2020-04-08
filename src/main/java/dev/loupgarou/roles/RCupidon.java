@@ -5,7 +5,6 @@ import java.util.Arrays;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -19,6 +18,8 @@ import com.comphenix.protocol.wrappers.WrappedDataWatcher.WrappedDataWatcherObje
 import com.comphenix.protocol.wrappers.WrappedWatchableObject;
 
 import dev.loupgarou.MainLg;
+import dev.loupgarou.classes.LGCustomItems;
+import dev.loupgarou.classes.LGCustomItems.SpecialItems;
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.classes.LGPlayer.LGChooseCallback;
@@ -187,7 +188,7 @@ public class RCupidon extends Role{
 				WrapperPlayServerEntityEquipment equip = new WrapperPlayServerEntityEquipment();
 				equip.setEntityID(entityId);
 				equip.setSlot(ItemSlot.HEAD);
-		        ItemStack skull = new ItemStack(Material.SUGAR);
+		        ItemStack skull = new ItemStack(LGCustomItems.getSpecialItem(SpecialItems.HEART));
 				equip.setItem(skull);
 				equip.sendPacket(to.getPlayer());
 			}
