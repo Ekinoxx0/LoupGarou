@@ -13,6 +13,7 @@ import dev.loupgarou.classes.LGCustomItems;
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 
 public abstract class Role implements Listener{
@@ -20,10 +21,10 @@ public abstract class Role implements Listener{
 	@Getter private List<LGPlayer> players = new ArrayList<LGPlayer>();
 	@Getter private final LGGame game;
 	
-	public Role(LGGame game) {
+	public Role(@NonNull LGGame game) {
 		this.game = game;
+		this.waitedPlayers = this.game.getConfig().getRoles().get(getClass().getSimpleName().substring(1));//TODO Is that really neccessary ?
 		Bukkit.getPluginManager().registerEvents(this, MainLg.getInstance());
-		waitedPlayers = game.getConfig().getRoles().get(getClass().getSimpleName().substring(1));//TODO Is that really neccessary ?
 	}
 	
 
@@ -41,8 +42,8 @@ public abstract class Role implements Listener{
 	public RoleWinType getWinType(LGPlayer lgp) {
 		return getWinType();
 	}
-	public RoleType getType() { return null; }
-	public RoleWinType getWinType() { return null; }
+	public abstract RoleType getType();
+	public abstract RoleWinType getWinType();
 	/**
 	 * @return Timeout in second for this role
 	 */
@@ -110,8 +111,10 @@ public abstract class Role implements Listener{
 	public void join(LGPlayer player, boolean sendMessage) {
 		MainLg.debug(getGame().getKey(), player.getName() + " est " + getName());
 		players.add(player);
-		if(player.getRole() == null)
-			player.setRole(this);
+		if(player.getRole() != null)
+			player.getRole().getPlayers().remove(player);
+		
+		player.setRole(this);
 		waitedPlayers--;
 		if(sendMessage) {
 			player.sendTitle("§6Tu es "+getName(), "§e"+getShortDescription(), 200);

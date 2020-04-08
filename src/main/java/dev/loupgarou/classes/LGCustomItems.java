@@ -24,6 +24,10 @@ import lombok.RequiredArgsConstructor;
 public class LGCustomItems {
 	
 	public static enum SpecialItems {
+		GREEN_ROLE,
+		GREY_ROLE,
+		RED_ROLE,
+		MID_ROLE,
 		ARROW,
 		CROSS,
 		CHECK,
@@ -53,7 +57,7 @@ public class LGCustomItems {
 	}
 	
 	public static Material getSpecialItem(@NonNull SpecialItems special) {
-		return mappings.get("specials").get(special.toString().toLowerCase());
+		return mappings.get("_specials").get(special.toString().toLowerCase());
 	}
 	
 	public static Material getItem(@NonNull Role role) {
@@ -106,7 +110,6 @@ public class LGCustomItems {
 	public static enum LGCustomItemsConstraints{
 		INFECTED("infecte"),
 		MAYOR("maire"),
-		VAMPIRE("vampire"),
 		DEAD("mort");
 		@Getter private final String name;
 	}

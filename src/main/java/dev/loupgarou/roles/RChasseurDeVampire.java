@@ -7,7 +7,6 @@ import dev.loupgarou.events.game.LGPlayerKilledEvent.Reason;
 import dev.loupgarou.roles.utils.Role;
 import dev.loupgarou.roles.utils.RoleType;
 import dev.loupgarou.roles.utils.RoleWinType;
-import dev.loupgarou.utils.VariableCache.CacheType;
 
 public class RChasseurDeVampire extends Role{
 	public RChasseurDeVampire(LGGame game) {
@@ -74,7 +73,7 @@ public class RChasseurDeVampire extends Role{
 			public void callback(LGPlayer choosen) {
 				if(choosen != null && choosen != player) {
 				//	player.sendMessage("§6Tu as choisi de rendre visite à §7§l"+choosen.getName()+"§6.");
-					if(choosen.getCache().getBoolean(CacheType.VAMPIRE) || choosen.getRole() instanceof RVampire) {
+					if(choosen.getRole() instanceof RVampire) {
 						getGame().kill(choosen, Reason.CHASSEUR_DE_VAMPIRE);
 						player.sendMessage("§7§l"+choosen.getName()+"§6 est un §5§lVampire§6, à l'attaque.");
 						player.sendActionBarMessage("§e§l"+choosen.getName()+"§6 va mourir");

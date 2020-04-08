@@ -637,7 +637,7 @@ public class LGGame implements Listener{
 			if(vote != null)
 				vote.remove(killed);
 			
-			broadcastMessage(String.format(reason.getMessage(), killed.getName())+", il était "+killed.getRole().getName()+(killed.getCache().getBoolean(CacheType.INFECTED) ? " §c§l(Infecté)" : "")+(killed.getCache().getBoolean(CacheType.VAMPIRE) ? " §5§l(Vampire)" : "")+"§4.");
+			broadcastMessage(String.format(reason.getMessage(), killed.getName())+", il était "+killed.getRole().getName()+(killed.getCache().getBoolean(CacheType.INFECTED) ? " §c§l(Infecté)" : "")+"§4.");
 			
 			//Lightning effect
 			killed.getPlayer().getWorld().strikeLightningEffect(killed.getPlayer().getLocation());

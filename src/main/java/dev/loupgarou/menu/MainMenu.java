@@ -3,12 +3,14 @@ package dev.loupgarou.menu;
 import java.util.Arrays;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
+import dev.loupgarou.classes.LGCustomItems;
+import dev.loupgarou.classes.LGCustomItems.SpecialItems;
 import dev.loupgarou.classes.LGPlayer;
+import dev.loupgarou.roles.utils.FakeRoles;
 import dev.loupgarou.utils.InteractInventory;
 import dev.loupgarou.utils.InteractInventory.InventoryCall;
 import dev.loupgarou.utils.ItemBuilder;
@@ -22,7 +24,7 @@ public class MainMenu {
 		ii.fillBorder(null, true);
 		
 		ii.registerItem(
-				new ItemBuilder(Material.DIAMOND_BLOCK)
+				new ItemBuilder(LGCustomItems.getItemMenu(FakeRoles.getRole("Garde")))
 				.name("§9Création d'une partie")
 				.lore(
 						Arrays.asList(
@@ -41,7 +43,7 @@ public class MainMenu {
 				});
 		
 		ii.registerItem(
-				new ItemBuilder(Material.JUKEBOX)
+				new ItemBuilder(LGCustomItems.getSpecialItem(SpecialItems.MID_ROLE))
 				.name("§9Liste des parties")
 				.lore(
 						Arrays.asList(

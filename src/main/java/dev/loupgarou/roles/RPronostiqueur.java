@@ -8,6 +8,7 @@ import dev.loupgarou.roles.utils.RoleType;
 import dev.loupgarou.roles.utils.RoleWinType;
 
 //TODO Random is not here...
+//TODO Pourcentage
 public class RPronostiqueur extends Role{
 	public RPronostiqueur(LGGame game) {
 		super(game);

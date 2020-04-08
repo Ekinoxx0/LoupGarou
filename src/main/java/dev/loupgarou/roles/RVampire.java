@@ -10,7 +10,6 @@ import org.bukkit.event.EventPriority;
 
 import dev.loupgarou.classes.LGChat;
 import dev.loupgarou.classes.LGCustomItems;
-import dev.loupgarou.classes.LGCustomItems.LGCustomItemsConstraints;
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.classes.LGVote;
@@ -18,7 +17,6 @@ import dev.loupgarou.classes.LGWinType;
 import dev.loupgarou.events.daycycle.LGNightEndEvent;
 import dev.loupgarou.events.game.LGGameEndEvent;
 import dev.loupgarou.events.game.LGPlayerKilledEvent.Reason;
-import dev.loupgarou.events.other.LGCustomItemChangeEvent;
 import dev.loupgarou.events.other.LGUpdatePrefixEvent;
 import dev.loupgarou.events.roles.LGVampiredEvent;
 import dev.loupgarou.roles.utils.Role;
@@ -177,7 +175,6 @@ public class RVampire extends Role{
 				player.sendMessage("§7§l"+choosen.getName()+" s'est transformé en §5§lVampire§6.");
 			choosen.sendMessage("§6Tu as été infecté par les §5§lVampires §6pendant la nuit. Tu as perdu tes pouvoirs.");
 			choosen.sendMessage("§6§oTu gagnes désormais avec les §5§l§oVampires§6§o.");
-			choosen.getCache().set(CacheType.VAMPIRE, true);
 			choosen.getCache().set(CacheType.JUST_VAMPIRE, true);
 			nextCanInfect = getGame().getNight()+1;
 			join(choosen, false);
@@ -226,13 +223,6 @@ public class RVampire extends Role{
 		if(e.getGame() == getGame())
 			if(getPlayers().contains(e.getTo()) && getPlayers().contains(e.getPlayer()))
 				e.setPrefix(e.getPrefix()+"§5");
-	}
-
-	@EventHandler
-	public void onCustomItemChange(LGCustomItemChangeEvent e) {
-		if(e.getGame() == getGame())
-			if(e.getPlayer().getCache().getBoolean(CacheType.VAMPIRE))
-				e.getConstraints().add(LGCustomItemsConstraints.VAMPIRE);
 	}
 
 }

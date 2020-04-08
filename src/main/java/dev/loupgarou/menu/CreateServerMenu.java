@@ -18,6 +18,7 @@ import dev.loupgarou.classes.LGGameConfig;
 import dev.loupgarou.classes.LGGameConfig.CommunicationType;
 import dev.loupgarou.classes.LGMaps;
 import dev.loupgarou.classes.LGMaps.LGMap;
+import dev.loupgarou.roles.utils.FakeRoles;
 import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.classes.LGCustomItems.SpecialItems;
 import dev.loupgarou.utils.CommonText.PrefixType;
@@ -45,13 +46,12 @@ public class CreateServerMenu {
 			lgp.sendMessage(PrefixType.PARTIE + "§cVous êtes déjà en partie...");
 			return;
 		}
-		
 		InteractInventory ii = new InteractInventory(Bukkit.createInventory(null, 9 * 3, "Création d'une partie"));
 		
 		ii.fill(null, true, null);
 		
 		ii.registerItem(
-				new ItemBuilder(Material.OBSIDIAN)
+				new ItemBuilder(LGCustomItems.getSpecialItem(SpecialItems.GREEN_ROLE))
 				.name("§aPartie publique")
 				.build(), 
 				3, 1, true, 
@@ -64,7 +64,7 @@ public class CreateServerMenu {
 				});
 		
 		ii.registerItem(
-				new ItemBuilder(Material.CACTUS)
+				new ItemBuilder(LGCustomItems.getSpecialItem(SpecialItems.RED_ROLE))
 				.name("§cPartie privée")
 				.build(), 
 				5, 1, true, 
@@ -124,7 +124,7 @@ public class CreateServerMenu {
 		ii.fill(null, true, null);
 		
 		ii.registerItem(
-				new ItemBuilder(Material.HAY_BLOCK)
+				new ItemBuilder(LGCustomItems.getItemMenu(FakeRoles.getRole("Bourreau")))
 				.name("§6Sélection du type de tchat")
 				.lore(//TODO verify is connected
 						Arrays.asList(

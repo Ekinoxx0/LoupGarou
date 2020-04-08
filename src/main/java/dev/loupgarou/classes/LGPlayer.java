@@ -284,13 +284,13 @@ public class LGPlayer {
 	}
 	
 	public RoleType getRoleType() {
-		return this.getCache().getBoolean(CacheType.VAMPIRE) ? RoleType.VAMPIRE : this.getCache().getBoolean(CacheType.INFECTED) ? RoleType.LOUP_GAROU : getRole().getType(this);
+		return this.getCache().getBoolean(CacheType.INFECTED) ? RoleType.LOUP_GAROU : getRole().getType(this);
 	}
 	public RoleWinType getRoleWinType() {
-		return this.getCache().getBoolean(CacheType.VAMPIRE) ? RoleWinType.VAMPIRE : this.getCache().getBoolean(CacheType.INFECTED) ? RoleWinType.LOUP_GAROU : getRole().getWinType(this);
+		return this.getCache().getBoolean(CacheType.INFECTED) ? RoleWinType.LOUP_GAROU : getRole().getWinType(this);
 	}
 	public boolean isRoleActive() {
-		return !this.getCache().getBoolean(CacheType.VAMPIRE);
+		return true;//TODO Old Vampire
 	}
 	
 	@Getter

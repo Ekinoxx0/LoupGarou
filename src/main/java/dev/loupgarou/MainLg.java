@@ -31,6 +31,7 @@ import dev.loupgarou.listeners.JoinListener;
 import dev.loupgarou.listeners.ProtocolListener;
 import dev.loupgarou.listeners.VoteListener;
 import dev.loupgarou.roles.RAnge;
+import dev.loupgarou.roles.RApprentieVoyante;
 import dev.loupgarou.roles.RAssassin;
 import dev.loupgarou.roles.RBouffon;
 import dev.loupgarou.roles.RChaperonRouge;
@@ -64,7 +65,6 @@ import dev.loupgarou.roles.RVoleur;
 import dev.loupgarou.roles.RVoyante;
 import dev.loupgarou.roles.utils.Role;
 import dev.loupgarou.utils.RandomString;
-import dev.loupgarou.utils.Updater;
 import lombok.Getter;
 import lombok.NonNull;
 
@@ -86,7 +86,6 @@ public class MainLg extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		instance = this;
-		new Updater(this);
 		
 		loadRoles();
 		
@@ -185,6 +184,7 @@ public class MainLg extends JavaPlugin {
 
 				RVillageois.class,
 				RVoyante.class,
+				RApprentieVoyante.class,
 				RDetective.class,
 				RSorciere.class,
 				RChasseur.class,
@@ -210,7 +210,8 @@ public class MainLg extends JavaPlugin {
 			
 		for(Class<? extends Role> role : roles)
 			registerRole(role);
-			
+		
+		MainLg.debug("Registered " + this.roles.size() + " (/" + roles.size() + ") roles in total...");
 			/*
 			 * L'Ancien
 			 * Bouc Emissaire
@@ -234,7 +235,7 @@ public class MainLg extends JavaPlugin {
 	
 	private void registerRole(Class<? extends Role> role) {
 		try {
-			roles.put(role.getClass().getSimpleName().substring(1), role.getConstructor(LGGame.class));
+			roles.put(role.getSimpleName().substring(1), role.getConstructor(LGGame.class));
 		} catch (NoSuchMethodException | SecurityException e) {
 			e.printStackTrace();
 		}

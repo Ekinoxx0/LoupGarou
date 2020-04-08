@@ -132,5 +132,6 @@ public class RLoupFeutrer extends Role {
     	if(e.getSource().getCache().has(CacheType.INLOVE)) return;
     	
     	e.setDiscoveredRole(((LGPlayer) e.getSource().getCache().get(CacheType.LOUP_FEUTRER)).getRole());
+    	e.setWinType(((LGPlayer) e.getSource().getCache().get(CacheType.LOUP_FEUTRER)).getRoleWinType());
     }
 }

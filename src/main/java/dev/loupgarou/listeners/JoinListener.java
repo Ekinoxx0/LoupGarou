@@ -59,7 +59,7 @@ public class JoinListener implements Listener{
 			}
 		
 		if(e.getJoinMessage() != "is connected")
-			p.getPlayer().setResourcePack("https://raw.githubusercontent.com/Ekinoxx0/LoupGarouRessourcePack/master/loup_garou.zip", "");
+			p.getPlayer().setResourcePack("https://github.com/Ekinoxx0/LoupGarouRessourcePack/raw/511a467a964c74318d918171e6188e35d9111c69/loup_garou.zip", "");
 		
 		
 		LGPlayer lgp = LGPlayer.thePlayer(p);
