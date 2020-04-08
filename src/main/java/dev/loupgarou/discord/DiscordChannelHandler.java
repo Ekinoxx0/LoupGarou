@@ -87,27 +87,32 @@ public class DiscordChannelHandler implements Listener {
 	
 	@EventHandler
 	public void onLGGameStart(LGGameStartEvent e) {
+		if(e.getGame() != this.game) return;
 		for(LGPlayer lgp : this.game.getInGame())
 			move(lgp);
 	}
 	
 	@EventHandler
 	public void onLGGameJoin(LGGameJoinEvent e) {
+		if(e.getGame() != this.game) return;
 		move(e.getPlayer());
 	}
 	
 	@EventHandler
 	public void onLGDayStart(LGDayStartEvent e) {
+		if(e.getGame() != this.game) return;
 		this.muteChannel(false);
 	}
 	
 	@EventHandler
 	public void onLGNightStart(LGNightStartEvent e) {
+		if(e.getGame() != this.game) return;
 		this.muteChannel(true);
 	}
 	
 	@EventHandler
 	public void onLGPlayerKilled(LGPlayerKilledEvent e) {
+		if(e.getGame() != this.game) return;
 		this.refresh(e.getKilled());
 	}
 	
