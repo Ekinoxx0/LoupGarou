@@ -6,8 +6,9 @@ import java.util.Map.Entry;
 import dev.loupgarou.MainLg;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
-@RequiredArgsConstructor
+@RequiredArgsConstructor @ToString
 public class LGChat {
 	@Getter private final HashMap<LGPlayer, LGChatCallback> viewers = new HashMap<LGPlayer, LGChatCallback>();
 	@Getter private final LGChatCallback defaultCallback;

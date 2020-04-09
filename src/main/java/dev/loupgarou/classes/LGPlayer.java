@@ -28,10 +28,10 @@ import dev.loupgarou.packetwrapper.WrapperPlayServerScoreboardTeam.Mode;
 import dev.loupgarou.roles.utils.Role;
 import dev.loupgarou.roles.utils.RoleType;
 import dev.loupgarou.roles.utils.RoleWinType;
+import dev.loupgarou.utils.SoundUtils.LGSound;
 import dev.loupgarou.utils.VariableCache;
 import dev.loupgarou.utils.VariableCache.CacheType;
 import dev.loupgarou.utils.VariousUtils;
-import dev.loupgarou.utils.SoundUtils.LGSound;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
@@ -72,7 +72,7 @@ public class LGPlayer extends LGPlayerSimple {
 		super(player);
 	}
 	@Deprecated
-	public LGPlayer(String name) {
+	public LGPlayer(@NonNull String name) {
 		super(name);
 	}
 

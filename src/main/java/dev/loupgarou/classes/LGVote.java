@@ -34,7 +34,9 @@ import dev.loupgarou.packetwrapper.WrapperPlayServerSpawnEntityLiving;
 import dev.loupgarou.utils.VariableCache.CacheType;
 import dev.loupgarou.utils.VariousUtils;
 import lombok.Getter;
+import lombok.ToString;
 
+@ToString
 public class LGVote {
 	
 	@Getter LGPlayer choosen;

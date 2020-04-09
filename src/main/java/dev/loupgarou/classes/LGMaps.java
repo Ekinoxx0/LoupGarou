@@ -22,6 +22,7 @@ import dev.loupgarou.MainLg;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 public class LGMaps {
 
@@ -52,7 +53,7 @@ public class LGMaps {
 	
 	@Getter private List<LGMap> maps = new ArrayList<LGMap>();
 	
-	@RequiredArgsConstructor
+	@RequiredArgsConstructor @ToString
 	public static class LGMap {
 		@NonNull @Getter private String name;
 		@Getter @NonNull private String world;
@@ -73,7 +74,7 @@ public class LGMaps {
 		}
 	}
 	
-	@Getter
+	@Getter @ToString
 	public static class LGLocation {
 		private double x;
 		private double y;

@@ -13,8 +13,9 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
-@RequiredArgsConstructor
+@RequiredArgsConstructor @ToString
 public class LGGameConfig {
 	
 	@Getter private final Map<Class<? extends Role>, Integer> roles = new HashMap<Class<? extends Role>, Integer>();

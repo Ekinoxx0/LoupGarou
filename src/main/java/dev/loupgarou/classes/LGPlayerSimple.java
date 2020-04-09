@@ -14,7 +14,9 @@ import dev.loupgarou.utils.SoundUtils;
 import dev.loupgarou.utils.SoundUtils.LGSound;
 import lombok.Getter;
 import lombok.NonNull;
+import lombok.ToString;
 
+@ToString
 public class LGPlayerSimple {
 
 	@Getter private Player player;
