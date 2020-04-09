@@ -54,10 +54,7 @@ public class VariableCache {
 	
 	
 	public void set(@NonNull CacheType key, Object value) {
-		if(cache.containsKey(key))
-			cache.replace(key, value);
-		else
-			cache.put(key, value);
+		cache.put(key, value);
 	}
 	
 	public boolean has(@NonNull CacheType key) {

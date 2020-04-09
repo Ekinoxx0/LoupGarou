@@ -101,6 +101,7 @@ public class LGPlayerSimple {
 	}
 	
 	public void destroy() {
+		LGPlayer.removePlayer(this.player);//TODO Remove player each destroy ?
 		this.player = null;
 	}
 

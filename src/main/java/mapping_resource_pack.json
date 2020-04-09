@@ -3,6 +3,7 @@
         "green_role": "GRASS_BLOCK",
         "red_role": "REDSTONE",
         "mid_role": "REDSTONE_BLOCK",
+        "grey_role": "COARSE_DIRT",
         "arrow": "EMERALD",
         "check": "GOLD_NUGGET",
         "cross": "IRON_NUGGET",

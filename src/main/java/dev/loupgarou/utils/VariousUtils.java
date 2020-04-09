@@ -1,6 +1,8 @@
 package dev.loupgarou.utils;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -15,7 +17,9 @@ import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.EnumWrappers;
 
+import dev.loupgarou.MainLg;
 import dev.loupgarou.classes.LGPlayer;
+import dev.loupgarou.packetwrapper.WrapperPlayServerEntityDestroy;
 import dev.loupgarou.packetwrapper.WrapperPlayServerScoreboardTeam;
 import dev.loupgarou.packetwrapper.WrapperPlayServerScoreboardTeam.Mode;
 import dev.loupgarou.utils.SoundUtils.LGSound;
@@ -67,8 +71,15 @@ public class VariousUtils {
 		lgp.setGame(null);
 		lgp.setPlace(0);
 		lgp.setRole(null);
+		lgp.stopChoosing();
+		lgp.sendActionBarMessage("");
+		lgp.sendTitle("", "", 0);
+		lgp.joinChat(MainLg.getInstance().getLobbyChat(), null, false);
+		lgp.showView();
 		
 		VariousUtils.setWarning(p, false);
+		VariousUtils.clearVotes(p);
+		
 		if(p.getGameMode() == GameMode.SURVIVAL)
 			p.setGameMode(GameMode.ADVENTURE);
 		p.setWalkSpeed(0.2f);
@@ -83,14 +94,28 @@ public class VariousUtils {
 		p.teleport(Bukkit.getWorlds().get(0).getSpawnLocation());
 		for(PotionEffect effect : p.getActivePotionEffects())
 			p.removePotionEffect(effect.getType());
-
-		lgp.setDead(false);
-		lgp.leaveChat();
 		
 		WrapperPlayServerScoreboardTeam team = new WrapperPlayServerScoreboardTeam();
 		team.setMode(Mode.TEAM_REMOVED);
 		team.setName("you_are");
 		team.sendPacket(p);
+	}
+	
+	public static void clearVotes(Player p) {
+		WrapperPlayServerEntityDestroy destroy = new WrapperPlayServerEntityDestroy();
+		destroy.setEntityIds(new int[] {Integer.MIN_VALUE + p.getEntityId()});
+		int[] ids = new int[Bukkit.getOnlinePlayers().size() + 1];
+		List<Player> players = new ArrayList<Player>(Bukkit.getOnlinePlayers());
+		for(int i = 0; i < Bukkit.getOnlinePlayers().size(); i++) {
+			ids[i] = Integer.MIN_VALUE + players.get(i).getEntityId();
+			destroy.sendPacket(players.get(i));
+		}
+
+		ids[ids.length-1] = -p.getEntityId();
+
+		destroy = new WrapperPlayServerEntityDestroy();
+		destroy.setEntityIds(ids);
+		destroy.sendPacket(p);
 	}
 
 }

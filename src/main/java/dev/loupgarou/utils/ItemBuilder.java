@@ -34,9 +34,9 @@ public class ItemBuilder {
      * @param material Material
      */
     public ItemBuilder(@NonNull Material material) {
-    	
     	item = new ItemStack(material);
     	meta = item.getItemMeta();
+    	this.hideFlags(true);
     }
     
     /**

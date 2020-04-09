@@ -80,7 +80,7 @@ public class RPetiteFille extends Role{
 			if(e.getPreviousRole() instanceof RLoupGarou)
 				for(LGPlayer player : getPlayers())
 					if(!player.getCache().getBoolean(CacheType.INFECTED) && player.isRoleActive())
-						player.leaveChat();
+						player.leaveAllChat();
 		}
 	}
 }

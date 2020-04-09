@@ -25,7 +25,6 @@ import lombok.RequiredArgsConstructor;
 /**
  * TODO add item in waiting
  * TODO add tip to shift clic
- * TODO Auto role
  * TODO Save compo
  */
 @RequiredArgsConstructor
@@ -47,12 +46,12 @@ public class RoleMenu {
 		
 		int i = 0;
 		int total = game.getConfig().getTotalConfiguredRoles();
-		for(String roleName : MainLg.getInstance().getRoles().keySet()) {
-			int nbRole = game.getConfig().getRoles().get(roleName);
-			Role fakeRole = FakeRoles.getRole(roleName);
+		for(Class<? extends Role> roleClazz : MainLg.getInstance().getRoles().keySet()) {
+			int nbRole = game.getConfig().getRoles().get(roleClazz);
+			Role fakeRole = FakeRoles.getRole(roleClazz);
 			ii.registerItem(
 					new ItemBuilder(LGCustomItems.getItemMenu(fakeRole))
-						.name(fakeRole.getColor() + roleName)
+						.name(fakeRole.getColor() + fakeRole.getName())
 						.lore(Arrays.asList(
 								"§7" + nbRole,
 								"",
@@ -93,13 +92,13 @@ public class RoleMenu {
 								return;
 							}
 							if(nbRole + modif > fakeRole.getMaxNb()) {
-								human.sendMessage(PrefixType.PARTIE + "§cImpossible de définir plus de " + fakeRole.getMaxNb() + " " + roleName);
+								human.sendMessage(PrefixType.PARTIE + "§cImpossible de définir plus de " + fakeRole.getMaxNb() + " " + roleClazz);
 								return;
 							}
 							if(modif == 0) return;
 							
-							human.sendMessage(PrefixType.PARTIE + "§6Il y aura §e" + (nbRole + modif) + " " + roleName);
-							game.getConfig().getRoles().replace(roleName, nbRole + modif);
+							human.sendMessage(PrefixType.PARTIE + "§6Il y aura §e" + (nbRole + modif) + " " + roleClazz);
+							game.getConfig().getRoles().replace(roleClazz, nbRole + modif);
 							
 							//Update all opened inventory
 							for(LGPlayer lInGame : game.getInGame())
@@ -114,7 +113,7 @@ public class RoleMenu {
 				new ItemBuilder(LGCustomItems.getSpecialItem(SpecialItems.CHECK))
 					.name("§aTotal : " + total)
 					.build(), 
-				4*9-1, true, new InventoryCall() {
+				ii.getInv().getSize() - 1, true, new InventoryCall() {
 					
 					@Override
 					public void click(HumanEntity human, ItemStack item, ClickType clickType) {

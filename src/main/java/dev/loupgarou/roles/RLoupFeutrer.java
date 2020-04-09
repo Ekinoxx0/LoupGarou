@@ -28,7 +28,7 @@ public class RLoupFeutrer extends Role {
     }
     @Override
     public String getName() {
-        return "§lLoup Feutrer";
+        return getColor() + "§lLoup Feutrer";
     }
     @Override
     public String getFriendlyName() {

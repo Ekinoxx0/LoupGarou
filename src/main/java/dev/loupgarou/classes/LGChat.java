@@ -20,7 +20,7 @@ public class LGChat {
 	
 
 	public void sendMessage(LGPlayer sender, String message) {
-		MainLg.debug(sender.getGame().getKey(), "[" + this.chatName + "] " + sender.getName() + " : " + message);
+		MainLg.debug(sender.getGame() != null ? sender.getGame().getKey() : "", "[" + this.chatName + "] " + sender.getName() + " : " + message);
 		String sendMessage = getViewers().get(sender).send(sender, message);
 		for(Entry<LGPlayer, LGChatCallback> entry : viewers.entrySet()) {
 			entry.getKey().sendMessage(sendMessage != null ? sendMessage : entry.getValue().receive(sender, message));
@@ -28,14 +28,11 @@ public class LGChat {
 	}
 
 	public void join(LGPlayer player, LGChatCallback callback) {
-		MainLg.debug(player.getGame().getKey(), "[" + this.chatName + "] (JOIN) " + player.getName() + " ! ");
-		if(getViewers().containsKey(player))
-			getViewers().replace(player, callback);
-		else
-			getViewers().put(player, callback);
+		MainLg.debug(player.getGame() != null ? player.getGame().getKey() : "", "[" + this.chatName + "] (JOIN) " + player.getName() + " ! ");
+		getViewers().put(player, callback);
 	}
 	public void leave(LGPlayer player) {
-		MainLg.debug(player.getGame().getKey(), "[" + this.chatName + "] (LEAVE) " + player.getName() + " ! ");
+		MainLg.debug(player.getGame() != null ? player.getGame().getKey() : "", "[" + this.chatName + "] (LEAVE) " + player.getName() + " ! ");
 		getViewers().remove(player);
 	}
 }

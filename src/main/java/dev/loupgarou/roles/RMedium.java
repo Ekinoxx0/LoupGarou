@@ -84,7 +84,7 @@ public class RMedium extends Role{
 				return getName()+"§6 » §f"+message;
 			}
 			
-		});
+		}, false);
 	}
 	@EventHandler
 	public void onRoleTurn(LGRoleTurnEndEvent e) {
@@ -103,7 +103,7 @@ public class RMedium extends Role{
 			for(LGPlayer lgp : getPlayers()) {
 				lgp.sendMessage("§8§oTu perds le contact avec les morts...");
 				if(lgp.isRoleActive())
-					lgp.leaveChat();
+					lgp.leaveAllChat();
 			}
 	}
 }

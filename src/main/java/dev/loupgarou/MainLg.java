@@ -72,7 +72,7 @@ public class MainLg extends JavaPlugin {
 	
 	@Getter private static MainLg instance;
 	@Getter private final static List<Player> DEBUGS = new ArrayList<Player>();
-	@Getter private LinkedHashMap<String, Constructor<? extends Role>> roles = new LinkedHashMap<String, Constructor<? extends Role>>();
+	@Getter private LinkedHashMap<Class<? extends Role>, Constructor<? extends Role>> roles = new LinkedHashMap<Class<? extends Role>, Constructor<? extends Role>>();
 	
 	@Getter private List<LGGame> games = new ArrayList<LGGame>();
 	@Getter private DiscordManager discord;
@@ -234,7 +234,7 @@ public class MainLg extends JavaPlugin {
 	
 	private void registerRole(Class<? extends Role> role) {
 		try {
-			roles.put(role.getSimpleName().substring(1), role.getConstructor(LGGame.class));
+			roles.put(role, role.getConstructor(LGGame.class));
 		} catch (NoSuchMethodException | SecurityException e) {
 			e.printStackTrace();
 		}

@@ -13,6 +13,7 @@ import dev.loupgarou.MainLg;
 import dev.loupgarou.commands.subcommands.DiscordCmd;
 import dev.loupgarou.commands.subcommands.MainMenuCmd;
 import dev.loupgarou.commands.subcommands.ReloadPacksCmd;
+import dev.loupgarou.commands.subcommands.config.AutoRoleMenuCmd;
 import dev.loupgarou.commands.subcommands.config.HideRoleCmd;
 import dev.loupgarou.commands.subcommands.config.HideVoteCmd;
 import dev.loupgarou.commands.subcommands.config.HideVoteExtraCmd;
@@ -46,6 +47,7 @@ public class LoupGarouCommand implements CommandExecutor, TabExecutor {
 		this.main = main;
 		Bukkit.getPluginCommand("lg").setExecutor(this);
 		Bukkit.getPluginCommand("lg").setTabCompleter(this);
+		this.subs.add(new AutoRoleMenuCmd(this));
 		this.subs.add(new HideRoleCmd(this));
 		this.subs.add(new HideVoteCmd(this));
 		this.subs.add(new HideVoteExtraCmd(this));

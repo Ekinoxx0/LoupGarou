@@ -270,7 +270,7 @@ public class RPretre extends Role{
 					lgp.getPlayer().updateInventory();
 					LGCustomItems.updateItem(lgp);
 
-					lgp.joinChat(getGame().getDayChat());//Pour qu'il ne parle plus dans le chat des morts (et ne le voit plus) et qu'il parle dans le chat des vivants
+					lgp.joinChat(getGame().getDayChat(), null, false);//Pour qu'il ne parle plus dans le chat des morts (et ne le voit plus) et qu'il parle dans le chat des vivants
 					VariousUtils.setWarning(lgp.getPlayer(), true);
 					
 					getGame().updateRoleScoreboard();

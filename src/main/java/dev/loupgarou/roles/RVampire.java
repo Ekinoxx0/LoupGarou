@@ -111,7 +111,7 @@ public class RVampire extends Role{
 		for(LGPlayer player : getPlayers()) {
 			player.sendMessage("§6"+getTask());
 		//	player.sendTitle("§6C'est à vous de jouer", "§a"+getTask(), 100);
-			player.joinChat(vampireChat);
+			player.joinChat(vampireChat, null, false);
 		}
 		vote.start(getPlayers(), getPlayers(), ()->{
 			onNightTurnEnd();
@@ -123,7 +123,7 @@ public class RVampire extends Role{
 			if(lgp.getRoleType() == RoleType.VAMPIRE)
 				lgp.hideView();
 		for(LGPlayer player : getPlayers())
-			player.leaveChat();
+			player.leaveAllChat();
 
 		LGPlayer choosen = vote.getChoosen();
 		if(choosen == null) {

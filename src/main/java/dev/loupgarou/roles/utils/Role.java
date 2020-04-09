@@ -23,7 +23,7 @@ public abstract class Role implements Listener{
 	
 	public Role(@NonNull LGGame game) {
 		this.game = game;
-		this.waitedPlayers = this.game.getConfig().getRoles().get(getClass().getSimpleName().substring(1));//TODO Is that really neccessary ?
+		this.waitedPlayers = this.game.getConfig().getRoles().get(getClass());//TODO Is that really neccessary ?
 		Bukkit.getPluginManager().registerEvents(this, MainLg.getInstance());
 	}
 	

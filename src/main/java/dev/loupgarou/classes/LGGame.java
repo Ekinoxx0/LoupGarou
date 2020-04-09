@@ -52,9 +52,9 @@ import dev.loupgarou.events.roles.LGRoleTurnEndEvent;
 import dev.loupgarou.events.vote.LGMayorVoteStartEvent;
 import dev.loupgarou.events.vote.LGPeopleVoteStartEvent;
 import dev.loupgarou.events.vote.LGVoteLeaderChange;
+import dev.loupgarou.menu.AutoRoleMenu;
 import dev.loupgarou.menu.RoleMenu;
 import dev.loupgarou.packetwrapper.WrapperPlayServerChat;
-import dev.loupgarou.packetwrapper.WrapperPlayServerEntityDestroy;
 import dev.loupgarou.packetwrapper.WrapperPlayServerExperience;
 import dev.loupgarou.packetwrapper.WrapperPlayServerPlayerInfo;
 import dev.loupgarou.packetwrapper.WrapperPlayServerUpdateHealth;
@@ -239,33 +239,12 @@ public class LGGame implements Listener{
 			return false;
 		}
 		
+		lgp.setGame(this);
+		
 		Player p = lgp.getPlayer();
 		
 		VariousUtils.setWarning(p, false);
-		if(lgp.isMuted())
-			lgp.resetMuted();
-		
-
-		//TODO Verify Clear votes
-
-		WrapperPlayServerEntityDestroy destroy = new WrapperPlayServerEntityDestroy();
-		destroy.setEntityIds(new int[] {Integer.MIN_VALUE+p.getEntityId()});
-		int[] ids = new int[getInGame().size()+1];
-		for(int i = 0;i<getInGame().size();i++) {
-			Player l = getInGame().get(i).getPlayer();
-			if(l == null)
-				continue;
-			ids[i] = Integer.MIN_VALUE+l.getEntityId();
-			destroy.sendPacket(l);
-		}
-
-		ids[ids.length-1] = -p.getEntityId();// Clear voting
-
-		destroy = new WrapperPlayServerEntityDestroy();
-		destroy.setEntityIds(ids);
-		destroy.sendPacket(p);
-
-		// End clear votes/voting
+		VariousUtils.clearVotes(p);
 
 		lgp.updateOwnSkin();
 		p.removePotionEffect(PotionEffectType.INVISIBILITY);
@@ -275,8 +254,7 @@ public class LGGame implements Listener{
 		p.updateInventory();
 		p.closeInventory();
 
-		lgp.setGame(this);
-		lgp.joinChat(dayChat);
+		lgp.joinChat(dayChat, null, false);
 			
 		inGame.add(lgp);
 			
@@ -305,7 +283,7 @@ public class LGGame implements Listener{
 		return true;
 	}
 	public void leave(LGPlayer lgp) {
-		lgp.leaveChat();
+		lgp.leaveAllChat();
 		if(lgp.getRole() != null && !lgp.isDead())
 			lgp.getGame().kill(lgp, Reason.DISCONNECTED, true);
 		this.getInGame().remove(lgp);
@@ -388,7 +366,7 @@ public class LGGame implements Listener{
 		}
 		
 		try {
-			for(Entry<String, Constructor<? extends Role>> role : main.getRoles().entrySet())
+			for(Entry<Class<? extends Role>, Constructor<? extends Role>> role : main.getRoles().entrySet())
 				if(getConfig().getRoles().get(role.getKey()) > 0)
 					roles.add(role.getValue().newInstance(this));
 		}catch(Exception err) {
@@ -572,7 +550,7 @@ public class LGGame implements Listener{
 		broadcastMessage("§8§oLa nuit tombe sur le village...");
 		
 		for(LGPlayer player : getAlive())
-			player.leaveChat();
+			player.leaveAllChat();
 		for(LGPlayer player : getInGame()) {
 			player.stopAudio(LGSound.AMBIANT_DAY);
 			player.playAudio(LGSound.START_NIGHT, 0.5F);
@@ -621,12 +599,11 @@ public class LGGame implements Listener{
 	public boolean kill(LGPlayer killed, Reason reason, boolean endGame) {
 		if(killed.getPlayer() != null){
 			killed.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 999999, 1, false, false));
-			killed.setMuted();
 			
 			for(LGPlayer lgp : getInGame())
 				if(lgp == killed) {
 					WrapperPlayServerPlayerInfo info = new WrapperPlayServerPlayerInfo();
-					ArrayList<PlayerInfoData> infos = new ArrayList<PlayerInfoData>();
+					List<PlayerInfoData> infos = new ArrayList<PlayerInfoData>();
 					info.setAction(PlayerInfoAction.REMOVE_PLAYER);
 					infos.add(new PlayerInfoData(new WrappedGameProfile(lgp.getPlayer().getUniqueId(), lgp.getName()), 0, NativeGameMode.ADVENTURE, WrappedChatComponent.fromText(lgp.getName())));
 					info.setData(infos);
@@ -656,9 +633,8 @@ public class LGGame implements Listener{
 			
 			LGCustomItems.updateItem(killed);
 			
-			//killed.leaveChat();
-			killed.joinChat(spectatorChat);
-			killed.joinChat(dayChat, true);
+			killed.joinChat(spectatorChat, null, false);
+			killed.joinChat(dayChat, null, true);
 		}
 		
 		//Update scoreboard
@@ -705,12 +681,7 @@ public class LGGame implements Listener{
 		
 		broadcastMessage(PrefixType.PARTIE + winType.getMessage());
 		for(LGPlayer lgp : getInGame()) {
-			lgp.leaveChat();
-			lgp.joinChat(spectatorChat);
-			
-			lgp.showView();
-			
-			lgp.sendTitle("§7§lÉgalité", "§8Personne n'a gagné...", 200);
+			lgp.leaveAllChat();
 			
 			if(winners.contains(lgp))
 				lgp.sendTitle("§a§lVictoire !", "§6Vous avez gagné la partie.", 200);
@@ -818,7 +789,7 @@ public class LGGame implements Listener{
 	}
 	public void startDay() {
 		for(LGPlayer player : getInGame())
-			player.joinChat(dayChat, player.isDead());
+			player.joinChat(dayChat, null, player.isDead());
 		
 		LGDayStartEvent dayStart = new LGDayStartEvent(this);
 		Bukkit.getPluginManager().callEvent(dayStart);
@@ -958,5 +929,10 @@ public class LGGame implements Listener{
 		}
 		
 		roleMenu.openMenu(lgp);
+	}
+	
+	private final AutoRoleMenu autoRoleMenu = new AutoRoleMenu(this);
+	public void openAutoRoleMenu(LGPlayer lgp) {
+		autoRoleMenu.openMenu(lgp);
 	}
 }

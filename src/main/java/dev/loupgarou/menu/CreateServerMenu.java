@@ -5,42 +5,29 @@ import java.util.Arrays;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
-import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
-import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import dev.loupgarou.MainLg;
 import dev.loupgarou.classes.LGCustomItems;
+import dev.loupgarou.classes.LGCustomItems.SpecialItems;
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGGameConfig;
 import dev.loupgarou.classes.LGGameConfig.CommunicationType;
 import dev.loupgarou.classes.LGMaps;
 import dev.loupgarou.classes.LGMaps.LGMap;
-import dev.loupgarou.roles.utils.FakeRoles;
 import dev.loupgarou.classes.LGPlayer;
-import dev.loupgarou.classes.LGCustomItems.SpecialItems;
+import dev.loupgarou.roles.RAssassin;
+import dev.loupgarou.roles.utils.FakeRoles;
 import dev.loupgarou.utils.CommonText.PrefixType;
 import dev.loupgarou.utils.InteractInventory;
 import dev.loupgarou.utils.InteractInventory.InventoryCall;
-import dev.loupgarou.utils.InteractInventory.InventoryClose;
 import dev.loupgarou.utils.ItemBuilder;
 import lombok.NonNull;
 
 public class CreateServerMenu {
 	
-	private static final InventoryClose canceledServerCreation = new InventoryClose() {
-		
-		public void nextTick(InteractInventory ii, HumanEntity human) {
-			if(human.getOpenInventory().getType() == InventoryType.CRAFTING && LGPlayer.thePlayer((Player) human).getGame() == null)
-				human.sendMessage(PrefixType.PARTIE + "§6Annulation de la création de la partie...");
-		};
-		
-		@Override
-		public boolean close(InteractInventory ii, HumanEntity human) { return true; }
-	};
-
 	public static void openMenu(@NonNull LGPlayer lgp) {
 		if(lgp.getGame() != null) {
 			lgp.sendMessage(PrefixType.PARTIE + "§cVous êtes déjà en partie...");
@@ -76,8 +63,6 @@ public class CreateServerMenu {
 					}
 				});
 
-		ii.setCloseAction(canceledServerCreation);
-		
 		ii.openTo(lgp.getPlayer());
 	}
 	
@@ -113,8 +98,6 @@ public class CreateServerMenu {
 			i++;
 		}
 		
-		ii.setCloseAction(canceledServerCreation);
-		
 		ii.openTo(lgp.getPlayer());
 	}
 	
@@ -124,7 +107,7 @@ public class CreateServerMenu {
 		ii.fill(null, true, null);
 		
 		ii.registerItem(
-				new ItemBuilder(LGCustomItems.getItemMenu(FakeRoles.getRole("Assassin")))
+				new ItemBuilder(LGCustomItems.getItemMenu(FakeRoles.getRole(RAssassin.class)))
 				.name("§6Sélection du type de tchat")
 				.lore(//TODO verify is connected
 						Arrays.asList(
@@ -166,8 +149,6 @@ public class CreateServerMenu {
 						validate(lgp, config);
 					}
 				});
-		
-		ii.setCloseAction(canceledServerCreation);
 		
 		ii.openTo(lgp.getPlayer());
 	}
@@ -224,8 +205,6 @@ public class CreateServerMenu {
 						human.closeInventory();
 					}
 				});
-		
-		ii.setCloseAction(canceledServerCreation);
 		
 		ii.openTo(lgp.getPlayer());
 	}

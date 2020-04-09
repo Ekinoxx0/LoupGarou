@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 
 import dev.loupgarou.MainLg;
 import dev.loupgarou.classes.LGMaps.LGMap;
+import dev.loupgarou.roles.utils.Role;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +17,7 @@ import lombok.Setter;
 @RequiredArgsConstructor
 public class LGGameConfig {
 	
-	@Getter private final Map<String, Integer> roles = new HashMap<String, Integer>();
+	@Getter private final Map<Class<? extends Role>, Integer> roles = new HashMap<Class<? extends Role>, Integer>();
 	@Getter @Setter private boolean hideRole = false;
 	@Getter @Setter private boolean hideVote = false;
 	@Getter @Setter private boolean hideVoteExtra = false;
@@ -28,8 +29,8 @@ public class LGGameConfig {
 	@Getter private final List<String> banned = new ArrayList<String>();
 	
 	{//Init map
-		for(String roleName : MainLg.getInstance().getRoles().keySet())
-			this.roles.put(roleName, 0);
+		for(Class<? extends Role> roleClazz : MainLg.getInstance().getRoles().keySet())
+			this.roles.put(roleClazz, 0);
 	}
 	
 	/*
@@ -38,7 +39,7 @@ public class LGGameConfig {
 	
 	public int getTotalConfiguredRoles(){
 		int total = 0;
-		for(Entry<String, Integer> entry : roles.entrySet())
+		for(Entry<Class<? extends Role>, Integer> entry : roles.entrySet())
 			total += entry.getValue();
 		return total;
 	}

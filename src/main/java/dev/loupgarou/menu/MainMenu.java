@@ -10,6 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import dev.loupgarou.classes.LGCustomItems;
 import dev.loupgarou.classes.LGCustomItems.SpecialItems;
 import dev.loupgarou.classes.LGPlayer;
+import dev.loupgarou.roles.RGarde;
 import dev.loupgarou.roles.utils.FakeRoles;
 import dev.loupgarou.utils.InteractInventory;
 import dev.loupgarou.utils.InteractInventory.InventoryCall;
@@ -24,7 +25,7 @@ public class MainMenu {
 		ii.fillBorder(null, true);
 		
 		ii.registerItem(
-				new ItemBuilder(LGCustomItems.getItemMenu(FakeRoles.getRole("Garde")))
+				new ItemBuilder(LGCustomItems.getItemMenu(FakeRoles.getRole(RGarde.class)))
 				.name("§9Création d'une partie")
 				.lore(
 						Arrays.asList(

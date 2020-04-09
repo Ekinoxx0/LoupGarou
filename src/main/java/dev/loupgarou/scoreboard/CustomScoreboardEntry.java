@@ -30,23 +30,23 @@ public class CustomScoreboardEntry {
 	}
 	
 	public void show() {
-		if(prefix != null) {
-			WrapperPlayServerScoreboardTeam team = new WrapperPlayServerScoreboardTeam();
-			team.setPlayers(Arrays.asList(name));
-			team.setName(name);
-			team.setMode(0);
-			team.setPrefix(prefix);
-			if(suffix != null)
-				team.setSuffix(suffix);
-			team.sendPacket(scoreboard.getPlayer().getPlayer());
-			
-			WrapperPlayServerScoreboardScore score = new WrapperPlayServerScoreboardScore();
-			score.setObjectiveName(scoreboard.getName());
-			score.setScoreboardAction(ScoreboardAction.CHANGE);
-			score.setScoreName(name);
-			score.setValue(this.score);
-			score.sendPacket(scoreboard.getPlayer().getPlayer());
-		}
+		if(prefix == null) return;
+		
+		WrapperPlayServerScoreboardTeam team = new WrapperPlayServerScoreboardTeam();
+		team.setPlayers(Arrays.asList(name));
+		team.setName(name);
+		team.setMode(Mode.TEAM_CREATED);
+		team.setPrefix(prefix);
+		if(suffix != null)
+			team.setSuffix(suffix);
+		team.sendPacket(scoreboard.getPlayer().getPlayer());
+		
+		WrapperPlayServerScoreboardScore score = new WrapperPlayServerScoreboardScore();
+		score.setObjectiveName(scoreboard.getName());
+		score.setScoreboardAction(ScoreboardAction.CHANGE);
+		score.setScoreName(name);
+		score.setValue(this.score);
+		score.sendPacket(scoreboard.getPlayer().getPlayer());
 	}
 	
 	public void setDisplayName(String displayName) {
@@ -82,7 +82,7 @@ public class CustomScoreboardEntry {
 				WrapperPlayServerScoreboardTeam team = new WrapperPlayServerScoreboardTeam();
 				team.setPlayers(Arrays.asList(name));
 				team.setName(name);
-				team.setMode(2);
+				team.setMode(Mode.TEAM_UPDATED);
 				team.setPrefix(prefix);
 				if(suffix != null)
 					team.setSuffix(suffix);

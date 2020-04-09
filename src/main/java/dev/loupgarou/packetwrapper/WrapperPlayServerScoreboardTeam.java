@@ -53,12 +53,6 @@ public class WrapperPlayServerScoreboardTeam extends AbstractPacket {
 		public static final int TEAM_UPDATED = 2;
 		public static final int PLAYERS_ADDED = 3;
 		public static final int PLAYERS_REMOVED = 4;
-
-		private static final Mode INSTANCE = new Mode();
-
-		public static Mode getInstance() {
-			return INSTANCE;
-		}
 	}
 
 	/**

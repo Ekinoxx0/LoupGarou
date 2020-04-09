@@ -21,6 +21,7 @@ import dev.loupgarou.MainLg;
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.packetwrapper.WrapperPlayServerScoreboardTeam;
+import dev.loupgarou.packetwrapper.WrapperPlayServerScoreboardTeam.Mode;
 import dev.loupgarou.utils.CommonText.PrefixType;
 import dev.loupgarou.utils.VariousUtils;
 
@@ -43,7 +44,7 @@ public class JoinListener implements Listener{
 		myTeam.setName(p.getDisplayName());
 		myTeam.setPrefix(WrappedChatComponent.fromText(""));
 		myTeam.setPlayers(Arrays.asList(p.getDisplayName()));
-		myTeam.setMode(0);
+		myTeam.setMode(Mode.TEAM_CREATED);
 		for(Player allPlayer : Bukkit.getOnlinePlayers())
 			if(allPlayer != p) {
 				if(allPlayer.getGameMode() != GameMode.SPECTATOR)
@@ -52,7 +53,7 @@ public class JoinListener implements Listener{
 				team.setName(allPlayer.getDisplayName());
 				team.setPrefix(WrappedChatComponent.fromText(""));
 				team.setPlayers(Arrays.asList(allPlayer.getDisplayName()));
-				team.setMode(0);
+				team.setMode(Mode.TEAM_CREATED);
 				
 				team.sendPacket(p);
 				myTeam.sendPacket(allPlayer);
@@ -102,7 +103,6 @@ public class JoinListener implements Listener{
 		if(lgp.getGame() != null)
 			lgp.getGame().leave(lgp);
 		
-		LGPlayer.removePlayer(p);
 		lgp.destroy();
 	}
 	

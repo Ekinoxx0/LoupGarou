@@ -110,7 +110,7 @@ public class RLoupGarou extends Role{
 		for(LGPlayer player : getPlayers()) {
 			player.sendMessage("§6"+getTask());
 		//	player.sendTitle("§6C'est à vous de jouer", "§a"+getTask(), 100);
-			player.joinChat(chat);
+			player.joinChat(chat, null, false);
 		}
 		vote.start(getPlayers(), getPlayers(), ()->{
 			onNightTurnEnd();
@@ -121,9 +121,8 @@ public class RLoupGarou extends Role{
 		for(LGPlayer lgp : getGame().getAlive())
 			if(lgp.getRoleType() == RoleType.LOUP_GAROU)
 				lgp.hideView();
-		for(LGPlayer player : getPlayers()) {
-			player.leaveChat();
-		}
+		for(LGPlayer player : getPlayers())
+			player.leaveAllChat();
 
 		LGPlayer choosen = vote.getChoosen();
 		if(choosen == null) {
