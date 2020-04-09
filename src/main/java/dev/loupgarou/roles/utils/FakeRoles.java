@@ -22,6 +22,10 @@ public class FakeRoles {
 	private static final LGGame fakeGame = new LGGame(new LGPlayer("fake"), new LGGameConfig(new LGMap("fake", Bukkit.getWorlds().get(0).getName(), Material.AIR), true));
 	private static final HashMap<String, Role> roles = new HashMap<String, Role>();
 	
+	static {
+		MainLg.getInstance().getGames().remove(fakeGame);
+	}
+	
 	public static List<Role> all() {
 		List<Role> all = new ArrayList<Role>();
 		

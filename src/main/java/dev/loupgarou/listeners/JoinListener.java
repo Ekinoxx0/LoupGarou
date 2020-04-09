@@ -14,7 +14,6 @@ import org.bukkit.event.player.PlayerLoginEvent.Result;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerResourcePackStatusEvent;
 import org.bukkit.event.player.PlayerResourcePackStatusEvent.Status;
-import org.bukkit.potion.PotionEffectType;
 
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 
@@ -23,6 +22,7 @@ import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.packetwrapper.WrapperPlayServerScoreboardTeam;
 import dev.loupgarou.utils.CommonText.PrefixType;
+import dev.loupgarou.utils.VariousUtils;
 
 public class JoinListener implements Listener{
 	
@@ -41,7 +41,7 @@ public class JoinListener implements Listener{
 		
 		WrapperPlayServerScoreboardTeam myTeam = new WrapperPlayServerScoreboardTeam();
 		myTeam.setName(p.getDisplayName());
-		myTeam.setPrefix(WrappedChatComponent.fromText("§7"));
+		myTeam.setPrefix(WrappedChatComponent.fromText(""));
 		myTeam.setPlayers(Arrays.asList(p.getDisplayName()));
 		myTeam.setMode(0);
 		for(Player allPlayer : Bukkit.getOnlinePlayers())
@@ -50,7 +50,7 @@ public class JoinListener implements Listener{
 					allPlayer.hidePlayer(MainLg.getInstance(), p);
 				WrapperPlayServerScoreboardTeam team = new WrapperPlayServerScoreboardTeam();
 				team.setName(allPlayer.getDisplayName());
-				team.setPrefix(WrappedChatComponent.fromText("§7"));
+				team.setPrefix(WrappedChatComponent.fromText(""));
 				team.setPlayers(Arrays.asList(allPlayer.getDisplayName()));
 				team.setMode(0);
 				
@@ -61,9 +61,9 @@ public class JoinListener implements Listener{
 		if(e.getJoinMessage() != "is connected")
 			p.getPlayer().setResourcePack("https://github.com/Ekinoxx0/LoupGarouRessourcePack/raw/511a467a964c74318d918171e6188e35d9111c69/loup_garou.zip", "");
 		
-		
 		LGPlayer lgp = LGPlayer.thePlayer(p);
 		lgp.showView();
+		VariousUtils.setupLobby(lgp);
 		
 		if(lgp.getConnectingHostname() != null && lgp.getConnectingHostname().contains(".")) {
 			String[] hostn = lgp.getConnectingHostname().split("[.]");
@@ -76,18 +76,12 @@ public class JoinListener implements Listener{
 					lgp.sendMessage(PrefixType.PARTIE + "§cAucune partie avec le code : §4§l" + hostn[0]);
 				} else {
 					custom.tryToJoin(lgp);
+					return;
 				}
 			}
 		}
 		
-		if(p.getGameMode() == GameMode.SURVIVAL)
-			p.setGameMode(GameMode.ADVENTURE);
-		
 		e.setJoinMessage(null);
-		p.removePotionEffect(PotionEffectType.JUMP);
-		p.removePotionEffect(PotionEffectType.INVISIBILITY);
-		p.setWalkSpeed(0.2f);
-		p.setFoodLevel(20);
 	}
 	@EventHandler
 	public void onResoucePack(PlayerResourcePackStatusEvent e) {
@@ -109,7 +103,7 @@ public class JoinListener implements Listener{
 			lgp.getGame().leave(lgp);
 		
 		LGPlayer.removePlayer(p);
-		lgp.remove();
+		lgp.destroy();
 	}
 	
 }

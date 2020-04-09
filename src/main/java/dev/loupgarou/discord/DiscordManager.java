@@ -5,6 +5,8 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 import com.google.common.io.CharStreams;
 
 import dev.loupgarou.MainLg;
@@ -20,16 +22,25 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.VoiceChannel;
+import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.api.events.guild.voice.GuildVoiceUpdateEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 public class DiscordManager extends ListenerAdapter {
 	
 	private static String TOKEN;
+	public static String SECRET;
+	public static final long CLIENT_ID = 690997265384603830L;
 	private static final long CATEGORY_GAME = 696410298260914247L;
 	private static final long CHANNEL_END_GAME = 696413735631323148L;
+	private static final long BASIC_ROLE = 691019100738158613L;
 	
 	static {
+		try {
+			SECRET = CharStreams.toString(new InputStreamReader(DiscordManager.class.getResourceAsStream("/secret")));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		try {
 			TOKEN = CharStreams.toString(new InputStreamReader(DiscordManager.class.getResourceAsStream("/token")));
 		} catch (IOException e) {
@@ -46,7 +57,7 @@ public class DiscordManager extends ListenerAdapter {
 	
 	public DiscordManager(MainLg main) throws Exception {
 		this.handlers = new ArrayList<DiscordChannelHandler>();
-		this.jda = new JDABuilder(TOKEN).setActivity(Activity.watching("des loups.")).build();
+		this.jda = JDABuilder.createDefault(TOKEN).setActivity(Activity.watching("des loups.")).build();
 	    this.jda.addEventListener(this);
 	    try {
 			this.jda.awaitReady();
@@ -86,6 +97,11 @@ public class DiscordManager extends ListenerAdapter {
 		}
 		
 		e.getEntity().mute(handler.isChannelMuted()).queue();
+	}
+    
+	@Override
+    public void onGuildMemberJoin(@Nonnull GuildMemberJoinEvent e) {
+		e.getGuild().addRoleToMember(e.getMember(), e.getGuild().getRoleById(BASIC_ROLE));
 	}
 	
 	@Override

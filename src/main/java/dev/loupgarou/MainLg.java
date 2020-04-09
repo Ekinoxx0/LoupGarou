@@ -145,12 +145,11 @@ public class MainLg extends JavaPlugin {
 
 	public LGGame findGame(@NonNull String key) {
 		for(LGGame game : this.games) {
-			if(!game.getConfig().isPrivateGame() && game.getOwner().getName().equalsIgnoreCase(key)) {
+			if(!game.getConfig().isPrivateGame() && game.getOwner().getName().equalsIgnoreCase(key))
 				return game;
-			}
-			if(game.getKey().equalsIgnoreCase(key)) {
+			
+			if(game.getKey().equalsIgnoreCase(key))
 				return game;
-			}
 		}
 		
 		return null;

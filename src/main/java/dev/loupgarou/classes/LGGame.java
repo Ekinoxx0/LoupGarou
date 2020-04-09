@@ -57,8 +57,6 @@ import dev.loupgarou.packetwrapper.WrapperPlayServerChat;
 import dev.loupgarou.packetwrapper.WrapperPlayServerEntityDestroy;
 import dev.loupgarou.packetwrapper.WrapperPlayServerExperience;
 import dev.loupgarou.packetwrapper.WrapperPlayServerPlayerInfo;
-import dev.loupgarou.packetwrapper.WrapperPlayServerScoreboardTeam;
-import dev.loupgarou.packetwrapper.WrapperPlayServerScoreboardTeam.Mode;
 import dev.loupgarou.packetwrapper.WrapperPlayServerUpdateHealth;
 import dev.loupgarou.packetwrapper.WrapperPlayServerUpdateTime;
 import dev.loupgarou.roles.RChienLoupLG;
@@ -76,7 +74,9 @@ import dev.loupgarou.utils.VariousUtils;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
+import lombok.ToString;
 
+@ToString
 public class LGGame implements Listener{
 	@Getter private final SecureRandom random = new SecureRandom();
 	@Getter private List<LGPlayer> inGame = new ArrayList<LGPlayer>();
@@ -705,14 +705,9 @@ public class LGGame implements Listener{
 		
 		broadcastMessage(PrefixType.PARTIE + winType.getMessage());
 		for(LGPlayer lgp : getInGame()) {
-			for(LGSound sound : LGSound.values())
-				lgp.stopAudio(sound);
-			
-			lgp.setDead(false);
 			lgp.leaveChat();
 			lgp.joinChat(spectatorChat);
 			
-			lgp.setScoreboard(null);
 			lgp.showView();
 			
 			lgp.sendTitle("§7§lÉgalité", "§8Personne n'a gagné...", 200);
@@ -726,24 +721,7 @@ public class LGGame implements Listener{
 					lgp.sendTitle("§c§lDéfaite...", "§4Vous avez perdu la partie.", 200);
 			
 			
-			Player p = lgp.getPlayer();
-			if(p == null) continue;
-			
-			VariousUtils.setWarning(p, false);
-			p.setWalkSpeed(0.2f);
-			p.setExp(0);
-			p.setLevel(0);
-			p.getInventory().clear();
-			p.closeInventory();
-			p.teleport(Bukkit.getWorlds().get(0).getSpawnLocation());
-			for(PotionEffect effect : p.getActivePotionEffects())
-				p.removePotionEffect(effect.getType());
-			p.setWalkSpeed(0.2f);
-			
-			WrapperPlayServerScoreboardTeam team = new WrapperPlayServerScoreboardTeam();
-			team.setMode(Mode.TEAM_REMOVED);
-			team.setName("you_are");
-			team.sendPacket(p);
+			VariousUtils.setupLobby(lgp);
 		}
 		
 		for(LGPlayer lgp : getInGame())

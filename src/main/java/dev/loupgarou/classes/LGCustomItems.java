@@ -1,9 +1,9 @@
 package dev.loupgarou.classes;
 
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.StringJoiner;
 
 import org.bukkit.Bukkit;
@@ -76,7 +76,7 @@ public class LGCustomItems {
 		return mappings.get(role.getClass().getSimpleName().substring(1)).get("menu");
 	}
 	
-	private static Material getItem(@NonNull LGPlayer player, @NonNull List<LGCustomItemsConstraints> constraints) {
+	private static Material getItem(@NonNull LGPlayer player, @NonNull ArrayList<LGCustomItemsConstraints> constraints) {
 		Bukkit.getPluginManager().callEvent(new LGCustomItemChangeEvent(player.getGame(), player, constraints));
 		Collections.sort(constraints);
 		
@@ -94,10 +94,10 @@ public class LGCustomItems {
 	}
 	
 	public static void updateItem(@NonNull LGPlayer lgp) {
-		updateItem(lgp, getItem(lgp, Collections.emptyList()));
+		updateItem(lgp, getItem(lgp, new ArrayList<LGCustomItems.LGCustomItemsConstraints>()));
 	}
 
-	public static void updateItem(@NonNull LGPlayer lgp, @NonNull List<LGCustomItemsConstraints> constraints) {
+	public static void updateItem(@NonNull LGPlayer lgp, @NonNull ArrayList<LGCustomItemsConstraints> constraints) {
 		updateItem(lgp, getItem(lgp, constraints));
 	}
 	

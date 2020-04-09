@@ -11,37 +11,30 @@ import org.bukkit.WorldType;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitRunnable;
 
-import com.comphenix.protocol.wrappers.EnumWrappers.ChatType;
 import com.comphenix.protocol.wrappers.EnumWrappers.NativeGameMode;
 import com.comphenix.protocol.wrappers.EnumWrappers.PlayerInfoAction;
-import com.comphenix.protocol.wrappers.EnumWrappers.TitleAction;
 import com.comphenix.protocol.wrappers.PlayerInfoData;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
 
-import dev.loupgarou.MainLg;
 import dev.loupgarou.classes.LGChat.LGChatCallback;
-import dev.loupgarou.packetwrapper.WrapperPlayServerChat;
 import dev.loupgarou.packetwrapper.WrapperPlayServerPlayerInfo;
 import dev.loupgarou.packetwrapper.WrapperPlayServerRespawn;
 import dev.loupgarou.packetwrapper.WrapperPlayServerScoreboardTeam;
-import dev.loupgarou.packetwrapper.WrapperPlayServerTitle;
 import dev.loupgarou.roles.utils.Role;
 import dev.loupgarou.roles.utils.RoleType;
 import dev.loupgarou.roles.utils.RoleWinType;
-import dev.loupgarou.scoreboard.CustomScoreboard;
-import dev.loupgarou.utils.SoundUtils;
-import dev.loupgarou.utils.SoundUtils.LGSound;
 import dev.loupgarou.utils.VariableCache;
 import dev.loupgarou.utils.VariableCache.CacheType;
 import dev.loupgarou.utils.VariousUtils;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
+import lombok.ToString;
 
-public class LGPlayer {
+@ToString
+public class LGPlayer extends LGPlayerSimple {
 	private static HashMap<Player, LGPlayer> cachedPlayers = new HashMap<Player, LGPlayer>();
 	public static Collection<LGPlayer> all(){
 		return cachedPlayers.values();
@@ -60,12 +53,7 @@ public class LGPlayer {
 		return cachedPlayers.remove(player);
 	}
 	
-	public static void reset() {
-		cachedPlayers.clear();
-	}
-	
 	@Getter @Setter private int place;
-	@Getter private Player player;
 	@Getter @Setter private boolean dead;
 	@Getter @Setter private Role role;
 	private LGChooseCallback chooseCallback;
@@ -74,66 +62,15 @@ public class LGPlayer {
 	@Getter @Setter private LGGame game;
 	@Getter @Setter private String latestObjective;
 	@Getter @Setter private String connectingHostname;
-	@Getter private CustomScoreboard scoreboard;
+	@Getter boolean muted;
+	@Getter private LGChat chat;
+	
 	public LGPlayer(@NonNull Player player) {
-		this.player = player;
-		this.name = player.getDisplayName();
+		super(player);
 	}
 	@Deprecated
 	public LGPlayer(String name) {
-		this.name = name;
-	}
-	
-	public void setScoreboard(CustomScoreboard scoreboard) {
-		if(player != null) {
-			if(this.scoreboard != null)
-				this.scoreboard.hide();
-			
-			this.scoreboard = scoreboard;
-			
-			if(scoreboard != null)
-				scoreboard.show();
-		}
-	}
-	
-	public void sendActionBarMessage(String msg) {
-		if(this.player != null) {
-			WrapperPlayServerChat chat = new WrapperPlayServerChat();
-			chat.setChatType(ChatType.GAME_INFO);
-			chat.setMessage(WrappedChatComponent.fromText(msg));
-			chat.sendPacket(getPlayer());
-		}
-	}
-	public void sendMessage(String msg) {
-		if(this.player != null)
-			getPlayer().sendMessage(msg);
-	}
-	public void sendTitle(String title, String subTitle, int stay) {
-		if(this.player != null) {
-			WrapperPlayServerTitle titlePacket = new WrapperPlayServerTitle();
-			titlePacket.setAction(TitleAction.TIMES);
-			titlePacket.setFadeIn(10);
-			titlePacket.setStay(stay);
-			titlePacket.setFadeOut(10);
-			titlePacket.sendPacket(player);
-			
-			titlePacket = new WrapperPlayServerTitle();
-			titlePacket.setAction(TitleAction.TITLE);
-			titlePacket.setTitle(WrappedChatComponent.fromText(title));
-			titlePacket.sendPacket(player);
-			
-			titlePacket = new WrapperPlayServerTitle();
-			titlePacket.setAction(TitleAction.SUBTITLE);
-			titlePacket.setTitle(WrappedChatComponent.fromText(subTitle));
-			titlePacket.sendPacket(player);
-		}
-	}
-	public void remove() {
-		this.player = null;
-	}
-	@NonNull private String name;
-	public String getName() {
-		return player != null ? name = getPlayer().getDisplayName() : name;
+		super(name);
 	}
 
 	public void choose(LGChooseCallback callback, LGPlayer... blacklisted) {
@@ -150,7 +87,7 @@ public class LGPlayer {
 	}
 
 	public void showView() {
-		if(getGame() != null && player != null)
+		if(getGame() != null && getPlayer() != null)
 			for(LGPlayer lgp : getGame().getAlive())
 				if(!lgp.isDead()) {
 					if(lgp != this && lgp.getPlayer() != null)
@@ -177,7 +114,7 @@ public class LGPlayer {
 	}
 	
 	public void hideView() {
-		if(getGame() != null && player != null) {
+		if(getGame() != null && getPlayer() != null) {
 			WrapperPlayServerPlayerInfo info = new WrapperPlayServerPlayerInfo();
 			ArrayList<PlayerInfoData> infos = new ArrayList<PlayerInfoData>();
 			info.setAction(PlayerInfoAction.ADD_PLAYER);
@@ -196,7 +133,7 @@ public class LGPlayer {
 	}
 	
 	public void updatePrefix() {
-		if(getGame() != null && !isDead() && player != null) {
+		if(getGame() != null && !isDead() && getPlayer() != null) {
 			List<String> meList = Arrays.asList(getName());
 			for(LGPlayer lgp : getGame().getInGame()) {
 				WrapperPlayServerPlayerInfo info = new WrapperPlayServerPlayerInfo();
@@ -217,7 +154,7 @@ public class LGPlayer {
 	}
 	
 	public void updateSkin() {
-		if(getGame() != null && player != null) {
+		if(getGame() != null && getPlayer() != null) {
 			for(LGPlayer lgp : getGame().getInGame()) {
 				if(lgp == this) {
 					WrapperPlayServerPlayerInfo info = new WrapperPlayServerPlayerInfo();
@@ -233,24 +170,24 @@ public class LGPlayer {
 			}
 		}
 	}
+	
 	public void updateOwnSkin() {
-		if(player != null) {
-			//On change son skin avec un packet de PlayerInfo (dans le tab)
+		if(getPlayer() != null) {
 			WrapperPlayServerPlayerInfo infos = new WrapperPlayServerPlayerInfo();
 			infos.setAction(PlayerInfoAction.ADD_PLAYER);
 			WrappedGameProfile gameProfile = new WrappedGameProfile(getPlayer().getUniqueId(), getPlayer().getName());
 			infos.setData(Arrays.asList(new PlayerInfoData(gameProfile, 10, NativeGameMode.SURVIVAL, WrappedChatComponent.fromText(getPlayer().getName()))));
 			infos.sendPacket(getPlayer());
-			//Pour qu'il voit son skin changer (sa main et en f5), on lui dit qu'il respawn (alors qu'il n'est pas mort mais ça marche quand même mdr)
 			WrapperPlayServerRespawn respawn = new WrapperPlayServerRespawn();
 			respawn.setDimension(0);	
 			respawn.setLevelType(WorldType.NORMAL);
 			respawn.setGamemode(NativeGameMode.ADVENTURE);
 			respawn.setHashedSeed(0L);
 			respawn.sendPacket(getPlayer());
-			//Enfin, on le téléporte à sa potion actuelle car sinon il se verra dans le vide
 			getPlayer().teleport(getPlayer().getLocation());
-			float speed = getPlayer().getWalkSpeed();
+			
+			//TODO Speed after own skin ?
+			/*float speed = getPlayer().getWalkSpeed();
 			getPlayer().setWalkSpeed(0.2f);
 			new BukkitRunnable() {
 				
@@ -259,10 +196,10 @@ public class LGPlayer {
 					getPlayer().updateInventory();
 					getPlayer().setWalkSpeed(speed);
 				}
-			}.runTaskLater(MainLg.getInstance(), 5);
-			//Et c'est bon, le joueur se voit avec un nouveau skin avec quasiment aucun problème visible à l'écran :D
+			}.runTaskLater(MainLg.getInstance(), 5);*/
 		}
 	}
+	
 	public boolean canSelectDead;
 	public LGPlayer getPlayerOnCursor(List<LGPlayer> list) {
 		Location pointedLoc = getPlayer().getLocation();
@@ -293,11 +230,8 @@ public class LGPlayer {
 		return true;//TODO Old Vampire
 	}
 	
-	@Getter
-	boolean muted;
-	
 	public void setMuted() {
-		if(player != null)
+		if(getPlayer() != null)
 			for(LGPlayer lgp : getGame().getInGame())
 				if(lgp != this && lgp.getPlayer() != null)
 					lgp.hidePlayer(this);
@@ -306,8 +240,6 @@ public class LGPlayer {
 	public void resetMuted() {
 		muted = false;
 	}
-	
-	@Getter private LGChat chat;
 	
 	public void joinChat(LGChat chat, LGChatCallback callback) {
 		joinChat(chat, callback, false);
@@ -325,7 +257,7 @@ public class LGPlayer {
 		if(!muted)
 			this.chat = chat;
 		
-		if(chat != null && player != null)
+		if(chat != null && getPlayer() != null)
 			chat.join(this, callback == null ? chat.getDefaultCallback() : callback);
 	}
 	
@@ -344,25 +276,6 @@ public class LGPlayer {
 		}
 	}
 	
-	
-	public void playAudio(LGSound sound, float volume) {
-		SoundUtils.sendSound(getPlayer(), sound, volume);
-	}
-	public void stopAudio(LGSound sound) {
-		if(player != null)
-			getPlayer().stopSound(sound.getSound());
-	}
-	
-	public void hidePlayer(LGPlayer lgp) {
-		if(player == null || lgp.getPlayer() == null) return;
-		player.hidePlayer(MainLg.getInstance(), lgp.getPlayer());
-	}
-	
-	public void showPlayer(LGPlayer lgp) {
-		if(player == null || lgp.getPlayer() == null) return;
-		player.showPlayer(MainLg.getInstance(), lgp.getPlayer());
-	}
-	
 	private long lastChooseClick;
 	public void chooseAction() {
 		long now = System.currentTimeMillis();
@@ -372,9 +285,5 @@ public class LGPlayer {
 			lastChooseClick = now;
 		}
 	}
-	
-	@Override
-	public String toString() {
-		return super.toString()+" ("+getName()+")";
-	}
+
 }

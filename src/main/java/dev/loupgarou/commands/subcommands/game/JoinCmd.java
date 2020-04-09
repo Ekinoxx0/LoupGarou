@@ -58,7 +58,7 @@ public class JoinCmd extends SubCommand {
 			gameTarget = MainLg.getInstance().findGame(args[1]);
 			
 			if(gameTarget == null) {
-				cs.sendMessage(PrefixType.PARTIE + "§cAucune partie avec ce code");
+				cs.sendMessage(PrefixType.PARTIE + "§cAucune partie avec ce code ou la partie est privée");
 				return;
 			}
 

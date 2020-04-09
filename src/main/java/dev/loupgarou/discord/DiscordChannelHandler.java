@@ -90,6 +90,9 @@ public class DiscordChannelHandler implements Listener {
 		if(e.getGame() != this.game) return;
 		for(LGPlayer lgp : this.game.getInGame())
 			move(lgp);
+		
+		if(this.voice != null)
+			this.voice.getManager().setUserLimit(this.game.getInGame().size()).queue();
 	}
 	
 	@EventHandler
@@ -167,6 +170,7 @@ public class DiscordChannelHandler implements Listener {
 		
 		for(LGPlayer lgp : this.game.getDeads()) {
 			Member deadMember = this.discord.get(lgp);
+			if(deadMember == null) continue;
 			if(!deadMember.getVoiceState().isGuildMuted())
 				deadMember.mute(true).queue();
 			has.add(deadMember);
