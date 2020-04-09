@@ -695,9 +695,6 @@ public class LGGame implements Listener{
 			VariousUtils.setupLobby(lgp);
 		}
 		
-		for(LGPlayer lgp : getInGame())
-			LGPlayer.removePlayer(lgp.getPlayer());
-		
 		MainLg.getInstance().getGames().remove(this);
 		if(this.discord != null)
 			this.discord.destroy();

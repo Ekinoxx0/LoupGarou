@@ -2,9 +2,9 @@ package dev.loupgarou.classes;
 
 import org.bukkit.entity.Player;
 
-import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.EnumWrappers.ChatType;
 import com.comphenix.protocol.wrappers.EnumWrappers.TitleAction;
+import com.comphenix.protocol.wrappers.WrappedChatComponent;
 
 import dev.loupgarou.MainLg;
 import dev.loupgarou.packetwrapper.WrapperPlayServerChat;
