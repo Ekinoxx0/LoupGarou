@@ -1,6 +1,7 @@
 package dev.loupgarou.listeners;
 
 import org.bukkit.GameMode;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -16,6 +17,7 @@ import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.block.BlockPhysicsEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.EntityInteractEvent;
@@ -46,6 +48,7 @@ public class CancelListener implements Listener{
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent e) {
+		if(e.getPlayer().getGameMode() == GameMode.CREATIVE) return;
         if (e.getAction() == Action.PHYSICAL)
         	e.setCancelled(true);
     }
@@ -79,6 +82,12 @@ public class CancelListener implements Listener{
 		LGPlayer lgp = LGPlayer.thePlayer(e.getPlayer());
 		if(lgp.getGame() != null && lgp.getGame().isStarted() && e.getFrom().distanceSquared(e.getTo()) > 0.001)
 			e.setTo(e.getFrom());
+	}
+	
+	@EventHandler
+	public void onEntityDamageByEntity(EntityDamageByEntityEvent e) {
+		if(e.getDamager() instanceof Player && ((Player)e.getDamager()).getGameMode() == GameMode.CREATIVE) return;
+		e.setCancelled(true);
 	}
 	
 	@EventHandler
@@ -155,16 +164,19 @@ public class CancelListener implements Listener{
 	
 	@EventHandler
 	public void onProjectileLaunch(ProjectileLaunchEvent e) {
+		if(e.getEntity().getShooter() instanceof Player && ((Player)e.getEntity().getShooter()).getGameMode() == GameMode.CREATIVE) return;
 		e.setCancelled(true);
 	}
 
 	@EventHandler
 	public void onPlayerItemConsume(PlayerItemConsumeEvent e) {
+		if(e.getPlayer().getGameMode() == GameMode.CREATIVE) return;
 		e.setCancelled(true);
 	}
 
 	@EventHandler
 	public void onPlayerItemDamage(PlayerItemDamageEvent e) {
+		if(e.getPlayer().getGameMode() == GameMode.CREATIVE) return;
 		e.setCancelled(true);
 	}
 

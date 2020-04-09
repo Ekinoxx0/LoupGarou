@@ -69,7 +69,6 @@ public class JoinListener implements Listener{
 			}
 		
 		LGPlayer lgp = LGPlayer.thePlayer(p);
-		lgp.showView();
 		VariousUtils.setupLobby(lgp);
 		
 		if(lgp.getConnectingHostname() != null && lgp.getConnectingHostname().contains(".")) {
@@ -93,7 +92,6 @@ public class JoinListener implements Listener{
 		if(e.getStatus() == Status.SUCCESSFULLY_LOADED) {
 			LGPlayer lgp = LGPlayer.thePlayer(e.getPlayer());
 			lgp.showView();
-			//lgp.join(MainLg.getInstance().getCurrentGame());
 		} else if(e.getStatus() == Status.DECLINED) {
 			e.getPlayer().sendMessage(PrefixType.RESSOURCEPACK + "§cVous avez refuser le ressource pack !");
 		} else if(e.getStatus() == Status.FAILED_DOWNLOAD) {

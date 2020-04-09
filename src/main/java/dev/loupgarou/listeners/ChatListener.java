@@ -10,10 +10,9 @@ import dev.loupgarou.classes.LGPlayer;
 public class ChatListener implements Listener{
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onChat(AsyncPlayerChatEvent e) {
-		if(!e.isCancelled()) {
-			LGPlayer player = LGPlayer.thePlayer(e.getPlayer());
-			player.onChat(e.getMessage());
-			e.setCancelled(true);
-		}
+		if(e.isCancelled()) return;
+		
+		LGPlayer.thePlayer(e.getPlayer()).onChat(e.getMessage());
+		e.setCancelled(true);
 	}
 }

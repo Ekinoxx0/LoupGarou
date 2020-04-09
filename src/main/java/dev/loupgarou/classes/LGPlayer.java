@@ -212,18 +212,6 @@ public class LGPlayer extends LGPlayerSimple {
 		respawn.setHashedSeed(0L);
 		respawn.sendPacket(getPlayer());
 		getPlayer().teleport(getPlayer().getLocation());
-			
-		//TODO Speed after own skin ?
-		/*float speed = getPlayer().getWalkSpeed();
-		getPlayer().setWalkSpeed(0.2f);
-		new BukkitRunnable() {
-			
-			@Override
-			public void run() {
-				getPlayer().updateInventory();
-				getPlayer().setWalkSpeed(speed);
-			}
-		}.runTaskLater(MainLg.getInstance(), 5);*/
 	}
 	
 	public boolean canSelectDead;
@@ -235,7 +223,7 @@ public class LGPlayer extends LGPlayerSimple {
 			else
 				return this;
 		
-		for(int i = 0; i < 50; i++) {//TODO Why 50 ?
+		for(int i = 0; i < 50; i++) {
 			pointedLoc.add(pointedLoc.getDirection());
 			for(LGPlayer targetedPlayer : list) {
 				if(targetedPlayer != this && !blacklistedChoice.contains(targetedPlayer) && (!targetedPlayer.isDead() || canSelectDead) && 

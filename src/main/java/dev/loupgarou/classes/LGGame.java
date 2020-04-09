@@ -300,9 +300,9 @@ public class LGGame implements Listener{
 	}
 	public void updateStart() {
 		if(!isStarted())
-			if(inGame.size() == config.getTotalConfiguredRoles()) {//Il faut que la partie soit totalement remplie pour qu'elle démarre car sinon, tous les rôles ne seraient pas distribués
+			if(inGame.size() == config.getTotalConfiguredRoles()) {
 				for(LGPlayer lgp : getInGame()) {
-					CustomScoreboard scoreboard = new CustomScoreboard("§7"/*[§9Loup-Garou§7]*/, lgp);
+					CustomScoreboard scoreboard = new CustomScoreboard("§7", lgp);
 					scoreboard.getLine(0).setDisplayName("§6La partie va démarrer...");
 					lgp.setScoreboard(scoreboard);
 				}
