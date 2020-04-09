@@ -10,10 +10,10 @@ import dev.loupgarou.commands.LoupGarouCommand;
 import dev.loupgarou.commands.SubCommand;
 import dev.loupgarou.utils.CommonText.PrefixType;
 
-public class AutoRoleMenuCmd extends SubCommand {
+public class AutoRoleCmd extends SubCommand {
 
-	public AutoRoleMenuCmd(LoupGarouCommand cmd) {
-		super(cmd, Arrays.asList("auto", "autorole", "autoroles", "autorolemenu", "autorolesmenu", "menuautoroles"));
+	public AutoRoleCmd(LoupGarouCommand cmd) {
+		super(cmd, Arrays.asList("autorole", "auto", "autoroles", "autorolemenu", "autorolesmenu", "menuautoroles"));
 	}
 
 	@Override

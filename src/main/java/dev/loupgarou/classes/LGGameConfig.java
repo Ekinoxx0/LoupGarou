@@ -27,7 +27,8 @@ public class LGGameConfig {
 	
 	@Getter @NonNull private final LGMap map;
 	@Getter private final boolean privateGame;
-	@Getter private final List<String> banned = new ArrayList<String>();
+	@Getter private final List<String> invited = new ArrayList<String>();//TODO Add invite system
+	@Getter private final List<String> banned = new ArrayList<String>();//TODO Add ban system
 	
 	{//Init map
 		for(Class<? extends Role> roleClazz : MainLg.getInstance().getRoles().keySet())

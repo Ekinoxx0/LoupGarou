@@ -24,11 +24,19 @@ import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.packetwrapper.WrapperPlayServerEntityDestroy;
 import dev.loupgarou.roles.REnfantSauvage;
 import dev.loupgarou.roles.utils.FakeRoles;
+import lombok.Getter;
 
 public class VariousUtils {
+	
+	@Getter private static final ItemStack LOBBY_ITEM = new ItemBuilder(LGCustomItems.getItemMenu(FakeRoles.getRole(REnfantSauvage.class)))
+															.name("§9Menu")
+															.lore(Arrays.asList("§7§oClique droit"))
+															.build();
+	
 	public static double distanceSquaredXZ(Location from, Location to) {
 		return Math.pow(from.getX()-to.getX(), 2)+Math.pow(from.getZ()-to.getZ(), 2);
 	}
+	
 	public static void setWarning(Player p, boolean warning) {
 		PacketContainer container = new PacketContainer(PacketType.Play.Server.WORLD_BORDER);
 		WorldBorder wb = p.getWorld().getWorldBorder();
@@ -75,6 +83,7 @@ public class VariousUtils {
 		p.setExp(0);
 		p.setLevel(0);
 		p.setFoodLevel(20);
+		p.setSaturation(Float.MAX_VALUE);
 		p.setHealth(20f);
 		p.getInventory().clear();
 		p.getInventory().setArmorContents(new ItemStack[] {});
@@ -84,12 +93,7 @@ public class VariousUtils {
 		for(PotionEffect effect : p.getActivePotionEffects())
 			p.removePotionEffect(effect.getType());
 		
-		p.getInventory().setItem(3,
-				new ItemBuilder(LGCustomItems.getItemMenu(FakeRoles.getRole(REnfantSauvage.class)))
-					.name("§9Menu")
-					.lore(Arrays.asList("", "§7§oClique droit !"))
-					.build()
-				);
+		p.getInventory().setItem(4, LOBBY_ITEM);
 	}
 	
 	public static void clearVotes(Player p) {

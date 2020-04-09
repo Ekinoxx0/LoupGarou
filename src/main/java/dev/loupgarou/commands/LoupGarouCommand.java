@@ -11,13 +11,13 @@ import org.bukkit.command.TabExecutor;
 
 import dev.loupgarou.MainLg;
 import dev.loupgarou.commands.subcommands.DiscordCmd;
+import dev.loupgarou.commands.subcommands.DiscordLinkCmd;
 import dev.loupgarou.commands.subcommands.MainMenuCmd;
-import dev.loupgarou.commands.subcommands.ReloadPacksCmd;
-import dev.loupgarou.commands.subcommands.config.AutoRoleMenuCmd;
+import dev.loupgarou.commands.subcommands.config.AutoRoleCmd;
 import dev.loupgarou.commands.subcommands.config.HideRoleCmd;
 import dev.loupgarou.commands.subcommands.config.HideVoteCmd;
 import dev.loupgarou.commands.subcommands.config.HideVoteExtraCmd;
-import dev.loupgarou.commands.subcommands.config.MenuCmd;
+import dev.loupgarou.commands.subcommands.config.RoleCmd;
 import dev.loupgarou.commands.subcommands.debug.DebugCmd;
 import dev.loupgarou.commands.subcommands.debug.NextDayCmd;
 import dev.loupgarou.commands.subcommands.debug.NextNightCmd;
@@ -47,11 +47,10 @@ public class LoupGarouCommand implements CommandExecutor, TabExecutor {
 		this.main = main;
 		Bukkit.getPluginCommand("lg").setExecutor(this);
 		Bukkit.getPluginCommand("lg").setTabCompleter(this);
-		this.subs.add(new AutoRoleMenuCmd(this));
+		this.subs.add(new AutoRoleCmd(this));
 		this.subs.add(new HideRoleCmd(this));
 		this.subs.add(new HideVoteCmd(this));
 		this.subs.add(new HideVoteExtraCmd(this));
-		this.subs.add(new ReloadPacksCmd(this));
 		
 		this.subs.add(new DebugCmd(this));
 		this.subs.add(new NextDayCmd(this));
@@ -69,11 +68,12 @@ public class LoupGarouCommand implements CommandExecutor, TabExecutor {
 		this.subs.add(new ShowSpawnsCmd(this));
 
 		this.subs.add(new DiscordCmd(this));
+		this.subs.add(new DiscordLinkCmd(this));
 		this.subs.add(new EndCmd(this));
 		this.subs.add(new JoinCmd(this));
 		this.subs.add(new LeaveCmd(this));
 		this.subs.add(new MainMenuCmd(this));
-		this.subs.add(new MenuCmd(this));
+		this.subs.add(new RoleCmd(this));
 		this.subs.add(new StartCmd(this));
 		
 		for(SubCommand cmd : this.subs)

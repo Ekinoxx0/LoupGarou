@@ -10,9 +10,9 @@ import dev.loupgarou.commands.LoupGarouCommand;
 import dev.loupgarou.commands.SubCommand;
 import dev.loupgarou.utils.CommonText.PrefixType;
 
-public class MenuCmd extends SubCommand {
+public class RoleCmd extends SubCommand {
 
-	public MenuCmd(LoupGarouCommand cmd) {
+	public RoleCmd(LoupGarouCommand cmd) {
 		super(cmd, Arrays.asList("role", "roles", "rolemenu", "rolesmenu", "menuroles"));
 	}
 

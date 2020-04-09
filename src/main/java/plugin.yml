@@ -12,6 +12,14 @@ commands:
   lg:
     description: Gestion de la configuration et accès aux menus
     aliases: [loup, loupgarou]
+  join:
+  autorole:
+  menu:
+  start:
+  end:
+  leave:
+  discord:
+  discordlink:
 
 permissions:
   loupgarou.*:

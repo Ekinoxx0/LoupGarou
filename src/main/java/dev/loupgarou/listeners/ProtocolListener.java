@@ -70,7 +70,7 @@ public class ProtocolListener {
 					
 					LGPlayer lgpT = LGPlayer.thePlayer(target);
 					if(lgp.getGame() != null && lgp.getGame() == lgpT.getGame()) {
-						LGUpdatePrefixEvent prefixEvent = new LGUpdatePrefixEvent(lgp.getGame(), lgpT, lgp, "");
+						LGUpdatePrefixEvent prefixEvent = new LGUpdatePrefixEvent(lgp.getGame(), lgpT, lgp, "§7");
 						WrappedChatComponent displayName = data.getDisplayName();
 						Bukkit.getPluginManager().callEvent(prefixEvent);
 						if(prefixEvent.getPrefix().length() > 0) {

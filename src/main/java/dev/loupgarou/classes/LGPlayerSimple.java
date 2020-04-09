@@ -1,5 +1,6 @@
 package dev.loupgarou.classes;
 
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
 import com.comphenix.protocol.wrappers.EnumWrappers.ChatType;
@@ -80,6 +81,11 @@ public class LGPlayerSimple {
 			
 		if(scoreboard != null)
 			scoreboard.show();
+	}
+
+	public void playAudio(Sound sound) {
+		if(getPlayer() != null) return;
+		SoundUtils.sendSound(getPlayer(), sound);
 	}
 
 	public void playAudio(LGSound sound, float volume) {
