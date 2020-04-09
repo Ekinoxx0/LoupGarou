@@ -10,7 +10,6 @@ import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.comphenix.protocol.ProtocolLibrary;
@@ -65,6 +64,7 @@ import dev.loupgarou.roles.RVoleur;
 import dev.loupgarou.roles.RVoyante;
 import dev.loupgarou.roles.utils.Role;
 import dev.loupgarou.utils.RandomString;
+import fr.xephi.authme.events.LoginEvent;
 import lombok.Getter;
 import lombok.NonNull;
 
@@ -111,8 +111,8 @@ public class MainLg extends JavaPlugin {
 		
 		new LoupGarouCommand(this);
 		
-		for(Player player : Bukkit.getOnlinePlayers())
-			Bukkit.getPluginManager().callEvent(new PlayerJoinEvent(player, "is connected"));
+		for(Player p : Bukkit.getOnlinePlayers())
+			Bukkit.getPluginManager().callEvent(new LoginEvent(p));
 		
 		new ProtocolListener(this);
 	}

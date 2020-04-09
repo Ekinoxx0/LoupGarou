@@ -31,6 +31,7 @@ import dev.loupgarou.roles.utils.RoleWinType;
 import dev.loupgarou.utils.VariableCache;
 import dev.loupgarou.utils.VariableCache.CacheType;
 import dev.loupgarou.utils.VariousUtils;
+import dev.loupgarou.utils.SoundUtils.LGSound;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
@@ -60,8 +61,8 @@ public class LGPlayer extends LGPlayerSimple {
 	@Getter @Setter private boolean dead;
 	@Getter @Setter private Role role;
 	private LGChooseCallback chooseCallback;
-	private List<LGPlayer> blacklistedChoice = new ArrayList<>(0);
-	@Getter private VariableCache cache = new VariableCache();
+	private final List<LGPlayer> blacklistedChoice = new ArrayList<>(0);
+	@Getter private final VariableCache cache = new VariableCache();
 	@Getter @Setter private LGGame game;
 	@Getter @Setter private String latestObjective;
 	@Getter @Setter private String connectingHostname;
@@ -76,11 +77,13 @@ public class LGPlayer extends LGPlayerSimple {
 	}
 
 	public void choose(LGChooseCallback callback, LGPlayer... blacklisted) {
-		this.blacklistedChoice = blacklisted == null ? new ArrayList<LGPlayer>(0) : Arrays.asList(blacklisted);
+		blacklistedChoice.clear();
+		if(blacklisted != null) 
+			this.blacklistedChoice.addAll(Arrays.asList(blacklisted));
 		this.chooseCallback = callback;
 	}
 	public void stopChoosing() {
-		this.blacklistedChoice = null;
+		this.blacklistedChoice.clear();
 		this.chooseCallback = null;
 	}
 	
@@ -275,9 +278,8 @@ public class LGPlayer extends LGPlayerSimple {
 	}
 	
 	public void onChat(String message) {
-		if(chat != null) {
-			chat.sendMessage(this, message);
-		}
+		if(this.chat == null) return;
+		this.chat.sendMessage(this, message);
 	}
 	
 	private long lastChooseClick;
@@ -288,6 +290,26 @@ public class LGPlayer extends LGPlayerSimple {
 				chooseCallback.callback(getPlayerOnCursor(getGame().getInGame()));
 			lastChooseClick = now;
 		}
+	}
+	
+	public void reset() throws IllegalStateException {
+		if(this.getPlayer() == null) throw new IllegalStateException("No player so nothing to reset...");
+		for(LGSound sound : LGSound.values())
+			this.stopAudio(sound);
+		
+		this.place = 0;
+		this.dead = false;
+		this.role = null;
+		this.stopChoosing();
+		this.cache.reset();
+		this.game = null;
+		this.latestObjective = null;
+		this.lastChooseClick = 0L;	
+		this.canSelectDead = false;
+		this.setScoreboard(null);
+		
+		this.sendActionBarMessage("");
+		this.sendTitle("", "", 0);
 	}
 
 }

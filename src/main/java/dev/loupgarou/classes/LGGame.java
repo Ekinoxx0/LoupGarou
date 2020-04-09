@@ -701,21 +701,6 @@ public class LGGame implements Listener{
 		MainLg.getInstance().getGames().remove(this);
 		if(this.discord != null)
 			this.discord.destroy();
-		
-		//A remettre pour activer le démarrage automatique
-	/*	wait(30, ()->{
-			for(LGPlayer lgp : getInGame())
-				if(lgp.getPlayer().isOnline()) {
-					WrapperPlayServerScoreboardTeam team = new WrapperPlayServerScoreboardTeam();
-					team.setMode(Mode.TEAM_REMOVED);
-					team.setName("you_are");
-					team.sendPacket(lgp.getPlayer());
-					LGPlayer.thePlayer(lgp.getPlayer()).join(MainLg.getInstance().getCurrentGame());
-				}
-		}, (player, secondsLeft)->{
-			return "§6Démarrage d'une nouvelle partie dans §e"+secondsLeft+" seconde"+(secondsLeft > 1 ? "s" : "");
-		});*/
-		
 	}
 	public boolean mayorKilled() {
 		return getMayor() != null && getMayor().isDead();

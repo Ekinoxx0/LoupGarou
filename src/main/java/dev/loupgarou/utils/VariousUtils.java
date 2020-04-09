@@ -2,6 +2,7 @@ package dev.loupgarou.utils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -18,11 +19,11 @@ import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.EnumWrappers;
 
 import dev.loupgarou.MainLg;
+import dev.loupgarou.classes.LGCustomItems;
 import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.packetwrapper.WrapperPlayServerEntityDestroy;
-import dev.loupgarou.packetwrapper.WrapperPlayServerScoreboardTeam;
-import dev.loupgarou.packetwrapper.WrapperPlayServerScoreboardTeam.Mode;
-import dev.loupgarou.utils.SoundUtils.LGSound;
+import dev.loupgarou.roles.REnfantSauvage;
+import dev.loupgarou.roles.utils.FakeRoles;
 
 public class VariousUtils {
 	public static double distanceSquaredXZ(Location from, Location to) {
@@ -61,27 +62,15 @@ public class VariousUtils {
 	public static void setupLobby(LGPlayer lgp) {
 		Player p = lgp.getPlayer();
 		if(p == null) return;
-
-		for(LGSound sound : LGSound.values())
-			lgp.stopAudio(sound);
 		
-		lgp.setDead(false);
-		lgp.setScoreboard(null);
-		lgp.setLatestObjective(null);
-		lgp.setGame(null);
-		lgp.setPlace(0);
-		lgp.setRole(null);
-		lgp.stopChoosing();
-		lgp.sendActionBarMessage("");
-		lgp.sendTitle("", "", 0);
+		lgp.reset();
 		lgp.joinChat(MainLg.getInstance().getLobbyChat(), null, false);
 		lgp.showView();
 		
 		VariousUtils.setWarning(p, false);
 		VariousUtils.clearVotes(p);
 		
-		if(p.getGameMode() == GameMode.SURVIVAL)
-			p.setGameMode(GameMode.ADVENTURE);
+		p.setGameMode(GameMode.ADVENTURE);
 		p.setWalkSpeed(0.2f);
 		p.setExp(0);
 		p.setLevel(0);
@@ -95,10 +84,12 @@ public class VariousUtils {
 		for(PotionEffect effect : p.getActivePotionEffects())
 			p.removePotionEffect(effect.getType());
 		
-		WrapperPlayServerScoreboardTeam team = new WrapperPlayServerScoreboardTeam();
-		team.setMode(Mode.TEAM_REMOVED);
-		team.setName("you_are");
-		team.sendPacket(p);
+		p.getInventory().setItem(3,
+				new ItemBuilder(LGCustomItems.getItemMenu(FakeRoles.getRole(REnfantSauvage.class)))
+					.name("§9Menu")
+					.lore(Arrays.asList("", "§7§oClique droit !"))
+					.build()
+				);
 	}
 	
 	public static void clearVotes(Player p) {

@@ -24,6 +24,7 @@ import dev.loupgarou.packetwrapper.WrapperPlayServerScoreboardTeam;
 import dev.loupgarou.packetwrapper.WrapperPlayServerScoreboardTeam.Mode;
 import dev.loupgarou.utils.CommonText.PrefixType;
 import dev.loupgarou.utils.VariousUtils;
+import fr.xephi.authme.events.LoginEvent;
 
 public class JoinListener implements Listener{
 	
@@ -37,6 +38,14 @@ public class JoinListener implements Listener{
 	
 	@EventHandler
 	public void onJoin(PlayerJoinEvent e) {
+		if(!"is connected".equals(e.getJoinMessage()))
+			e.getPlayer().setResourcePack("https://github.com/Ekinoxx0/LoupGarouRessourcePack/raw/511a467a964c74318d918171e6188e35d9111c69/loup_garou.zip", "");
+		
+		e.setJoinMessage(null);
+	}
+	
+	@EventHandler
+	public void onJoin(LoginEvent e) {
 		Player p = e.getPlayer();
 		p.teleport(p.getWorld().getSpawnLocation());
 		
@@ -59,9 +68,6 @@ public class JoinListener implements Listener{
 				myTeam.sendPacket(allPlayer);
 			}
 		
-		if(!"is connected".equals(e.getJoinMessage()))
-			p.setResourcePack("https://github.com/Ekinoxx0/LoupGarouRessourcePack/raw/511a467a964c74318d918171e6188e35d9111c69/loup_garou.zip", "");
-		
 		LGPlayer lgp = LGPlayer.thePlayer(p);
 		lgp.showView();
 		VariousUtils.setupLobby(lgp);
@@ -81,8 +87,6 @@ public class JoinListener implements Listener{
 				}
 			}
 		}
-		
-		e.setJoinMessage(null);
 	}
 	@EventHandler
 	public void onResoucePack(PlayerResourcePackStatusEvent e) {

@@ -41,35 +41,34 @@ public class VariableCache {
 		
 	}
 	
-	private HashMap<CacheType, Object> cache = new HashMap<CacheType, Object>();
+	private final HashMap<CacheType, Object> cache = new HashMap<CacheType, Object>();
 	public boolean getBoolean(CacheType key) {
 		Object object = get(key);
-		return object == null ? false : (boolean)object;
+		return object == null ? false : (boolean) object;
 	}
 	
 	public void init(@NonNull CacheType key, Object value) {
-		if(!cache.containsKey(key))
-			cache.put(key, value);
+		this.cache.replace(key, value);
 	}
 	
 	
 	public void set(@NonNull CacheType key, Object value) {
-		cache.put(key, value);
+		this.cache.put(key, value);
 	}
 	
 	public boolean has(@NonNull CacheType key) {
-		return cache.containsKey(key);
+		return this.cache.containsKey(key);
 	}
 	
 	public <T> T get(@NonNull CacheType key) {
-		return (T)cache.get(key);
+		return (T) this.cache.get(key);
 	}
 	
 	public <T> T remove(@NonNull CacheType key) {
-		return (T)cache.remove(key);
+		return (T) this.cache.remove(key);
 	}
 	
 	public void reset() {
-		cache.clear();
+		this.cache.clear();
 	}
 }
