@@ -38,7 +38,7 @@ public class AddSpawnCmd extends SubCommand {
 			return;
 		}
 		
-		if(target.getWorld() != p.getWorld().getName()) {
+		if(!target.getWorld().equals(p.getWorld().getName())) {
 			p.sendMessage("§cImpossible d'ajouter un spawn si vous n'êtes pas dans le monde " + target.getWorld());
 			return;
 		}

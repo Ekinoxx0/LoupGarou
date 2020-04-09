@@ -116,7 +116,7 @@ public class RLoupGarouNoir extends Role{
 	
 	public void openInventory(Player player) {
 		inMenu = true;
-		Inventory inventory = Bukkit.createInventory(null, 9, "§7Infecter "+toInfect.getName()+" ?");
+		Inventory inventory = Bukkit.createInventory(null, 9, "§7Infecter " + toInfect == null ? "" : toInfect.getName() + " ?");
 		inventory.setContents(toInfect == null ? skip.clone() : items.clone());
 		player.closeInventory();
 		player.openInventory(inventory);

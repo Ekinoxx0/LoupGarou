@@ -101,7 +101,7 @@ public class DiscordManager extends ListenerAdapter {
     
 	@Override
     public void onGuildMemberJoin(@Nonnull GuildMemberJoinEvent e) {
-		e.getGuild().addRoleToMember(e.getMember(), e.getGuild().getRoleById(BASIC_ROLE));
+		e.getGuild().addRoleToMember(e.getMember(), e.getGuild().getRoleById(BASIC_ROLE)).queue();
 	}
 	
 	@Override
