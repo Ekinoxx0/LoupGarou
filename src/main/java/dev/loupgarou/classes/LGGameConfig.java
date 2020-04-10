@@ -18,14 +18,14 @@ import lombok.ToString;
 @RequiredArgsConstructor @ToString
 public class LGGameConfig {
 	
-	@Getter private final Map<Class<? extends Role>, Integer> roles = new HashMap<Class<? extends Role>, Integer>();
+	@Getter @ToString.Exclude private final Map<Class<? extends Role>, Integer> roles = new HashMap<Class<? extends Role>, Integer>();
 	@Getter @Setter private boolean hideRole = false;
 	@Getter @Setter private boolean hideVote = false;
 	@Getter @Setter private boolean hideVoteExtra = false;
 	@Getter @Setter private int timerDayPerPlayer = 15;
 	@Getter @Setter @NonNull private CommunicationType com = CommunicationType.TEXTUEL;
 	
-	@Getter @NonNull private final LGMap map;
+	@Getter @NonNull @ToString.Exclude private final LGMap map;
 	@Getter private final boolean privateGame;
 	@Getter private final List<String> invited = new ArrayList<String>();//TODO Add invite system
 	@Getter private final List<String> banned = new ArrayList<String>();//TODO Add ban system

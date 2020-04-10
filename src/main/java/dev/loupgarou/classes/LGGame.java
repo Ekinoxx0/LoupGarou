@@ -3,6 +3,7 @@ package dev.loupgarou.classes;
 import java.lang.reflect.Constructor;
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -52,8 +53,7 @@ import dev.loupgarou.events.roles.LGRoleTurnEndEvent;
 import dev.loupgarou.events.vote.LGMayorVoteStartEvent;
 import dev.loupgarou.events.vote.LGPeopleVoteStartEvent;
 import dev.loupgarou.events.vote.LGVoteLeaderChange;
-import dev.loupgarou.menu.AutoRoleMenu;
-import dev.loupgarou.menu.RoleMenu;
+import dev.loupgarou.menu.PartieMenu;
 import dev.loupgarou.packetwrapper.WrapperPlayServerChat;
 import dev.loupgarou.packetwrapper.WrapperPlayServerExperience;
 import dev.loupgarou.packetwrapper.WrapperPlayServerPlayerInfo;
@@ -67,6 +67,7 @@ import dev.loupgarou.roles.utils.RoleType;
 import dev.loupgarou.roles.utils.RoleWinType;
 import dev.loupgarou.scoreboard.CustomScoreboard;
 import dev.loupgarou.utils.CommonText.PrefixType;
+import dev.loupgarou.utils.ItemBuilder;
 import dev.loupgarou.utils.MultipleValueMap;
 import dev.loupgarou.utils.SoundUtils.LGSound;
 import dev.loupgarou.utils.VariableCache.CacheType;
@@ -74,10 +75,13 @@ import dev.loupgarou.utils.VariousUtils;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
-import lombok.ToString;
 
-@ToString
 public class LGGame implements Listener{
+	@Getter private static final ItemStack WAITING_ITEM = new ItemBuilder(Material.PLAYER_HEAD)
+															.name("§6Menu de partie")
+															.lore(Arrays.asList("§7§oClique droit"))
+															.build();
+	
 	@Getter private final SecureRandom random = new SecureRandom();
 	@Getter private List<LGPlayer> inGame = new ArrayList<LGPlayer>();
 	@Getter private List<Role> roles = new ArrayList<Role>();
@@ -85,6 +89,7 @@ public class LGGame implements Listener{
 	@Getter private final LGGameConfig config;
 	@Getter private final DiscordChannelHandler discord;
 	@Getter private final LGPlayer owner;
+	@Getter private final PartieMenu partieMenu = new PartieMenu(this);
 	
 	@Getter private boolean started;
 	@Getter private int night = 0;
@@ -240,26 +245,13 @@ public class LGGame implements Listener{
 		}
 		
 		lgp.setGame(this);
-		
-		Player p = lgp.getPlayer();
-		
-		VariousUtils.setWarning(p, false);
-		VariousUtils.clearVotes(p);
-
-		lgp.updateOwnSkin();
-		p.removePotionEffect(PotionEffectType.INVISIBILITY);
-		p.setWalkSpeed(0.2f);
-		p.getInventory().clear();
-		p.teleport(getConfig().getMap().getSpawns().get(0).toLocation(getConfig().getMap()));
-		p.updateInventory();
-		p.closeInventory();
-
-		lgp.joinChat(dayChat, null, false);
-			
 		inGame.add(lgp);
-			
-		lgp.setScoreboard(null);
-			
+		
+		VariousUtils.resetDisplay(lgp);
+		lgp.getPlayer().teleport(getConfig().getMap().getSpawns().get(0).toLocation(getConfig().getMap()));
+		lgp.joinChat(dayChat, null, false);
+		lgp.getPlayer().getInventory().setItem(4, WAITING_ITEM);
+		
 		for(LGPlayer other : this.getInGame()) {
 			if(other.getPlayer() == null) {
 				this.getInGame().remove(other);
@@ -276,18 +268,18 @@ public class LGGame implements Listener{
 			}
 		}
 			
-		p.setGameMode(GameMode.ADVENTURE);
 		broadcastMessage(PrefixType.PARTIE + "§7Le joueur §8"+lgp.getName()+"§7 a rejoint la partie §9(§8"+inGame.size()+"§7/§8"+config.getMap().getSpawns().size()+"§9)");
 			
 		Bukkit.getPluginManager().callEvent(new LGGameJoinEvent(this, lgp));
 		return true;
 	}
+	
 	public void leave(LGPlayer lgp) {
-		lgp.leaveAllChat();
 		if(lgp.getRole() != null && !lgp.isDead())
 			lgp.getGame().kill(lgp, Reason.DISCONNECTED, true);
 		this.getInGame().remove(lgp);
-		lgp.setGame(null);
+		
+		VariousUtils.setupLobby(lgp);
 		
 		if(startingTask != null) {
 			startingTask.cancel();
@@ -298,32 +290,35 @@ public class LGGame implements Listener{
 		if(this.getInGame().isEmpty())
 			this.endGame(LGWinType.NONE);
 	}
+	
 	public void updateStart() {
-		if(!isStarted())
-			if(inGame.size() == config.getTotalConfiguredRoles()) {
-				for(LGPlayer lgp : getInGame()) {
-					CustomScoreboard scoreboard = new CustomScoreboard("§7", lgp);
-					scoreboard.getLine(0).setDisplayName("§6La partie va démarrer...");
-					lgp.setScoreboard(scoreboard);
-				}
-				if(startingTask == null) {
-					startingTask = new BukkitRunnable() {
-						int timeLeft = 5+1;
-						@Override
-						public void run() {
-							if(--timeLeft == 0)//start
-								start();
-							else
-								sendActionBarMessage("§6Démarrage dans §e"+timeLeft+"§6...");
-						}
-					}.runTaskTimer(MainLg.getInstance(), 20, 20);
-				}
-			}else if(startingTask != null) {
-				startingTask.cancel();
-				broadcastMessage(PrefixType.PARTIE + "§c§oLe démarrage de la partie a été annulé car une personne l'a quittée !");
-			} else if(inGame.size() != config.getTotalConfiguredRoles()) {
-				broadcastMessage(PrefixType.PARTIE + "§cDémarrage impossible car le nombre de joueur ne correspond pas aux rôles configurés");
+		if(isStarted()) return;
+		if(startingTask != null) {
+			startingTask.cancel();
+			broadcastMessage(PrefixType.PARTIE + "§c§oLe démarrage de la partie a été annulé car une personne l'a quittée !");
+			return;
+		}
+		if(inGame.size() != config.getTotalConfiguredRoles()) {
+			broadcastMessage(PrefixType.PARTIE + "§cDémarrage impossible car le nombre de joueur ne correspond pas aux rôles configurés");
+			return;
+		}
+		
+		for(LGPlayer lgp : getInGame()) {
+			CustomScoreboard scoreboard = new CustomScoreboard("§7", lgp);
+			scoreboard.getLine(0).setDisplayName("§6La partie va démarrer...");
+			lgp.setScoreboard(scoreboard);
+		}
+		
+		this.startingTask = new BukkitRunnable() {
+			int timeLeft = 5+1;
+			@Override
+			public void run() {
+				if(--timeLeft == 0)//start
+					start();
+				else
+					sendActionBarMessage("§6Démarrage dans §e"+timeLeft+"§6...");
 			}
+		}.runTaskTimer(MainLg.getInstance(), 20, 20);
 	}
 	public void start() {
 		if(startingTask != null) {
@@ -669,10 +664,10 @@ public class LGGame implements Listener{
 		if(event.isCancelled())
 			return;
 
-		MainLg.debug(getKey(), "Ending game.");
+		MainLg.debug(getKey(), "Ending game " + toString());
 		cancelWait();
 		ended = true;
-		//We unregister every role listener because they are unused after the game's end !
+		
 		for(Role role : getRoles()) {
 			HandlerList.unregisterAll(role);
 			role.getPlayers().clear();
@@ -681,18 +676,17 @@ public class LGGame implements Listener{
 		
 		broadcastMessage(PrefixType.PARTIE + winType.getMessage());
 		for(LGPlayer lgp : getInGame()) {
-			lgp.leaveAllChat();
-			
-			if(winners.contains(lgp))
-				lgp.sendTitle("§a§lVictoire !", "§6Vous avez gagné la partie.", 200);
-			else
-				if(winType == LGWinType.EQUAL || winType == LGWinType.NONE)
-					lgp.sendTitle("§7§lÉgalité", "§8Personne n'a gagné...", 200);
-				else
-					lgp.sendTitle("§c§lDéfaite...", "§4Vous avez perdu la partie.", 200);
-			
-			
 			VariousUtils.setupLobby(lgp);
+			
+			if(winners.contains(lgp)) {
+				lgp.sendTitle("§a§lVictoire !", "§6Vous avez gagné la partie.", 200);
+			} else {
+				if(winType == LGWinType.EQUAL || winType == LGWinType.NONE) {
+					lgp.sendTitle("§7§lÉgalité", "§8Personne n'a gagné...", 200);
+				} else {
+					lgp.sendTitle("§c§lDéfaite...", "§4Vous avez perdu la partie.", 200);
+				}
+			}
 		}
 		
 		MainLg.getInstance().getGames().remove(this);
@@ -903,18 +897,8 @@ public class LGGame implements Listener{
 		return event.getWinType() != LGWinType.NONE;
 	}
 	
-	private final RoleMenu roleMenu = new RoleMenu(this);
-	public void openRoleMenu(LGPlayer lgp) {
-		if(getConfig().isHideRole()) {
-			lgp.sendMessage(PrefixType.PARTIE + "§cLes rôles sont cachés durant cette partie...");
-			return;
-		}
-		
-		roleMenu.openMenu(lgp);
-	}
-	
-	private final AutoRoleMenu autoRoleMenu = new AutoRoleMenu(this);
-	public void openAutoRoleMenu(LGPlayer lgp) {
-		autoRoleMenu.openMenu(lgp);
+	@Override
+	public String toString() {
+		return "LGGame(key=" + this.key + ", owner=" + owner.getName() + ",config=" + config + ")";
 	}
 }

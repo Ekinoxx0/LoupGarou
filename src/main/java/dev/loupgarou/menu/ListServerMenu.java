@@ -35,8 +35,9 @@ public class ListServerMenu {
 					.name("§6Partie de " + game.getOwner().getName())
 					.lore(Arrays.asList(
 							"",
-							"Joueurs : " + game.getInGame().size() + "/" + (game.getConfig().getTotalConfiguredRoles() < game.getInGame().size() ? game.getConfig().getMap().getSpawns().size() : game.getConfig().getTotalConfiguredRoles()),
-							""
+							"§7Joueurs : " + game.getInGame().size() + "/" + (game.getConfig().getTotalConfiguredRoles() < game.getInGame().size() ? game.getConfig().getMap().getSpawns().size() : game.getConfig().getTotalConfiguredRoles()),
+							"§7Map : " + game.getConfig().getMap().getName(),
+							"§7Communication : " + game.getConfig().getCom()
 							))
 					.build(), 
 					x, y, true, 

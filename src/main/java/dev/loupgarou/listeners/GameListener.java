@@ -9,6 +9,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 import dev.loupgarou.classes.LGCustomItems.LGCustomItemsConstraints;
 import dev.loupgarou.classes.LGCustomSkin;
+import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.events.other.LGCustomItemChangeEvent;
 import dev.loupgarou.events.other.LGSkinLoadEvent;
@@ -31,8 +32,12 @@ public class GameListener implements Listener {
 	
 	@EventHandler
 	public void onInteract(PlayerInteractEvent e) {
-		if(e.getItem() == null || !e.getItem().equals(VariousUtils.getLOBBY_ITEM())) return;
-		MainMenu.openMenu(LGPlayer.thePlayer(e.getPlayer()));
+		if(e.getItem() == null) return;
+		if(e.getItem().equals(VariousUtils.getLOBBY_ITEM())) {
+			MainMenu.openMenu(LGPlayer.thePlayer(e.getPlayer()));
+		} else if(e.getItem().equals(LGGame.getWAITING_ITEM())) {
+			LGPlayer.thePlayer(e.getPlayer()).getGame().getPartieMenu().openPartieMenu(LGPlayer.thePlayer(e.getPlayer()));
+		}
 	}
 	
 	@EventHandler

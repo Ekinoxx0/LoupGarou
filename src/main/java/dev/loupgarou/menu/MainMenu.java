@@ -3,6 +3,7 @@ package dev.loupgarou.menu;
 import java.util.Arrays;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
@@ -11,6 +12,7 @@ import dev.loupgarou.classes.LGCustomItems;
 import dev.loupgarou.classes.LGCustomItems.SpecialItems;
 import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.roles.RGarde;
+import dev.loupgarou.roles.RLoupGarou;
 import dev.loupgarou.roles.utils.FakeRoles;
 import dev.loupgarou.utils.InteractInventory;
 import dev.loupgarou.utils.InteractInventory.InventoryCall;
@@ -59,6 +61,45 @@ public class MainMenu {
 					@Override
 					public void click(HumanEntity human, ItemStack item, ClickType clickType) {
 						ListServerMenu.openMenu(lgp);
+					}
+				});
+		
+		ii.registerItem(
+				new ItemBuilder(LGCustomItems.getItem(FakeRoles.getRole(RLoupGarou.class)))
+				.name("§7Options")
+				.lore(
+						Arrays.asList(
+								"",
+								"§7§oCliquez pour afficher les options"
+								)
+						)
+				.build(), 
+				0, 4, true, 
+				new InventoryCall() {
+					
+					@Override
+					public void click(HumanEntity human, ItemStack item, ClickType clickType) {
+						lgp.playAudio(Sound.ENTITY_VILLAGER_NO);
+						lgp.sendMessage("§cIndisponible pour le moment...");
+					}
+				});
+		
+		ii.registerItem(
+				new ItemBuilder(LGCustomItems.getItem(FakeRoles.getRole(RLoupGarou.class)))
+				.name("§9Les Rôles")
+				.lore(
+						Arrays.asList(
+								"",
+								"§7§oCliquez pour afficher les rôles disponibles"
+								)
+						)
+				.build(), 
+				ii.getInv().getSize()-1, true, 
+				new InventoryCall() {
+					
+					@Override
+					public void click(HumanEntity human, ItemStack item, ClickType clickType) {
+						DisplayRoleMenu.openMenu(lgp);
 					}
 				});
 		

@@ -3,7 +3,9 @@ package dev.loupgarou.utils;
 import java.util.HashMap;
 
 import lombok.NonNull;
+import lombok.ToString;
 
+@ToString
 @SuppressWarnings("unchecked")
 public class VariableCache {
 	

@@ -26,7 +26,7 @@ public class AutoRoleCmd extends SubCommand {
 			return;
 		}
 		
-		lgp.getGame().openAutoRoleMenu(lgp);
+		lgp.getGame().getPartieMenu().openAutoRoleMenu(lgp);
 	}
 	
 	@Override

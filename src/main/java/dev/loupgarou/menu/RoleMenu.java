@@ -92,12 +92,12 @@ public class RoleMenu {
 								return;
 							}
 							if(nbRole + modif > fakeRole.getMaxNb()) {
-								human.sendMessage(PrefixType.PARTIE + "§cImpossible de définir plus de " + fakeRole.getMaxNb() + " " + roleClazz);
+								human.sendMessage(PrefixType.PARTIE + "§cImpossible de définir plus de " + fakeRole.getMaxNb() + " " + fakeRole.getName());
 								return;
 							}
 							if(modif == 0) return;
 							
-							human.sendMessage(PrefixType.PARTIE + "§6Il y aura §e" + (nbRole + modif) + " " + roleClazz);
+							human.sendMessage(PrefixType.PARTIE + "§6Il y aura §e" + (nbRole + modif) + " " + fakeRole.getName());
 							game.getConfig().getRoles().replace(roleClazz, nbRole + modif);
 							
 							//Update all opened inventory

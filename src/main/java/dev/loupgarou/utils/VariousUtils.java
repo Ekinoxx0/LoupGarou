@@ -67,13 +67,15 @@ public class VariousUtils {
 		return hex[i];
 	}
 	
-	public static void setupLobby(LGPlayer lgp) {
+	public static void resetDisplay(LGPlayer lgp) {
 		Player p = lgp.getPlayer();
 		if(p == null) return;
 		
-		lgp.reset();
-		lgp.joinChat(MainLg.getInstance().getLobbyChat(), null, false);
+		MainLg.debug("resetDisplay(" + lgp.toString() + ");");
+		
 		lgp.showView();
+		lgp.updateOwnSkin();
+		lgp.setScoreboard(null);
 		
 		VariousUtils.setWarning(p, false);
 		VariousUtils.clearVotes(p);
@@ -88,11 +90,25 @@ public class VariousUtils {
 		p.getInventory().clear();
 		p.getInventory().setArmorContents(new ItemStack[] {});
 		p.getInventory().setItemInOffHand(null);
+		p.updateInventory();
 		p.closeInventory();
-		p.teleport(Bukkit.getWorlds().get(0).getSpawnLocation());
 		for(PotionEffect effect : p.getActivePotionEffects())
 			p.removePotionEffect(effect.getType());
+	}
+	
+	public static void setupLobby(LGPlayer lgp) {
+		Player p = lgp.getPlayer();
+		if(p == null) return;
 		
+		MainLg.debug("setupLobby(" + lgp.toString() + ");");
+
+		lgp.leaveAllChat();
+		lgp.reset();
+		lgp.joinChat(MainLg.getInstance().getLobbyChat(), null, false);
+		
+		resetDisplay(lgp);
+		
+		p.teleport(Bukkit.getWorlds().get(0).getSpawnLocation());
 		p.getInventory().setItem(4, LOBBY_ITEM);
 	}
 	
