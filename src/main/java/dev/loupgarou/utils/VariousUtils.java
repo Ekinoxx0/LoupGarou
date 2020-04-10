@@ -109,6 +109,10 @@ public class VariousUtils {
 		
 		p.teleport(Bukkit.getWorlds().get(0).getSpawnLocation());
 		p.getInventory().setItem(4, LOBBY_ITEM);
+		
+		for(LGPlayer algp : LGPlayer.all())
+			if(algp.getGame() == null)
+				algp.showView();
 	}
 	
 	public static void clearVotes(Player p) {

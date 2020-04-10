@@ -108,15 +108,14 @@ public class LGPlayer extends LGPlayerSimple {
 		for(LGPlayer allP : LGPlayer.all())
 			if(!getGame().getAlive().contains(allP))
 				this.hidePlayer(allP);
-
-		this.updatePrefix();
 		
 		for (LGPlayer lgp : getGame().getAlive()) {
 			if(lgp.getPlayer() == null) continue;
 			if (lgp != this)
 				showPlayer(lgp);
 		}
-			
+
+		this.updatePrefix();
 	}
 	
 	public void hideView() {
