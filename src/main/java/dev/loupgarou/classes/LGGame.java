@@ -321,6 +321,12 @@ public class LGGame implements Listener{
 		}.runTaskTimer(MainLg.getInstance(), 20, 20);
 	}
 	public void start() {
+		Role invalidRole;
+		if((invalidRole = this.config.verifyRoles()) != null) {
+			broadcastMessage(PrefixType.PARTIE + "§cComposition des rôles impossible... Incohérence avec le rôle : " + invalidRole.getName());
+			return;
+		}
+		
 		if(startingTask != null) {
 			startingTask.cancel();
 			startingTask = null;

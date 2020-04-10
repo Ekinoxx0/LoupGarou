@@ -8,7 +8,22 @@ import java.util.Map.Entry;
 
 import dev.loupgarou.MainLg;
 import dev.loupgarou.classes.LGMaps.LGMap;
+import dev.loupgarou.roles.RChaperonRouge;
+import dev.loupgarou.roles.RChasseur;
+import dev.loupgarou.roles.RChasseurDeVampire;
+import dev.loupgarou.roles.RFaucheur;
+import dev.loupgarou.roles.RGrandMechantLoup;
+import dev.loupgarou.roles.RLoupFeutrer;
+import dev.loupgarou.roles.RLoupGarou;
+import dev.loupgarou.roles.RLoupGarouBlanc;
+import dev.loupgarou.roles.RLoupGarouNoir;
+import dev.loupgarou.roles.RMontreurDOurs;
+import dev.loupgarou.roles.RPetiteFille;
+import dev.loupgarou.roles.RPretre;
+import dev.loupgarou.roles.RSurvivant;
+import dev.loupgarou.roles.utils.FakeRoles;
 import dev.loupgarou.roles.utils.Role;
+import dev.loupgarou.roles.utils.RoleType;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -53,5 +68,58 @@ public class LGGameConfig {
 	public enum CommunicationType {
 		TEXTUEL,
 		DISCORD;
+	}
+
+	public Role verifyRoles() {
+		Map<RoleType, Integer> rolesPerType = new HashMap<RoleType, Integer>();
+
+		for(RoleType type : RoleType.values())
+			rolesPerType.put(type, 0);
+		
+		for(Entry<Class<? extends Role>, Integer> entry : this.roles.entrySet()) {
+			RoleType rt = FakeRoles.getRole(entry.getKey()).getType();
+			rolesPerType.replace(rt, rolesPerType.get(rt) + entry.getValue());
+		}
+		
+		for (Entry<Class<? extends Role>, Integer> entry : getRoles().entrySet()) {
+			if (entry.getValue() == 0)
+				continue;
+			Role fakeRole = FakeRoles.getRole(entry.getKey());
+
+			if (fakeRole instanceof RChaperonRouge && getRoles().get(RChasseur.class) == 0)
+				return fakeRole;
+
+			if (fakeRole instanceof RLoupFeutrer && getRoles().get(RLoupGarou.class) == 0)
+				return fakeRole;
+
+			if (fakeRole instanceof RLoupGarouNoir && getRoles().get(RLoupGarou.class) == 0)
+				return fakeRole;
+
+			if (fakeRole instanceof RLoupGarouBlanc && getRoles().get(RLoupGarou.class) == 0)
+				return fakeRole;
+
+			if (fakeRole instanceof RGrandMechantLoup && getRoles().get(RLoupGarou.class) == 0)
+				return fakeRole;
+
+			if (fakeRole instanceof RSurvivant && rolesPerType.get(RoleType.LOUP_GAROU) == 0)
+				return fakeRole;
+
+			if (fakeRole instanceof RMontreurDOurs && getTotalConfiguredRoles() <= 2)
+				return fakeRole;
+
+			if (fakeRole instanceof RFaucheur && rolesPerType.get(RoleType.LOUP_GAROU) == 0 && getTotalConfiguredRoles() <= 2)
+				return fakeRole;
+
+			if (fakeRole instanceof RPetiteFille && rolesPerType.get(RoleType.LOUP_GAROU) == 0)
+				return fakeRole;
+
+			if (fakeRole instanceof RPretre && rolesPerType.get(RoleType.VILLAGER) <= 2)
+				return fakeRole;
+
+			if (fakeRole instanceof RChasseurDeVampire && rolesPerType.get(RoleType.VAMPIRE) == 0)
+				return fakeRole;
+		}
+
+		return null;
 	}
 }

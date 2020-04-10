@@ -3,6 +3,7 @@ package dev.loupgarou.menu;
 import java.util.Arrays;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
@@ -118,6 +119,14 @@ public class RoleMenu {
 					@Override
 					public void click(HumanEntity human, ItemStack item, ClickType clickType) {
 						human.closeInventory();
+						
+						Role invalidRole;
+						if((invalidRole = game.getConfig().verifyRoles()) != null) {
+							lgp.sendMessage(PrefixType.PARTIE + "§cComposition des rôles impossible... Incohérence avec le rôle : " + invalidRole.getName());
+							lgp.playAudio(Sound.ENTITY_VILLAGER_NO);
+							return;
+						}
+						lgp.playAudio(Sound.ENTITY_VILLAGER_YES);
 					}
 				});
 		

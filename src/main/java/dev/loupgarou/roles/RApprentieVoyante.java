@@ -14,7 +14,7 @@ public class RApprentieVoyante extends RVoyante{
 	}
 	@Override
 	public String getName() {
-		return super.getName() + " Apprentie";
+		return super.getColor() + "§lL'Apprentie " + super.getName() + "";
 	}
 	@Override
 	public String getDescription() {

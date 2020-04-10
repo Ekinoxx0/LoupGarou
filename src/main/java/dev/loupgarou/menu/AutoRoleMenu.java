@@ -20,18 +20,11 @@ import dev.loupgarou.classes.LGCustomItems.SpecialItems;
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.roles.RAnge;
-import dev.loupgarou.roles.RChaperonRouge;
 import dev.loupgarou.roles.RChasseur;
-import dev.loupgarou.roles.RChasseurDeVampire;
-import dev.loupgarou.roles.RFaucheur;
+import dev.loupgarou.roles.RCupidon;
 import dev.loupgarou.roles.RGarde;
 import dev.loupgarou.roles.RLoupGarou;
-import dev.loupgarou.roles.RLoupGarouNoir;
-import dev.loupgarou.roles.RMontreurDOurs;
-import dev.loupgarou.roles.RPetiteFille;
-import dev.loupgarou.roles.RPretre;
 import dev.loupgarou.roles.RSorciere;
-import dev.loupgarou.roles.RSurvivant;
 import dev.loupgarou.roles.RVillageois;
 import dev.loupgarou.roles.RVoyante;
 import dev.loupgarou.roles.utils.FakeRoles;
@@ -78,7 +71,7 @@ public class AutoRoleMenu {
 
 		int tried = 0;
 		Role invalidRole;
-		while((invalidRole = verify()) != null && tried <= 20) {
+		while((invalidRole = game.getConfig().verifyRoles()) != null && tried <= 20) {
 			generate(invalidRole.getType(), configAuto.get(invalidRole.getType()));
 			tried++;
 		}
@@ -113,6 +106,7 @@ public class AutoRoleMenu {
 			rolesInType.add(FakeRoles.getRole(RChasseur.class));
 			rolesInType.add(FakeRoles.getRole(RGarde.class));
 			rolesInType.add(FakeRoles.getRole(RSorciere.class));
+			rolesInType.add(FakeRoles.getRole(RCupidon.class));
 			break;
 		default:
 			break;
@@ -148,48 +142,6 @@ public class AutoRoleMenu {
 			game.getConfig().getRoles().put(selected.getClass(), game.getConfig().getRoles().get(selected.getClass()) + 1);
 			temp--;
 		}
-	}
-	
-	private Role verify() {
-		for(Entry<Class<? extends Role>, Integer> entry : game.getConfig().getRoles().entrySet()) {
-			if(entry.getValue() == 0) continue;
-			Role fakeRole = FakeRoles.getRole(entry.getKey());
-			
-			if(fakeRole instanceof RChaperonRouge 
-					&& game.getConfig().getRoles().get(RChasseur.class) == 0)
-				return fakeRole;
-			
-			if(fakeRole instanceof RLoupGarouNoir 
-					&& game.getConfig().getRoles().get(RLoupGarou.class) == 0)
-					return fakeRole;
-			
-			if(fakeRole instanceof RSurvivant 
-					&& this.configAuto.get(RoleType.LOUP_GAROU) == 0)
-				return fakeRole;
-			
-			if(fakeRole instanceof RMontreurDOurs 
-					&& this.configAuto.get(RoleType.VILLAGER) <= 2)
-				return fakeRole;
-			
-			if(fakeRole instanceof RFaucheur
-					&& this.configAuto.get(RoleType.LOUP_GAROU) == 0
-					&& this.configAuto.get(RoleType.VILLAGER) <= 2)
-				return fakeRole;
-			
-			if(fakeRole instanceof RPetiteFille 
-					&& this.configAuto.get(RoleType.LOUP_GAROU) == 0)
-				return fakeRole;
-			
-			if(fakeRole instanceof RPretre 
-					&& this.configAuto.get(RoleType.VILLAGER) <= 2)
-				return fakeRole;
-			
-			if(fakeRole instanceof RChasseurDeVampire 
-					&& this.configAuto.get(RoleType.VAMPIRE) == 0)
-				return fakeRole;
-		}
-		
-		return null;
 	}
 	
 	public void openMenu(LGPlayer lgp) {
