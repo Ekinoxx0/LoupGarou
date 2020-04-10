@@ -12,6 +12,7 @@ import dev.loupgarou.MainLg;
 import dev.loupgarou.classes.LGCustomItems;
 import dev.loupgarou.classes.LGCustomItems.SpecialItems;
 import dev.loupgarou.classes.LGGame;
+import dev.loupgarou.classes.LGGameConfig.InvalidCompo;
 import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.roles.utils.FakeRoles;
 import dev.loupgarou.roles.utils.Role;
@@ -120,12 +121,13 @@ public class RoleMenu {
 					public void click(HumanEntity human, ItemStack item, ClickType clickType) {
 						human.closeInventory();
 						
-						Role invalidRole;
-						if((invalidRole = game.getConfig().verifyRoles()) != null) {
-							lgp.sendMessage(PrefixType.PARTIE + "§cComposition des rôles impossible... Incohérence avec le rôle : " + invalidRole.getName());
+						InvalidCompo invalid;
+						if((invalid = game.getConfig().verifyRoles()) != null) {
+							lgp.sendMessage(PrefixType.PARTIE + "§cComposition des rôles impossible... Incohérence avec le rôle : " + invalid);
 							lgp.playAudio(Sound.ENTITY_VILLAGER_NO);
 							return;
 						}
+						
 						lgp.playAudio(Sound.ENTITY_VILLAGER_YES);
 					}
 				});

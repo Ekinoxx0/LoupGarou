@@ -18,6 +18,7 @@ import org.bukkit.inventory.ItemStack;
 import dev.loupgarou.classes.LGCustomItems;
 import dev.loupgarou.classes.LGCustomItems.SpecialItems;
 import dev.loupgarou.classes.LGGame;
+import dev.loupgarou.classes.LGGameConfig.InvalidCompo;
 import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.roles.RAnge;
 import dev.loupgarou.roles.RChasseur;
@@ -70,14 +71,14 @@ public class AutoRoleMenu {
 		}
 
 		int tried = 0;
-		Role invalidRole;
-		while((invalidRole = game.getConfig().verifyRoles()) != null && tried <= 20) {
-			generate(invalidRole.getType(), configAuto.get(invalidRole.getType()));
+		InvalidCompo invalid;
+		while((invalid = game.getConfig().verifyRoles()) != null && tried <= 20) {
+			generate(invalid.getRoleType(), configAuto.get(invalid.getRoleType()));
 			tried++;
 		}
 		
-		if(tried >= 20 && invalidRole != null) {
-			lgp.sendMessage(PrefixType.PARTIE + "§6Composition créée invalide...(" + invalidRole.getName() + "§7/" + invalidRole.getType().getBeautifulName() + ")");
+		if(tried >= 20 && invalid != null) {
+			lgp.sendMessage(PrefixType.PARTIE + "§6Composition créée invalide...(" + invalid + ")");
 			lgp.sendMessage(PrefixType.PARTIE + "§cImpossible de créer une composition avec ces paramètres !");
 			return;
 		}
@@ -130,6 +131,8 @@ public class AutoRoleMenu {
 	}
 	
 	private void generate(RoleType roleType, int temp) {
+		if(temp < 0) return;
+		if(roleType == null) return;
 		List<Role> rolesInType = biasedRolesList(roleType);
 		
 		//Reset compo

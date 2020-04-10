@@ -17,13 +17,13 @@ import dev.loupgarou.roles.RLoupFeutrer;
 import dev.loupgarou.roles.RLoupGarou;
 import dev.loupgarou.roles.RLoupGarouBlanc;
 import dev.loupgarou.roles.RLoupGarouNoir;
-import dev.loupgarou.roles.RMontreurDOurs;
 import dev.loupgarou.roles.RPetiteFille;
 import dev.loupgarou.roles.RPretre;
 import dev.loupgarou.roles.RSurvivant;
 import dev.loupgarou.roles.utils.FakeRoles;
 import dev.loupgarou.roles.utils.Role;
 import dev.loupgarou.roles.utils.RoleType;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -61,16 +61,9 @@ public class LGGameConfig {
 		return total;
 	}
 	
-	/*
-	 * Custom Types
-	 */
-	
-	public enum CommunicationType {
-		TEXTUEL,
-		DISCORD;
-	}
-
-	public Role verifyRoles() {
+	public InvalidCompo verifyRoles() {
+		if(getTotalConfiguredRoles() < 3)
+			return InvalidCompo.TOO_FEW_PLAYERS;
 		Map<RoleType, Integer> rolesPerType = new HashMap<RoleType, Integer>();
 
 		for(RoleType type : RoleType.values())
@@ -87,39 +80,66 @@ public class LGGameConfig {
 			Role fakeRole = FakeRoles.getRole(entry.getKey());
 
 			if (fakeRole instanceof RChaperonRouge && getRoles().get(RChasseur.class) == 0)
-				return fakeRole;
+				return InvalidCompo.NO_CHASSEUR_TO_BE_PROTECTED;
 
 			if (fakeRole instanceof RLoupFeutrer && getRoles().get(RLoupGarou.class) == 0)
-				return fakeRole;
+				return InvalidCompo.NO_LP_OTHER_LP;
 
 			if (fakeRole instanceof RLoupGarouNoir && getRoles().get(RLoupGarou.class) == 0)
-				return fakeRole;
+				return InvalidCompo.NO_LP_OTHER_LP;
 
 			if (fakeRole instanceof RLoupGarouBlanc && getRoles().get(RLoupGarou.class) == 0)
-				return fakeRole;
+				return InvalidCompo.NO_LP_OTHER_LP;
 
 			if (fakeRole instanceof RGrandMechantLoup && getRoles().get(RLoupGarou.class) == 0)
-				return fakeRole;
+				return InvalidCompo.NO_LP_OTHER_LP;
 
 			if (fakeRole instanceof RSurvivant && rolesPerType.get(RoleType.LOUP_GAROU) == 0)
-				return fakeRole;
+				return InvalidCompo.NO_ONE_TO_SURVIVE_AGAINST;
 
-			if (fakeRole instanceof RMontreurDOurs && getTotalConfiguredRoles() <= 2)
-				return fakeRole;
-
-			if (fakeRole instanceof RFaucheur && rolesPerType.get(RoleType.LOUP_GAROU) == 0 && getTotalConfiguredRoles() <= 2)
-				return fakeRole;
+			if (fakeRole instanceof RFaucheur && rolesPerType.get(RoleType.LOUP_GAROU) == 0)
+				return InvalidCompo.NO_BODY_FAUCHEUR;
 
 			if (fakeRole instanceof RPetiteFille && rolesPerType.get(RoleType.LOUP_GAROU) == 0)
-				return fakeRole;
+				return InvalidCompo.NO_ONE_TO_SPY_GIRL;
 
 			if (fakeRole instanceof RPretre && rolesPerType.get(RoleType.VILLAGER) <= 2)
-				return fakeRole;
+				return InvalidCompo.NO_ONE_TO_RESPAWN;
 
 			if (fakeRole instanceof RChasseurDeVampire && rolesPerType.get(RoleType.VAMPIRE) == 0)
-				return fakeRole;
+				return InvalidCompo.NO_VAMPIRE;
 		}
 
 		return null;
 	}
+	
+	/*
+	 * Custom Types
+	 */
+	
+	@AllArgsConstructor
+	public enum InvalidCompo {
+		TOO_FEW_PLAYERS("Trop peu de joueurs", null),
+		TOO_MANY_PLAYERS("Trop de joueurs", null),
+		NO_VAMPIRE("Aucun vampire pour pour le chasseur", RoleType.VAMPIRE),
+		NO_ONE_TO_RESPAWN("Trop peu de membre du village à réapparaitre", RoleType.VILLAGER),
+		NO_ONE_TO_SPY_GIRL("Pas de Loup Garou face à la Petite Fille", RoleType.VILLAGER),
+		NO_BODY_FAUCHEUR("Pas de Loup Garou pour le Faucheur", RoleType.VILLAGER),
+		NO_ONE_TO_SURVIVE_AGAINST("Pas de Loup Garou face au survivant", RoleType.NEUTRAL),
+		NO_LP_OTHER_LP("Pas de Loup Garou normal", RoleType.LOUP_GAROU),
+		NO_CHASSEUR_TO_BE_PROTECTED("Pas de Chasseur pour aider le Chaperon Rouge", RoleType.VILLAGER);
+		
+		@NonNull private String msg;
+		@Getter @NonNull private RoleType roleType;
+		@Override
+		public String toString() {
+			return msg;
+		}
+	}
+	
+	public enum CommunicationType {
+		TEXTUEL,
+		DISCORD;
+	}
+
 }

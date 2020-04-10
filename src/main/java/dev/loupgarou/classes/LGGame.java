@@ -34,6 +34,7 @@ import com.comphenix.protocol.wrappers.WrappedGameProfile;
 
 import dev.loupgarou.MainLg;
 import dev.loupgarou.classes.LGGameConfig.CommunicationType;
+import dev.loupgarou.classes.LGGameConfig.InvalidCompo;
 import dev.loupgarou.classes.LGMaps.LGLocation;
 import dev.loupgarou.discord.DiscordChannelHandler;
 import dev.loupgarou.events.daycycle.LGDayEndEvent;
@@ -321,9 +322,9 @@ public class LGGame implements Listener{
 		}.runTaskTimer(MainLg.getInstance(), 20, 20);
 	}
 	public void start() {
-		Role invalidRole;
-		if((invalidRole = this.config.verifyRoles()) != null) {
-			broadcastMessage(PrefixType.PARTIE + "§cComposition des rôles impossible... Incohérence avec le rôle : " + invalidRole.getName());
+		InvalidCompo invalid;
+		if((invalid = this.config.verifyRoles()) != null) {
+			broadcastMessage(PrefixType.PARTIE + "§cComposition des rôles impossible... " + invalid);
 			return;
 		}
 		
