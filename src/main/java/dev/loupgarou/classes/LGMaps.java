@@ -90,8 +90,12 @@ public class LGMaps {
 			this.yaw = l.getYaw();
 		}
 		
+		public Location toLocation(@NonNull World world) {
+			return new Location(world, x + 0.5, y, z + 0.5, yaw, pitch);
+		}
+		
 		public Location toLocation(@NonNull LGMap map) {
-			return new Location(Bukkit.getWorld(map.getWorld()), x + 0.5, y, z + 0.5, yaw, pitch);
+			return toLocation(Bukkit.getWorld(map.getWorld()));
 		}
 	}
 	

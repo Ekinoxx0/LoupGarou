@@ -1,8 +1,10 @@
 package dev.loupgarou.listeners;
 
+import org.bukkit.block.Sign;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import dev.loupgarou.classes.LGCustomItems.LGCustomItemsConstraints;
@@ -16,8 +18,20 @@ import dev.loupgarou.utils.VariousUtils;
 public class GameListener implements Listener {
 	
 	@EventHandler
+	public void onInteractBlock(PlayerInteractEvent e) {
+		if(e.getAction() != Action.LEFT_CLICK_BLOCK && e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
+		if(e.getClickedBlock() == null) return;
+		if(!(e.getClickedBlock().getState() instanceof Sign)) return;
+		Sign sign = (Sign) e.getClickedBlock().getState();
+		
+		for(String line : sign.getLines())
+			if(line.contains("Menu"))
+				MainMenu.openMenu(LGPlayer.thePlayer(e.getPlayer()));
+	}
+	
+	@EventHandler
 	public void onInteract(PlayerInteractEvent e) {
-		if(!e.getItem().equals(VariousUtils.getLOBBY_ITEM())) return;
+		if(e.getItem() == null || !e.getItem().equals(VariousUtils.getLOBBY_ITEM())) return;
 		MainMenu.openMenu(LGPlayer.thePlayer(e.getPlayer()));
 	}
 	

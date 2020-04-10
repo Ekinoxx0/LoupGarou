@@ -38,13 +38,22 @@ public abstract class SubCommand implements TabExecutor {
 	
     @Override
     public boolean onCommand(@NotNull CommandSender cs, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-    	this.execute(cs, label, args);
+    	String[] newArgs = new String[args.length + 1];
+    	for (int i = 0; i < args.length; i++)
+			newArgs[i+1] = args[i];
+    	newArgs[0] = label;
+    	this.execute(cs, label, newArgs);
     	return true;
     }
     
     @Override
-    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
-    	return this.onTabComplete(sender, cmd, args);
+    public List<String> onTabComplete(@NotNull CommandSender cs, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+    	String[] newArgs = new String[args.length + 1];
+    	for (int i = 0; i < args.length; i++)
+			newArgs[i+1] = args[i];
+    	newArgs[0] = label;
+    	this.execute(cs, label, newArgs);
+    	return this.onTabComplete(cs, cmd, newArgs);
     }
 	
 	public abstract void execute(CommandSender cs, String label, String[] args);

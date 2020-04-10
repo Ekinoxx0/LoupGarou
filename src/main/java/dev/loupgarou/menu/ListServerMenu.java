@@ -21,7 +21,7 @@ import lombok.NonNull;
 public class ListServerMenu {
 
 	public static void openMenu(@NonNull LGPlayer lgp) {
-		InteractInventory ii = new InteractInventory(Bukkit.createInventory(null, 9 * 6, "Liste des parties"));
+		InteractInventory ii = new InteractInventory(Bukkit.createInventory(null, 9 * 5, "Liste des parties"));
 		
 		int x = 0;
 		int y = 0;
@@ -73,7 +73,7 @@ public class ListServerMenu {
 								"§8" + MainLg.getInstance().getGames().size() + " partie en cours..."
 							))
 					.build(), 
-					ii.getInv().getSize() / 2, true, 
+					4, 2, true, 
 					new InventoryCall() {
 						
 						@Override

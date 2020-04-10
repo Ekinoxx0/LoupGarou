@@ -15,7 +15,7 @@ import dev.loupgarou.utils.CommonText.PrefixType;
 public class LeaveCmd extends SubCommand {
 
 	public LeaveCmd(LoupGarouCommand cmd) {
-		super(cmd, Arrays.asList("leave", "quit"));
+		super(cmd, Arrays.asList("leave", "quit", "hub", "spawn", "lobby"));
 	}
 
 	@Override
@@ -24,7 +24,8 @@ public class LeaveCmd extends SubCommand {
 			if(cs instanceof Player) {
 				LGGame gameTarget = LGPlayer.thePlayer((Player) cs).getGame();
 				if (gameTarget == null) {
-					cs.sendMessage(PrefixType.PARTIE + "§cVous n'êtes pas en partie !");
+					((Player) cs).teleport(Bukkit.getWorlds().get(0).getSpawnLocation());
+					cs.sendMessage(PrefixType.PARTIE + "§2Téléportation au lobby");
 					return;
 				}
 
@@ -42,7 +43,8 @@ public class LeaveCmd extends SubCommand {
 			
 			LGGame gameTarget = LGPlayer.thePlayer(target).getGame();
 			if (gameTarget == null) {
-				cs.sendMessage(PrefixType.PARTIE + "§cLe joueur n'est pas en partie !");
+				target.teleport(Bukkit.getWorlds().get(0).getSpawnLocation());
+				cs.sendMessage(PrefixType.PARTIE + "§2Téléportation au lobby du joueur");
 				return;
 			}
 			

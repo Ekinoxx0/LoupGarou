@@ -1,11 +1,11 @@
 name: LoupGarou
-version: v1.4.10
+version: v1.4.11
 description: Plugin de loup garou
 author: Ekinoxx
 website: https://github.com/Ekinoxx0/LoupGarou
 
 main: dev.loupgarou.MainLg
-depend: [ProtocolLib]
+depend: [ProtocolLib, AuthMe]
 api-version: 1.13
 
 commands:
@@ -18,6 +18,10 @@ commands:
   start:
   end:
   leave:
+  spawn:
+  hub:
+  lobby:
+  quit:
   discord:
   discordlink:
 
