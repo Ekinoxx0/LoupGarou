@@ -13,7 +13,6 @@ import dev.loupgarou.classes.LGCustomItems.SpecialItems;
 import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.roles.RGarde;
 import dev.loupgarou.roles.RLoupGarou;
-import dev.loupgarou.roles.RVoyante;
 import dev.loupgarou.roles.utils.FakeRoles;
 import dev.loupgarou.utils.InteractInventory;
 import dev.loupgarou.utils.InteractInventory.InventoryCall;
@@ -47,7 +46,7 @@ public class MainMenu {
 				});
 		
 		ii.registerItem(
-				new ItemBuilder(LGCustomItems.getSpecialItem(SpecialItems.MID_ROLE))
+				new ItemBuilder(LGCustomItems.getSpecialItem(SpecialItems.HEART))
 				.name("§9Liste des parties")
 				.lore(
 						Arrays.asList(
@@ -66,7 +65,7 @@ public class MainMenu {
 				});
 		
 		ii.registerItem(
-				new ItemBuilder(LGCustomItems.getItemMenu(FakeRoles.getRole(RVoyante.class)))
+				new ItemBuilder(LGCustomItems.getSpecialItem(SpecialItems.OPTIONS))
 				.name("§7Options")
 				.lore(
 						Arrays.asList(

@@ -20,15 +20,14 @@ import com.comphenix.protocol.wrappers.EnumWrappers;
 
 import dev.loupgarou.MainLg;
 import dev.loupgarou.classes.LGCustomItems;
+import dev.loupgarou.classes.LGCustomItems.SpecialItems;
 import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.packetwrapper.WrapperPlayServerEntityDestroy;
-import dev.loupgarou.roles.REnfantSauvage;
-import dev.loupgarou.roles.utils.FakeRoles;
 import lombok.Getter;
 
 public class VariousUtils {
 	
-	@Getter private static final ItemStack LOBBY_ITEM = new ItemBuilder(LGCustomItems.getItemMenu(FakeRoles.getRole(REnfantSauvage.class)))
+	@Getter private static final ItemStack LOBBY_ITEM = new ItemBuilder(LGCustomItems.getSpecialItem(SpecialItems.SERVER_ICON))
 															.name("§9Menu")
 															.lore(Arrays.asList("§7§oClique droit"))
 															.build();
