@@ -1,5 +1,7 @@
 package dev.loupgarou.menu;
 
+import java.util.Arrays;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.inventory.ClickType;
@@ -64,6 +66,7 @@ public class PartieMenu {
 		ii.registerItem(
 				new ItemBuilder(LGCustomItems.getSpecialItem(game.getConfig().isHideRole() ? SpecialItems.GREEN_ROLE : SpecialItems.RED_ROLE))
 				.name("§9Rôles cachés : " + (game.getConfig().isHideRole() ? "§aOUI" : "§cNON"))
+				.lore(Arrays.asList("§7La liste des rôles sera cachée. Mais les rôles seront affichés à la mort."))
 				.build(), 
 				3, 3, true, 
 				new InventoryCall() {
@@ -88,6 +91,7 @@ public class PartieMenu {
 		ii.registerItem(
 				new ItemBuilder(LGCustomItems.getSpecialItem(game.getConfig().isHideVote() ? SpecialItems.GREEN_ROLE : SpecialItems.RED_ROLE))
 				.name("§9Votes cachés : " + (game.getConfig().isHideVote() ? "§aOUI" : "§cNON"))
+				.lore(Arrays.asList("§7Les noms des messages de votes seront masqués."))
 				.build(), 
 				4, 3, true, 
 				new InventoryCall() {
@@ -112,6 +116,7 @@ public class PartieMenu {
 		ii.registerItem(
 				new ItemBuilder(LGCustomItems.getSpecialItem(game.getConfig().isHideVoteExtra() ? SpecialItems.GREEN_ROLE : SpecialItems.RED_ROLE))
 				.name("§9Votes complètement cachés : " + (game.getConfig().isHideVoteExtra() ? "§aOUI" : "§cNON"))
+				.lore(Arrays.asList("§7Le nombre de vote pour chaque joueur sera caché."))
 				.build(), 
 				5, 3, true, 
 				new InventoryCall() {

@@ -84,12 +84,12 @@ public class LGPlayerSimple {
 	}
 
 	public void playAudio(Sound sound) {
-		if(getPlayer() != null) return;
+		if(getPlayer() == null) return;
 		SoundUtils.sendSound(getPlayer(), sound);
 	}
 
 	public void playAudio(LGSound sound, float volume) {
-		if(getPlayer() != null) return;
+		if(getPlayer() == null) return;
 		SoundUtils.sendSound(getPlayer(), sound, volume);
 	}
 	

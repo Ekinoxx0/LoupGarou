@@ -26,11 +26,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
 import com.comphenix.protocol.wrappers.EnumWrappers.ChatType;
-import com.comphenix.protocol.wrappers.EnumWrappers.NativeGameMode;
-import com.comphenix.protocol.wrappers.EnumWrappers.PlayerInfoAction;
-import com.comphenix.protocol.wrappers.PlayerInfoData;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
-import com.comphenix.protocol.wrappers.WrappedGameProfile;
 
 import dev.loupgarou.MainLg;
 import dev.loupgarou.classes.LGGameConfig.CommunicationType;
@@ -57,7 +53,6 @@ import dev.loupgarou.events.vote.LGVoteLeaderChange;
 import dev.loupgarou.menu.PartieMenu;
 import dev.loupgarou.packetwrapper.WrapperPlayServerChat;
 import dev.loupgarou.packetwrapper.WrapperPlayServerExperience;
-import dev.loupgarou.packetwrapper.WrapperPlayServerPlayerInfo;
 import dev.loupgarou.packetwrapper.WrapperPlayServerUpdateHealth;
 import dev.loupgarou.packetwrapper.WrapperPlayServerUpdateTime;
 import dev.loupgarou.roles.RChienLoupLG;
@@ -268,7 +263,7 @@ public class LGGame implements Listener{
 				other.showPlayer(lgp);
 			}
 		}
-			
+		
 		broadcastMessage(PrefixType.PARTIE + "§7Le joueur §8"+lgp.getName()+"§7 a rejoint la partie §9(§8"+inGame.size()+"§7/§8"+config.getMap().getSpawns().size()+"§9)");
 			
 		Bukkit.getPluginManager().callEvent(new LGGameJoinEvent(this, lgp));
@@ -602,16 +597,10 @@ public class LGGame implements Listener{
 		if(killed.getPlayer() != null){
 			killed.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 999999, 1, false, false));
 			
-			for(LGPlayer lgp : getInGame())
-				if(lgp == killed) {
-					WrapperPlayServerPlayerInfo info = new WrapperPlayServerPlayerInfo();
-					List<PlayerInfoData> infos = new ArrayList<PlayerInfoData>();
-					info.setAction(PlayerInfoAction.REMOVE_PLAYER);
-					infos.add(new PlayerInfoData(new WrappedGameProfile(lgp.getPlayer().getUniqueId(), lgp.getName()), 0, NativeGameMode.ADVENTURE, WrappedChatComponent.fromText(lgp.getName())));
-					info.setData(infos);
-					info.sendPacket(lgp.getPlayer());
-				}else
-					lgp.hidePlayer(killed);
+			for(LGPlayer lgp : getInGame()) {
+				if(lgp == killed) continue;
+				lgp.hidePlayer(killed);
+			}
 			
 			if(vote != null)
 				vote.remove(killed);

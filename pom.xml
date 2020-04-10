@@ -113,8 +113,17 @@
 			<name>jcenter-bintray</name>
 			<url>https://jcenter.bintray.com</url>
 		</repository>
+		<repository>
+			<id>viaversion-repo</id>
+			<url>https://repo.viaversion.com/</url>
+		</repository>
 	</repositories>
 	<dependencies>
+		<dependency>
+			<groupId>us.myles</groupId>
+			<artifactId>viaversion</artifactId>
+			<version>3.0.0-SNAPSHOT</version>
+		</dependency>
 		<dependency>
 			<groupId>net.dv8tion</groupId>
 			<artifactId>JDA</artifactId>

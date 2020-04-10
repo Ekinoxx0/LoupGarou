@@ -5,7 +5,7 @@ author: Ekinoxx
 website: https://github.com/Ekinoxx0/LoupGarou
 
 main: dev.loupgarou.MainLg
-depend: [ProtocolLib, AuthMe]
+depend: [ProtocolLib, AuthMe, ViaVersion]
 api-version: 1.13
 
 commands:

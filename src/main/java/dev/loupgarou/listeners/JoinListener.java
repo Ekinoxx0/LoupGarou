@@ -1,6 +1,8 @@
 package dev.loupgarou.listeners;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -15,18 +17,30 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerResourcePackStatusEvent;
 import org.bukkit.event.player.PlayerResourcePackStatusEvent.Status;
 
+import com.comphenix.protocol.wrappers.EnumWrappers.NativeGameMode;
+import com.comphenix.protocol.wrappers.EnumWrappers.PlayerInfoAction;
+import com.comphenix.protocol.wrappers.PlayerInfoData;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
+import com.comphenix.protocol.wrappers.WrappedGameProfile;
 
 import dev.loupgarou.MainLg;
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
+import dev.loupgarou.packetwrapper.WrapperPlayServerPlayerInfo;
 import dev.loupgarou.packetwrapper.WrapperPlayServerScoreboardTeam;
 import dev.loupgarou.packetwrapper.WrapperPlayServerScoreboardTeam.Mode;
 import dev.loupgarou.utils.CommonText.PrefixType;
 import dev.loupgarou.utils.VariousUtils;
 import fr.xephi.authme.events.LoginEvent;
+import us.myles.ViaVersion.api.Via;
+import us.myles.ViaVersion.api.ViaAPI;
+import us.myles.ViaVersion.api.protocol.ProtocolVersion;
 
-public class JoinListener implements Listener{
+public class JoinListener implements Listener {
+
+	private static final String url = "https://github.com/Ekinoxx0/LoupGarouRessourcePack/raw/";
+	private static final String commitIdLGRessource = "f97c20d90e9e1ca9c0ed018841a8cb22d9bcbc9d";
+	private final ViaAPI<?> api = Via.getAPI();
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onLogin(PlayerLoginEvent e) {
@@ -38,9 +52,12 @@ public class JoinListener implements Listener{
 	
 	@EventHandler
 	public void onJoin(PlayerJoinEvent e) {
-		if(!"is connected".equals(e.getJoinMessage()))
-			e.getPlayer().setResourcePack("https://github.com/Ekinoxx0/LoupGarouRessourcePack/raw/033025bf3de986fa2b7f6d66bffe262887c10674/generated.zip", "");
-		
+		ProtocolVersion v = ProtocolVersion.getProtocol(api.getPlayerVersion(e.getPlayer().getUniqueId()));
+		if(v.getId() < ProtocolVersion.v1_13.getId()) {
+			e.getPlayer().setResourcePack(url + commitIdLGRessource + "/generated-pre13.zip", "");
+		} else {
+			e.getPlayer().setResourcePack(url + commitIdLGRessource + "/generated.zip", "");
+		}
 		e.setJoinMessage(null);
 	}
 	
@@ -104,6 +121,14 @@ public class JoinListener implements Listener{
 		LGPlayer lgp = LGPlayer.thePlayer(p);
 		if(lgp.getGame() != null)
 			lgp.getGame().leave(lgp);
+
+		WrapperPlayServerPlayerInfo info = new WrapperPlayServerPlayerInfo();
+		List<PlayerInfoData> infos = new ArrayList<PlayerInfoData>();
+		info.setAction(PlayerInfoAction.REMOVE_PLAYER);
+		infos.add(new PlayerInfoData(new WrappedGameProfile(p.getUniqueId(), p.getName()), 0, NativeGameMode.ADVENTURE, WrappedChatComponent.fromText(p.getName())));
+		info.setData(infos);
+		for(Player ap : Bukkit.getOnlinePlayers())
+			info.sendPacket(ap);
 		
 		lgp.destroy();
 	}

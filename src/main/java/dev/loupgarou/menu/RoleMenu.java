@@ -142,7 +142,7 @@ public class RoleMenu {
 						
 						InvalidCompo invalid;
 						if((invalid = game.getConfig().verifyRoles()) != null) {
-							lgp.sendMessage(PrefixType.PARTIE + "§cComposition des rôles impossible... Incohérence avec le rôle : " + invalid);
+							lgp.sendMessage(PrefixType.PARTIE + "§cComposition des rôles impossible... " + invalid);
 							lgp.playAudio(Sound.ENTITY_VILLAGER_NO);
 							return;
 						}

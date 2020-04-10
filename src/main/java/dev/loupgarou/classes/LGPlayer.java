@@ -109,26 +109,12 @@ public class LGPlayer extends LGPlayerSimple {
 			if(!getGame().getAlive().contains(allP))
 				this.hidePlayer(allP);
 
+		this.updatePrefix();
+		
 		for (LGPlayer lgp : getGame().getAlive()) {
-			if(lgp.isDead()) continue;
-			
-			if (lgp != this && lgp.getPlayer() != null)
+			if(lgp.getPlayer() == null) continue;
+			if (lgp != this)
 				showPlayer(lgp);
-			else {
-				WrapperPlayServerScoreboardTeam team = new WrapperPlayServerScoreboardTeam();
-				team.setMode(Mode.TEAM_UPDATED);
-				team.setName(lgp.getName());
-				team.setPrefix(WrappedChatComponent.fromText(""));
-				team.setPlayers(Arrays.asList(lgp.getName()));
-				team.sendPacket(getPlayer());
-
-				WrapperPlayServerPlayerInfo info = new WrapperPlayServerPlayerInfo();
-				List<PlayerInfoData> infos = new ArrayList<PlayerInfoData>();
-				info.setAction(PlayerInfoAction.ADD_PLAYER);
-				infos.add(new PlayerInfoData(new WrappedGameProfile(getPlayer().getUniqueId(), getName()), 0, NativeGameMode.ADVENTURE, WrappedChatComponent.fromText(getName())));
-				info.setData(infos);
-				info.sendPacket(getPlayer());
-			}
 		}
 			
 	}
@@ -155,25 +141,47 @@ public class LGPlayer extends LGPlayerSimple {
 		info.sendPacket(getPlayer());
 	}
 	
+	public void updateTab() {
+		if(getPlayer() == null) return;
+		
+		List<PlayerInfoData> infos = new ArrayList<PlayerInfoData>();
+		infos.add(new PlayerInfoData(new WrappedGameProfile(getPlayer().getUniqueId(), getName()), 0, this.isDead() ? NativeGameMode.SPECTATOR : NativeGameMode.ADVENTURE, WrappedChatComponent.fromText(getName())));
+		
+		WrapperPlayServerPlayerInfo info = new WrapperPlayServerPlayerInfo();
+		info.setData(infos);
+		
+		if(getGame() == null) {
+			for(LGPlayer algp : LGPlayer.all()) {
+				info.setAction(algp.getGame() != null ? PlayerInfoAction.REMOVE_PLAYER : PlayerInfoAction.ADD_PLAYER);
+				info.sendPacket(algp.getPlayer());
+			}
+		} else {
+			for(LGPlayer algp : LGPlayer.all()) {
+				info.setAction(algp.getGame() == getGame() ? PlayerInfoAction.ADD_PLAYER : PlayerInfoAction.REMOVE_PLAYER);
+				info.sendPacket(algp.getPlayer());
+			}
+		}
+	}
+	
 	public void updatePrefix() {
 		if(getGame() == null) return;
 		if(isDead()) return;
 		if(getPlayer() == null) return;
 				
-		List<String> meList = Arrays.asList(getName());
+		WrapperPlayServerPlayerInfo info = new WrapperPlayServerPlayerInfo();
+		List<PlayerInfoData> infos = new ArrayList<PlayerInfoData>();
+		info.setAction(PlayerInfoAction.ADD_PLAYER);
+		infos.add(new PlayerInfoData(new WrappedGameProfile(getPlayer().getUniqueId(), getName()), 0, NativeGameMode.ADVENTURE, WrappedChatComponent.fromText(getName())));
+		info.setData(infos);
+		
+		WrapperPlayServerScoreboardTeam team = new WrapperPlayServerScoreboardTeam();
+		team.setMode(Mode.TEAM_UPDATED);
+		team.setName(getName());
+		team.setPrefix(WrappedChatComponent.fromText(""));
+		team.setPlayers(Arrays.asList(getName()));
+		
 		for(LGPlayer lgp : getGame().getInGame()) {
-			WrapperPlayServerPlayerInfo info = new WrapperPlayServerPlayerInfo();
-			ArrayList<PlayerInfoData> infos = new ArrayList<PlayerInfoData>();
-			info.setAction(PlayerInfoAction.ADD_PLAYER);
-			infos.add(new PlayerInfoData(new WrappedGameProfile(getPlayer().getUniqueId(), getName()), 0, NativeGameMode.ADVENTURE, WrappedChatComponent.fromText(getName())));
-			info.setData(infos);
 			info.sendPacket(lgp.getPlayer());
-			
-			WrapperPlayServerScoreboardTeam team = new WrapperPlayServerScoreboardTeam();
-			team.setMode(Mode.TEAM_UPDATED);
-			team.setName(getName());
-			team.setPrefix(WrappedChatComponent.fromText(""));
-			team.setPlayers(meList);
 			team.sendPacket(lgp.getPlayer());
 		}
 	}
