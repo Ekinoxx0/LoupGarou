@@ -130,7 +130,7 @@ public class LGGameConfig {
 		NO_CHASSEUR_TO_BE_PROTECTED("Pas de Chasseur pour aider le Chaperon Rouge", RoleType.VILLAGER);
 		
 		@NonNull private String msg;
-		@Getter @NonNull private RoleType roleType;
+		@Getter private RoleType roleType;
 		@Override
 		public String toString() {
 			return msg;
