@@ -64,6 +64,8 @@ public class LGGameConfig {
 	public InvalidCompo verifyRoles() {
 		if(getTotalConfiguredRoles() < 3)
 			return InvalidCompo.TOO_FEW_PLAYERS;
+		if(getTotalConfiguredRoles() > this.getMap().getSpawns().size())
+			return InvalidCompo.TOO_MANY_PLAYERS;
 		Map<RoleType, Integer> rolesPerType = new HashMap<RoleType, Integer>();
 
 		for(RoleType type : RoleType.values())

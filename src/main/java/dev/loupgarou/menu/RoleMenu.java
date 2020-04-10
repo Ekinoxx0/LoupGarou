@@ -1,6 +1,7 @@
 package dev.loupgarou.menu;
 
 import java.util.Arrays;
+import java.util.Map.Entry;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
@@ -44,7 +45,7 @@ public class RoleMenu {
 	}
 	
 	private void openRealMenu(LGPlayer lgp) {
-		InteractInventory ii = new InteractInventory(Bukkit.createInventory(null, 4 * 9, TITLE));
+		InteractInventory ii = new InteractInventory(Bukkit.createInventory(null, 5 * 9, TITLE));
 		
 		int i = 0;
 		int total = game.getConfig().getTotalConfiguredRoles();
@@ -110,6 +111,24 @@ public class RoleMenu {
 			});
 			i++;
 		}
+		
+		ii.registerItem(
+				new ItemBuilder(LGCustomItems.getSpecialItem(SpecialItems.GREY_ROLE_Q))
+					.name("§7Remise à zéro")
+					.build(), 
+				ii.getInv().getSize() - 2, true, new InventoryCall() {
+					
+					@Override
+					public void click(HumanEntity human, ItemStack item, ClickType clickType) {
+						for(Entry<Class<? extends Role>, Integer> entry : game.getConfig().getRoles().entrySet())
+							entry.setValue(0);
+						lgp.playAudio(Sound.ENTITY_VILLAGER_YES);
+						//Update all opened inventory
+						for(LGPlayer lInGame : game.getInGame())
+							if(lInGame.getPlayer() != null && lInGame.getPlayer().getOpenInventory() != null && lInGame.getPlayer().getOpenInventory().getTitle().equals(TITLE))
+								openRealMenu(lInGame);
+					}
+				});
 		
 		ii.registerItem(
 				new ItemBuilder(LGCustomItems.getSpecialItem(SpecialItems.CHECK))
