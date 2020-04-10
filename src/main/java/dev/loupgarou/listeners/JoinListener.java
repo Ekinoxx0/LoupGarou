@@ -39,7 +39,7 @@ public class JoinListener implements Listener{
 	@EventHandler
 	public void onJoin(PlayerJoinEvent e) {
 		if(!"is connected".equals(e.getJoinMessage()))
-			e.getPlayer().setResourcePack("https://github.com/Ekinoxx0/LoupGarouRessourcePack/raw/511a467a964c74318d918171e6188e35d9111c69/loup_garou.zip", "");
+			e.getPlayer().setResourcePack("https://github.com/Ekinoxx0/LoupGarouRessourcePack/raw/master/generated.zip", "");
 		
 		e.setJoinMessage(null);
 	}

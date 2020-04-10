@@ -3,11 +3,12 @@ package dev.loupgarou.roles;
 import java.util.Arrays;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
+import dev.loupgarou.classes.LGCustomItems;
+import dev.loupgarou.classes.LGCustomItems.SpecialItems;
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.roles.utils.Role;
@@ -90,7 +91,7 @@ public class RChienLoup extends Role{
 		InteractInventory ii = new InteractInventory(Bukkit.createInventory(null, 9, "§7Choisis ton camp."));
 		
 		ii.registerItem(
-				new ItemBuilder(Material.GOLDEN_APPLE)
+				new ItemBuilder(LGCustomItems.getSpecialItem(SpecialItems.GREEN_ROLE_Q))
 				.name("§2Devenir Villageois")
 				.lore(Arrays.asList(
 						"§7§lVous n'aurez aucun pouvoir mais",
@@ -112,7 +113,7 @@ public class RChienLoup extends Role{
 		});
 		
 		ii.registerItem(
-				new ItemBuilder(Material.ROTTEN_FLESH)
+				new ItemBuilder(LGCustomItems.getSpecialItem(SpecialItems.RED_ROLE_Q))
 				.name("§cDevenir Loup-Garou")
 				.lore(Arrays.asList(
 						"§cVous rejoindrez le camp des §c§lLoups"

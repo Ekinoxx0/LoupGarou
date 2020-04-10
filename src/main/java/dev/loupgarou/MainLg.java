@@ -86,7 +86,6 @@ public class MainLg extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		instance = this;
-		
 		loadRoles();
 		
 		Bukkit.getPluginManager().registerEvents(new JoinListener(), this);

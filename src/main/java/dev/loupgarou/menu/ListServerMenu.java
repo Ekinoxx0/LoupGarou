@@ -10,8 +10,10 @@ import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
 import dev.loupgarou.MainLg;
+import dev.loupgarou.classes.LGCustomItems;
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
+import dev.loupgarou.classes.LGCustomItems.SpecialItems;
 import dev.loupgarou.utils.CommonText.PrefixType;
 import dev.loupgarou.utils.InteractInventory;
 import dev.loupgarou.utils.InteractInventory.InventoryCall;
@@ -68,7 +70,7 @@ public class ListServerMenu {
 		
 		if(MainLg.getInstance().getGames().isEmpty()) {
 			ii.registerItem(
-					new ItemBuilder(Material.FIREWORK_ROCKET)
+					new ItemBuilder(LGCustomItems.getSpecialItem(SpecialItems.CROSS))
 					.name("§7Aucune partie disponible...")
 					.lore(Arrays.asList(
 								"§8" + MainLg.getInstance().getGames().size() + " partie en cours..."

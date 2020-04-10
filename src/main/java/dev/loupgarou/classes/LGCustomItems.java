@@ -22,18 +22,28 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 public class LGCustomItems {
-	
 	public static enum SpecialItems {
-		GREEN_ROLE,
-		GREY_ROLE,
-		RED_ROLE,
-		MID_ROLE,
 		ARROW,
-		CROSS,
 		CHECK,
+		CROSS,
+		DEATH_POTION,
+		DISCORD,
 		HEART,
 		LIFE_POTION,
-		DEATH_POTION;
+		NODISCORD,
+		NOROBOT,
+		OPTIONS,
+		ROBOT,
+		SERVER_ICON,
+		TEXTUAL,
+		GREEN_ROLE,
+		GREEN_ROLE_Q,
+		GREY_ROLE,
+		GREY_ROLE_Q,
+		MID_ROLE,
+		MID_ROLE_Q,
+		RED_ROLE,
+		RED_ROLE_Q,
 	}
 	
 	public static HashMap<String, HashMap<String, Material>> mappings = new HashMap<String, HashMap<String,Material>>();
@@ -61,29 +71,29 @@ public class LGCustomItems {
 	}
 	
 	public static Material getItem(@NonNull Role role) {
-		if(!mappings.containsKey(role.getClass().getSimpleName().substring(1))) {
-			MainLg.debug("No material specified in mappings(" + mappings.size() + ") for : '" + role.getClass().getSimpleName().substring(1) + "'");
-			return Material.STONE;
+		if(!mappings.containsKey(role.getClass().getSimpleName().substring(1).toLowerCase())) {
+			MainLg.debug("No material specified in mappings(" + mappings.size() + ") for : '" + role.getClass().getSimpleName().substring(1).toLowerCase() + "'");
+			return getSpecialItem(SpecialItems.MID_ROLE_Q);
 		}
-		return mappings.get(role.getClass().getSimpleName().substring(1)).get("");
+		return mappings.get(role.getClass().getSimpleName().substring(1).toLowerCase()).get("role");
 	}
 	
 	public static Material getItemMenu(@NonNull Role role) {
-		if(!mappings.containsKey(role.getClass().getSimpleName().substring(1))) {
-			MainLg.debug("No material specified in mappings(" + mappings.size() + ") for : '" + role.getClass().getSimpleName().substring(1) + "'");
-			return Material.STONE;
+		if(!mappings.containsKey(role.getClass().getSimpleName().substring(1).toLowerCase())) {
+			MainLg.debug("No material specified in mappings(" + mappings.size() + ") for : '" + role.getClass().getSimpleName().substring(1).toLowerCase() + "'");
+			return getSpecialItem(SpecialItems.MID_ROLE_Q);
 		}
-		return mappings.get(role.getClass().getSimpleName().substring(1)).get("menu");
+		return mappings.get(role.getClass().getSimpleName().substring(1).toLowerCase()).get("menu");
 	}
 	
 	private static Material getItem(@NonNull LGPlayer player, @NonNull ArrayList<LGCustomItemsConstraints> constraints) {
 		Bukkit.getPluginManager().callEvent(new LGCustomItemChangeEvent(player.getGame(), player, constraints));
 		Collections.sort(constraints);
 		
-		String roleName = player.getRole().getClass().getSimpleName().substring(1);
+		String roleName = player.getRole().getClass().getSimpleName().substring(1).toLowerCase();
 		if(!mappings.containsKey(roleName)) {
 			MainLg.debug("No material specified in mappings(" + mappings.size() + ") for : '" + roleName + "'");
-			return Material.STONE;
+			return getSpecialItem(SpecialItems.MID_ROLE_Q);
 		}
 
 		HashMap<String, Material> mapps = mappings.get(roleName);

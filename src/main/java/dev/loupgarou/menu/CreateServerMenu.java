@@ -3,7 +3,6 @@ package dev.loupgarou.menu;
 import java.util.Arrays;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
@@ -18,8 +17,6 @@ import dev.loupgarou.classes.LGGameConfig.CommunicationType;
 import dev.loupgarou.classes.LGMaps;
 import dev.loupgarou.classes.LGMaps.LGMap;
 import dev.loupgarou.classes.LGPlayer;
-import dev.loupgarou.roles.RAssassin;
-import dev.loupgarou.roles.utils.FakeRoles;
 import dev.loupgarou.utils.CommonText.PrefixType;
 import dev.loupgarou.utils.InteractInventory;
 import dev.loupgarou.utils.InteractInventory.InventoryCall;
@@ -107,7 +104,7 @@ public class CreateServerMenu {
 		ii.fill(null, true, null);
 		
 		ii.registerItem(
-				new ItemBuilder(LGCustomItems.getItemMenu(FakeRoles.getRole(RAssassin.class)))
+				new ItemBuilder(LGCustomItems.getSpecialItem(SpecialItems.DISCORD))
 				.name("§6Sélection du type de tchat")
 				.lore(//TODO verify is connected
 						Arrays.asList(
@@ -130,7 +127,7 @@ public class CreateServerMenu {
 				});
 		
 		ii.registerItem(
-				new ItemBuilder(Material.JUNGLE_SIGN)
+				new ItemBuilder(LGCustomItems.getSpecialItem(SpecialItems.TEXTUAL))
 				.name("§6Sélection du type de tchat")
 				.lore(
 						Arrays.asList(

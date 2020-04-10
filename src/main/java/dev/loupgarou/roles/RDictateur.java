@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.Iterator;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.EventHandler;
@@ -44,7 +43,7 @@ public class RDictateur extends Role{
 		meta.setDisplayName("§7§lNe rien faire");
 		meta.setLore(Arrays.asList("§8Passez votre tour"));
 		items[3].setItemMeta(meta);
-		items[5] = new ItemStack(Material./*DIAMOND_SWORD*/GUNPOWDER);
+		items[5] = new ItemStack(LGCustomItems.getSpecialItem(SpecialItems.RED_ROLE_Q));//TODO Change to role item when interact inventory is setup
 		meta = items[5].getItemMeta();
 		meta.setDisplayName("§e§lCoup d'État");
 		meta.setLore(Arrays.asList(

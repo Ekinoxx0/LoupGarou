@@ -131,7 +131,7 @@ public class RSorciere extends Role{
 			inventory.setItem(0, null);
 		
 		if(sauver != null) {
-			ItemStack head = new ItemStack(Material.ARROW);
+			ItemStack head = new ItemStack(Material.PLAYER_HEAD);
 			ItemMeta meta = head.getItemMeta();
 			meta.setDisplayName("§7§l"+sauver.getName()+"§c est ciblé");
 			head.setItemMeta(meta);

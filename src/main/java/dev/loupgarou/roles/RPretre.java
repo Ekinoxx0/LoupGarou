@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -44,7 +43,7 @@ public class RPretre extends Role{
 		meta.setDisplayName("§7§lNe rien faire");
 		meta.setLore(Arrays.asList("§8Passez votre tour"));
 		items[3].setItemMeta(meta);
-		items[5] = new ItemStack(Material.ROTTEN_FLESH);
+		items[5] = new ItemStack(LGCustomItems.getSpecialItem(SpecialItems.MID_ROLE_Q));
 		meta = items[5].getItemMeta();
 		meta.setDisplayName("§2§lRessuciter");
 		meta.setLore(Arrays.asList(
