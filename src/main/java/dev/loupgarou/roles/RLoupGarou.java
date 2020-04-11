@@ -97,7 +97,7 @@ public class RLoupGarou extends Role{
 		super.join(player, sendMessage);
 		//On peut créer des cheats grâce à ça (qui permettent de savoir qui est lg/inf)
 		for(LGPlayer p : getPlayers())
-			p.updatePrefix();
+			p.updateTab();
 	}
 
 	public void onNightTurn(Runnable callback) {

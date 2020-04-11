@@ -63,5 +63,10 @@ public class EndCmd extends SubCommand {
 		gameTarget.endGame(LGWinType.EQUAL);
 		gameTarget.broadcastMessage(PrefixType.PARTIE + "§cLa partie a été arrêtée de force !");
 	}
+	
+	@Override
+	public String getPermission() {
+		return null;
+	}
 
 }

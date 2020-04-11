@@ -123,6 +123,7 @@
 			<groupId>us.myles</groupId>
 			<artifactId>viaversion</artifactId>
 			<version>3.0.0-SNAPSHOT</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>net.dv8tion</groupId>

@@ -98,6 +98,12 @@ public class LGPlayerSimple {
 		getPlayer().stopSound(sound.getSound());
 	}
 	
+	public boolean canSeePlayer(LGPlayer lgp) {
+		if(getPlayer() == null || lgp.getPlayer() == null) return false;
+		return getPlayer().canSee(lgp.getPlayer());
+	}
+	
+	
 	public void hidePlayer(LGPlayer lgp) {
 		if(getPlayer() == null || lgp.getPlayer() == null) return;
 		getPlayer().hidePlayer(MainLg.getInstance(), lgp.getPlayer());

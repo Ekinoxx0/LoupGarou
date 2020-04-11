@@ -50,7 +50,8 @@ public class VariableCache {
 	}
 	
 	public void init(@NonNull CacheType key, Object value) {
-		this.cache.replace(key, value);
+		if(!this.cache.containsKey(key))
+			this.cache.put(key, value);
 	}
 	
 	

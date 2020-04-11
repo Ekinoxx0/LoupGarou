@@ -98,7 +98,6 @@ public class VariousUtils {
 	public static void setupLobby(LGPlayer lgp) {
 		Player p = lgp.getPlayer();
 		if(p == null) return;
-		
 		MainLg.debug("setupLobby(" + lgp.toString() + ");");
 
 		lgp.leaveAllChat();
@@ -111,7 +110,7 @@ public class VariousUtils {
 		p.getInventory().setItem(4, LOBBY_ITEM);
 		
 		for(LGPlayer algp : LGPlayer.all())
-			if(algp.getGame() == null)
+			if(algp.getGame() == null && algp != lgp)
 				algp.showView();
 	}
 	

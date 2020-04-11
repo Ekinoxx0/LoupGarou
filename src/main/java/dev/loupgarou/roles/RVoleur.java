@@ -107,7 +107,7 @@ public class RVoleur extends Role {
 					choosen.setRole(this);
 					LGCustomItems.updateItem(choosen);
 					choosen.updateOwnSkin();
-					choosen.updatePrefix();
+					choosen.updateTab();
 					choosen.hideView(); // Sinon il regagne la vue
 
 					getPlayers().remove(player);
@@ -115,7 +115,7 @@ public class RVoleur extends Role {
 					player.setRole(choosenRole);
 					LGCustomItems.updateItem(player);
 					player.updateOwnSkin();
-					choosen.updatePrefix();
+					choosen.updateTab();
 					player.hideView();
 
 					getGame().updateRoleScoreboard(); // Même si rien ne change...

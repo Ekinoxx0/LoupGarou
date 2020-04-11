@@ -20,6 +20,7 @@ import com.comphenix.protocol.wrappers.PlayerInfoData;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
 
+import dev.loupgarou.MainLg;
 import dev.loupgarou.classes.LGChat.LGChatCallback;
 import dev.loupgarou.packetwrapper.WrapperPlayServerPlayerInfo;
 import dev.loupgarou.packetwrapper.WrapperPlayServerRespawn;
@@ -37,7 +38,7 @@ import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
 
-@ToString
+@ToString//FIXME Not a good idea.
 public class LGPlayer extends LGPlayerSimple {
 	private static HashMap<Player, LGPlayer> cachedPlayers = new HashMap<Player, LGPlayer>();
 	public static Collection<LGPlayer> all(){
@@ -92,19 +93,24 @@ public class LGPlayer extends LGPlayerSimple {
 	}
 
 	public void showView() {
+		if(getPlayer() == null) return;
+		MainLg.debug("showView(" + getName() + ")");
 		getPlayer().removePotionEffect(PotionEffectType.BLINDNESS);
 
 		if(getGame() == null) { //In lobby
+			MainLg.debug(" -> In lobby");
 			for(LGPlayer allP : LGPlayer.all())
 				if(allP.getGame() != null) {
+					MainLg.debug(" -> (" + allP.getName() + ") In Game");
 					this.hidePlayer(allP);
 				} else {
+					MainLg.debug(" -> (" + allP.getName() + ") In Lobby");
 					this.showPlayer(allP);
 				}
 			return;
 		}
-		if(getPlayer() == null) return;
-		
+
+		MainLg.debug(" -> In Game");
 		for(LGPlayer allP : LGPlayer.all())
 			if(!getGame().getAlive().contains(allP))
 				this.hidePlayer(allP);
@@ -115,12 +121,13 @@ public class LGPlayer extends LGPlayerSimple {
 				showPlayer(lgp);
 		}
 
-		this.updatePrefix();
+		this.updateTab();
 	}
 	
 	public void hideView() {
 		if(getGame() == null) return;
 		if(getPlayer() == null) return;
+		MainLg.debug("hideView(" + getName() + ")");
 		getPlayer().removePotionEffect(PotionEffectType.BLINDNESS);
 		getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 999999, 1, false, false));
 		
@@ -142,6 +149,7 @@ public class LGPlayer extends LGPlayerSimple {
 	
 	public void updateTab() {
 		if(getPlayer() == null) return;
+		MainLg.debug("updateTab(" + getName() + ")");
 		
 		List<PlayerInfoData> infos = new ArrayList<PlayerInfoData>();
 		infos.add(new PlayerInfoData(new WrappedGameProfile(getPlayer().getUniqueId(), getName()), 0, this.isDead() ? NativeGameMode.SPECTATOR : NativeGameMode.ADVENTURE, WrappedChatComponent.fromText(getName())));
@@ -149,59 +157,26 @@ public class LGPlayer extends LGPlayerSimple {
 		WrapperPlayServerPlayerInfo info = new WrapperPlayServerPlayerInfo();
 		info.setData(infos);
 		
-		if(getGame() == null) {
-			for(LGPlayer algp : LGPlayer.all()) {
-				info.setAction(algp.getGame() != null ? PlayerInfoAction.REMOVE_PLAYER : PlayerInfoAction.ADD_PLAYER);
-				info.sendPacket(algp.getPlayer());
-			}
-		} else {
-			for(LGPlayer algp : LGPlayer.all()) {
-				info.setAction(algp.getGame() == getGame() ? PlayerInfoAction.ADD_PLAYER : PlayerInfoAction.REMOVE_PLAYER);
-				info.sendPacket(algp.getPlayer());
-			}
-		}
-	}
-	
-	public void updatePrefix() {
-		if(getGame() == null) return;
-		if(isDead()) return;
-		if(getPlayer() == null) return;
-				
-		WrapperPlayServerPlayerInfo info = new WrapperPlayServerPlayerInfo();
-		List<PlayerInfoData> infos = new ArrayList<PlayerInfoData>();
-		info.setAction(PlayerInfoAction.ADD_PLAYER);
-		infos.add(new PlayerInfoData(new WrappedGameProfile(getPlayer().getUniqueId(), getName()), 0, NativeGameMode.ADVENTURE, WrappedChatComponent.fromText(getName())));
-		info.setData(infos);
-		
 		WrapperPlayServerScoreboardTeam team = new WrapperPlayServerScoreboardTeam();
 		team.setMode(Mode.TEAM_UPDATED);
 		team.setName(getName());
 		team.setPrefix(WrappedChatComponent.fromText(""));
 		team.setPlayers(Arrays.asList(getName()));
-		
-		for(LGPlayer lgp : getGame().getInGame()) {
-			info.sendPacket(lgp.getPlayer());
-			team.sendPacket(lgp.getPlayer());
+
+		for(LGPlayer algp : LGPlayer.all()) {
+			info.setAction(algp.getGame() == getGame() ? PlayerInfoAction.ADD_PLAYER : PlayerInfoAction.REMOVE_PLAYER);
+			info.sendPacket(algp.getPlayer());
+			team.sendPacket(algp.getPlayer());
 		}
 	}
 	
 	public void updateSkin() {
-		if(getGame() == null) return;
-		if(getPlayer() == null) return;
-		
-		for(LGPlayer lgp : getGame().getInGame()) {
-			if(lgp == this) {
-				WrapperPlayServerPlayerInfo info = new WrapperPlayServerPlayerInfo();
-				List<PlayerInfoData> infos = new ArrayList<PlayerInfoData>();
-				info.setAction(PlayerInfoAction.ADD_PLAYER);
-				infos.add(new PlayerInfoData(new WrappedGameProfile(getPlayer().getUniqueId(), getName()), 0, NativeGameMode.ADVENTURE, WrappedChatComponent.fromText(getName())));
-				info.setData(infos);
-				info.sendPacket(getPlayer());
-			}else if(!isDead() && lgp.getPlayer() != null){
+		MainLg.debug("updateSkin(" + getName() + ")");
+		for(LGPlayer lgp : LGPlayer.all())
+			if(lgp.canSeePlayer(lgp)) {
 				lgp.hidePlayer(this);
 				lgp.showPlayer(this);
 			}
-		}
 	}
 	
 	public void updateOwnSkin() {

@@ -143,8 +143,8 @@ public class RCupidon extends Role{
 		sendHead(player2, player1);*/
 		
 		//On peut créer des cheats grâce à ça (qui permettent de savoir qui est en couple)
-		player1.updatePrefix();
-		player2.updatePrefix();
+		player1.updateTab();
+		player2.updateTab();
 	}
 
 	WrappedDataWatcherObject invisible = new WrappedDataWatcherObject(0, WrappedDataWatcher.Registry.get(Byte.class)),

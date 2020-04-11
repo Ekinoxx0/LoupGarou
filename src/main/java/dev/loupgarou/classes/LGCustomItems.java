@@ -111,7 +111,7 @@ public class LGCustomItems {
 		updateItem(lgp, getItem(lgp, constraints));
 	}
 	
-	public static void updateItem(@NonNull LGPlayer lgp, @NonNull Material material) {
+	public static void updateItem(@NonNull LGPlayer lgp, @NonNull Material material) {//FIXME Bug @NonNull
 		lgp.getPlayer().getInventory().setItemInOffHand(new ItemStack(material));
 		lgp.getPlayer().updateInventory();
 	}

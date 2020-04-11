@@ -99,23 +99,25 @@ public class RAssassin extends Role{
 	
 	@EventHandler
 	public void onTour(LGRoleTurnEndEvent e) {
-		if(e.getGame() == getGame()) {
-			MainLg.debug(getGame().getKey(), "(Assassin-LGRoleTurnEndEvent)" + e.getPreviousRole().getName());
-			if(e.getPreviousRole() instanceof RLoupGarou) {
-				for(LGPlayer lgp : getGame().getAlive())
-					if(lgp.getCache().getBoolean(CacheType.ASSASSIN_PROTECTED)) {
-						for(LGPlayer l : getGame().getInGame())
-							if(l.getRoleType() == RoleType.LOUP_GAROU)
-								l.sendMessage("§cVotre cible est immunisée.");
-					}
-			}else if(e.getPreviousRole() instanceof RGrandMechantLoup) {
-				for(LGPlayer lgp : getGame().getAlive())
-					if(lgp.getCache().getBoolean(CacheType.ASSASSIN_PROTECTED)) {
-						for(LGPlayer l : e.getPreviousRole().getPlayers())
+		if(e.getGame() != getGame()) return;
+		if(e.getPreviousRole() == null) return;
+		//TODO Assassin protected from others ?
+			
+		MainLg.debug(getGame().getKey(), "(Assassin-LGRoleTurnEndEvent)" + e.getPreviousRole().getName());
+		if(e.getPreviousRole() instanceof RLoupGarou) {
+			for(LGPlayer lgp : getGame().getAlive())
+				if(lgp.getCache().getBoolean(CacheType.ASSASSIN_PROTECTED)) {
+					for(LGPlayer l : getGame().getInGame())
+						if(l.getRoleType() == RoleType.LOUP_GAROU)
 							l.sendMessage("§cVotre cible est immunisée.");
-					}
+				}
+		} else if(e.getPreviousRole() instanceof RGrandMechantLoup) {
+			for(LGPlayer lgp : getGame().getAlive())
+				if(lgp.getCache().getBoolean(CacheType.ASSASSIN_PROTECTED)) {
+					for(LGPlayer l : e.getPreviousRole().getPlayers())
+						l.sendMessage("§cVotre cible est immunisée.");
+				}
 			}
-		}
 	}
 	
 	@EventHandler

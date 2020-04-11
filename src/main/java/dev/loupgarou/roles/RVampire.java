@@ -98,7 +98,7 @@ public class RVampire extends Role{
 	public void join(LGPlayer player, boolean sendMessage) {
 		super.join(player, sendMessage);
 		for(LGPlayer p : getPlayers())
-			p.updatePrefix();
+			p.updateTab();
 	}
 
 	public void onNightTurn(Runnable callback) {

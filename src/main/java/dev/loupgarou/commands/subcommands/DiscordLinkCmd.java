@@ -24,4 +24,9 @@ public class DiscordLinkCmd extends SubCommand {
 		MainLg.getInstance().getDiscord().getLinkServer().generateLink(lgp);
 	}
 	
+	@Override
+	public String getPermission() {
+		return null;
+	}
+	
 }

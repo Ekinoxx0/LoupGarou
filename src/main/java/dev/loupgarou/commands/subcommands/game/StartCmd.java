@@ -54,4 +54,9 @@ public class StartCmd extends SubCommand {
 		}
 	}
 	
+	@Override
+	public String getPermission() {
+		return null;
+	}
+	
 }

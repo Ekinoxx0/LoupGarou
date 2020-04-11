@@ -247,6 +247,7 @@ public class LGGame implements Listener{
 		lgp.getPlayer().teleport(getConfig().getMap().getSpawns().get(0).toLocation(getConfig().getMap()));
 		lgp.joinChat(dayChat, null, false);
 		lgp.getPlayer().getInventory().setItem(4, WAITING_ITEM);
+		//TODO Add start item
 		
 		for(LGPlayer other : this.getInGame()) {
 			if(other.getPlayer() == null) {
@@ -254,7 +255,7 @@ public class LGGame implements Listener{
 				continue;
 			}
 					
-			other.updatePrefix();
+			other.updateTab();
 			if(lgp != other) {
 				lgp.hidePlayer(other);
 				lgp.showPlayer(other);

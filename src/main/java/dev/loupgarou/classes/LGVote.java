@@ -49,7 +49,6 @@ public class LGVote {
 	private int votesSize = 0;
 	private LGPlayer mayor;
 	private ArrayList<LGPlayer> latestTop = new ArrayList<LGPlayer>(), blacklisted = new ArrayList<LGPlayer>();
-	@SuppressWarnings("unused")
 	private final boolean positiveVote, randomIfEqual;
 	@Getter private boolean mayorVote;
     private boolean ended;
@@ -201,7 +200,7 @@ public class LGVote {
 	
 	public void vote(LGPlayer voter, LGPlayer voted) {
 		if(blacklisted.contains(voted)) {
-			voter.sendMessage("§cVous ne pouvez pas votre pour §7§l"+voted.getName()+"§c.");
+			voter.sendMessage("§cVous ne pouvez pas voter pour §7§l"+voted.getName()+"§c.");
 			return;
 		}
 		

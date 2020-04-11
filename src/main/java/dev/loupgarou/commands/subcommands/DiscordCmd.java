@@ -19,4 +19,9 @@ public class DiscordCmd extends SubCommand {
 		cs.sendMessage(PrefixType.DISCORD + "§9http://discord.gg/2qh6Xhv");
 	}
 	
+	@Override
+	public String getPermission() {
+		return null;
+	}
+	
 }
