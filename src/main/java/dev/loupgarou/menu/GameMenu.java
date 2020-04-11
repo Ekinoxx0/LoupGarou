@@ -20,14 +20,14 @@ import dev.loupgarou.utils.InteractInventory.InventoryCall;
 import dev.loupgarou.utils.ItemBuilder;
 import lombok.NonNull;
 
-public class PartieMenu {
+public class GameMenu {
 	
 	private static final String TITLE = "Menu de partie";
 	private @NonNull final LGGame game;
 	private @NonNull final RoleMenu roleMenu;
 	private @NonNull final AutoRoleMenu autoRoleMenu;
 	
-	public PartieMenu(@NonNull LGGame game) {
+	public GameMenu(@NonNull LGGame game) {
 		this.game = game;
 		this.roleMenu = new RoleMenu(game);
 		this.autoRoleMenu = new AutoRoleMenu(game);
@@ -138,6 +138,25 @@ public class PartieMenu {
 					}
 				});
 		
+		ii.registerItem(
+				new ItemBuilder(LGCustomItems.getSpecialItem(SpecialItems.CHECK))
+				.name("§2Démarrer la partie")
+				.lore(Arrays.asList("", "§7§oCliquez pour lancer la partie"))
+				.build(), 
+				ii.getInv().getSize() - 1, true, 
+				new InventoryCall() {
+					
+					@Override
+					public void click(HumanEntity human, ItemStack item, ClickType clickType) {
+						if(lgp.getGame().getOwner() != lgp) {
+							lgp.sendMessage(PrefixType.PARTIE + "§cVous n'êtes pas le propriétaire de la partie...");
+							return;
+						}
+						
+						game.updateStart();
+					}
+				});
+		
 		ii.openTo(lgp.getPlayer());
 	}
 	
@@ -146,16 +165,15 @@ public class PartieMenu {
 	 */
 
 	public void openRoleMenu(LGPlayer lgp) {
-		if(game.getConfig().isHideRole()) {
-			lgp.sendMessage(PrefixType.PARTIE + "§cLes rôles sont cachés durant cette partie...");
-			return;
-		}
-		
 		roleMenu.openMenu(lgp);
 	}
 	
 	public void openAutoRoleMenu(LGPlayer lgp) {
 		autoRoleMenu.openMenu(lgp);
+	}
+
+	public boolean hasConfiguredAuto() {
+		return autoRoleMenu.total() > 0;
 	}
 	
 }

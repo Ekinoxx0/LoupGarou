@@ -26,7 +26,6 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 /**
- * TODO add item in waiting
  * TODO add tip to shift clic
  * TODO Save compo
  */
@@ -155,6 +154,11 @@ public class RoleMenu {
 	}
 	
 	private void validate(@NonNull LGPlayer lgp) {
+		if(game.getOwner() != lgp) {
+			lgp.sendMessage(PrefixType.PARTIE + "§cLes rôles sont cachés durant cette partie...");
+			return;
+		}
+		
 		InteractInventory ii = new InteractInventory(Bukkit.createInventory(null, 9, "Valider votre choix..."));
 		
 		ii.fill(null, true, null);

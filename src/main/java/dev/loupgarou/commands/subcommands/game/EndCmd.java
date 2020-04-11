@@ -16,7 +16,7 @@ import dev.loupgarou.utils.CommonText.PrefixType;
 public class EndCmd extends SubCommand {
 
 	public EndCmd(LoupGarouCommand cmd) {
-		super(cmd, Arrays.asList("end", "stop"));
+		super(cmd, Arrays.asList("end", "stop", "destroy"));
 	}
 
 	@Override

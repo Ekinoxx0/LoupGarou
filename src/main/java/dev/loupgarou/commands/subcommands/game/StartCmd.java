@@ -15,7 +15,7 @@ import dev.loupgarou.utils.CommonText.PrefixType;
 public class StartCmd extends SubCommand {
 
 	public StartCmd(LoupGarouCommand cmd) {
-		super(cmd, Arrays.asList("start"));
+		super(cmd, Arrays.asList("start", "launch"));
 	}
 
 	@Override

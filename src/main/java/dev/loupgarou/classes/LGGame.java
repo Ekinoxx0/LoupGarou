@@ -50,7 +50,7 @@ import dev.loupgarou.events.roles.LGRoleTurnEndEvent;
 import dev.loupgarou.events.vote.LGMayorVoteStartEvent;
 import dev.loupgarou.events.vote.LGPeopleVoteStartEvent;
 import dev.loupgarou.events.vote.LGVoteLeaderChange;
-import dev.loupgarou.menu.PartieMenu;
+import dev.loupgarou.menu.GameMenu;
 import dev.loupgarou.packetwrapper.WrapperPlayServerChat;
 import dev.loupgarou.packetwrapper.WrapperPlayServerExperience;
 import dev.loupgarou.packetwrapper.WrapperPlayServerUpdateHealth;
@@ -85,7 +85,7 @@ public class LGGame implements Listener{
 	@Getter private final LGGameConfig config;
 	@Getter private final DiscordChannelHandler discord;
 	@Getter private final LGPlayer owner;
-	@Getter private final PartieMenu partieMenu = new PartieMenu(this);
+	@Getter private final GameMenu partieMenu = new GameMenu(this);
 	
 	@Getter private boolean started;
 	@Getter private int night = 0;
@@ -290,6 +290,16 @@ public class LGGame implements Listener{
 	
 	public void updateStart() {
 		if(isStarted()) return;
+		if(this.partieMenu.hasConfiguredAuto() && this.config.getTotalConfiguredRoles() == 0) {
+			broadcastMessage(PrefixType.PARTIE + "§cVous avez configurez le système des rôles automatiques sans cliquer sur le bouton générer.");
+			return;
+		}
+		InvalidCompo invalid;
+		if((invalid = this.config.verifyRoles()) != null) {
+			broadcastMessage(PrefixType.PARTIE + "§cComposition des rôles impossible... " + invalid);
+			return;
+		}
+		
 		if(startingTask != null) {
 			startingTask.cancel();
 			broadcastMessage(PrefixType.PARTIE + "§c§oLe démarrage de la partie a été annulé car une personne l'a quittée !");
@@ -317,13 +327,7 @@ public class LGGame implements Listener{
 			}
 		}.runTaskTimer(MainLg.getInstance(), 20, 20);
 	}
-	public void start() {
-		InvalidCompo invalid;
-		if((invalid = this.config.verifyRoles()) != null) {
-			broadcastMessage(PrefixType.PARTIE + "§cComposition des rôles impossible... " + invalid);
-			return;
-		}
-		
+	private void start() {
 		if(startingTask != null) {
 			startingTask.cancel();
 			startingTask = null;

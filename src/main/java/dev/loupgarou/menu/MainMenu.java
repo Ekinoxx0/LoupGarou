@@ -74,7 +74,7 @@ public class MainMenu {
 								)
 						)
 				.build(), 
-				0, 4, true, 
+				ii.getInv().getSize() - 9, true,
 				new InventoryCall() {
 					
 					@Override
@@ -94,7 +94,7 @@ public class MainMenu {
 								)
 						)
 				.build(), 
-				ii.getInv().getSize()-1, true, 
+				ii.getInv().getSize() - 1, true, 
 				new InventoryCall() {
 					
 					@Override

@@ -52,7 +52,7 @@ public class AutoRoleMenu {
 			configAuto.put(type, 0);
 	}
 	
-	private int total() {
+	public int total() {
 		int total = 0;
 		for(Entry<RoleType, Integer> entry : this.configAuto.entrySet())
 			total += entry.getValue();
