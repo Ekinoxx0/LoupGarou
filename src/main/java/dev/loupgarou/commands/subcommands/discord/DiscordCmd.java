@@ -19,7 +19,7 @@ public class DiscordCmd extends SubCommand {
 
 	@Override
 	public void execute(CommandSender cs, String label, String[] args) {
-		if(args.length == 2 && args[2].equalsIgnoreCase("link") && cs instanceof Player) {
+		if(args.length == 2 && args[1].equalsIgnoreCase("link") && cs instanceof Player) {
 			MainLg.getInstance().getDiscord().getLinkServer().generateLink(LGPlayer.thePlayer((Player) cs));
 			return;
 		}

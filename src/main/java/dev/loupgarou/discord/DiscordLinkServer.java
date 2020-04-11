@@ -23,7 +23,11 @@ import dev.loupgarou.MainLg;
 import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.utils.CommonText.PrefixType;
 import dev.loupgarou.utils.RandomString;
+import dev.loupgarou.utils.TComponent;
+import dev.loupgarou.utils.TComponent.HEvent;
 import lombok.NonNull;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.HoverEvent;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -119,6 +123,13 @@ public class DiscordLinkServer {
 						throw new IllegalStateException("Doesn't contains code or state : " + new Gson().toJson(arguments));
 					}
 					break;
+				case "/favicon.ico":
+					out.println("HTTP/1.0 404 Not Found");
+					out.println("");
+					out.println("NOT FOUND");
+					out.println("");
+					out.flush();
+					break;
 					
 				default:
 					throw new IllegalAccessException("Unknown endpoint: " + url);
@@ -165,14 +176,19 @@ public class DiscordLinkServer {
 	private HashMap<String, LGPlayer> links = new HashMap<String, LGPlayer>();
 	
 	public void generateLink(@NonNull LGPlayer lgp) {
-		String hash = RandomString.toSHA1(lgp.getName());
+		String hash = RandomString.toSHA1(RandomString.toSHA1(lgp.getName()));
 		links.put(hash, lgp);
 		String link = "https://discordapp.com/api/oauth2/authorize?response_type=code&state=" + hash + "&client_id=" + + DiscordManager.CLIENT_ID + "&redirect_uri=http%3A%2F%2Fwondalia.com%3A25564%2Fdiscord&scope=identify%20guilds";
 		
-		if(this.getLinked(lgp) < 0) {
+		if(this.getLinked(lgp) > 0) {
 			lgp.sendMessage(PrefixType.DISCORD + "§cVous êtes déjà lié ! Utilisez ce lien seulement si vous changez de compte.");
 		}
-		lgp.sendMessage(PrefixType.DISCORD + "§9" + link);
+		
+		lgp.sendMessage(new TComponent(PrefixType.DISCORD + "§9"), 
+				new TComponent("§aCliquez §lICI§a pour lier votre compte")
+					.setHoverEvent(new HEvent(HoverEvent.Action.SHOW_TEXT, "§8En cliquant sur ce lien, \n§8vous serez redirigé vers discord où vous autoriser \n§8la permission de connaitre votre tag discord."))
+					.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, link))
+					);
 	}
 	
 	private static final JsonParser parser = new JsonParser();

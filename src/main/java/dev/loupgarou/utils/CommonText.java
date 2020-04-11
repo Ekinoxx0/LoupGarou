@@ -14,7 +14,7 @@ public class CommonText {
 		SHOP("Boutique", "§6", "§7"),
 
 		PARTIE("Partie", "§e", "§7"),
-		RESSOURCEPACK("RessourcePack", "§5", "§d"),
+		RESOURCEPACK("ResourcePack", "§5", "§d"),
 		DISCORD("Discord", "§9", "§9"),
 		
 		STAFF("Staff", "§5", "§7"),

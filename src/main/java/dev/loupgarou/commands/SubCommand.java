@@ -52,7 +52,6 @@ public abstract class SubCommand implements TabExecutor {
     	for (int i = 0; i < args.length; i++)
 			newArgs[i+1] = args[i];
     	newArgs[0] = label;
-    	this.execute(cs, label, newArgs);
     	return this.onTabComplete(cs, cmd, newArgs);
     }
 	

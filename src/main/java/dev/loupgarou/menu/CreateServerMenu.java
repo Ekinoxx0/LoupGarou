@@ -126,7 +126,7 @@ public class CreateServerMenu {
 								"§7 - La map doit être petite 150x150 maximum",
 								"§7 - La map doit être votre création ou être disponible gratuitement",
 								"§7 - La map doit contenir 12/24/36 places déjà placées",
-								"§7 - La map doit être jouable sans ressource pack supplémentaire",
+								"§7 - La map doit être jouable sans pack de ressources supplémentaire",
 								"§7 - La map ne doit pas contenir de redstone ou des commandes blocs",
 								"",
 								"§8Autre détails :",

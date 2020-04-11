@@ -104,6 +104,10 @@ public class JoinListener implements Listener {
 				}
 			}
 		}
+		
+		if(MainLg.getInstance().getDiscord().getLinkServer().getLinked(lgp) < 0) {
+			MainLg.getInstance().getDiscord().getLinkServer().generateLink(lgp);
+		}
 	}
 	@EventHandler
 	public void onResoucePack(PlayerResourcePackStatusEvent e) {
@@ -111,9 +115,9 @@ public class JoinListener implements Listener {
 			LGPlayer lgp = LGPlayer.thePlayer(e.getPlayer());
 			lgp.showView();
 		} else if(e.getStatus() == Status.DECLINED) {
-			e.getPlayer().sendMessage(PrefixType.RESSOURCEPACK + "§cVous avez refuser le ressource pack !");
+			e.getPlayer().sendMessage(PrefixType.RESOURCEPACK + "§cVous avez refuser le pack de ressources !");
 		} else if(e.getStatus() == Status.FAILED_DOWNLOAD) {
-			e.getPlayer().kickPlayer(PrefixType.RESSOURCEPACK + "§cIl vous faut le resourcepack pour jouer !");
+			e.getPlayer().kickPlayer(PrefixType.RESOURCEPACK + "§cIl vous faut le pack de ressources pour jouer !");
 		}
 	}
 	@EventHandler

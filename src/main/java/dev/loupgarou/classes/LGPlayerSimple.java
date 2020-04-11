@@ -13,6 +13,7 @@ import dev.loupgarou.packetwrapper.WrapperPlayServerTitle;
 import dev.loupgarou.scoreboard.CustomScoreboard;
 import dev.loupgarou.utils.SoundUtils;
 import dev.loupgarou.utils.SoundUtils.LGSound;
+import dev.loupgarou.utils.TComponent;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.ToString;
@@ -45,7 +46,11 @@ public class LGPlayerSimple {
 			chat.sendPacket(getPlayer());
 		}
 	}
-	
+
+	public void sendMessage(TComponent... msg) {
+		if(this.getPlayer() != null)
+			getPlayer().sendMessage(new TComponent(msg).build());
+	}
 	public void sendMessage(String msg) {
 		if(this.getPlayer() != null)
 			getPlayer().sendMessage(msg);
