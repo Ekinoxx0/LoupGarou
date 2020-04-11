@@ -1,4 +1,4 @@
-package dev.loupgarou.commands.subcommands;
+package dev.loupgarou.commands.subcommands.discord;
 
 import java.util.Arrays;
 

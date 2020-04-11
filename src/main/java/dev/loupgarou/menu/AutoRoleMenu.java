@@ -38,7 +38,6 @@ import dev.loupgarou.utils.ItemBuilder;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
-//TODO Auto role
 @RequiredArgsConstructor
 public class AutoRoleMenu {
 	

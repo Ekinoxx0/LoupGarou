@@ -22,13 +22,17 @@ commands:
   hub:
   lobby:
   quit:
-  discord:
-  discordlink:
   kick:
   ban:
   quick:
   leader:
   owner:
+  invite:
+  
+  discordmove:
+  move:
+  discord:
+  discordlink:
 
 permissions:
   loupgarou.*:

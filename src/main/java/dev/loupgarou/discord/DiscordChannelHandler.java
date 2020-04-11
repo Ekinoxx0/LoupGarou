@@ -124,7 +124,7 @@ public class DiscordChannelHandler implements Listener {
 		Member m = this.discord.get(lgp);
 		
 		if(m == null) {
-			lgp.sendMessage(PrefixType.DISCORD + "§cVous n'êtes pas lié sur discord !");
+			lgp.sendMessage(PrefixType.DISCORD + "§cVous n'êtes pas lié à discord !");
 			return;
 		}
 		

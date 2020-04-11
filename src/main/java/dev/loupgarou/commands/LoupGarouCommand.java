@@ -10,8 +10,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 
 import dev.loupgarou.MainLg;
-import dev.loupgarou.commands.subcommands.DiscordCmd;
-import dev.loupgarou.commands.subcommands.DiscordLinkCmd;
 import dev.loupgarou.commands.subcommands.MainMenuCmd;
 import dev.loupgarou.commands.subcommands.config.AutoRoleCmd;
 import dev.loupgarou.commands.subcommands.config.HideRoleCmd;
@@ -23,8 +21,12 @@ import dev.loupgarou.commands.subcommands.debug.DebugRPCmd;
 import dev.loupgarou.commands.subcommands.debug.NextDayCmd;
 import dev.loupgarou.commands.subcommands.debug.NextNightCmd;
 import dev.loupgarou.commands.subcommands.debug.QuickCmd;
+import dev.loupgarou.commands.subcommands.discord.DiscordCmd;
+import dev.loupgarou.commands.subcommands.discord.DiscordLinkCmd;
+import dev.loupgarou.commands.subcommands.discord.DiscordMoveCmd;
 import dev.loupgarou.commands.subcommands.game.BanCmd;
 import dev.loupgarou.commands.subcommands.game.EndCmd;
+import dev.loupgarou.commands.subcommands.game.InviteCmd;
 import dev.loupgarou.commands.subcommands.game.JoinCmd;
 import dev.loupgarou.commands.subcommands.game.KickCmd;
 import dev.loupgarou.commands.subcommands.game.LeaderCmd;
@@ -75,12 +77,14 @@ public class LoupGarouCommand implements CommandExecutor, TabExecutor {
 
 		this.subs.add(new DiscordCmd(this));
 		this.subs.add(new DiscordLinkCmd(this));
+		this.subs.add(new DiscordMoveCmd(this));
 		this.subs.add(new MainMenuCmd(this));
 
 		this.subs.add(new BanCmd(this));
 		this.subs.add(new KickCmd(this));
 		this.subs.add(new LeaderCmd(this));
 		this.subs.add(new EndCmd(this));
+		this.subs.add(new InviteCmd(this));
 		this.subs.add(new JoinCmd(this));
 		this.subs.add(new LeaveCmd(this));
 		this.subs.add(new StartCmd(this));

@@ -92,6 +92,8 @@ public class LGCustomItems {
 	}
 	
 	public static Material getItem(@NonNull Role r, @NonNull List<LGCustomItemsConstraints> constraints) {
+		if(constraints.isEmpty())
+			return getItem(r);
 		Collections.sort(constraints);
 		
 		String roleName = r.getClass().getSimpleName().substring(1).toLowerCase();
@@ -100,17 +102,16 @@ public class LGCustomItems {
 			return getSpecialItem(SpecialItems.MID_ROLE_Q);
 		}
 
-		HashMap<String, Material> mapps = mappings.get(roleName);
 		StringJoiner sj = new StringJoiner("_");
 		for(LGCustomItemsConstraints constraint : constraints)
 			sj.add(constraint.getName());
 		
-		if(mapps.get(sj.toString()) == null) {
+		if(!mappings.get(roleName).containsKey(sj.toString())) {
 			MainLg.debug("No material specified in mappings for : '" + roleName + "' -> " + sj.toString());
 			return getSpecialItem(SpecialItems.MID_ROLE_Q);
 		}
 			
-		return mapps.get(sj.toString());
+		return mappings.get(roleName).get(sj.toString());
 	}
 	
 	public static void updateItem(@NonNull LGPlayer lgp) {
