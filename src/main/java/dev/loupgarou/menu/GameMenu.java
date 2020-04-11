@@ -154,6 +154,7 @@ public class GameMenu {
 						}
 						
 						game.updateStart();
+						human.closeInventory();
 					}
 				});
 		

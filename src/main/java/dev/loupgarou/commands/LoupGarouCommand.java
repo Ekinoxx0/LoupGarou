@@ -23,8 +23,11 @@ import dev.loupgarou.commands.subcommands.debug.DebugRPCmd;
 import dev.loupgarou.commands.subcommands.debug.NextDayCmd;
 import dev.loupgarou.commands.subcommands.debug.NextNightCmd;
 import dev.loupgarou.commands.subcommands.debug.QuickCmd;
+import dev.loupgarou.commands.subcommands.game.BanCmd;
 import dev.loupgarou.commands.subcommands.game.EndCmd;
 import dev.loupgarou.commands.subcommands.game.JoinCmd;
+import dev.loupgarou.commands.subcommands.game.KickCmd;
+import dev.loupgarou.commands.subcommands.game.LeaderCmd;
 import dev.loupgarou.commands.subcommands.game.LeaveCmd;
 import dev.loupgarou.commands.subcommands.game.StartCmd;
 import dev.loupgarou.commands.subcommands.spawns.AddMapCmd;
@@ -52,6 +55,7 @@ public class LoupGarouCommand implements CommandExecutor, TabExecutor {
 		this.subs.add(new HideRoleCmd(this));
 		this.subs.add(new HideVoteCmd(this));
 		this.subs.add(new HideVoteExtraCmd(this));
+		this.subs.add(new RoleCmd(this));
 		
 		this.subs.add(new DebugCmd(this));
 		this.subs.add(new DebugRPCmd(this));
@@ -71,11 +75,14 @@ public class LoupGarouCommand implements CommandExecutor, TabExecutor {
 
 		this.subs.add(new DiscordCmd(this));
 		this.subs.add(new DiscordLinkCmd(this));
+		this.subs.add(new MainMenuCmd(this));
+
+		this.subs.add(new BanCmd(this));
+		this.subs.add(new KickCmd(this));
+		this.subs.add(new LeaderCmd(this));
 		this.subs.add(new EndCmd(this));
 		this.subs.add(new JoinCmd(this));
 		this.subs.add(new LeaveCmd(this));
-		this.subs.add(new MainMenuCmd(this));
-		this.subs.add(new RoleCmd(this));
 		this.subs.add(new StartCmd(this));
 		
 		for(SubCommand cmd : this.subs)

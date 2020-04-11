@@ -84,7 +84,7 @@ public class LGGame implements Listener{
 	
 	@Getter private final LGGameConfig config;
 	@Getter private final DiscordChannelHandler discord;
-	@Getter @NonNull private LGPlayer owner;
+	@Getter @Setter @NonNull private LGPlayer owner;
 	@Getter private final GameMenu partieMenu = new GameMenu(this);
 	
 	@Getter private boolean started;
@@ -200,6 +200,11 @@ public class LGGame implements Listener{
 		
 		if(lgp.getGame() != null) {
 			lgp.sendMessage(PrefixType.PARTIE + "§cVous devez d'abord quitter votre partie...");
+			return false;
+		}
+		
+		if(this.getConfig().getBanned().contains(lgp.getName())) {
+			lgp.sendMessage(PrefixType.PARTIE + "§cVous êtes banni de cette partie !");
 			return false;
 		}
 
@@ -393,7 +398,7 @@ public class LGGame implements Listener{
 		}.runTaskTimer(MainLg.getInstance(), 0, 4);
 	}
 	private void _start() {
-		broadcastMessage(PrefixType.PARTIE + "§8§oDébut de la partie...");
+		broadcastMessage("§8§oDébut de la partie...");
 		//Give roles...
 		List<LGPlayer> toGive = new ArrayList<LGPlayer>(inGame);
 		started = false;
@@ -793,7 +798,7 @@ public class LGGame implements Listener{
 		if(event.isCancelled()) return;
 		
 		broadcastMessage("§9Il est temps de voter pour élire un §5§lCapitaine§9.");
-		vote = new LGVote(180, 20, this, true, true, (player, secondsLeft)-> {
+		vote = new LGVote(config.getTimerDayPerPlayer() * this.getAlive().size(), 20, this, true, true, (player, secondsLeft)-> {
 			return player.getCache().has(CacheType.VOTE) ? "§6Tu votes pour §7§l"+player.getCache().<LGPlayer>get(CacheType.VOTE).getName() : "§6Il te reste §e"+secondsLeft+" seconde"+(secondsLeft > 1 ? "s" : "")+"§6 pour voter";
 		});
 		vote.start(getAlive(), getInGame(), ()->{
@@ -835,7 +840,7 @@ public class LGGame implements Listener{
 		vote.start(getAlive(), getInGame(), ()->{
 			isPeopleVote = false;
 			if(vote.getChoosen() == null || (vote.isMayorVote() && getMayor() == null))
-				broadcastMessage(getMayor() != null ? "§9Le maire a décidé de gracier les accusés." : "§9Personne n'est mort aujourd'hui.");
+				broadcastMessage("§9Personne n'est mort aujourd'hui.");
 			else {
 				LGPlayerKilledEvent killEvent = new LGPlayerKilledEvent(this, vote.getChoosen(), Reason.VOTE);
 				Bukkit.getPluginManager().callEvent(killEvent);

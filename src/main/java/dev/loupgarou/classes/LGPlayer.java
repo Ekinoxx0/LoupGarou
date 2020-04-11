@@ -36,9 +36,7 @@ import dev.loupgarou.utils.VariousUtils;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
-import lombok.ToString;
 
-@ToString//FIXME Not a good idea.
 public class LGPlayer extends LGPlayerSimple {
 	private static HashMap<Player, LGPlayer> cachedPlayers = new HashMap<Player, LGPlayer>();
 	public static Collection<LGPlayer> all(){
@@ -98,19 +96,15 @@ public class LGPlayer extends LGPlayerSimple {
 		getPlayer().removePotionEffect(PotionEffectType.BLINDNESS);
 
 		if(getGame() == null) { //In lobby
-			MainLg.debug(" -> In lobby");
 			for(LGPlayer allP : LGPlayer.all())
 				if(allP.getGame() != null) {
-					MainLg.debug(" -> (" + allP.getName() + ") In Game");
 					this.hidePlayer(allP);
 				} else {
-					MainLg.debug(" -> (" + allP.getName() + ") In Lobby");
 					this.showPlayer(allP);
 				}
 			return;
 		}
 
-		MainLg.debug(" -> In Game");
 		for(LGPlayer allP : LGPlayer.all())
 			if(!getGame().getAlive().contains(allP))
 				this.hidePlayer(allP);
@@ -280,6 +274,11 @@ public class LGPlayer extends LGPlayerSimple {
 		
 		this.sendActionBarMessage("");
 		this.sendTitle("", "", 0);
+	}
+	
+	@Override
+	public String toString() {
+		return "LGPlayer(name" + getName() + ", place=" + this.place + ",dead=" + dead + ",game=" + game + ",role=" + role + ",lastChooseClick=" + lastChooseClick + ")";
 	}
 
 }

@@ -31,6 +31,7 @@ public class ListServerMenu {
 		for(LGGame game : MainLg.getInstance().getGames()) {
 			if(game.isStarted()) continue;
 			if(game.isEnded()) continue;
+			if(game.getConfig().getBanned().contains(lgp.getName())) return;
 			
 			ii.registerItem(
 					new ItemBuilder(Material.PLAYER_HEAD)
@@ -72,9 +73,6 @@ public class ListServerMenu {
 			ii.registerItem(
 					new ItemBuilder(LGCustomItems.getSpecialItem(SpecialItems.CROSS))
 					.name("§7Aucune partie disponible...")
-					.lore(Arrays.asList(
-								"§8" + MainLg.getInstance().getGames().size() + " partie en cours..."
-							))
 					.build(), 
 					4, 2, true, 
 					new InventoryCall() {
@@ -85,6 +83,19 @@ public class ListServerMenu {
 						}
 					});
 		}
+		
+		ii.registerItem(
+				new ItemBuilder(LGCustomItems.getSpecialItem(SpecialItems.GREY_ROLE_Q))
+				.name("§8" + MainLg.getInstance().getGames().size() + " partie")
+				.build(), 
+				ii.getInv().getSize() - 9, true, 
+				new InventoryCall() {
+					
+					@Override
+					public void click(HumanEntity human, ItemStack item, ClickType clickType) {
+						human.closeInventory();
+					}
+				});
 		
 		ii.openTo(lgp.getPlayer());
 	}

@@ -77,11 +77,7 @@ public class VariableCache {
 	public String toString() {
 		String s = "VariableCache(";
 		for(Entry<CacheType, Object> i : this.cache.entrySet())
-			try {
-				s += "{" + i.getKey() + "," + i.getValue() + "},";
-			} catch(StackOverflowError e) {
-				s += "{" + i.getKey() + "," + i.getClass() + "},";
-			}
+			s += "{" + i.getKey() + "," + (i.getClass().isPrimitive() ? i : i.getClass())  + "},";
 		return s + ")";
 	}
 }

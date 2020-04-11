@@ -24,6 +24,11 @@ commands:
   quit:
   discord:
   discordlink:
+  kick:
+  ban:
+  quick:
+  leader:
+  owner:
 
 permissions:
   loupgarou.*:

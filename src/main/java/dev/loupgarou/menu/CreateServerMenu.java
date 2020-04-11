@@ -118,7 +118,7 @@ public class CreateServerMenu {
 		
 		ii.registerItem(
 				new ItemBuilder(LGCustomItems.getSpecialItem(SpecialItems.MID_ROLE_Q))
-				.name("§5Bientôt votre map ?")
+				.name("§9§lBientôt votre map ?")
 				.lore(
 						Arrays.asList(
 								"",

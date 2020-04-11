@@ -31,16 +31,17 @@ public class QuickCmd extends SubCommand {
 			return;
 		}
 		
-		if (lgp.getGame() != null) {
-			if (lgp.getGame().getVote() != null) {//TODO fix quick
-				lgp.getGame().getVote().quick(20);
-				cs.sendMessage(PrefixType.PARTIE + "§aQuick timer");
-			} else {
-				cs.sendMessage(PrefixType.PARTIE + "§cNo vote!");
-			}
-		} else {
-			cs.sendMessage(PrefixType.PARTIE + "§cNo game");
+		if (lgp.getGame().getVote() == null) {
+			cs.sendMessage(PrefixType.PARTIE + "§cAucun vote en cours...");
 		}
+		
+		lgp.getGame().getVote().quick(20);
+		cs.sendMessage(PrefixType.PARTIE + "§aVote accéléré");
+	}
+	
+	@Override
+	public String getPermission() {
+		return null;
 	}
 
 }
