@@ -17,6 +17,7 @@ import com.google.gson.JsonParseException;
 
 import dev.loupgarou.classes.LGChat;
 import dev.loupgarou.classes.LGChat.LGChatCallback;
+import dev.loupgarou.classes.LGCustomItems;
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGMaps;
 import dev.loupgarou.classes.LGPlayer;
@@ -114,6 +115,7 @@ public class MainLg extends JavaPlugin {
 			Bukkit.getPluginManager().callEvent(new LoginEvent(p));
 		
 		new ProtocolListener(this);
+		LGCustomItems.checkRessourcePack(Bukkit.getConsoleSender());
 	}
 	
 	@Override

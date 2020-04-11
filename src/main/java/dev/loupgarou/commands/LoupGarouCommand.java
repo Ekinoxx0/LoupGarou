@@ -19,6 +19,7 @@ import dev.loupgarou.commands.subcommands.config.HideVoteCmd;
 import dev.loupgarou.commands.subcommands.config.HideVoteExtraCmd;
 import dev.loupgarou.commands.subcommands.config.RoleCmd;
 import dev.loupgarou.commands.subcommands.debug.DebugCmd;
+import dev.loupgarou.commands.subcommands.debug.DebugRPCmd;
 import dev.loupgarou.commands.subcommands.debug.NextDayCmd;
 import dev.loupgarou.commands.subcommands.debug.NextNightCmd;
 import dev.loupgarou.commands.subcommands.debug.QuickCmd;
@@ -53,6 +54,7 @@ public class LoupGarouCommand implements CommandExecutor, TabExecutor {
 		this.subs.add(new HideVoteExtraCmd(this));
 		
 		this.subs.add(new DebugCmd(this));
+		this.subs.add(new DebugRPCmd(this));
 		this.subs.add(new NextDayCmd(this));
 		this.subs.add(new NextNightCmd(this));
 		this.subs.add(new QuickCmd(this));

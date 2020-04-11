@@ -37,6 +37,7 @@ import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerItemDamageEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerRecipeDiscoverEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
@@ -51,6 +52,11 @@ public class CancelListener implements Listener{
 		if(e.getPlayer().getGameMode() == GameMode.CREATIVE) return;
         if (e.getAction() == Action.PHYSICAL)
         	e.setCancelled(true);
+    }
+    
+    @EventHandler
+    public void onPlayerRecipeDiscover(PlayerRecipeDiscoverEvent e) {
+    	e.setCancelled(true);
     }
     
 	@EventHandler

@@ -17,8 +17,8 @@ import lombok.NonNull;
  * @see LGCustomItemsConstraints
  */
 public class LGCustomItemChangeEvent extends LGEvent {
-	@Getter private final LGPlayer player;
-	@Getter private final List<LGCustomItemsConstraints> constraints;
+	@Getter @NonNull private final LGPlayer player;
+	@Getter @NonNull private final List<LGCustomItemsConstraints> constraints;
 	
 	public LGCustomItemChangeEvent(@NonNull LGGame game, @NonNull LGPlayer player, @NonNull List<LGCustomItemsConstraints> constraints) {
 		super(game);

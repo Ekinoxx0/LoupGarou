@@ -64,26 +64,27 @@ public class JoinListener implements Listener {
 	@EventHandler
 	public void onJoin(LoginEvent e) {
 		Player p = e.getPlayer();
-		p.teleport(p.getWorld().getSpawnLocation());
 		
 		WrapperPlayServerScoreboardTeam myTeam = new WrapperPlayServerScoreboardTeam();
 		myTeam.setName(p.getDisplayName());
 		myTeam.setPrefix(WrappedChatComponent.fromText(""));
 		myTeam.setPlayers(Arrays.asList(p.getDisplayName()));
 		myTeam.setMode(Mode.TEAM_CREATED);
-		for(Player allPlayer : Bukkit.getOnlinePlayers())
-			if(allPlayer != p) {
-				if(allPlayer.getGameMode() != GameMode.SPECTATOR)
-					allPlayer.hidePlayer(MainLg.getInstance(), p);
-				WrapperPlayServerScoreboardTeam team = new WrapperPlayServerScoreboardTeam();
-				team.setName(allPlayer.getDisplayName());
-				team.setPrefix(WrappedChatComponent.fromText(""));
-				team.setPlayers(Arrays.asList(allPlayer.getDisplayName()));
-				team.setMode(Mode.TEAM_CREATED);
-				
-				team.sendPacket(p);
-				myTeam.sendPacket(allPlayer);
-			}
+		
+		WrapperPlayServerScoreboardTeam team = new WrapperPlayServerScoreboardTeam();
+		team.setPrefix(WrappedChatComponent.fromText(""));
+		team.setMode(Mode.TEAM_CREATED);
+		
+		for(Player allPlayer : Bukkit.getOnlinePlayers()) {
+			if(allPlayer != p && allPlayer.getGameMode() != GameMode.SPECTATOR)
+				allPlayer.hidePlayer(MainLg.getInstance(), p);
+			
+			team.setName(allPlayer.getDisplayName());
+			team.setPlayers(Arrays.asList(allPlayer.getDisplayName()));
+			
+			team.sendPacket(p);
+			myTeam.sendPacket(allPlayer);
+		}
 		
 		LGPlayer lgp = LGPlayer.thePlayer(p);
 		VariousUtils.setupLobby(lgp);

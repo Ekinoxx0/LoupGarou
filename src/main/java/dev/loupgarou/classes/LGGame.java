@@ -375,6 +375,7 @@ public class LGGame implements Listener{
 			int timeLeft = initalTimeLeft;
 			int actualRole = displayRoles.size();
 			@Override
+			@SuppressWarnings("deprecation")
 			public void run() {
 				if(--timeLeft == 0) {
 					cancel();

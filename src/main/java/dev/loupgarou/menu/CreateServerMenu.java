@@ -68,7 +68,25 @@ public class CreateServerMenu {
 		
 		ii.fill(null, true, null);
 		
-		int i = 2;
+		int i;
+		switch(LGMaps.getMapsInfo().getMaps().size()) {
+		case 4:
+		case 5:
+			i = 2;
+			break;
+		case 6:
+		case 7:
+			i = 1;
+			break;
+		case 8:
+		case 9:
+			i = 0;
+			break;
+		default:
+			i = 0;
+			break;
+		}
+		
 		for(LGMap map : LGMaps.getMapsInfo().getMaps()) {
 			if(!map.isValid()) continue;
 			ii.registerItem(
@@ -92,7 +110,7 @@ public class CreateServerMenu {
 						}
 					});
 
-			if(LGMaps.getMapsInfo().getMaps().size() == 4 && i == 3)
+			if(LGMaps.getMapsInfo().getMaps().size()%2 == 0 && i == 3)
 				i++; //Add space in the middle
 			
 			i++;
@@ -118,7 +136,7 @@ public class CreateServerMenu {
 								)
 						)
 				.build(), 
-				ii.getInv().getSize(), true, null);
+				ii.getInv().getSize() - 1, true, null);
 		
 		ii.openTo(lgp.getPlayer());
 	}
