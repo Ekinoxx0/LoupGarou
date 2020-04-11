@@ -1,16 +1,14 @@
 package dev.loupgarou.utils;
 
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import lombok.NonNull;
-import lombok.ToString;
 
-@ToString
 @SuppressWarnings("unchecked")
 public class VariableCache {
 	
 	public static enum CacheType {
-		
 		INLOVE,
 		ASSASSIN_PROTECTED,
 		BOUFFON_WIN,
@@ -73,5 +71,17 @@ public class VariableCache {
 	
 	public void reset() {
 		this.cache.clear();
+	}
+	
+	@Override
+	public String toString() {
+		String s = "VariableCache(";
+		for(Entry<CacheType, Object> i : this.cache.entrySet())
+			try {
+				s += "{" + i.getKey() + "," + i.getValue() + "},";
+			} catch(StackOverflowError e) {
+				s += "{" + i.getKey() + "," + i.getClass() + "},";
+			}
+		return s + ")";
 	}
 }

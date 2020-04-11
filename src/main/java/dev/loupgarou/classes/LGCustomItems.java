@@ -100,6 +100,12 @@ public class LGCustomItems {
 		StringJoiner sj = new StringJoiner("_");
 		for(LGCustomItemsConstraints constraint : constraints)
 			sj.add(constraint.getName());
+		
+		if(mapps.get(sj.toString()) == null) {
+			MainLg.debug("No material specified in mappings for : '" + roleName + "' -> " + sj.toString());
+			return getSpecialItem(SpecialItems.MID_ROLE_Q);
+		}
+			
 		return mapps.get(sj.toString());
 	}
 	
@@ -111,8 +117,8 @@ public class LGCustomItems {
 		updateItem(lgp, getItem(lgp, constraints));
 	}
 	
-	public static void updateItem(@NonNull LGPlayer lgp, @NonNull Material material) {//FIXME Bug @NonNull
-		lgp.getPlayer().getInventory().setItemInOffHand(new ItemStack(material));
+	public static void updateItem(@NonNull LGPlayer lgp, Material material) {
+		lgp.getPlayer().getInventory().setItemInOffHand(new ItemStack(material == null ? Material.AIR : material));
 		lgp.getPlayer().updateInventory();
 	}
 	

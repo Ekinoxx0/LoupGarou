@@ -68,7 +68,7 @@ public class CreateServerMenu {
 		
 		ii.fill(null, true, null);
 		
-		int i = 3;
+		int i = 2;
 		for(LGMap map : LGMaps.getMapsInfo().getMaps()) {
 			if(!map.isValid()) continue;
 			ii.registerItem(
@@ -91,9 +91,34 @@ public class CreateServerMenu {
 							chooseType(lgp, new LGGameConfig(map, isPrivate));
 						}
 					});
+
+			if(LGMaps.getMapsInfo().getMaps().size() == 4 && i == 3)
+				i++; //Add space in the middle
 			
 			i++;
 		}
+		
+		ii.registerItem(
+				new ItemBuilder(LGCustomItems.getSpecialItem(SpecialItems.MID_ROLE_Q))
+				.name("§5Bientôt votre map ?")
+				.lore(
+						Arrays.asList(
+								"",
+								"§7Nous acceptons les propositions de maps certaines conditions :",
+								"§7 - La map doit être petite 150x150 maximum",
+								"§7 - La map doit être votre création ou être disponible gratuitement",
+								"§7 - La map doit contenir 12/24/36 places déjà placées",
+								"§7 - La map doit être jouable sans ressource pack supplémentaire",
+								"§7 - La map ne doit pas contenir de redstone ou des commandes blocs",
+								"",
+								"§8Autre détails :",
+								"§8 - Nous acceptons les maps toutes versions (1.7 - 1.16)",
+								"§8 - La physique de la map sera désactivée (sable/échelle/feuille/etc..)",
+								""
+								)
+						)
+				.build(), 
+				ii.getInv().getSize(), true, null);
 		
 		ii.openTo(lgp.getPlayer());
 	}
