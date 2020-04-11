@@ -34,6 +34,7 @@ import dev.loupgarou.packetwrapper.WrapperPlayServerSpawnEntityLiving;
 import dev.loupgarou.utils.VariableCache.CacheType;
 import dev.loupgarou.utils.VariousUtils;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.ToString;
 
 @ToString
@@ -42,7 +43,7 @@ public class LGVote {
 	@Getter LGPlayer choosen;
 	private int timeout, initialTimeout, littleTimeout;
 	private Runnable callback;
-	private final LGGame game;
+	private final @NonNull LGGame game;
 	@Getter private List<LGPlayer> participants, viewers;
 	private final TextGenerator generator;
 	@Getter private final HashMap<LGPlayer, List<LGPlayer>> votes = new HashMap<LGPlayer, List<LGPlayer>>();
@@ -52,9 +53,9 @@ public class LGVote {
 	private final boolean positiveVote, randomIfEqual;
 	@Getter private boolean mayorVote;
     private boolean ended;
-	public LGVote(int timeout, int littleTimeout, LGGame game, boolean positiveVote, boolean randomIfEqual, TextGenerator generator) {
-		this.littleTimeout = littleTimeout;
+	public LGVote(int timeout, int littleTimeout, @NonNull LGGame game, boolean positiveVote, boolean randomIfEqual, TextGenerator generator) {
 		this.initialTimeout = timeout;
+		this.littleTimeout = littleTimeout;
 		this.timeout = timeout;
 		this.game = game;
 		this.generator = generator;

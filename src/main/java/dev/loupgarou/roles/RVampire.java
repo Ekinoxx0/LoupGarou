@@ -103,7 +103,7 @@ public class RVampire extends Role{
 
 	public void onNightTurn(Runnable callback) {
 		vote = new LGVote(getTimeout(), getTimeout()/3, getGame(), false, false, (player, secondsLeft)-> {
-			return !getPlayers().contains(player) ? "§6C'est au tour "+getFriendlyName()+" §6(§e"+secondsLeft+" s§6)" : player.getCache().has(CacheType.VOTE) ? "§l§9Vous votez pour §c§l"+player.getCache().<LGPlayer>get(CacheType.VOTE).getName() : "§6Il vous reste §e"+secondsLeft+" seconde"+(secondsLeft > 1 ? "s" : "")+"§6 pour voter";
+			return !getPlayers().contains(player) ? (RVampire.this.getGame().getConfig().isHideRole() ? "§6C'est au tour de quelqu'un..." : "§6C'est au tour "+getFriendlyName()+" §6(§e"+secondsLeft+" s§6)") : player.getCache().has(CacheType.VOTE) ? "§l§9Vous votez pour §c§l"+player.getCache().<LGPlayer>get(CacheType.VOTE).getName() : "§6Il vous reste §e"+secondsLeft+" seconde"+(secondsLeft > 1 ? "s" : "")+"§6 pour voter";
 		});
 		for(LGPlayer lgp : getGame().getAlive())
 			if(lgp.getRoleType() == RoleType.VAMPIRE)

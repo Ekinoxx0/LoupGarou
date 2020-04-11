@@ -79,9 +79,7 @@ public class RBouffon extends Role{
 					return;
 				}
 				LGPlayer player = players.remove(0);
-				getGame().wait(getTimeout(), ()->{RBouffon.this.onNightTurnTimeout(player);this.run();}, (currentPlayer, secondsLeft)->{
-					return currentPlayer == player ? "§9§lC'est à ton tour !" : (RBouffon.this.getGame().getConfig().isHideRole() ? "§6C'est au tour de quelqu'un..." : "§6C'est au tour " + getFriendlyName()) + " §6(§e"+secondsLeft+" s§6)";
-				});
+				getGame().waitRole(getTimeout(), ()->{RBouffon.this.onNightTurnTimeout(player);this.run();}, player, RBouffon.this);
 				player.sendMessage("§6"+getTask());
 			//	player.sendTitle("§6C'est à vous de jouer", "§a"+getTask(), 100);
 				onNightTurn(player, this);

@@ -71,8 +71,6 @@ public class RChasseur extends Role{
 		getGame().wait(getTimeout(), ()->{
 			this.onNightTurnTimeout(player);
 			callback.run();
-		}, (currentPlayer, secondsLeft)->{
-			return currentPlayer == player ? "§9§lC'est à ton tour !" : "§6Le Chasseur choisit sa cible (§e"+secondsLeft+" s§6)";
 		});
 		MainLg.debug(getGame().getKey(), "tour de "+player.getName());
 		getGame().broadcastMessage("§9"+getBroadcastedTask());

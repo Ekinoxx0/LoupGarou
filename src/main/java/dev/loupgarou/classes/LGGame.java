@@ -84,7 +84,7 @@ public class LGGame implements Listener{
 	
 	@Getter private final LGGameConfig config;
 	@Getter private final DiscordChannelHandler discord;
-	@Getter private final LGPlayer owner;
+	@Getter @NonNull private LGPlayer owner;
 	@Getter private final GameMenu partieMenu = new GameMenu(this);
 	
 	@Getter private boolean started;
@@ -139,29 +139,12 @@ public class LGGame implements Listener{
 		wait(seconds, callback, null);
 	}
 	public void wait(int seconds, Runnable callback, TextGenerator generator) {
-		cancelWait();
-		waitTicks = seconds*20;
-		waitTask = new BukkitRunnable() {
-			@Override
-			public void run() {
-				WrapperPlayServerExperience exp = new WrapperPlayServerExperience();
-				exp.setLevel((short)(Math.floorDiv(waitTicks, 20)+1));
-				exp.setExperienceBar((float)waitTicks/(seconds*20F));
-				for(LGPlayer player : getInGame()) {
-					exp.sendPacket(player.getPlayer());
-					if(generator != null)
-						player.sendActionBarMessage(generator.generate(player, Math.floorDiv(waitTicks, 20)+1));
-				}
-				if(waitTicks == 0) {
-					for(LGPlayer player : getInGame())
-						player.sendActionBarMessage("");
-					waitTask = null;
-					cancel();
-					callback.run();
-				}
-				waitTicks--;
-			}
-		}.runTaskTimer(MainLg.getInstance(), 0, 1);
+		wait(seconds, seconds, callback, generator);
+	}
+	public void waitRole(int seconds, Runnable callback, LGPlayer player, Role r) {
+		wait(seconds, callback, (currentPlayer, secondsLeft)->{
+			return currentPlayer == player ? "§9§lC'est à ton tour !" : (getConfig().isHideRole() ? "§6C'est au tour de quelqu'un..." : "§6C'est au tour " + r.getFriendlyName()) + " §6(§e"+secondsLeft+" s§6)";
+		});
 	}
 	public void wait(int seconds, int initialSeconds, Runnable callback, TextGenerator generator) {
 		cancelWait();
@@ -190,7 +173,7 @@ public class LGGame implements Listener{
 	}
 	
 	public static interface TextGenerator{
-		public String generate(LGPlayer player, int secondsLeft);
+		public String generate(LGPlayer currentPlayer, int secondsLeft);
 	}
 	public void cancelWait() {
 		if(waitTask != null) {
@@ -284,8 +267,12 @@ public class LGGame implements Listener{
 			broadcastMessage(PrefixType.PARTIE + "§c§o" + lgp.getName() + " s'est déconnecté. Le décompte de lancement a donc été arrêté.");
 		}
 		
-		if(this.getInGame().isEmpty())
+		if(this.getInGame().isEmpty()) {
 			this.endGame(LGWinType.NONE);
+		} else {
+			if(this.owner == lgp)
+				this.owner = this.getInGame().get(0);
+		}
 	}
 	
 	public void updateStart() {
@@ -440,11 +427,9 @@ public class LGGame implements Listener{
 	}
 	public void updateRoleScoreboard() {
 		if(this.config.isHideRole()) {
-			for(LGPlayer lgp : getInGame()) {
+			for(LGPlayer lgp : getInGame())
 				for (int i = 0; i < 15; i++)
 					lgp.getScoreboard().getLine(i).delete();
-			}
-			
 			return;
 		}
 		
@@ -586,11 +571,7 @@ public class LGGame implements Listener{
 						if(role.getTurnOrder() == -1 || !role.hasPlayersLeft())
 							this.run();
 						else {
-							if(!config.isHideRole()) {
-								broadcastMessage("§9"+role.getBroadcastedTask());
-							} else {
-								broadcastMessage("§9Quelqu'un fait quelque chose...");
-							}
+							broadcastMessage(config.isHideRole() ? "§9Quelqu'un fait quelque chose..." : "§9"+role.getBroadcastedTask());
 							role.onNightTurn(run);
 						}
 					}

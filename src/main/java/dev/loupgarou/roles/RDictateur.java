@@ -226,15 +226,13 @@ public class RDictateur extends Role{
 						hold.sendPacket(lgp.getPlayer());
 						
 						lgp.sendMessage("§6Choisis un joueur à exécuter.");
-						getGame().wait(60, ()->{
+						getGame().waitRole(60, ()->{
 							lgp.stopChoosing();
 							getGame().broadcastMessage("§7§l"+lgp.getName()+"§9 n'a tué personne.");
 							lgp.getPlayer().getInventory().setItem(8, null);
 							lgp.getPlayer().updateInventory();
 							this.run();
-						}, (player, secondsLeft)->{
-							return lgp == player ? "§9§lC'est à ton tour !" : "§6Le Dictateur choisit sa victime (§e"+secondsLeft+" s§6)";
-						});
+						}, lgp, RDictateur.this);
 						lgp.choose((choosen)->{
 							if(choosen != null) {
 								getGame().cancelWait();
