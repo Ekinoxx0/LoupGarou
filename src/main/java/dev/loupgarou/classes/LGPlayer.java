@@ -20,6 +20,7 @@ import com.comphenix.protocol.wrappers.EnumWrappers.PlayerInfoAction;
 import com.comphenix.protocol.wrappers.PlayerInfoData;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.WrappedGameProfile;
+import com.comphenix.protocol.wrappers.WrappedSignedProperty;
 
 import dev.loupgarou.MainLg;
 import dev.loupgarou.classes.LGChat.LGChatCallback;
@@ -66,6 +67,7 @@ public class LGPlayer extends LGPlayerSimple {
 	@Getter @Setter private LGGame game;
 	@Getter @Setter private String latestObjective;
 	@Getter @Setter private String connectingHostname;
+	@Getter @Setter private WrappedSignedProperty skin;
 	@Getter private LGChat chat;
 	
 	public LGPlayer(@NonNull Player player) {

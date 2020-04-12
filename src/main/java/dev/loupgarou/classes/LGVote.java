@@ -53,7 +53,9 @@ public class LGVote {
 	private final boolean positiveVote, randomIfEqual;
 	@Getter private boolean mayorVote;
     private boolean ended;
-	public LGVote(int timeout, int littleTimeout, @NonNull LGGame game, boolean positiveVote, boolean randomIfEqual, TextGenerator generator) {
+    private boolean hideVote;
+    private boolean hideVoteExtra;
+	public LGVote(int timeout, int littleTimeout, @NonNull LGGame game, boolean positiveVote, boolean randomIfEqual, TextGenerator generator, boolean hideVote, boolean hideVoteExtra) {
 		this.initialTimeout = timeout;
 		this.littleTimeout = littleTimeout;
 		this.timeout = timeout;
@@ -61,6 +63,8 @@ public class LGVote {
 		this.generator = generator;
 		this.positiveVote = positiveVote;
 		this.randomIfEqual = randomIfEqual;
+		this.hideVote = hideVote;
+		this.hideVoteExtra = hideVoteExtra;
 	}
 	public void start(List<LGPlayer> participants, List<LGPlayer> viewers, Runnable callback, List<LGPlayer> blacklisted) {
 		this.callback = callback;
@@ -133,7 +137,7 @@ public class LGVote {
 				if(!choosable.contains(player))
 					blackListed.add(player);
 				else {
-					if(!this.game.getConfig().isHideVoteExtra()) {
+					if(!this.hideVoteExtra) {
 						VariousUtils.setWarning(player.getPlayer(), true);
 					}
 					//player.sendMessage("§4§lVous êtes un des principaux suspects ! Défendez vous !");
@@ -268,7 +272,7 @@ public class LGVote {
 				voter.sendMessage("§6Tu as annulé ton vote.");
 			}
 			
-			if(!this.game.getConfig().isHideVote()) {
+			if(!hideVote) {
 				for(LGPlayer player : viewers)
 					if(player != voter)
 						player.sendMessage(message);
@@ -331,7 +335,7 @@ public class LGVote {
 							)
 					);
 			
-			if(!this.game.getConfig().isHideVoteExtra()) {
+			if(!this.hideVoteExtra) {
 				for(LGPlayer lgp : viewers) {
 					spawn.sendPacket(lgp.getPlayer());
 					meta.sendPacket(lgp.getPlayer());
@@ -340,7 +344,7 @@ public class LGVote {
 		}
 	}
 	private void showVoting(LGPlayer to, LGPlayer ofWho) {
-		if(this.game.getConfig().isHideVoteExtra()) return;
+		if(this.hideVoteExtra) return;
 		int entityId = -to.getPlayer().getEntityId();
 		WrapperPlayServerEntityDestroy destroy = new WrapperPlayServerEntityDestroy();
 		destroy.setEntityIds(new int[] {entityId});

@@ -73,7 +73,6 @@ public class ProtocolListener {
 					
 					LGSkinLoadEvent skinEvent = new LGSkinLoadEvent(lgpInfo.getGame(), lgpInfo, lgpTo, data.getProfile());
 					Bukkit.getPluginManager().callEvent(skinEvent);
-					//MainLg.debug(target.getName() + " have a customname to " + lgpTo.getName() + " : " + prefixEvent.getPrefix().replace("§", "&"));
 					datas.add(new PlayerInfoData(skinEvent.getProfile(), data.getLatency(), data.getGameMode(), displayName));
 				}
 				info.setData(datas);

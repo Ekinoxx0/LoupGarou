@@ -104,7 +104,7 @@ public class RLoupGarou extends Role{
 	public void onNightTurn(Runnable callback) {
 		vote = new LGVote(getTimeout(), getTimeout()/3, getGame(), false, false, (player, secondsLeft)-> {
 			return !getPlayers().contains(player) ? (RLoupGarou.this.getGame().getConfig().isHideRole() ? "§6C'est au tour de quelqu'un..." : ("§6C'est au tour "+getFriendlyName()+" §6(§e"+secondsLeft+" s§6)")) : player.getCache().has(CacheType.VOTE) ? "§l§9Vous votez contre §c§l"+player.getCache().<LGPlayer>get(CacheType.VOTE).getName() : "§6Il vous reste §e"+secondsLeft+" seconde"+(secondsLeft > 1 ? "s" : "")+"§6 pour voter";
-		});
+		}, this.getGame().getConfig().isHideVoteRole(), this.getGame().getConfig().isHideVoteRole());
 		for(LGPlayer lgp : getGame().getAlive())
 			if(lgp.getRoleType() == RoleType.LOUP_GAROU)
 				lgp.showView();

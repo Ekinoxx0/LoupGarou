@@ -37,6 +37,7 @@ public class LGGameConfig {
 	@Getter @Setter private boolean hideRole = false;
 	@Getter @Setter private boolean hideVote = false;
 	@Getter @Setter private boolean hideVoteExtra = false;
+	@Getter @Setter private boolean hideVoteRole = false;
 	@Getter @Setter private int timerDayPerPlayer = 15;
 	@Getter @Setter @NonNull private CommunicationType com = CommunicationType.TEXTUEL;
 	

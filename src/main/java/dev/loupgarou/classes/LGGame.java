@@ -244,14 +244,6 @@ public class LGGame implements Listener{
 				continue;
 			}
 			
-			if(lgp != other) {
-				lgp.hidePlayer(other);
-				lgp.showPlayer(other);
-				
-				other.hidePlayer(lgp);
-				other.showPlayer(lgp);
-			}
-			
 			other.updateTab();
 		}
 		
@@ -354,6 +346,8 @@ public class LGGame implements Listener{
 				update.setFoodSaturation(1);
 				update.setHealth(20);
 				update.sendPacket(p);
+				lgp.updateSkin();
+				lgp.updateOwnSkin();
 				lgp.getScoreboard().getLine(0).setDisplayName("§6Attribution des rôles...");
 			}
 		} catch(Exception ex) {
@@ -808,7 +802,7 @@ public class LGGame implements Listener{
 		broadcastMessage("§9Il est temps de voter pour élire un §5§lCapitaine§9.");
 		vote = new LGVote(config.getTimerDayPerPlayer() * this.getAlive().size(), 20, this, true, true, (player, secondsLeft)-> {
 			return player.getCache().has(CacheType.VOTE) ? "§6Tu votes pour §7§l"+player.getCache().<LGPlayer>get(CacheType.VOTE).getName() : "§6Il te reste §e"+secondsLeft+" seconde"+(secondsLeft > 1 ? "s" : "")+"§6 pour voter";
-		});
+		}, this.getConfig().isHideVote(), this.getConfig().isHideVoteExtra());
 		vote.start(getAlive(), getInGame(), ()->{
 			if(vote.getChoosen() == null)
 				setMayor(getAlive().get(random.nextInt(getAlive().size())));
@@ -843,7 +837,7 @@ public class LGGame implements Listener{
 		isPeopleVote = true;
 		vote = new LGVote(config.getTimerDayPerPlayer() * this.getAlive().size(), 20, this, false, false, (player, secondsLeft)-> {
 			return player.getCache().has(CacheType.VOTE) ? "§6Tu votes pour §7§l"+player.getCache().<LGPlayer>get(CacheType.VOTE).getName() : "§6Il te reste §e"+secondsLeft+" seconde"+(secondsLeft > 1 ? "s" : "")+"§6 pour voter";
-		});
+		}, this.getConfig().isHideVote(), this.getConfig().isHideVoteExtra());
 		
 		vote.start(getAlive(), getInGame(), ()->{
 			isPeopleVote = false;

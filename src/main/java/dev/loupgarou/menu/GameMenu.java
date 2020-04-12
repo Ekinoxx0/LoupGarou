@@ -137,6 +137,37 @@ public class GameMenu {
 						openPartieMenu(lgp);
 					}
 				});
+		ii.registerItem(
+				new ItemBuilder(LGCustomItems.getSpecialItem(game.getConfig().isHideVoteRole() ? SpecialItems.GREEN_ROLE : SpecialItems.RED_ROLE))
+				.name("§9Votes Rôles cachés : " + (game.getConfig().isHideVoteRole() ? "§aOUI" : "§cNON"))
+				.lore(Arrays.asList(
+						"§7Permet de masquer les votes spécifiques",
+						"§7aux rôles tel que Loup Garou ou Vampires.",
+						"",
+						"§7Nous recommandons l'activation de cette option",
+						"§7si la Petite Fille est active car il forcera les Loup Garou",
+						"§7à utiliser leur chat textuel"
+						))
+				.build(), 
+				4, 4, true, 
+				new InventoryCall() {
+					
+					@Override
+					public void click(HumanEntity human, ItemStack item, ClickType clickType) {
+						if(lgp.getGame().getOwner() != lgp) {
+							lgp.sendMessage(PrefixType.PARTIE + "§cVous n'êtes pas le propriétaire de la partie...");
+							return;
+						}
+
+						lgp.getGame().getConfig().setHideVoteRole(!lgp.getGame().getConfig().isHideVoteRole());
+						if(lgp.getGame().getConfig().isHideVoteRole()) {
+							lgp.sendMessage(PrefixType.PARTIE + "§cVote Rôles cachée");
+						} else {
+							lgp.sendMessage(PrefixType.PARTIE + "§9Vote Rôles affichés");
+						}
+						openPartieMenu(lgp);
+					}
+				});
 		
 		ii.registerItem(
 				new ItemBuilder(LGCustomItems.getSpecialItem(SpecialItems.CHECK))
