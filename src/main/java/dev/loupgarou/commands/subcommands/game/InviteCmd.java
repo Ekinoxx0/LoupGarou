@@ -1,6 +1,9 @@
 package dev.loupgarou.commands.subcommands.game;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -52,6 +55,15 @@ public class InviteCmd extends SubCommand {
 		}else {
 			cs.sendMessage(PrefixType.PARTIE + "§c/" + label + " <Joueur>");
 		}
+	}
+	
+	@Override
+	public List<String> onTabComplete(CommandSender cs, LoupGarouCommand cmd, String[] args) {
+		if(!(cs instanceof Player)) return Collections.emptyList();
+		List<String> players = new ArrayList<String>();
+		for(Player p : Bukkit.getOnlinePlayers())
+			players.add(p.getDisplayName());
+		return players;
 	}
 	
 	@Override

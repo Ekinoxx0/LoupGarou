@@ -20,4 +20,9 @@ public class DisableResourcePackCmd extends SubCommand {
 		ResourcePackCmd.reset(p);
 	}
 	
+	@Override
+	public String getPermission() {
+		return null;
+	}
+	
 }

@@ -17,7 +17,7 @@ public class ResourcePackCmd extends SubCommand {
 	private static final ViaAPI<?> api = Via.getAPI();
 	
 	private static final String url = "https://github.com/Ekinoxx0/LoupGarouRessourcePack/raw/";
-	private static final String commitIdLGRessource = "ba5b155083fd5e969a041d835a0a24fa4738dfeb";
+	private static final String commitIdLGRessource = "ce6bd2814b04b84665a23dcc2829b5e24eab86b8";
 
 	public ResourcePackCmd(LoupGarouCommand cmd) {
 		super(cmd, Arrays.asList("resourcepack", "ressourcepack", "ressourcespack", "resourcespack", "resourcepacks", "ressourcepacks", "ressourcespacks", "resourcespacks", "reloadrp"));
@@ -27,6 +27,11 @@ public class ResourcePackCmd extends SubCommand {
 	public void execute(CommandSender cs, String label, String[] args) {
 		Player p = (Player) cs;
 		load(p);;
+	}
+	
+	@Override
+	public String getPermission() {
+		return null;
 	}
 	
 	public static void reset(@NotNull Player p) {

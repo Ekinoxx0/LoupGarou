@@ -1,6 +1,9 @@
 package dev.loupgarou.commands.subcommands.game;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -52,6 +55,20 @@ public class KickCmd extends SubCommand {
 		} else {
 			cs.sendMessage(PrefixType.PARTIE + "§cArgument inconnu...");
 		}
+	}
+	
+	@Override
+	public List<String> onTabComplete(CommandSender cs, LoupGarouCommand cmd, String[] args) {
+		if(!(cs instanceof Player)) return Collections.emptyList();
+		List<String> players = new ArrayList<String>();
+		LGPlayer lgp = LGPlayer.thePlayer((Player) cs);
+		
+		if(lgp.getGame() == null)
+			return Collections.emptyList();
+		
+		for(LGPlayer lgpA : lgp.getGame().getInGame())
+			players.add(lgpA.getName());
+		return players;
 	}
 	
 	@Override

@@ -1,6 +1,9 @@
 package dev.loupgarou.commands.subcommands.game;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -53,6 +56,17 @@ public class LeaveCmd extends SubCommand {
 		} else {
 			cs.sendMessage(PrefixType.PARTIE + "§cArgument inconnu...");
 		}
+	}
+	
+	@Override
+	public List<String> onTabComplete(CommandSender cs, LoupGarouCommand cmd, String[] args) {
+		if(!(cs instanceof Player)) return Collections.emptyList();
+		if(!cs.hasPermission(BASE_PERM + "." + getAliases().get(0))) return Collections.emptyList();
+		List<String> players = new ArrayList<String>();
+		for(LGPlayer lgp : LGPlayer.all())
+			if(lgp.getGame() != null)
+				players.add(lgp.getName());
+		return players;
 	}
 	
 	@Override
