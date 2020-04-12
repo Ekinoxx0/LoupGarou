@@ -5,7 +5,6 @@ import java.util.List;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 
-import dev.loupgarou.MainLg;
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.events.daycycle.LGDayStartEvent;
@@ -70,7 +69,7 @@ public class RMontreurDOurs extends Role{
 			if(lastNight == getGame().getNight())
 				return;
 			lastNight = getGame().getNight();
-			List<?> original = MainLg.getInstance().getConfig().getList("spawns");
+			List<?> original = getGame().getConfig().getMap().getSpawns();
 			for(LGPlayer target : getPlayers()) {
 				if(!target.isRoleActive())
 					continue;

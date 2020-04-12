@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map.Entry;
 
+import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 
@@ -115,7 +116,7 @@ public class RLoupGarou extends Role{
 		vote.start(getPlayers(), getPlayers(), ()->{
 			onNightTurnEnd();
 			callback.run();
-		}, Collections.emptyList());//TODO LoupGarou Cannot kill themself ?
+		}, Collections.emptyList());
 	}
 	private void onNightTurnEnd() {
 		for(LGPlayer lgp : getGame().getAlive())
@@ -175,10 +176,13 @@ public class RLoupGarou extends Role{
 	}
 	
 	@EventHandler(priority = EventPriority.LOWEST)
-	public void onUpdatePrefix (LGUpdatePrefixEvent e) {
-		if(e.getGame() == getGame())
-			if(getPlayers().contains(e.getTo()) && getPlayers().contains(e.getPlayer()))
-				e.setPrefix(e.getPrefix()+"§c");
+	public void onUpdatePrefix(LGUpdatePrefixEvent e) {
+		if(e.getGame() == getGame()) {
+			if(getPlayers().contains(e.getTo()) && getPlayers().contains(e.getPlayer())) {
+				MainLg.debug("onUpdatePrefix: " + e.getPlayer().getName() + "->" + e.getTo().getName());
+				e.setColor(ChatColor.RED);
+			}
+		}
 	}
 	
 	@EventHandler

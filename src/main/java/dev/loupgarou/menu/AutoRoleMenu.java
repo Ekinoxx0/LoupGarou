@@ -166,10 +166,13 @@ public class AutoRoleMenu {
 						.lore(Arrays.asList(
 									"",
 									"§7" + nbRole + " joueur" + (nbRole > 1 ? "s" : ""),
+									"§oClique gauche pour en ajouter, droit pour en retirer",
 									"",
 									"§9§lRôles :",
 									roles
+									
 								))
+						.amount(nbRole > 1 ? nbRole : 1)
 						.build(), 
 					2 + i, 1, true, new InventoryCall() {
 						
@@ -229,6 +232,7 @@ public class AutoRoleMenu {
 							"",
 							"§9§oCliquez pour générer la composition..."
 							))
+					.amount(total() > 1 ? total() : 1)
 					.build(), 
 				ii.getInv().getSize() - 1, true, new InventoryCall() {
 					

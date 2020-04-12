@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -110,11 +111,11 @@ public class MainLg extends JavaPlugin {
 		}
 		
 		new LoupGarouCommand(this);
+		new ProtocolListener(this);
 		
 		for(Player p : Bukkit.getOnlinePlayers())
 			Bukkit.getPluginManager().callEvent(new LoginEvent(p));
 		
-		new ProtocolListener(this);
 		LGCustomItems.checkRessourcePack(Bukkit.getConsoleSender());
 	}
 	
@@ -202,10 +203,10 @@ public class MainLg extends JavaPlugin {
 				REnfantSauvage.class,
 				RChienLoup.class,
 				RVoleur.class,
-				RVampire.class,
 				RPronostiqueur.class,
 				RMontreurDOurs.class,
-				RChasseurDeVampire.class
+				RChasseurDeVampire.class,
+				RVampire.class
 			);
 			
 		for(Class<? extends Role> role : roles)
@@ -232,6 +233,9 @@ public class MainLg extends JavaPlugin {
 			 * 
 			 */
 	}
+	
+	@Override @Deprecated
+    public FileConfiguration getConfig() { return super.getConfig(); }
 	
 	private void registerRole(Class<? extends Role> role) {
 		try {

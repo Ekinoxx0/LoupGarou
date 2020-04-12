@@ -48,7 +48,7 @@ public class RVoyante extends Role{
 	}
 	@Override
 	public String getTask() {
-		return "Choisis un joueur dont tu veux connnaître l'identité.";
+		return "Choisis un joueur dont tu veux connaître l'identité.";
 	}
 	@Override
 	public String getBroadcastedTask() {

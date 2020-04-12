@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Random;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -53,6 +54,7 @@ import dev.loupgarou.events.vote.LGVoteLeaderChange;
 import dev.loupgarou.menu.GameMenu;
 import dev.loupgarou.packetwrapper.WrapperPlayServerChat;
 import dev.loupgarou.packetwrapper.WrapperPlayServerExperience;
+import dev.loupgarou.packetwrapper.WrapperPlayServerSpawnEntityWeather;
 import dev.loupgarou.packetwrapper.WrapperPlayServerUpdateHealth;
 import dev.loupgarou.packetwrapper.WrapperPlayServerUpdateTime;
 import dev.loupgarou.roles.RChienLoupLG;
@@ -241,8 +243,7 @@ public class LGGame implements Listener{
 				this.getInGame().remove(other);
 				continue;
 			}
-					
-			other.updateTab();
+			
 			if(lgp != other) {
 				lgp.hidePlayer(other);
 				lgp.showPlayer(other);
@@ -250,6 +251,8 @@ public class LGGame implements Listener{
 				other.hidePlayer(lgp);
 				other.showPlayer(lgp);
 			}
+			
+			other.updateTab();
 		}
 		
 		broadcastMessage(PrefixType.PARTIE + "§7Le joueur §8"+lgp.getName()+"§7 a rejoint la partie §9(§8"+inGame.size()+"§7/§8"+config.getMap().getSpawns().size()+"§9)");
@@ -598,8 +601,14 @@ public class LGGame implements Listener{
 			
 			broadcastMessage(String.format(reason.getMessage(), killed.getName())+", il était "+killed.getRole().getName()+(killed.getCache().getBoolean(CacheType.INFECTED) ? " §c§l(Infecté)" : "")+"§4.");
 			
-			//Lightning effect
-			killed.getPlayer().getWorld().strikeLightningEffect(killed.getPlayer().getLocation());
+			WrapperPlayServerSpawnEntityWeather weather = new WrapperPlayServerSpawnEntityWeather();
+			weather.setEntityID(new Random().nextInt(20000) + 20000);
+			weather.setX(killed.getPlayer().getLocation().getX());
+			weather.setY(killed.getPlayer().getLocation().getY());
+			weather.setZ(killed.getPlayer().getLocation().getZ());
+			weather.setType(1);
+			for(LGPlayer lgp : getInGame())
+				weather.sendPacket(lgp.getPlayer());
 			
 			for(Role role : getRoles())
 				if(role.getPlayers().contains(killed))

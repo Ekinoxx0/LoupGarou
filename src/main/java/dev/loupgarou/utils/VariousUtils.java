@@ -24,6 +24,7 @@ import dev.loupgarou.classes.LGCustomItems.SpecialItems;
 import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.packetwrapper.WrapperPlayServerEntityDestroy;
 import lombok.Getter;
+import lombok.NonNull;
 
 public class VariousUtils {
 	
@@ -66,18 +67,11 @@ public class VariousUtils {
 		return hex[i];
 	}
 	
-	public static void resetDisplay(LGPlayer lgp) {
+	public static void resetDisplay(@NonNull LGPlayer lgp) {
 		Player p = lgp.getPlayer();
 		if(p == null) return;
 		
-		MainLg.debug("resetDisplay(" + lgp.toString() + ");");
-		
-		lgp.showView();
-		lgp.updateOwnSkin();
-		lgp.setScoreboard(null);
-		
-		VariousUtils.setWarning(p, false);
-		VariousUtils.clearVotes(p);
+		MainLg.debug("resetDisplay(" + lgp.getName() + ");");
 		
 		p.setGameMode(GameMode.ADVENTURE);
 		p.setWalkSpeed(0.2f);
@@ -93,12 +87,20 @@ public class VariousUtils {
 		p.closeInventory();
 		for(PotionEffect effect : p.getActivePotionEffects())
 			p.removePotionEffect(effect.getType());
+		
+		lgp.showView();
+		lgp.updateSkin();
+		lgp.updateOwnSkin();
+		lgp.setScoreboard(null);
+		
+		VariousUtils.setWarning(p, false);
+		VariousUtils.clearVotes(p);
 	}
 	
-	public static void setupLobby(LGPlayer lgp) {
+	public static void setupLobby(@NonNull LGPlayer lgp) {
 		Player p = lgp.getPlayer();
 		if(p == null) return;
-		MainLg.debug("setupLobby(" + lgp.toString() + ");");
+		MainLg.debug("setupLobby(" + lgp.getName() + ");");
 
 		lgp.leaveAllChat();
 		lgp.reset();

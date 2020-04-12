@@ -67,24 +67,26 @@ public class JoinListener implements Listener {
 		
 		WrapperPlayServerScoreboardTeam myTeam = new WrapperPlayServerScoreboardTeam();
 		myTeam.setName(p.getDisplayName());
-		myTeam.setPrefix(WrappedChatComponent.fromText(""));
-		myTeam.setPlayers(Arrays.asList(p.getDisplayName()));
+		myTeam.setPlayers(Arrays.asList(p.getName()));
 		myTeam.setMode(Mode.TEAM_CREATED);
 		
 		WrapperPlayServerScoreboardTeam team = new WrapperPlayServerScoreboardTeam();
-		team.setPrefix(WrappedChatComponent.fromText(""));
 		team.setMode(Mode.TEAM_CREATED);
-		
+
+		myTeam.sendPacket(p);
 		for(Player allPlayer : Bukkit.getOnlinePlayers()) {
-			if(allPlayer != p && allPlayer.getGameMode() != GameMode.SPECTATOR)
+			if(allPlayer == p) continue;
+			if(allPlayer.getGameMode() != GameMode.SPECTATOR)
 				allPlayer.hidePlayer(MainLg.getInstance(), p);
 			
 			team.setName(allPlayer.getDisplayName());
-			team.setPlayers(Arrays.asList(allPlayer.getDisplayName()));
+			team.setPlayers(Arrays.asList(allPlayer.getName()));
 			
 			team.sendPacket(p);
 			myTeam.sendPacket(allPlayer);
 		}
+		
+		if(p.getGameMode() == GameMode.CREATIVE) return;
 		
 		LGPlayer lgp = LGPlayer.thePlayer(p);
 		VariousUtils.setupLobby(lgp);

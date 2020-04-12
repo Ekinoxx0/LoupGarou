@@ -186,7 +186,7 @@ public class DiscordLinkServer {
 		
 		lgp.sendMessage(new TComponent(PrefixType.DISCORD + "§9"), 
 				new TComponent("§aCliquez §lICI§a pour lier votre compte")
-					.setHoverEvent(new HEvent(HoverEvent.Action.SHOW_TEXT, "§8En cliquant sur ce lien, \n§8vous serez redirigé vers discord où vous autoriser \n§8la permission de connaitre votre tag discord."))
+					.setHoverEvent(new HEvent(HoverEvent.Action.SHOW_TEXT, "§8En cliquant sur ce lien, \n§8vous serez redirigé vers discord où vous pourrez autoriser \n§8la permission de connaitre votre tag discord."))
 					.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, link))
 					);
 	}

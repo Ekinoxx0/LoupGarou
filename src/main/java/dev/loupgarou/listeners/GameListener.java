@@ -7,6 +7,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+import com.comphenix.protocol.wrappers.WrappedGameProfile;
+
 import dev.loupgarou.classes.LGCustomItems.LGCustomItemsConstraints;
 import dev.loupgarou.classes.LGCustomSkin;
 import dev.loupgarou.classes.LGGame;
@@ -52,6 +54,11 @@ public class GameListener implements Listener {
 	
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onSkinChange(LGSkinLoadEvent e) {
+		if(e.getGame() == null) {
+			e.setProfile(WrappedGameProfile.fromPlayer(e.getPlayer().getPlayer()));
+			return;
+		}
+		
 		e.getProfile().getProperties().removeAll("textures");
 		if(e.getGame().getMayor() == e.getPlayer())
 			e.getProfile().getProperties().put("textures", LGCustomSkin.MAYOR.getProperty());

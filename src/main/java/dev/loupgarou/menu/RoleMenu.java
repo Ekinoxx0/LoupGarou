@@ -26,7 +26,6 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 /**
- * TODO add tip to shift clic
  * TODO Save compo
  */
 @RequiredArgsConstructor
@@ -57,8 +56,11 @@ public class RoleMenu {
 						.lore(Arrays.asList(
 								"§7" + nbRole,
 								"",
-								"§f" + CommonText.optimizeLines(fakeRole.getDescription())
+								"§f" + CommonText.optimizeLines(fakeRole.getDescription()),
+								"",
+								"§7§oClique gauche pour en ajouter, droit pour en retirer"
 								))
+						.amount(nbRole > 1 ? nbRole : 1)
 						.build(), 
 					i, true, new InventoryCall() {
 						
@@ -132,6 +134,7 @@ public class RoleMenu {
 		ii.registerItem(
 				new ItemBuilder(LGCustomItems.getSpecialItem(SpecialItems.CHECK))
 					.name("§aTotal : " + total)
+					.amount(total > 1 ? total : 1)
 					.build(), 
 				ii.getInv().getSize() - 1, true, new InventoryCall() {
 					

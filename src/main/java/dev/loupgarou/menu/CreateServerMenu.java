@@ -149,13 +149,15 @@ public class CreateServerMenu {
 		ii.registerItem(
 				new ItemBuilder(LGCustomItems.getSpecialItem(SpecialItems.DISCORD))
 				.name("§6Sélection du type de tchat")
-				.lore(//TODO verify is connected
+				.lore(
 						Arrays.asList(
 								"§9Vocal sur Discord",
 								"",
 								"§7Si vous choississez ce mode, nous allons vous créer un",
 								"§7salon vocal sur Discord qui sera automatisé pour les nuits",
-								"§7et les morts de joueurs."
+								"§7et les morts de joueurs.",
+								"",
+								MainLg.getInstance().getDiscord().get(lgp) == null ? "§cVous n'êtes pas lié à Discord" : "§2Vous êtes lié à Discord"
 								)
 						)
 				.build(), 

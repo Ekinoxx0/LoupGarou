@@ -31,7 +31,7 @@ public class ListServerMenu {
 		for(LGGame game : MainLg.getInstance().getGames()) {
 			if(game.isStarted()) continue;
 			if(game.isEnded()) continue;
-			if(game.getConfig().getBanned().contains(lgp.getName())) return;
+			if(game.getConfig().getBanned().contains(lgp.getName())) continue;
 			
 			ii.registerItem(
 					new ItemBuilder(Material.PLAYER_HEAD)

@@ -15,7 +15,7 @@ import dev.loupgarou.utils.CommonText.PrefixType;
 public class BanCmd extends SubCommand {
 
 	public BanCmd(LoupGarouCommand cmd) {
-		super(cmd, Arrays.asList("kick", "expulser", "expulse"));
+		super(cmd, Arrays.asList("ban", "banni", "bann", "banner"));
 	}
 
 	@Override

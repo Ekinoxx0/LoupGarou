@@ -13,6 +13,7 @@ import org.bukkit.WorldType;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import com.comphenix.protocol.wrappers.EnumWrappers.NativeGameMode;
 import com.comphenix.protocol.wrappers.EnumWrappers.PlayerInfoAction;
@@ -94,6 +95,8 @@ public class LGPlayer extends LGPlayerSimple {
 		if(getPlayer() == null) return;
 		MainLg.debug("showView(" + getName() + ")");
 		getPlayer().removePotionEffect(PotionEffectType.BLINDNESS);
+		
+		this.updateTab();
 
 		if(getGame() == null) { //In lobby
 			for(LGPlayer allP : LGPlayer.all())
@@ -114,8 +117,6 @@ public class LGPlayer extends LGPlayerSimple {
 			if (lgp != this)
 				showPlayer(lgp);
 		}
-
-		this.updateTab();
 	}
 	
 	public void hideView() {
@@ -134,7 +135,7 @@ public class LGPlayer extends LGPlayerSimple {
 		info.setAction(PlayerInfoAction.ADD_PLAYER);
 		for(LGPlayer lgp : getGame().getAlive())
 			if(lgp != this && lgp.getPlayer() != null) {
-				infos.add(new PlayerInfoData(new WrappedGameProfile(lgp.getPlayer().getUniqueId(), lgp.getName()), 0, lgp.isDead() ? NativeGameMode.SPECTATOR : NativeGameMode.ADVENTURE, WrappedChatComponent.fromText(lgp.getName())));
+				infos.add(new PlayerInfoData(new WrappedGameProfile(lgp.getPlayer().getUniqueId(), lgp.getName()), 0, NativeGameMode.ADVENTURE, WrappedChatComponent.fromText(lgp.getName())));
 				hidePlayer(lgp);
 			}
 		info.setData(infos);
@@ -146,21 +147,32 @@ public class LGPlayer extends LGPlayerSimple {
 		MainLg.debug("updateTab(" + getName() + ")");
 		
 		List<PlayerInfoData> infos = new ArrayList<PlayerInfoData>();
-		infos.add(new PlayerInfoData(new WrappedGameProfile(getPlayer().getUniqueId(), getName()), 0, this.isDead() ? NativeGameMode.SPECTATOR : NativeGameMode.ADVENTURE, WrappedChatComponent.fromText(getName())));
+		infos.add(new PlayerInfoData(new WrappedGameProfile(getPlayer().getUniqueId(), getName()), 0, NativeGameMode.ADVENTURE, WrappedChatComponent.fromText(getName())));
 		
 		WrapperPlayServerPlayerInfo info = new WrapperPlayServerPlayerInfo();
 		info.setData(infos);
+
+		WrapperPlayServerScoreboardTeam myTeam = new WrapperPlayServerScoreboardTeam();
+		myTeam.setName(getPlayer().getDisplayName());
+		myTeam.setPlayers(Arrays.asList(getPlayer().getName()));
+		myTeam.setMode(Mode.TEAM_UPDATED);
 		
 		WrapperPlayServerScoreboardTeam team = new WrapperPlayServerScoreboardTeam();
 		team.setMode(Mode.TEAM_UPDATED);
-		team.setName(getName());
-		team.setPrefix(WrappedChatComponent.fromText(""));
-		team.setPlayers(Arrays.asList(getName()));
 
+		myTeam.sendPacket(this.getPlayer());
+		info.sendPacket(this.getPlayer());
 		for(LGPlayer algp : LGPlayer.all()) {
+			if(algp == this) continue;
+			
 			info.setAction(algp.getGame() == getGame() ? PlayerInfoAction.ADD_PLAYER : PlayerInfoAction.REMOVE_PLAYER);
 			info.sendPacket(algp.getPlayer());
-			team.sendPacket(algp.getPlayer());
+			
+			team.setName(algp.getPlayer().getDisplayName());
+			team.setPlayers(Arrays.asList(algp.getPlayer().getName()));
+			
+			team.sendPacket(getPlayer());
+			myTeam.sendPacket(algp.getPlayer());
 		}
 	}
 	
@@ -175,6 +187,7 @@ public class LGPlayer extends LGPlayerSimple {
 	
 	public void updateOwnSkin() {
 		if(getPlayer() == null) return;
+		MainLg.debug("updateOwnSkin(" + getName() + "/" + getPlayer().getWalkSpeed() + ")");
 		WrapperPlayServerPlayerInfo infos = new WrapperPlayServerPlayerInfo();
 		infos.setAction(PlayerInfoAction.ADD_PLAYER);
 		WrappedGameProfile gameProfile = new WrappedGameProfile(getPlayer().getUniqueId(), getPlayer().getName());
@@ -187,7 +200,22 @@ public class LGPlayer extends LGPlayerSimple {
 		respawn.setGamemode(NativeGameMode.ADVENTURE);
 		respawn.setHashedSeed(0L);
 		respawn.sendPacket(getPlayer());
+		//Enfin, on le téléporte à sa potion actuelle car sinon il se verra dans le vide
 		getPlayer().teleport(getPlayer().getLocation());
+		float speed = getPlayer().getWalkSpeed();
+		getPlayer().setWalkSpeed(0.2f);
+		new BukkitRunnable() {
+			
+			@Override
+			public void run() {
+				if(getPlayer() == null) return;
+				getPlayer().updateInventory();
+				if(getPlayer().getWalkSpeed() == 0.2f)
+					getPlayer().setWalkSpeed(speed);
+			}
+		}.runTaskLater(MainLg.getInstance(), 5);
+		//Et c'est bon, le joueur se voit avec un nouveau skin avec quasiment aucun problème visible à l'écran :D
+	
 	}
 	
 	public boolean canSelectDead;
