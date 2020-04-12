@@ -7,7 +7,7 @@
     "maire": "OAK_SLAB",
     "maire_mort": "OAK_SAPLING",
     "mort": "OAK_PLANKS",
-    "menu": "SNOWBALL",
+    "menu": "SADDLE",
     "infecte_maire_mort": "OBSIDIAN"
   },
   "villageois": {
@@ -18,7 +18,7 @@
     "maire": "BLUE_STAINED_GLASS_PANE",
     "maire_mort": "BLUE_STAINED_GLASS",
     "mort": "BLUE_ORCHID",
-    "menu": "IRON_SHOVEL",
+    "menu": "IRON_PICKAXE",
     "infecte_maire_mort": "BOOKSHELF"
   },
   "enfantsauvage": {
@@ -29,7 +29,7 @@
     "maire": "PURPLE_WOOL",
     "maire_mort": "PURPLE_STAINED_GLASS_PANE",
     "mort": "PURPLE_STAINED_GLASS",
-    "menu": "CAKE",
+    "menu": "BREWING_STAND",
     "infecte_maire_mort": "PURPUR_PILLAR"
   },
   "pirate": {
@@ -40,30 +40,30 @@
     "maire": "ENDER_CHEST",
     "maire_mort": "ENCHANTING_TABLE",
     "mort": "EMERALD_ORE",
-    "menu": "STONE_SWORD",
+    "menu": "STONE_SHOVEL",
     "infecte_maire_mort": "END_ROD"
   },
   "apprentievoyante": {
     "infecte": "POISONOUS_POTATO",
     "infecte_mort": "MELON_SEEDS",
     "infecte_maire": "NETHER_BRICK",
-    "role": "GLASS_BOTTLE",
+    "role": "GHAST_TEAR",
     "maire": "GOLDEN_CARROT",
     "maire_mort": "GOLDEN_APPLE",
-    "mort": "GLOWSTONE_DUST",
-    "menu": "GHAST_TEAR",
+    "mort": "GLASS_BOTTLE",
+    "menu": "FLINT",
     "infecte_maire_mort": "MUTTON"
   },
   "bouffon": {
-    "infecte": "COOKIE",
-    "infecte_mort": "COOKED_PORKCHOP",
-    "infecte_maire": "COOKED_SALMON",
-    "role": "COOKED_BEEF",
-    "maire": "COOKED_MUTTON",
-    "maire_mort": "COOKED_COD",
-    "mort": "COOKED_CHICKEN",
+    "infecte": "COOKED_SALMON",
+    "infecte_mort": "COOKED_MUTTON",
+    "infecte_maire": "COOKED_RABBIT",
+    "role": "COD",
+    "maire": "COOKED_COD",
+    "maire_mort": "COOKED_CHICKEN",
+    "mort": "COOKED_BEEF",
     "menu": "COAL",
-    "infecte_maire_mort": "COOKED_RABBIT"
+    "infecte_maire_mort": "COOKED_PORKCHOP"
   },
   "medium": {
     "infecte": "IRON_DOOR",
@@ -73,7 +73,7 @@
     "maire": "HEAVY_WEIGHTED_PRESSURE_PLATE",
     "maire_mort": "HAY_BLOCK",
     "mort": "GREEN_WOOL",
-    "menu": "EGG",
+    "menu": "DIAMOND_HORSE_ARMOR",
     "infecte_maire_mort": "IRON_BARS"
   },
   "pronostiqueur": {
@@ -84,19 +84,19 @@
     "maire": "DARK_OAK_SLAB",
     "maire_mort": "DARK_OAK_SAPLING",
     "mort": "DARK_OAK_PLANKS",
-    "menu": "STONE_PICKAXE",
+    "menu": "STONE_HOE",
     "infecte_maire_mort": "DARK_PRISMARINE"
   },
   "assassin": {
-    "infecte": "FLINT",
-    "infecte_mort": "FEATHER",
-    "infecte_maire": "FIRE_CHARGE",
-    "role": "DRAGON_BREATH",
-    "maire": "EXPERIENCE_BOTTLE",
-    "maire_mort": "ENDER_EYE",
-    "mort": "EMERALD",
-    "menu": "DIAMOND",
-    "infecte_maire_mort": "FERMENTED_SPIDER_EYE"
+    "infecte": "FIRE_CHARGE",
+    "infecte_mort": "EXPERIENCE_BOTTLE",
+    "infecte_maire": "FERMENTED_SPIDER_EYE",
+    "role": "DIAMOND",
+    "maire": "ENDER_EYE",
+    "maire_mort": "EMERALD",
+    "mort": "DRAGON_BREATH",
+    "menu": "COOKIE",
+    "infecte_maire_mort": "FEATHER"
   },
   "chienloup": {
     "infecte": "STRUCTURE_BLOCK",
@@ -106,7 +106,7 @@
     "maire": "STONE_BUTTON",
     "maire_mort": "STONE_BRICK_STAIRS",
     "mort": "STONE_BRICK_SLAB",
-    "menu": "NETHER_WART",
+    "menu": "MELON",
     "infecte_maire_mort": "STONE_SLAB"
   },
   "loupgarou": {
@@ -117,7 +117,7 @@
     "maire": "LIGHT_BLUE_WOOL",
     "maire_mort": "LIGHT_BLUE_STAINED_GLASS_PANE",
     "mort": "LIGHT_BLUE_STAINED_GLASS",
-    "menu": "MUSHROOM_STEW",
+    "menu": "IRON_HORSE_ARMOR",
     "infecte_maire_mort": "LIME_CARPET"
   },
   "vampire": {
@@ -128,7 +128,7 @@
     "maire": "BROWN_STAINED_GLASS",
     "maire_mort": "BROWN_MUSHROOM_BLOCK",
     "mort": "BROWN_MUSHROOM",
-    "menu": "IRON_SWORD",
+    "menu": "IRON_SHOVEL",
     "infecte_maire_mort": "BROWN_WOOL"
   },
   "enfantsauvagelg": {
@@ -139,7 +139,7 @@
     "maire": "PODZOL",
     "maire_mort": "PISTON",
     "mort": "PINK_WOOL",
-    "menu": "BREWING_STAND",
+    "menu": "BARRIER",
     "infecte_maire_mort": "PRISMARINE"
   },
   "corbeau": {
@@ -150,7 +150,7 @@
     "maire": "SNOW",
     "maire_mort": "SMOOTH_SANDSTONE",
     "mort": "SMOOTH_RED_SANDSTONE",
-    "menu": "HOPPER",
+    "menu": "FLOWER_POT",
     "infecte_maire_mort": "SPONGE"
   },
   "faucheur": {
@@ -161,7 +161,7 @@
     "maire": "OXEYE_DAISY",
     "maire_mort": "ORANGE_WOOL",
     "mort": "ORANGE_TULIP",
-    "menu": "BARRIER",
+    "menu": "SNOWBALL",
     "infecte_maire_mort": "PINK_CARPET"
   },
   "chienlouplg": {
@@ -172,7 +172,7 @@
     "maire": "SPRUCE_PLANKS",
     "maire_mort": "SPRUCE_LOG",
     "mort": "SPRUCE_LEAVES",
-    "menu": "MELON",
+    "menu": "HOPPER",
     "infecte_maire_mort": "SPRUCE_SLAB"
   },
   "loupgaroublanc": {
@@ -183,7 +183,7 @@
     "maire": "JUNGLE_STAIRS",
     "maire_mort": "JUNGLE_SLAB",
     "mort": "JUNGLE_SAPLING",
-    "menu": "IRON_HORSE_ARMOR",
+    "menu": "ENDER_PEARL",
     "infecte_maire_mort": "LAPIS_BLOCK"
   },
   "voyante": {
@@ -194,7 +194,7 @@
     "maire": "BIRCH_DOOR",
     "maire_mort": "BEDROCK",
     "mort": "BEACON",
-    "menu": "IRON_LEGGINGS",
+    "menu": "IRON_HOE",
     "infecte_maire_mort": "BIRCH_FENCE_GATE"
   },
   "voleur": {
@@ -205,7 +205,7 @@
     "maire": "BIRCH_STAIRS",
     "maire_mort": "BIRCH_SLAB",
     "mort": "BIRCH_SAPLING",
-    "menu": "IRON_PICKAXE",
+    "menu": "IRON_LEGGINGS",
     "infecte_maire_mort": "BLACK_STAINED_GLASS"
   },
   "ange": {
@@ -216,7 +216,7 @@
     "maire": "RABBIT",
     "maire_mort": "PUMPKIN_SEEDS",
     "mort": "PUFFERFISH",
-    "menu": "GOLD_INGOT",
+    "menu": "GLOWSTONE_DUST",
     "infecte_maire_mort": "SALMON"
   },
   "dictateur": {
@@ -227,7 +227,7 @@
     "maire": "RAIL",
     "maire_mort": "QUARTZ_STAIRS",
     "mort": "QUARTZ_SLAB",
-    "menu": "CAULDRON",
+    "menu": "CAKE",
     "infecte_maire_mort": "REDSTONE_LAMP"
   },
   "petitefille": {
@@ -238,7 +238,7 @@
     "maire": "GLASS_PANE",
     "maire_mort": "GLASS",
     "mort": "FURNACE",
-    "menu": "BEETROOT_SOUP",
+    "menu": "STONE_SWORD",
     "infecte_maire_mort": "GOLD_BLOCK"
   },
   "chasseur": {
@@ -249,7 +249,7 @@
     "maire": "WHITE_WOOL",
     "maire_mort": "WHITE_TULIP",
     "mort": "WHITE_STAINED_GLASS_PANE",
-    "menu": "WHEAT",
+    "menu": "REPEATER",
     "infecte_maire_mort": "YELLOW_STAINED_GLASS"
   },
   "grandmechantloup": {
@@ -260,7 +260,7 @@
     "maire": "NETHER_BRICK_STAIRS",
     "maire_mort": "NETHER_BRICK_SLAB",
     "mort": "NETHER_BRICK_FENCE",
-    "menu": "SADDLE",
+    "menu": "RABBIT_STEW",
     "infecte_maire_mort": "OAK_FENCE"
   },
   "loupgarounoir": {
@@ -271,7 +271,7 @@
     "maire": "JUNGLE_DOOR",
     "maire_mort": "JUKEBOX",
     "mort": "IRON_TRAPDOOR",
-    "menu": "ENDER_PEARL",
+    "menu": "EGG",
     "infecte_maire_mort": "JUNGLE_FENCE_GATE"
   },
   "montreurdours": {
@@ -282,7 +282,7 @@
     "maire": "GRAY_CARPET",
     "maire_mort": "GRAVEL",
     "mort": "GRASS_PATH",
-    "menu": "DIAMOND_HORSE_ARMOR",
+    "menu": "BEETROOT_SOUP",
     "infecte_maire_mort": "GRAY_WOOL"
   },
   "pretre": {
@@ -293,7 +293,7 @@
     "maire": "DIORITE",
     "maire_mort": "DIAMOND_ORE",
     "mort": "DIAMOND_BLOCK",
-    "menu": "STONE_SHOVEL",
+    "menu": "STONE_PICKAXE",
     "infecte_maire_mort": "DISPENSER"
   },
   "detective": {
@@ -304,7 +304,7 @@
     "maire": "RED_SAND",
     "maire_mort": "RED_MUSHROOM_BLOCK",
     "mort": "RED_MUSHROOM",
-    "menu": "COMPARATOR",
+    "menu": "CAULDRON",
     "infecte_maire_mort": "RED_SANDSTONE_SLAB"
   },
   "cupidon": {
@@ -315,7 +315,7 @@
     "maire": "REPEATING_COMMAND_BLOCK",
     "maire_mort": "RED_WOOL",
     "mort": "RED_TULIP",
-    "menu": "FLOWER_POT",
+    "menu": "COMPARATOR",
     "infecte_maire_mort": "SANDSTONE"
   },
   "chasseurdevampire": {
@@ -326,19 +326,19 @@
     "maire": "TORCH",
     "maire_mort": "TNT",
     "mort": "TALL_GRASS",
-    "menu": "REPEATER",
+    "menu": "NETHER_WART",
     "infecte_maire_mort": "TRIPWIRE_HOOK"
   },
   "bourreau": {
-    "infecte": "COD",
-    "infecte_mort": "CHICKEN",
-    "infecte_maire": "CLAY_BALL",
-    "role": "BREAD",
-    "maire": "CHARCOAL",
-    "maire_mort": "CARROT",
-    "mort": "BRICK",
+    "infecte": "CLAY_BALL",
+    "infecte_mort": "CHARCOAL",
+    "infecte_maire": "CHORUS_FRUIT",
+    "role": "BOOK",
+    "maire": "CARROT",
+    "maire_mort": "BRICK",
+    "mort": "BREAD",
     "menu": "BONE",
-    "infecte_maire_mort": "CHORUS_FRUIT"
+    "infecte_maire_mort": "CHICKEN"
   },
   "loupfeutrer": {
     "infecte": "MYCELIUM",
@@ -348,7 +348,7 @@
     "maire": "MAGENTA_STAINED_GLASS_PANE",
     "maire_mort": "MAGENTA_STAINED_GLASS",
     "mort": "MAGENTA_CARPET",
-    "menu": "RABBIT_STEW",
+    "menu": "MUSHROOM_STEW",
     "infecte_maire_mort": "MOSSY_COBBLESTONE"
   },
   "sorciere": {
@@ -359,7 +359,7 @@
     "maire": "COBBLESTONE_SLAB",
     "maire_mort": "COBBLESTONE",
     "mort": "COARSE_DIRT",
-    "menu": "STONE_AXE",
+    "menu": "SHEARS",
     "infecte_maire_mort": "COMMAND_BLOCK"
   },
   "pyromane": {
@@ -370,7 +370,7 @@
     "maire": "DANDELION",
     "maire_mort": "CYAN_WOOL",
     "mort": "CYAN_STAINED_GLASS_PANE",
-    "menu": "STONE_HOE",
+    "menu": "STONE_AXE",
     "infecte_maire_mort": "DARK_OAK_FENCE"
   },
   "survivant": {
@@ -381,41 +381,42 @@
     "maire": "CHISELED_SANDSTONE",
     "maire_mort": "CHISELED_RED_SANDSTONE",
     "mort": "CHISELED_QUARTZ_BLOCK",
-    "menu": "SHEARS",
+    "menu": "IRON_SWORD",
     "infecte_maire_mort": "CHORUS_PLANT"
   },
   "_specials": {
-    "life_potion": "RABBIT_FOOT",
-    "nodiscord": "QUARTZ",
+    "life_potion": "QUARTZ",
+    "nodiscord": "PUMPKIN_PIE",
     "arrow": "SUGAR",
-    "green_role": "PAINTING",
-    "grey_role_q": "LEAD",
-    "red_role_q": "GOLD_NUGGET",
-    "cross": "STICK",
-    "check": "STRING",
-    "mid_role_q": "IRON_INGOT",
-    "death_potion": "SPIDER_EYE",
-    "heart": "RABBIT_HIDE",
-    "textual": "PAPER",
-    "mid_role": "ITEM_FRAME",
-    "robot": "PRISMARINE_CRYSTALS",
-    "discord": "ROTTEN_FLESH",
-    "red_role": "GUNPOWDER",
-    "server_icon": "POTATO",
-    "green_role_q": "NAME_TAG",
-    "norobot": "PUMPKIN_PIE",
-    "options": "PRISMARINE_SHARD",
-    "grey_role": "MAGMA_CREAM"
+    "green_role": "NAME_TAG",
+    "grey_role_q": "ITEM_FRAME",
+    "red_role_q": "GOLD_INGOT",
+    "cross": "SPIDER_EYE",
+    "check": "STICK",
+    "mid_role_q": "GUNPOWDER",
+    "death_potion": "ROTTEN_FLESH",
+    "heart": "RABBIT_FOOT",
+    "textual": "PAINTING",
+    "mid_role": "IRON_INGOT",
+    "robot": "POTATO",
+    "backarrow": "STRING",
+    "discord": "RABBIT_HIDE",
+    "red_role": "GOLD_NUGGET",
+    "server_icon": "PAPER",
+    "green_role_q": "MAGMA_CREAM",
+    "norobot": "PRISMARINE_SHARD",
+    "options": "PRISMARINE_CRYSTALS",
+    "grey_role": "LEAD"
   },
   "chaperonrouge": {
-    "infecte": "BOOK",
-    "infecte_mort": "BEETROOT_SEEDS",
-    "infecte_maire": "BLAZE_ROD",
-    "role": "ARROW",
-    "maire": "BEETROOT",
-    "maire_mort": "BEEF",
-    "mort": "BAKED_POTATO",
-    "menu": "APPLE",
-    "infecte_maire_mort": "BLAZE_POWDER"
+    "infecte": "BLAZE_ROD",
+    "infecte_mort": "BEETROOT",
+    "infecte_maire": "BLAZE_POWDER",
+    "role": "APPLE",
+    "maire": "BEEF",
+    "maire_mort": "BAKED_POTATO",
+    "mort": "ARROW",
+    "menu": "WHEAT",
+    "infecte_maire_mort": "BEETROOT_SEEDS"
   }
 }
