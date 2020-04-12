@@ -11,6 +11,7 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
@@ -45,7 +46,7 @@ public class AutoRoleMenu {
 	private static final String TITLE = "Sélection des rôles automatique";
 	private @NonNull final LGGame game;
 	private Map<RoleType, Integer> configAuto = new HashMap<RoleType, Integer>();
-	private InvalidCompo invalidCompo = null;
+	private InvalidCompo invalidCompo = InvalidCompo.NEVER_GENERATED;
 	
 	{
 		for(RoleType type : RoleType.values())
@@ -59,31 +60,29 @@ public class AutoRoleMenu {
 		return total;
 	}
 
-	private void generateRandom(LGPlayer lgp) {
-		if(configAuto.get(RoleType.VILLAGER) == 0 && configAuto.get(RoleType.NEUTRAL) == 0) {
-			lgp.sendMessage(PrefixType.PARTIE + "§cImpossible de faire une génération sans villageois ou neutre...");
-			return;
-		}
-		
+	private InvalidCompo generateRandom(LGPlayer lgp) {
 		lgp.sendMessage(PrefixType.PARTIE + "Génération des rôles en cours...");
 		for(Entry<RoleType, Integer> entry : configAuto.entrySet()) {
 			generate(entry.getKey(), entry.getValue());
 		}
 
 		int tried = 0;
-		invalidCompo = null;
 		while((invalidCompo = game.getConfig().verifyRoles()) != null && tried <= 20) {
-			generate(invalidCompo.getRoleType(), configAuto.get(invalidCompo.getRoleType()));
+			if(invalidCompo.getRoleType() != null)
+				generate(invalidCompo.getRoleType(), configAuto.get(invalidCompo.getRoleType()));
 			tried++;
 		}
 		
 		if(tried >= 20 && invalidCompo != null) {
 			lgp.sendMessage(PrefixType.PARTIE + "§6Composition créée invalide...(" + invalidCompo + ")");
 			lgp.sendMessage(PrefixType.PARTIE + "§cImpossible de créer une composition avec ces paramètres !");
-			return;
+			lgp.playAudio(Sound.ENTITY_VILLAGER_NO);
+			return invalidCompo;
 		}
 		
 		lgp.sendMessage(PrefixType.PARTIE + "§a" + total() + " rôles générés aléatoirement");
+		lgp.playAudio(Sound.ENTITY_VILLAGER_YES);
+		return null;
 	}
 	
 	private List<Role> biasedRolesList(RoleType roleType){
@@ -214,10 +213,7 @@ public class AutoRoleMenu {
 							human.sendMessage(PrefixType.PARTIE + "§6Il y aura §e" + (nbRole + modif) + " " + roleType.getBeautifulName());
 							configAuto.put(roleType, modif + nbRole);
 							
-							//Update all opened inventory
-							for(LGPlayer lInGame : game.getInGame())
-								if(lInGame.getPlayer() != null && lInGame.getPlayer().getOpenInventory() != null && lInGame.getPlayer().getOpenInventory().getTitle().equals(TITLE))
-									openMenu(lInGame);
+							reloadMenu();
 						}
 					});
 			
@@ -242,12 +238,22 @@ public class AutoRoleMenu {
 					
 					@Override
 					public void click(HumanEntity human, ItemStack item, ClickType clickType) {
-						human.closeInventory();
-						generateRandom(lgp);
+						if(generateRandom(lgp) == null) {
+							game.getGameMenu().openGameMenu(lgp);
+						} else {
+							reloadMenu();
+						}
 					}
 				});
 		
 		ii.openTo(lgp.getPlayer());
+	}
+	
+	private void reloadMenu() {
+		//Update all opened inventory
+		for(LGPlayer lInGame : game.getInGame())
+			if(lInGame.getPlayer() != null && lInGame.getPlayer().getOpenInventory() != null && lInGame.getPlayer().getOpenInventory().getTitle().equals(TITLE))
+				openMenu(lInGame);
 	}
 	
 }

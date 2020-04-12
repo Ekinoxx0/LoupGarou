@@ -3,6 +3,7 @@ package dev.loupgarou.menu.game;
 import java.util.Arrays;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
@@ -11,6 +12,7 @@ import dev.loupgarou.classes.LGCustomItems;
 import dev.loupgarou.classes.LGCustomItems.SpecialItems;
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
+import dev.loupgarou.roles.RPronostiqueur;
 import dev.loupgarou.roles.RSorciere;
 import dev.loupgarou.roles.RVoyante;
 import dev.loupgarou.roles.utils.FakeRoles;
@@ -66,10 +68,25 @@ public class GameMenu {
 				});
 		
 		ii.registerItem(
+				new ItemBuilder(LGCustomItems.getItemMenu(FakeRoles.getRole(RPronostiqueur.class)))
+				.name("§9§mSauvegarde des configurations")
+				.lore(Arrays.asList("§cIndisponible."))
+				.build(), 
+				5, 2, true, 
+				new InventoryCall() {
+					
+					@Override
+					public void click(HumanEntity human, ItemStack item, ClickType clickType) {
+						lgp.playAudio(Sound.ENTITY_VILLAGER_HURT);
+						lgp.sendMessage("§cIndisponible pour le moment...");
+					}
+				});
+		
+		ii.registerItem(
 				new ItemBuilder(LGCustomItems.getSpecialItem(SpecialItems.OPTIONS))
 				.name("§6Options")
 				.build(), 
-				5, 2, true, 
+				6, 2, true, 
 				new InventoryCall() {
 					
 					@Override

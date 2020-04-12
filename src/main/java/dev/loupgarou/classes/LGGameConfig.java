@@ -145,13 +145,14 @@ public class LGGameConfig {
 	
 	@AllArgsConstructor
 	public enum InvalidCompo {
+		NEVER_GENERATED("Composition automatique non générée", null, null),
 		TOO_FEW_PLAYERS("Trop peu de joueurs", null, null),
 		TOO_MANY_PLAYERS("Trop de joueurs", null, null),
 		//VAMPIRE_LG("Les Vampires et les Loups Garous sont incompatible pour le moment...", RoleType.VAMPIRE, null),
 		NO_GOOD_GUYS("Aucun opposant au méchants", RoleType.VILLAGER, null),
 		NO_BAD_GUYS("Aucun opposant au village", RoleType.LOUP_GAROU, null),
 		NO_VAMPIRE("Aucun vampire pour pour le chasseur", RoleType.VAMPIRE, RVampire.class),
-		NO_ONE_TO_RESPAWN("Trop peu de membre du village à réapparaitre", RoleType.VILLAGER, null),
+		NO_ONE_TO_RESPAWN("Trop peu de membre du village pourront réapparaitre du Prêtre", RoleType.VILLAGER, null),
 		NO_ONE_TO_SPY_GIRL("Pas de Loup Garou face à la Petite Fille", RoleType.VILLAGER, RLoupGarou.class),
 		NO_BODY_FAUCHEUR("Pas de Loup Garou pour le Faucheur", RoleType.VILLAGER, RLoupGarou.class),
 		NO_ONE_TO_SURVIVE_AGAINST("Pas de Loup Garou face au survivant", RoleType.NEUTRAL, RLoupGarou.class),

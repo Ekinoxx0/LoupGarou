@@ -26,6 +26,7 @@ import dev.loupgarou.utils.RandomString;
 import dev.loupgarou.utils.TComponent;
 import dev.loupgarou.utils.TComponent.HEvent;
 import lombok.NonNull;
+import net.dv8tion.jda.api.entities.Member;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import okhttp3.FormBody;
@@ -244,7 +245,19 @@ public class DiscordLinkServer {
 	
 	private void linkUserDiscord(@NonNull LGPlayer lgp, long userId) {
 		if(lgp.getPlayer() == null) return;
-		lgp.sendMessage("§2Lié à Discord avec succès !");
+		
+		MainLg.getInstance().getDiscord().getJda().retrieveUserById(userId)
+			.queue((success) -> {
+				Member member = MainLg.getInstance().getDiscord().getGuild().getMember(success);
+				lgp.sendMessage(PrefixType.DISCORD + "§2Lié à Discord avec succès sur le compte : " + success.getName());
+				if(member == null) {
+					lgp.sendMessage(PrefixType.DISCORD + "§cMais il semblerai que vous ne soyez pas sur notre discord, rejoignez le via §l/discord");
+				}
+			}, (failure) -> {
+				lgp.sendMessage(PrefixType.DISCORD + "§cMembre inconnu... Liaison discord échouée !");
+				lgp.sendMessage(PrefixType.DISCORD + "§6Si vous n'êtes pas sur discord, rejoignez le d'abord via §l/discord");
+			});
+		
 		config.set(lgp.getPlayer().getUniqueId().toString(), userId);
 		try {
 			config.save(file);
