@@ -38,6 +38,11 @@ public class LeaderCmd extends SubCommand {
 			}
 			
 			Player target = Bukkit.getPlayer(args[1]);
+			if (target == cs) {
+				cs.sendMessage(PrefixType.PARTIE + "§cImpossible sur vous même.");
+				return;
+			}
+			
 			if (target == null) {
 				cs.sendMessage(PrefixType.PARTIE + "§cJoueur inconnu !");
 				return;

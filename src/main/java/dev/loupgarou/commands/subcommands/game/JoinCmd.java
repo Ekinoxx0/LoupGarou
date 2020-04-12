@@ -36,8 +36,31 @@ public class JoinCmd extends SubCommand {
 				gameTarget = MainLg.getInstance().findGame(args[1]);
 				
 				if(gameTarget == null) {
-					cs.sendMessage(PrefixType.PARTIE + "§cAucune partie avec ce code");
-					return;
+					if(Bukkit.getPlayer(args[1]) == null) {
+						cs.sendMessage(PrefixType.PARTIE + "§cAucune partie avec ce code");
+						return;
+					}
+					
+					LGPlayer target = LGPlayer.thePlayer(Bukkit.getPlayer(args[1]));
+					if(lgp == target) {
+						cs.sendMessage(PrefixType.PARTIE + "§cImpossible sur vous même.");
+						return;
+					}
+					
+					if(target.getGame() == null) {
+						cs.sendMessage(PrefixType.PARTIE + "§cAucune partie avec ce pseudo");
+						return;
+					}
+					
+					if(target.getGame() != gameTarget) {
+						cs.sendMessage(PrefixType.PARTIE + "§cPartie identifiée différente de la partie choisie... ERREUR#489165551");
+						return;
+					}
+					
+					if(target.getGame().getConfig().isPrivateGame()) {
+						cs.sendMessage(PrefixType.PARTIE + "§cPartie privée ! Demandez plutôt le code privé de la partie et faites /join <code>");
+						return;
+					}
 				}
 
 				cs.sendMessage(PrefixType.PARTIE + "§7Vous rejoignez la partie §l" + args[1].toUpperCase());
