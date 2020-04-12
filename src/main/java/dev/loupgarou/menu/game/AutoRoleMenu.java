@@ -1,4 +1,4 @@
-package dev.loupgarou.menu;
+package dev.loupgarou.menu.game;
 
 import java.util.ArrayList;
 import java.util.Arrays;

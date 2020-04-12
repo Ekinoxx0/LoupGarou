@@ -53,7 +53,7 @@ public class JoinCmd extends SubCommand {
 					}
 					
 					if(target.getGame().getConfig().isPrivateGame()) {
-						cs.sendMessage(PrefixType.PARTIE + "§cPartie privée ! Demandez plutôt le code privé de la partie et faites /join <code>");
+						cs.sendMessage(PrefixType.PARTIE + "§cPartie privée ! Demandez le code privé de la partie et faites /join <code>");
 						return;
 					}
 

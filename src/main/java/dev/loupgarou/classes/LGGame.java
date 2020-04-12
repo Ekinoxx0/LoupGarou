@@ -51,7 +51,7 @@ import dev.loupgarou.events.roles.LGRoleTurnEndEvent;
 import dev.loupgarou.events.vote.LGMayorVoteStartEvent;
 import dev.loupgarou.events.vote.LGPeopleVoteStartEvent;
 import dev.loupgarou.events.vote.LGVoteLeaderChange;
-import dev.loupgarou.menu.GameMenu;
+import dev.loupgarou.menu.game.GameMenu;
 import dev.loupgarou.packetwrapper.WrapperPlayServerChat;
 import dev.loupgarou.packetwrapper.WrapperPlayServerExperience;
 import dev.loupgarou.packetwrapper.WrapperPlayServerSpawnEntityWeather;
@@ -257,6 +257,12 @@ public class LGGame implements Listener{
 		if(lgp.getRole() != null && !lgp.isDead())
 			lgp.getGame().kill(lgp, Reason.DISCONNECTED, true);
 		this.getInGame().remove(lgp);
+		
+		for(LGPlayer all : this.getInGame()) {
+			all.hidePlayer(lgp);
+			lgp.hidePlayer(all);
+			all.updateTab();
+		}
 		
 		if(!isStarted())
 			broadcastMessage(PrefixType.PARTIE + "§7Le joueur §8"+lgp.getName()+"§7 a quitté la partie §9(§8"+inGame.size()+"§7/§8"+config.getMap().getSpawns().size()+"§9)");
