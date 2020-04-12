@@ -91,6 +91,14 @@ public class LGCustomItems {
 		return mappings.get(role.getClass().getSimpleName().substring(1).toLowerCase()).get("menu");
 	}
 	
+	public static Material getItemMenuGrey(@NonNull Role role) {
+		if(!mappings.containsKey(role.getClass().getSimpleName().substring(1).toLowerCase())) {
+			MainLg.debug("No material specified in mappings(" + mappings.size() + ") for : '" + role.getClass().getSimpleName().substring(1).toLowerCase() + "'");
+			return getSpecialItem(SpecialItems.MID_ROLE_Q);
+		}
+		return mappings.get(role.getClass().getSimpleName().substring(1).toLowerCase()).get("menu_grey");
+	}
+	
 	public static Material getItem(@NonNull Role r, @NonNull List<LGCustomItemsConstraints> constraints) {
 		if(constraints.isEmpty())
 			return getItem(r);

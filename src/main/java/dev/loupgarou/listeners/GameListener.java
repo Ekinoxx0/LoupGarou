@@ -43,7 +43,7 @@ public class GameListener implements Listener {
 	@EventHandler
 	public void onCustomItemChange(LGCustomItemChangeEvent e) {
 		if(e.getGame() == null) return;
-		if(e.getGame().getMayor() == e.getPlayer())
+		if(e.getGame().getMayor() == e.getPlayer() && !e.getPlayer().isDead())
 			e.getConstraints().add(LGCustomItemsConstraints.MAYOR);
 		
 		if(e.getPlayer().isDead())

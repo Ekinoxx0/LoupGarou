@@ -36,10 +36,10 @@ public class DisplayRoleMenu {
 					i, true, null);
 			i++;
 		}
-		
 		ii.registerItem(
 				new ItemBuilder(LGCustomItems.getSpecialItem(SpecialItems.CHECK))
 					.name("§a" + MainLg.getInstance().getRoles().size() + " rôles au total")
+					.amount(MainLg.getInstance().getRoles().size())
 					.build(), 
 				ii.getInv().getSize() - 1, true, new InventoryCall() {
 					
