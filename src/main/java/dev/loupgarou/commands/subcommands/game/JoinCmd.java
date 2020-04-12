@@ -52,15 +52,13 @@ public class JoinCmd extends SubCommand {
 						return;
 					}
 					
-					if(target.getGame() != gameTarget) {
-						cs.sendMessage(PrefixType.PARTIE + "§cPartie identifiée différente de la partie choisie... ERREUR#489165551");
-						return;
-					}
-					
 					if(target.getGame().getConfig().isPrivateGame()) {
 						cs.sendMessage(PrefixType.PARTIE + "§cPartie privée ! Demandez plutôt le code privé de la partie et faites /join <code>");
 						return;
 					}
+
+					cs.sendMessage(PrefixType.PARTIE + "§cPartie indisponible... ERREUR#95137551421345");
+					return;
 				}
 
 				cs.sendMessage(PrefixType.PARTIE + "§7Vous rejoignez la partie §l" + args[1].toUpperCase());

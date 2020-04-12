@@ -258,6 +258,9 @@ public class LGGame implements Listener{
 			lgp.getGame().kill(lgp, Reason.DISCONNECTED, true);
 		this.getInGame().remove(lgp);
 		
+		if(!isStarted())
+			broadcastMessage(PrefixType.PARTIE + "§7Le joueur §8"+lgp.getName()+"§7 a quitté la partie §9(§8"+inGame.size()+"§7/§8"+config.getMap().getSpawns().size()+"§9)");
+		
 		VariousUtils.setupLobby(lgp);
 		
 		if(startingTask != null) {

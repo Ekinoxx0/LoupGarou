@@ -52,6 +52,8 @@ public class LeaveCmd extends SubCommand {
 			}
 			
 			gameTarget.leave(LGPlayer.thePlayer(target));
+			target.sendMessage(PrefixType.PARTIE + "§6Quelqu'un vous a forcer a quitter votre partie.");
+			cs.sendMessage(PrefixType.PARTIE + "§2Le joueur a quitté sa partie de force.");
 			return;
 		} else {
 			cs.sendMessage(PrefixType.PARTIE + "§cArgument inconnu...");
