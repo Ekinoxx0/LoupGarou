@@ -45,7 +45,7 @@ public class DisplayRoleMenu {
 					
 					@Override
 					public void click(HumanEntity human, ItemStack item, ClickType clickType) {
-						human.closeInventory();
+						MainMenu.openMenu(lgp);
 					}
 				});
 		

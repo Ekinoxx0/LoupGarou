@@ -375,8 +375,8 @@ public class LGGame implements Listener{
 			final int initalTimeLeft = 5*2;
 			int timeLeft = initalTimeLeft;
 			int actualRole = displayRoles.size();
-			@Override
 			@SuppressWarnings("deprecation")
+			@Override
 			public void run() {
 				if(--timeLeft == 0) {
 					cancel();
@@ -475,29 +475,31 @@ public class LGGame implements Listener{
 		return deads;
 	}
 	
-	private void verifyMayorStillAlive() {
-		if(mayorKilled()) {//mort du maire
-			broadcastMessage("§9Le §5§lCapitaine§9 est mort, il désigne un joueur en remplaçant.");
-			getMayor().sendMessage("§6Choisis un joueur qui deviendra §5§lCapitaine§6 à son tour.");
-			LGGame.this.wait(30, ()->{
+	private boolean verifyMayorStillAlive() {
+		if(!mayorKilled()) return false;
+		
+		broadcastMessage("§9Le §5§lCapitaine§9 est mort, il désigne un joueur en remplaçant.");
+		getMayor().sendMessage("§6Choisis un joueur qui deviendra §5§lCapitaine§6 à son tour.");
+		LGGame.this.wait(30, ()->{
+			mayor.stopChoosing();
+			setMayor(getAlive().get(random.nextInt(getAlive().size())));
+			broadcastMessage("§7§l"+mayor.getName()+"§9 devient le nouveau §5§lCapitaine§9.");
+			nextPreNight();
+		}, (player, secondsLeft)->{
+			return "§e"+mayor.getName()+"§6 choisit qui sera le nouveau §5§lCapitaine§6 (§e"+secondsLeft+" s§6)";
+		});
+		
+		mayor.choose((choosen)->{
+			if(choosen != null) {
 				mayor.stopChoosing();
-				setMayor(getAlive().get(random.nextInt(getAlive().size())));
+				cancelWait();
+				setMayor(choosen);
 				broadcastMessage("§7§l"+mayor.getName()+"§9 devient le nouveau §5§lCapitaine§9.");
 				nextPreNight();
-			}, (player, secondsLeft)->{
-				return "§e"+mayor.getName()+"§6 choisit qui sera le nouveau §5§lCapitaine§6 (§e"+secondsLeft+" s§6)";
-			});
-			mayor.choose((choosen)->{
-				if(choosen != null) {
-					mayor.stopChoosing();
-					cancelWait();
-					setMayor(choosen);
-					broadcastMessage("§7§l"+mayor.getName()+"§9 devient le nouveau §5§lCapitaine§9.");
-					nextPreNight();
-				}
-			}, mayor);
-			return;
-		}
+			}
+		}, mayor);
+		
+		return true;
 	}
 	
 	public void nextPreNight() {
@@ -510,7 +512,8 @@ public class LGGame implements Listener{
 		if(event.isCancelled())
 			return;
 		
-		verifyMayorStillAlive();
+		if(verifyMayorStillAlive())
+			return;
 		
 		new BukkitRunnable() {
 			int timeoutLeft = event.getDuration()*20;
@@ -762,7 +765,7 @@ public class LGGame implements Listener{
 		if(dayStart.isCancelled())
 			return;
 
-		verifyMayorStillAlive();
+		if(verifyMayorStillAlive()) return;
 		
 		new BukkitRunnable() {
 			

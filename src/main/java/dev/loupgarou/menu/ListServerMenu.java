@@ -85,6 +85,19 @@ public class ListServerMenu {
 		}
 		
 		ii.registerItem(
+				new ItemBuilder(LGCustomItems.getSpecialItem(SpecialItems.BACKARROW))
+				.name("§7Retour")
+				.build(), 
+				ii.getInv().getSize() - 1, true, 
+				new InventoryCall() {
+					
+					@Override
+					public void click(HumanEntity human, ItemStack item, ClickType clickType) {
+						MainMenu.openMenu(lgp);
+					}
+				});
+		
+		ii.registerItem(
 				new ItemBuilder(LGCustomItems.getSpecialItem(SpecialItems.GREY_ROLE_Q))
 				.name("§8" + MainLg.getInstance().getGames().size() + " partie")
 				.build(), 

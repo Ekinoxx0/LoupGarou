@@ -29,6 +29,7 @@ import lombok.RequiredArgsConstructor;
 public class LGCustomItems {
 	public static enum SpecialItems {
 		ARROW,
+		BACKARROW,
 		CHECK,
 		CROSS,
 		DEATH_POTION,
