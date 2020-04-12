@@ -34,7 +34,7 @@ public class GameOptionsMenu {
 				.name("§9Rôles cachés : " + (game.getConfig().isHideRole() ? "§aOUI" : "§cNON"))
 				.lore(Arrays.asList("§7La liste des rôles sera cachée. Mais les rôles seront affichés à la mort."))
 				.build(), 
-				3, 3, true, 
+				3, 1, true, 
 				new InventoryCall() {
 					
 					@Override

@@ -45,6 +45,7 @@ public class AutoRoleMenu {
 	private static final String TITLE = "Sélection des rôles automatique";
 	private @NonNull final LGGame game;
 	private Map<RoleType, Integer> configAuto = new HashMap<RoleType, Integer>();
+	private InvalidCompo invalidCompo = null;
 	
 	{
 		for(RoleType type : RoleType.values())
@@ -70,14 +71,14 @@ public class AutoRoleMenu {
 		}
 
 		int tried = 0;
-		InvalidCompo invalid;
-		while((invalid = game.getConfig().verifyRoles()) != null && tried <= 20) {
-			generate(invalid.getRoleType(), configAuto.get(invalid.getRoleType()));
+		invalidCompo = null;
+		while((invalidCompo = game.getConfig().verifyRoles()) != null && tried <= 20) {
+			generate(invalidCompo.getRoleType(), configAuto.get(invalidCompo.getRoleType()));
 			tried++;
 		}
 		
-		if(tried >= 20 && invalid != null) {
-			lgp.sendMessage(PrefixType.PARTIE + "§6Composition créée invalide...(" + invalid + ")");
+		if(tried >= 20 && invalidCompo != null) {
+			lgp.sendMessage(PrefixType.PARTIE + "§6Composition créée invalide...(" + invalidCompo + ")");
 			lgp.sendMessage(PrefixType.PARTIE + "§cImpossible de créer une composition avec ces paramètres !");
 			return;
 		}
@@ -147,7 +148,6 @@ public class AutoRoleMenu {
 	}
 	
 	public void openMenu(LGPlayer lgp) {
-		InvalidCompo invalidCompo = game.getConfig().verifyRoles();
 		InteractInventory ii = new InteractInventory(Bukkit.createInventory(null, 3 * 9, TITLE));
 		
 		int i = 0;
@@ -228,9 +228,9 @@ public class AutoRoleMenu {
 		}
 		
 		ii.registerItem(
-				new ItemBuilder(LGCustomItems.getSpecialItem(SpecialItems.CHECK))
+				new ItemBuilder(LGCustomItems.getSpecialItem(invalidCompo == null ? SpecialItems.CHECK : SpecialItems.CROSS))
 					.name("§aTotal : " + total())
-					.glow(total() > 2)
+					.glow(invalidCompo == null)
 					.lore(Arrays.asList(
 							invalidCompo != null ? "§7" + invalidCompo : "§aComposition valide.",
 							"",

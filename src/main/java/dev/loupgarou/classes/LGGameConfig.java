@@ -64,10 +64,6 @@ public class LGGameConfig {
 	}
 	
 	public InvalidCompo verifyRoles() {
-		if(getTotalConfiguredRoles() < 3)
-			return InvalidCompo.TOO_FEW_PLAYERS;
-		if(getTotalConfiguredRoles() > this.getMap().getSpawns().size())
-			return InvalidCompo.TOO_MANY_PLAYERS;
 		Map<RoleType, Integer> rolesPerType = new HashMap<RoleType, Integer>();
 
 		for(RoleType type : RoleType.values())
@@ -113,6 +109,32 @@ public class LGGameConfig {
 			if (fakeRole instanceof RChasseurDeVampire && rolesPerType.get(RoleType.VAMPIRE) == 0)
 				return InvalidCompo.NO_VAMPIRE;
 		}
+		
+		/* FIXME Verify LG - Vampire
+		 if(rolesPerType.get(RoleType.LOUP_GAROU) > 0 &&
+			rolesPerType.get(RoleType.VAMPIRE) > 0) {
+			return InvalidCompo.VAMPIRE_LG;
+		}*/
+		
+		if(rolesPerType.get(RoleType.VILLAGER) > 0 &&
+			getTotalConfiguredRoles() - rolesPerType.get(RoleType.VILLAGER) == 0) {
+			return InvalidCompo.NO_BAD_GUYS;
+		}
+		
+		if(rolesPerType.get(RoleType.LOUP_GAROU) > 0 &&
+				getTotalConfiguredRoles() - rolesPerType.get(RoleType.LOUP_GAROU) == 0) {
+			return InvalidCompo.NO_GOOD_GUYS;
+		}
+		
+		if(rolesPerType.get(RoleType.VAMPIRE) > 0 &&
+				getTotalConfiguredRoles() - rolesPerType.get(RoleType.VAMPIRE) == 0) {
+			return InvalidCompo.NO_GOOD_GUYS;
+		}
+		
+		if(getTotalConfiguredRoles() < 3)
+			return InvalidCompo.TOO_FEW_PLAYERS;
+		if(getTotalConfiguredRoles() > this.getMap().getSpawns().size())
+			return InvalidCompo.TOO_MANY_PLAYERS;
 
 		return null;
 	}
@@ -125,6 +147,9 @@ public class LGGameConfig {
 	public enum InvalidCompo {
 		TOO_FEW_PLAYERS("Trop peu de joueurs", null, null),
 		TOO_MANY_PLAYERS("Trop de joueurs", null, null),
+		//VAMPIRE_LG("Les Vampires et les Loups Garous sont incompatible pour le moment...", RoleType.VAMPIRE, null),
+		NO_GOOD_GUYS("Aucun opposant au méchants", RoleType.VILLAGER, null),
+		NO_BAD_GUYS("Aucun opposant au village", RoleType.LOUP_GAROU, null),
 		NO_VAMPIRE("Aucun vampire pour pour le chasseur", RoleType.VAMPIRE, RVampire.class),
 		NO_ONE_TO_RESPAWN("Trop peu de membre du village à réapparaitre", RoleType.VILLAGER, null),
 		NO_ONE_TO_SPY_GIRL("Pas de Loup Garou face à la Petite Fille", RoleType.VILLAGER, RLoupGarou.class),

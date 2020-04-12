@@ -187,7 +187,8 @@ public class ItemBuilder {
 			}
 		}else{
 			if(this.meta.hasItemFlag(ItemFlag.HIDE_ENCHANTS)){
-				this.meta.getEnchants().clear();
+				for(Entry<Enchantment, Integer> entry : this.meta.getEnchants().entrySet())
+					this.meta.removeEnchant(entry.getKey());
 			}
 		}
         return this;
