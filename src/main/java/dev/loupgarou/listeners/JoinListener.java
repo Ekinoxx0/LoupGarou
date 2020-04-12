@@ -26,21 +26,15 @@ import com.comphenix.protocol.wrappers.WrappedGameProfile;
 import dev.loupgarou.MainLg;
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
+import dev.loupgarou.commands.subcommands.debug.ResourcePackCmd;
 import dev.loupgarou.packetwrapper.WrapperPlayServerPlayerInfo;
 import dev.loupgarou.packetwrapper.WrapperPlayServerScoreboardTeam;
 import dev.loupgarou.packetwrapper.WrapperPlayServerScoreboardTeam.Mode;
 import dev.loupgarou.utils.CommonText.PrefixType;
 import dev.loupgarou.utils.VariousUtils;
 import fr.xephi.authme.events.LoginEvent;
-import us.myles.ViaVersion.api.Via;
-import us.myles.ViaVersion.api.ViaAPI;
-import us.myles.ViaVersion.api.protocol.ProtocolVersion;
 
 public class JoinListener implements Listener {
-
-	private static final String url = "https://github.com/Ekinoxx0/LoupGarouRessourcePack/raw/";
-	private static final String commitIdLGRessource = "ba5b155083fd5e969a041d835a0a24fa4738dfeb";
-	private final ViaAPI<?> api = Via.getAPI();
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onLogin(PlayerLoginEvent e) {
@@ -52,12 +46,7 @@ public class JoinListener implements Listener {
 	
 	@EventHandler
 	public void onJoin(PlayerJoinEvent e) {
-		ProtocolVersion v = ProtocolVersion.getProtocol(api.getPlayerVersion(e.getPlayer().getUniqueId()));
-		if(v.getId() < ProtocolVersion.v1_13.getId()) {
-			e.getPlayer().setResourcePack(url + commitIdLGRessource + "/generated-pre13.zip", "");
-		} else {
-			e.getPlayer().setResourcePack(url + commitIdLGRessource + "/generated.zip", "");
-		}
+		ResourcePackCmd.load(e.getPlayer());
 		e.setJoinMessage(null);
 	}
 	
