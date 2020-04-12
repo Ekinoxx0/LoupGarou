@@ -95,7 +95,6 @@ public class LGPlayer extends LGPlayerSimple {
 
 	public void showView() {
 		if(getPlayer() == null) return;
-		MainLg.debug("showView(" + getName() + ")");
 		getPlayer().removePotionEffect(PotionEffectType.BLINDNESS);
 		
 		this.updateTab();
@@ -124,7 +123,6 @@ public class LGPlayer extends LGPlayerSimple {
 	public void hideView() {
 		if(getGame() == null) return;
 		if(getPlayer() == null) return;
-		MainLg.debug("hideView(" + getName() + ")");
 		getPlayer().removePotionEffect(PotionEffectType.BLINDNESS);
 		getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 999999, 1, false, false));
 		
@@ -146,8 +144,6 @@ public class LGPlayer extends LGPlayerSimple {
 	
 	public void updateTab() {
 		if(getPlayer() == null) return;
-		MainLg.debug("updateTab(" + getName() + ")");
-		
 		List<PlayerInfoData> infos = new ArrayList<PlayerInfoData>();
 		infos.add(new PlayerInfoData(new WrappedGameProfile(getPlayer().getUniqueId(), getName()), 0, NativeGameMode.ADVENTURE, WrappedChatComponent.fromText(getName())));
 		
@@ -179,7 +175,6 @@ public class LGPlayer extends LGPlayerSimple {
 	}
 	
 	public void updateSkin() {
-		MainLg.debug("updateSkin(" + getName() + ")");
 		for(LGPlayer lgp : LGPlayer.all())
 			if(this.canSeePlayer(lgp)) {
 				lgp.hidePlayer(this);
@@ -189,7 +184,6 @@ public class LGPlayer extends LGPlayerSimple {
 	
 	public void updateOwnSkin() {
 		if(getPlayer() == null) return;
-		MainLg.debug("updateOwnSkin(" + getName() + "/" + getPlayer().getWalkSpeed() + ")");
 		WrapperPlayServerPlayerInfo infos = new WrapperPlayServerPlayerInfo();
 		infos.setAction(PlayerInfoAction.ADD_PLAYER);
 		WrappedGameProfile gameProfile = new WrappedGameProfile(getPlayer().getUniqueId(), getPlayer().getName());
@@ -216,7 +210,6 @@ public class LGPlayer extends LGPlayerSimple {
 					getPlayer().setWalkSpeed(speed);
 			}
 		}.runTaskLater(MainLg.getInstance(), 5);
-		//Et c'est bon, le joueur se voit avec un nouveau skin avec quasiment aucun problème visible à l'écran :D
 	
 	}
 	
