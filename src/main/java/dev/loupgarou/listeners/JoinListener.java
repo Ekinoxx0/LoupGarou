@@ -39,7 +39,7 @@ import us.myles.ViaVersion.api.protocol.ProtocolVersion;
 public class JoinListener implements Listener {
 
 	private static final String url = "https://github.com/Ekinoxx0/LoupGarouRessourcePack/raw/";
-	private static final String commitIdLGRessource = "1a50731c4146067bc2fbc89654dd95b3dbe4164f";
+	private static final String commitIdLGRessource = "87e17c2f0f54e42e957a5f78c360dd646c330695";
 	private final ViaAPI<?> api = Via.getAPI();
 	
 	@EventHandler(priority = EventPriority.HIGHEST)

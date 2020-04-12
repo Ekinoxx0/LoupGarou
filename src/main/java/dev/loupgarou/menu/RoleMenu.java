@@ -51,7 +51,7 @@ public class RoleMenu {
 			int nbRole = game.getConfig().getRoles().get(roleClazz);
 			Role fakeRole = FakeRoles.getRole(roleClazz);
 			ii.registerItem(
-					new ItemBuilder(nbRole > 0 ? LGCustomItems.getItemMenu(fakeRole) : LGCustomItems.getItemMenuGrey(fakeRole))
+					new ItemBuilder(LGCustomItems.getItemMenu(fakeRole))
 						.name(fakeRole.getColor() + fakeRole.getName())
 						.lore(Arrays.asList(
 								"§7" + nbRole,
