@@ -124,6 +124,11 @@ public class RoleMenu {
 					
 					@Override
 					public void click(HumanEntity human, ItemStack item, ClickType clickType) {
+						if(game.getOwner() != lgp) {
+							lgp.sendMessage(PrefixType.PARTIE + "§cVous n'êtes pas le propriétaire de la partie...");
+							return;
+						}
+						
 						for(Entry<Class<? extends Role>, Integer> entry : game.getConfig().getRoles().entrySet())
 							entry.setValue(0);
 						lgp.playAudio(Sound.ENTITY_VILLAGER_YES);

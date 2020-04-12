@@ -1,5 +1,7 @@
 package dev.loupgarou.roles;
 
+import java.util.Random;
+
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.classes.LGPlayer.LGChooseCallback;
@@ -58,6 +60,7 @@ public class RPronostiqueur extends Role{
 		return 15;
 	}
 
+	private final Random random = new Random();
 	@Override
 	protected void onNightTurn(LGPlayer player, Runnable callback) {
 		player.showView();
@@ -66,9 +69,13 @@ public class RPronostiqueur extends Role{
 			@Override
 			public void callback(LGPlayer choosen) {
 				if(choosen != null && choosen != player) {
-					String gentilMechant = choosen.getRoleWinType() == RoleWinType.VILLAGE || choosen.getRoleWinType() == RoleWinType.NONE ? "§a§lgentil" : "§c§lméchant";
+					RoleWinType winType = choosen.getRoleWinType();
+					if(random.nextBoolean())
+						winType = RoleWinType.values()[random.nextInt(RoleWinType.values().length)];
+					
+					String gentilMechant = winType == RoleWinType.VILLAGE || winType == RoleWinType.NONE ? "§a§lgentil" : "§c§lméchant";
 					player.sendActionBarMessage("§e§l"+choosen.getName()+"§6 est "+gentilMechant);
-					player.sendMessage("§6Votre instinct vous dit que §7§l"+choosen.getName()+"§6 est "+gentilMechant+"§6.");
+					player.sendMessage("§6Votre instinct vous dit que §7§l"+choosen.getName()+"§6 est "+gentilMechant+"§6 à " + (40+random.nextInt(30)) + "%");
 					player.stopChoosing();
 					player.hideView();
 					callback.run();

@@ -26,7 +26,6 @@ import dev.loupgarou.utils.RandomString;
 import dev.loupgarou.utils.TComponent;
 import dev.loupgarou.utils.TComponent.HEvent;
 import lombok.NonNull;
-import net.dv8tion.jda.api.entities.Member;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import okhttp3.FormBody;
@@ -119,7 +118,7 @@ public class DiscordLinkServer {
 				case "/discord":
 					if(arguments.containsKey("code") && arguments.containsKey("state")) {
 						link(arguments.get("code"), arguments.get("state"));
-						sendText(out, "Fermez la page.");
+						sendText(out, "<center style=\"right: 50%;bottom: 50%;transform: translate(50%,50%);position: absolute;font-family: monospace;font-size: 100;font-weight: bold;\">Vous pouvez fermer la page.</center>");
 					} else {
 						throw new IllegalStateException("Doesn't contains code or state : " + new Gson().toJson(arguments));
 					}
@@ -166,7 +165,7 @@ public class DiscordLinkServer {
 
 		private void sendText(PrintStream out, String text) {
 			out.println("HTTP/1.0 200 OK");
-			out.println("Content-Type:application/json");
+			out.println("content-type:text/html;");
 			out.println("");
 			out.println(text);
 			out.println("");
@@ -248,11 +247,14 @@ public class DiscordLinkServer {
 		
 		MainLg.getInstance().getDiscord().getJda().retrieveUserById(userId)
 			.queue((success) -> {
-				Member member = MainLg.getInstance().getDiscord().getGuild().getMember(success);
-				lgp.sendMessage(PrefixType.DISCORD + "§2Lié à Discord avec succès sur le compte : " + success.getName());
-				if(member == null) {
-					lgp.sendMessage(PrefixType.DISCORD + "§cMais il semblerai que vous ne soyez pas sur notre discord, rejoignez le via §l/discord");
-				}
+				lgp.sendMessage(PrefixType.DISCORD + "§2Lié à Discord avec succès sur le compte Discord : " + success.getAsMention());
+				success.openPrivateChannel().queue((pm) -> {
+					pm.sendMessage("Vous êtes maintenant lié au compte Minecraft : " + lgp.getName()).queue();
+				}, (failure) -> {});
+				MainLg.getInstance().getDiscord().getGuild().retrieveMember(success).queue((member) -> {
+				}, (failure) -> {
+					lgp.sendMessage(PrefixType.DISCORD + "§cVous n'êtes pas sur notre Discord ! Rejoignez le via §l/discord");
+				});
 			}, (failure) -> {
 				lgp.sendMessage(PrefixType.DISCORD + "§cMembre inconnu... Liaison discord échouée !");
 				lgp.sendMessage(PrefixType.DISCORD + "§6Si vous n'êtes pas sur discord, rejoignez le d'abord via §l/discord");

@@ -5,5 +5,6 @@ public enum RoleWinType {
 	VILLAGE,
 	LOUP_GAROU,
 	VAMPIRE,
+	
 	NONE;
 }

@@ -181,7 +181,7 @@ public class LGPlayer extends LGPlayerSimple {
 	public void updateSkin() {
 		MainLg.debug("updateSkin(" + getName() + ")");
 		for(LGPlayer lgp : LGPlayer.all())
-			if(lgp.canSeePlayer(lgp)) {
+			if(this.canSeePlayer(lgp)) {
 				lgp.hidePlayer(this);
 				lgp.showPlayer(this);
 			}
@@ -223,7 +223,7 @@ public class LGPlayer extends LGPlayerSimple {
 	public boolean canSelectDead;
 	public LGPlayer getPlayerOnCursor(List<LGPlayer> list) {
 		Location pointedLoc = getPlayer().getLocation();
-		if(pointedLoc.getPitch() > 80 || pointedLoc.getPitch() < -60)
+		if(pointedLoc.getPitch() > 68 || pointedLoc.getPitch() < -60)
 			if(blacklistedChoice.contains(this))
 				return null;
 			else

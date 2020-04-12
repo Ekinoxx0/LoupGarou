@@ -484,7 +484,7 @@ public class LGGame implements Listener{
 		return deads;
 	}
 	
-	private boolean verifyMayorStillAlive() {
+	private boolean verifyMayorStillAlive(Runnable run) {
 		if(!mayorKilled()) return false;
 		
 		broadcastMessage("§9Le §5§lCapitaine§9 est mort, il désigne un joueur en remplaçant.");
@@ -493,7 +493,7 @@ public class LGGame implements Listener{
 			mayor.stopChoosing();
 			setMayor(getAlive().get(random.nextInt(getAlive().size())));
 			broadcastMessage("§7§l"+mayor.getName()+"§9 devient le nouveau §5§lCapitaine§9.");
-			nextPreNight();
+			run.run();
 		}, (player, secondsLeft)->{
 			return "§e"+mayor.getName()+"§6 choisit qui sera le nouveau §5§lCapitaine§6 (§e"+secondsLeft+" s§6)";
 		});
@@ -504,7 +504,7 @@ public class LGGame implements Listener{
 				cancelWait();
 				setMayor(choosen);
 				broadcastMessage("§7§l"+mayor.getName()+"§9 devient le nouveau §5§lCapitaine§9.");
-				nextPreNight();
+				run.run();
 			}
 		}, mayor);
 		
@@ -521,7 +521,7 @@ public class LGGame implements Listener{
 		if(event.isCancelled())
 			return;
 		
-		if(verifyMayorStillAlive())
+		if(verifyMayorStillAlive(this::nextPreNight))
 			return;
 		
 		new BukkitRunnable() {
@@ -774,7 +774,7 @@ public class LGGame implements Listener{
 		if(dayStart.isCancelled())
 			return;
 
-		if(verifyMayorStillAlive()) return;
+		if(verifyMayorStillAlive(this::peopleVote)) return;
 		
 		new BukkitRunnable() {
 			

@@ -24,6 +24,7 @@ import dev.loupgarou.utils.CommonText.PrefixType;
 import lombok.Getter;
 import lombok.NonNull;
 import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Invite;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.VoiceChannel;
@@ -128,21 +129,24 @@ public class DiscordChannelHandler implements Listener {
 			return;
 		}
 		
-		final Member member = m;
-		try {
-			discord.getGuild().moveVoiceMember(member, voice).queue(
-					(success) -> {
-						lgp.sendMessage(PrefixType.DISCORD + "§9Vous avez été déplacé sur discord...");
-						if(member.getVoiceState().isGuildMuted())
-							member.mute(false).queue();
-					},
-					(failure) -> {
-						lgp.sendMessage("§cEchec pour vous déplacer sur discord !");
-					});
-		} catch(IllegalStateException ex) {
+		GuildVoiceState voiceState = m.getVoiceState();
+		if(!voiceState.inVoiceChannel()) {
 			lgp.sendMessage(PrefixType.DISCORD + "§cVous n'êtes pas connecté sur discord...");
+			return;
 		}
-	
+		
+		if(voiceState.getChannel() == voice)
+			return;
+			
+		discord.getGuild().moveVoiceMember(m, voice).queue(
+			(success) -> {
+				lgp.sendMessage(PrefixType.DISCORD + "§9Vous avez été déplacé sur discord...");
+				if(m.getVoiceState().isGuildMuted())
+					m.mute(false).queue();
+			},
+			(failure) -> {
+				lgp.sendMessage("§cEchec pour vous déplacer sur discord !");
+			});
 	}
 	
 	public void refresh(LGPlayer lgp) {
@@ -197,6 +201,14 @@ public class DiscordChannelHandler implements Listener {
 			try {
 				if(m.getVoiceState().isGuildMuted())
 					m.mute(false).queue();
+				
+				GuildVoiceState voiceState = m.getVoiceState();
+				if(!voiceState.inVoiceChannel())
+					continue;
+				
+				if(voiceState.getChannel() == voice)
+					continue;
+				
 				discord.getGuild().moveVoiceMember(m, discord.getEndGame()).queue();
 			} catch(Exception ex) {}
 		}
@@ -206,7 +218,7 @@ public class DiscordChannelHandler implements Listener {
 			public void run() {
 				currentVoice.delete().queue();
 			}
-		}.runTaskLaterAsynchronously(MainLg.getInstance(), 20);
+		}.runTaskLaterAsynchronously(MainLg.getInstance(), 20 * 10);
 		
 		if(game != null)
 			game.broadcastMessage(PrefixType.DISCORD + "§6Destruction de la liaison Discord...");
