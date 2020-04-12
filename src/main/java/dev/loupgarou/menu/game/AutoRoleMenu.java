@@ -147,6 +147,7 @@ public class AutoRoleMenu {
 	}
 	
 	public void openMenu(LGPlayer lgp) {
+		InvalidCompo invalidCompo = game.getConfig().verifyRoles();
 		InteractInventory ii = new InteractInventory(Bukkit.createInventory(null, 3 * 9, TITLE));
 		
 		int i = 0;
@@ -166,13 +167,14 @@ public class AutoRoleMenu {
 						.lore(Arrays.asList(
 									"",
 									"§7" + nbRole + " joueur" + (nbRole > 1 ? "s" : ""),
-									"§oClique gauche pour en ajouter, droit pour en retirer",
+									"§8§oClique gauche pour en ajouter, droit pour en retirer",
 									"",
 									"§9§lRôles :",
 									roles
 									
 								))
 						.amount(nbRole > 1 ? nbRole : 1)
+						.glow(invalidCompo != null && invalidCompo.getRoleType() != null && invalidCompo.getRoleType() == roleType)
 						.build(), 
 					2 + i, 1, true, new InventoryCall() {
 						
@@ -228,7 +230,9 @@ public class AutoRoleMenu {
 		ii.registerItem(
 				new ItemBuilder(LGCustomItems.getSpecialItem(SpecialItems.CHECK))
 					.name("§aTotal : " + total())
+					.glow(total() > 2)
 					.lore(Arrays.asList(
+							invalidCompo != null ? "§7" + invalidCompo : "§aComposition valide.",
 							"",
 							"§9§oCliquez pour générer la composition..."
 							))

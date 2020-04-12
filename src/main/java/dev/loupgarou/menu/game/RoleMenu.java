@@ -43,6 +43,8 @@ public class RoleMenu {
 	}
 	
 	private void openRealMenu(LGPlayer lgp) {
+		InvalidCompo invalidCompo = game.getConfig().verifyRoles();
+		
 		InteractInventory ii = new InteractInventory(Bukkit.createInventory(null, 5 * 9, TITLE));
 		
 		int i = 0;
@@ -61,6 +63,7 @@ public class RoleMenu {
 								"§7§oClique gauche pour en ajouter, droit pour en retirer"
 								))
 						.amount(nbRole > 1 ? nbRole : 1)
+						.glow(invalidCompo != null && (invalidCompo.getRole() == fakeRole.getClass() || (invalidCompo.getRole() == null && invalidCompo.getRoleType() == fakeRole.getType())))
 						.build(), 
 					i, true, new InventoryCall() {
 						
@@ -132,9 +135,11 @@ public class RoleMenu {
 				});
 		
 		ii.registerItem(
-				new ItemBuilder(LGCustomItems.getSpecialItem(SpecialItems.CHECK))
+				new ItemBuilder(LGCustomItems.getSpecialItem(invalidCompo == null ? SpecialItems.CHECK : SpecialItems.CROSS))
 					.name("§aTotal : " + total)
+					.lore(Arrays.asList("", invalidCompo != null ? "§7" + invalidCompo : "§aComposition valide."))
 					.amount(total > 1 ? total : 1)
+					.glow(invalidCompo == null)
 					.build(), 
 				ii.getInv().getSize() - 1, true, new InventoryCall() {
 					
@@ -142,9 +147,8 @@ public class RoleMenu {
 					public void click(HumanEntity human, ItemStack item, ClickType clickType) {
 						human.closeInventory();
 						
-						InvalidCompo invalid;
-						if((invalid = game.getConfig().verifyRoles()) != null) {
-							lgp.sendMessage(PrefixType.PARTIE + "§cComposition des rôles impossible... " + invalid);
+						if(invalidCompo != null) {
+							lgp.sendMessage(PrefixType.PARTIE + "§cComposition des rôles impossible... " + invalidCompo);
 							lgp.playAudio(Sound.ENTITY_VILLAGER_NO);
 							return;
 						}

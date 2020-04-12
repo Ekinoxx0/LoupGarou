@@ -20,6 +20,7 @@ import dev.loupgarou.roles.RLoupGarouNoir;
 import dev.loupgarou.roles.RPetiteFille;
 import dev.loupgarou.roles.RPretre;
 import dev.loupgarou.roles.RSurvivant;
+import dev.loupgarou.roles.RVampire;
 import dev.loupgarou.roles.utils.FakeRoles;
 import dev.loupgarou.roles.utils.Role;
 import dev.loupgarou.roles.utils.RoleType;
@@ -122,18 +123,19 @@ public class LGGameConfig {
 	
 	@AllArgsConstructor
 	public enum InvalidCompo {
-		TOO_FEW_PLAYERS("Trop peu de joueurs", null),
-		TOO_MANY_PLAYERS("Trop de joueurs", null),
-		NO_VAMPIRE("Aucun vampire pour pour le chasseur", RoleType.VAMPIRE),
-		NO_ONE_TO_RESPAWN("Trop peu de membre du village à réapparaitre", RoleType.VILLAGER),
-		NO_ONE_TO_SPY_GIRL("Pas de Loup Garou face à la Petite Fille", RoleType.VILLAGER),
-		NO_BODY_FAUCHEUR("Pas de Loup Garou pour le Faucheur", RoleType.VILLAGER),
-		NO_ONE_TO_SURVIVE_AGAINST("Pas de Loup Garou face au survivant", RoleType.NEUTRAL),
-		NO_LP_OTHER_LP("Pas de Loup Garou normal", RoleType.LOUP_GAROU),
-		NO_CHASSEUR_TO_BE_PROTECTED("Pas de Chasseur pour aider le Chaperon Rouge", RoleType.VILLAGER);
+		TOO_FEW_PLAYERS("Trop peu de joueurs", null, null),
+		TOO_MANY_PLAYERS("Trop de joueurs", null, null),
+		NO_VAMPIRE("Aucun vampire pour pour le chasseur", RoleType.VAMPIRE, RVampire.class),
+		NO_ONE_TO_RESPAWN("Trop peu de membre du village à réapparaitre", RoleType.VILLAGER, null),
+		NO_ONE_TO_SPY_GIRL("Pas de Loup Garou face à la Petite Fille", RoleType.VILLAGER, RLoupGarou.class),
+		NO_BODY_FAUCHEUR("Pas de Loup Garou pour le Faucheur", RoleType.VILLAGER, RLoupGarou.class),
+		NO_ONE_TO_SURVIVE_AGAINST("Pas de Loup Garou face au survivant", RoleType.NEUTRAL, RLoupGarou.class),
+		NO_LP_OTHER_LP("Pas de Loup Garou normal", RoleType.LOUP_GAROU, RLoupGarou.class),
+		NO_CHASSEUR_TO_BE_PROTECTED("Pas de Chasseur pour aider le Chaperon Rouge", RoleType.VILLAGER, RChasseur.class);
 		
 		@NonNull private String msg;
 		@Getter private RoleType roleType;
+		@Getter private Class<? extends Role> role;
 		@Override
 		public String toString() {
 			return msg;

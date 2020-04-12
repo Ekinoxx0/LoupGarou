@@ -26,7 +26,7 @@ public class RoleCmd extends SubCommand {
 			return;
 		}
 		
-		lgp.getGame().getPartieMenu().openRoleMenu(lgp);
+		lgp.getGame().getGameMenu().openRoleMenu(lgp);
 	}
 	
 	@Override

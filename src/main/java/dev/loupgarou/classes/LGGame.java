@@ -87,7 +87,7 @@ public class LGGame implements Listener{
 	@Getter private final LGGameConfig config;
 	@Getter private final DiscordChannelHandler discord;
 	@Getter @Setter @NonNull private LGPlayer owner;
-	@Getter private final GameMenu partieMenu = new GameMenu(this);
+	@Getter private final GameMenu gameMenu = new GameMenu(this);
 	
 	@Getter private boolean started;
 	@Getter private int night = 0;
@@ -285,7 +285,7 @@ public class LGGame implements Listener{
 	
 	public void updateStart() {
 		if(isStarted()) return;
-		if(this.partieMenu.hasConfiguredAuto() && this.config.getTotalConfiguredRoles() == 0) {
+		if(this.gameMenu.hasConfiguredAuto() && this.config.getTotalConfiguredRoles() == 0) {
 			broadcastMessage(PrefixType.PARTIE + "§cVous avez configurez le système des rôles automatiques sans cliquer sur le bouton générer.");
 			return;
 		}

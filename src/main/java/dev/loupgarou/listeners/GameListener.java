@@ -36,7 +36,7 @@ public class GameListener implements Listener {
 		if(e.getItem().equals(VariousUtils.getLOBBY_ITEM())) {
 			MainMenu.openMenu(LGPlayer.thePlayer(e.getPlayer()));
 		} else if(e.getItem().equals(LGGame.getWAITING_ITEM())) {
-			LGPlayer.thePlayer(e.getPlayer()).getGame().getPartieMenu().openPartieMenu(LGPlayer.thePlayer(e.getPlayer()));
+			LGPlayer.thePlayer(e.getPlayer()).getGame().getGameMenu().openGameMenu(LGPlayer.thePlayer(e.getPlayer()));
 		}
 	}
 	
