@@ -8,9 +8,11 @@ import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
+import dev.loupgarou.MainLg;
 import dev.loupgarou.classes.LGCustomItems;
 import dev.loupgarou.classes.LGCustomItems.SpecialItems;
 import dev.loupgarou.classes.LGGame;
+import dev.loupgarou.classes.LGGameConfig.CommunicationType;
 import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.roles.RPronostiqueur;
 import dev.loupgarou.roles.RSorciere;
@@ -95,11 +97,31 @@ public class GameMenu {
 					}
 				});
 		
+		String discordLink = "";
+		if(this.game.getConfig().getCom() == CommunicationType.DISCORD && this.game.getDiscord().getVoice().getMembers().size() > 0) {
+			discordLink += "\n§9Salon Discord : " + this.game.getDiscord().getVoice().getMembers().size() + "/" + this.game.getInGame().size();
+			
+			String notLinked = "\nNon lié à discord :";
+			boolean hasAny = false;
+			
+			for(LGPlayer allLgp : this.game.getInGame()) {
+				boolean m = MainLg.getInstance().getDiscord().isRecognized(lgp);
+				
+				if(!m) {
+					hasAny = true;
+					notLinked += "§7 - " + allLgp.getName() + "\n";
+				}
+			}
+			
+			if(hasAny)
+				discordLink += notLinked;
+		}
+		
 		ii.registerItem(
 				new ItemBuilder(LGCustomItems.getSpecialItem(game.getConfig().verifyRoles() == null ? SpecialItems.CHECK : SpecialItems.CROSS))
 				.name("§2Démarrer la partie")
 				.glow(true)
-				.lore(Arrays.asList("", "§7§oCliquez pour lancer la partie"))
+				.lore(Arrays.asList(discordLink, "§7§oCliquez pour lancer la partie"))
 				.build(), 
 				ii.getInv().getSize() - 1, true, 
 				new InventoryCall() {

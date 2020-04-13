@@ -123,7 +123,7 @@ public class DiscordChannelHandler implements Listener {
 	public void move(LGPlayer lgp) {
 		MainLg.debug(this.game.getKey(), "Discord.move(" + lgp.getName() + ")");
 		
-		if(!this.discord.isLinked(lgp)) {
+		if(!this.discord.isRecognized(lgp)) {
 			lgp.sendMessage(PrefixType.DISCORD + "§cVous n'êtes pas lié à discord !");
 			return;
 		}
@@ -131,13 +131,13 @@ public class DiscordChannelHandler implements Listener {
 		Member m = this.discord.get(lgp);
 		
 		if(m == null) {
-			lgp.sendMessage(PrefixType.DISCORD + "§cVous n'êtes pas connecté à discord.");
+			lgp.sendMessage(PrefixType.DISCORD + "§cVous n'êtes pas connecté à un salon discord.");
 			return;
 		}
 		
 		GuildVoiceState voiceState = m.getVoiceState();
 		if(!voiceState.inVoiceChannel()) {
-			lgp.sendMessage(PrefixType.DISCORD + "§cVous n'êtes pas connecté sur discord...");
+			lgp.sendMessage(PrefixType.DISCORD + "§cVous n'êtes pas connecté à un salon discord...");
 			return;
 		}
 		

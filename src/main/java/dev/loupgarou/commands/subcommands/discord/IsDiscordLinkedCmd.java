@@ -31,7 +31,7 @@ public class IsDiscordLinkedCmd extends SubCommand {
 				return;
 			}
 			
-			cs.sendMessage(PrefixType.DISCORD + "§9Reconnu : " + (MainLg.getInstance().getDiscord().isLinked(LGPlayer.thePlayer(target))));
+			cs.sendMessage(PrefixType.DISCORD + "§9Reconnu : " + (MainLg.getInstance().getDiscord().isRecognized(LGPlayer.thePlayer(target))));
 			cs.sendMessage(PrefixType.DISCORD + "§9Liaison : " + (MainLg.getInstance().getDiscord().getLinkServer().isLinked(LGPlayer.thePlayer(target))));
 			cs.sendMessage(PrefixType.DISCORD + "§9get() : " + (MainLg.getInstance().getDiscord().get(LGPlayer.thePlayer(target)) != null));
 			return;

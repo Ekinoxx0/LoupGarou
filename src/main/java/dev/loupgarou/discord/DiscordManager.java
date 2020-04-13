@@ -203,7 +203,7 @@ public class DiscordManager extends ListenerAdapter {
 		return null;
 	}
 	
-	public boolean isLinked(@NonNull LGPlayer lgp) {
+	public boolean isRecognized(@NonNull LGPlayer lgp) {
 		if(this.jda == null) return false;
 		if(this.voices == null) return false;
 		if(this.linkServer.isLinked(lgp))
