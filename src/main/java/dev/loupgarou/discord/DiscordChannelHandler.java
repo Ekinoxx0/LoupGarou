@@ -122,10 +122,16 @@ public class DiscordChannelHandler implements Listener {
 	
 	public void move(LGPlayer lgp) {
 		MainLg.debug(this.game.getKey(), "Discord.move(" + lgp.getName() + ")");
+		
+		if(!this.discord.isLinked(lgp)) {
+			lgp.sendMessage(PrefixType.DISCORD + "§cVous n'êtes pas lié à discord !");
+			return;
+		}
+		
 		Member m = this.discord.get(lgp);
 		
 		if(m == null) {
-			lgp.sendMessage(PrefixType.DISCORD + "§cVous n'êtes pas lié à discord !");
+			lgp.sendMessage(PrefixType.DISCORD + "§cVous n'êtes pas connecté à discord.");
 			return;
 		}
 		

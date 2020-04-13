@@ -16,7 +16,7 @@ public class MaintenanceCmd extends SubCommand {
 
 	@Override
 	public void execute(CommandSender cs, String label, String[] args) {
-		MainLg.getInstance().setMaintenanceMode(MainLg.getInstance().isMaintenanceMode());
+		MainLg.getInstance().setMaintenanceMode(!MainLg.getInstance().isMaintenanceMode());
 		cs.sendMessage("Maintenance: " + MainLg.getInstance().isMaintenanceMode());
 	}
 	

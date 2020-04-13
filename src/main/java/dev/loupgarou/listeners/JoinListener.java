@@ -97,7 +97,7 @@ public class JoinListener implements Listener {
 			}
 		}
 		
-		if(MainLg.getInstance().getDiscord().getLinkServer().getLinked(lgp) < 0)
+		if(!MainLg.getInstance().getDiscord().getLinkServer().isLinked(lgp))
 			MainLg.getInstance().getDiscord().getLinkServer().generateLink(lgp);
 	}
 	@EventHandler

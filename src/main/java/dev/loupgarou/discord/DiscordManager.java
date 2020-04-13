@@ -203,6 +203,21 @@ public class DiscordManager extends ListenerAdapter {
 		return null;
 	}
 	
+	public boolean isLinked(@NonNull LGPlayer lgp) {
+		if(this.jda == null) return false;
+		if(this.voices == null) return false;
+		if(this.linkServer.isLinked(lgp))
+			return true;
+		
+		if(get(lgp.getName()) != null)
+			return true;
+		
+		if(lgp.getPlayer() != null && get(lgp.getPlayer().getName()) != null)
+			return true;
+		
+		return false;
+	}
+	
 	public Member get(@NonNull LGPlayer lgp) {
 		if(this.jda == null) return null;
 		if(this.voices == null) return null;
@@ -215,7 +230,7 @@ public class DiscordManager extends ListenerAdapter {
 		if(m == null)
 			m = get(lgp.getName());
 		
-		if(m == null && lgp.getPlayer() == null)
+		if(m == null && lgp.getPlayer() != null)
 			m = get(lgp.getPlayer().getName());
 		
 		return m;

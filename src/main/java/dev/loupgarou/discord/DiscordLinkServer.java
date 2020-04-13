@@ -25,6 +25,7 @@ import dev.loupgarou.utils.CommonText.PrefixType;
 import dev.loupgarou.utils.RandomString;
 import dev.loupgarou.utils.TComponent;
 import dev.loupgarou.utils.TComponent.HEvent;
+import lombok.Getter;
 import lombok.NonNull;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -41,7 +42,7 @@ public class DiscordLinkServer {
 
 	private final ServerSocket server;
 	private boolean enabled;
-	private FileConfiguration config;
+	private @Getter FileConfiguration config;
 
 	public DiscordLinkServer() throws IOException, BindException {
 		this.enabled = true;
@@ -180,9 +181,8 @@ public class DiscordLinkServer {
 		links.put(hash, lgp);
 		String link = "https://discordapp.com/api/oauth2/authorize?response_type=code&state=" + hash + "&client_id=" + + DiscordManager.CLIENT_ID + "&redirect_uri=http%3A%2F%2Fwondalia.com%3A25564%2Fdiscord&scope=identify%20guilds";
 		
-		if(this.getLinked(lgp) > 0) {
+		if(this.isLinked(lgp))
 			lgp.sendMessage(PrefixType.DISCORD + "§cVous êtes déjà lié ! Utilisez ce lien seulement si vous changez de compte.");
-		}
 		
 		lgp.sendMessage(new TComponent(PrefixType.DISCORD + "§9"), 
 				new TComponent("§aCliquez §lICI§a pour lier votre compte")
@@ -266,6 +266,10 @@ public class DiscordLinkServer {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public boolean isLinked(@NonNull LGPlayer lgp) {
+		return this.getLinked(lgp) > 0;
 	}
 	
 	public long getLinked(@NonNull LGPlayer lgp) {

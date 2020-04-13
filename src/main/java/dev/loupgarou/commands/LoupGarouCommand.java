@@ -17,6 +17,7 @@ import dev.loupgarou.commands.subcommands.config.HideVoteCmd;
 import dev.loupgarou.commands.subcommands.config.HideVoteExtraCmd;
 import dev.loupgarou.commands.subcommands.config.RoleCmd;
 import dev.loupgarou.commands.subcommands.debug.DebugCmd;
+import dev.loupgarou.commands.subcommands.debug.DebugDiscordLinkCmd;
 import dev.loupgarou.commands.subcommands.debug.DebugRPCmd;
 import dev.loupgarou.commands.subcommands.debug.DisableResourcePackCmd;
 import dev.loupgarou.commands.subcommands.debug.MaintenanceCmd;
@@ -28,6 +29,7 @@ import dev.loupgarou.commands.subcommands.debug.ResourcePackCmd;
 import dev.loupgarou.commands.subcommands.discord.DiscordCmd;
 import dev.loupgarou.commands.subcommands.discord.DiscordLinkCmd;
 import dev.loupgarou.commands.subcommands.discord.DiscordMoveCmd;
+import dev.loupgarou.commands.subcommands.discord.IsDiscordLinkedCmd;
 import dev.loupgarou.commands.subcommands.game.BanCmd;
 import dev.loupgarou.commands.subcommands.game.EndCmd;
 import dev.loupgarou.commands.subcommands.game.InviteCmd;
@@ -69,6 +71,7 @@ public class LoupGarouCommand implements CommandExecutor, TabExecutor {
 		this.subs.add(new MaintenanceCmd(this));
 		this.subs.add(new DebugCmd(this));
 		this.subs.add(new DebugRPCmd(this));
+		this.subs.add(new DebugDiscordLinkCmd(this));
 		this.subs.add(new NextDayCmd(this));
 		this.subs.add(new NextNightCmd(this));
 		this.subs.add(new QuickCmd(this));
@@ -85,6 +88,7 @@ public class LoupGarouCommand implements CommandExecutor, TabExecutor {
 
 		this.subs.add(new DiscordCmd(this));
 		this.subs.add(new DiscordLinkCmd(this));
+		this.subs.add(new IsDiscordLinkedCmd(this));
 		this.subs.add(new DiscordMoveCmd(this));
 		this.subs.add(new MainMenuCmd(this));
 
