@@ -3,7 +3,6 @@ package dev.loupgarou.roles;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 
-import dev.loupgarou.MainLg;
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.classes.LGPlayer.LGChooseCallback;
@@ -103,7 +102,6 @@ public class RAssassin extends Role{
 		if(e.getPreviousRole() == null) return;
 		//TODO Assassin protected from others ?
 			
-		MainLg.debug(getGame().getKey(), "(Assassin-LGRoleTurnEndEvent)" + e.getPreviousRole().getName());
 		if(e.getPreviousRole() instanceof RLoupGarou) {
 			for(LGPlayer lgp : getGame().getAlive())
 				if(lgp.getCache().getBoolean(CacheType.ASSASSIN_PROTECTED)) {

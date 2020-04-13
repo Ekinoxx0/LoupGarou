@@ -14,16 +14,13 @@ import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
 import lombok.Getter;
 import lombok.NonNull;
-import lombok.Setter;
 
 public abstract class Role implements Listener{
-	@Getter @Setter private int waitedPlayers;
 	@Getter private List<LGPlayer> players = new ArrayList<LGPlayer>();
 	@Getter private final LGGame game;
 	
 	public Role(@NonNull LGGame game) {
 		this.game = game;
-		this.waitedPlayers = this.game.getConfig().getRoles().get(getClass());//TODO Is that really neccessary ?
 		Bukkit.getPluginManager().registerEvents(this, MainLg.getInstance());
 	}
 	
@@ -97,8 +94,9 @@ public abstract class Role implements Listener{
 		if(player.getRole() != null && leavePrecedentRole)
 			player.getRole().getPlayers().remove(player);
 		
-		player.setRole(this);
-		waitedPlayers--;
+		if(player.getRole() == null || leavePrecedentRole)
+			player.setRole(this);
+		
 		if(sendMessage) {
 			player.sendTitle("§6Tu es "+getName(), "§e"+getShortDescription(), 200);
 			player.sendMessage("§6Tu es "+getName()+"§6.");

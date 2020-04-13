@@ -28,6 +28,7 @@ import dev.loupgarou.roles.utils.RoleType;
 import dev.loupgarou.roles.utils.RoleWinType;
 import dev.loupgarou.utils.VariableCache.CacheType;
 
+//FIXME wtf
 public class RLoupGarouNoir extends Role{
 	static ItemStack[] items = new ItemStack[9];
 	static ItemStack[] skip = new ItemStack[9];
@@ -209,7 +210,7 @@ public class RLoupGarouNoir extends Role{
 		super.join(player, sendMessage, leavePrecedentRole);
 		for(Role role : getGame().getRoles())
 			if(role instanceof RLoupGarou)
-				role.join(player, false, leavePrecedentRole);
+				role.join(player, false, false);
 	}
 
 	@EventHandler

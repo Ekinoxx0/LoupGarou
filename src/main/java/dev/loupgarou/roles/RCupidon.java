@@ -91,7 +91,7 @@ public class RCupidon extends Role{
 	}
 	@Override
 	public boolean hasPlayersLeft() {
-		return getGame().getNight() == 1;
+		return getGame().getNight() == 1 && super.hasPlayersLeft();
 	}
 	
 	@Override

@@ -381,8 +381,7 @@ public class LGGame implements Listener{
 		
 		try {
 			for(Entry<Class<? extends Role>, Constructor<? extends Role>> role : main.getRoles().entrySet())
-				if(getConfig().getRoles().get(role.getKey()) > 0)
-					roles.add(role.getValue().newInstance(this));
+				roles.add(role.getValue().newInstance(this));
 		}catch(Exception err) {
 			broadcastMessage("§4§lUne erreur est survenue lors de la création des roles...");
 			err.printStackTrace();
@@ -423,8 +422,7 @@ public class LGGame implements Listener{
 		List<LGPlayer> toGive = new ArrayList<LGPlayer>(inGame);
 		started = false;
 		for(Role role : getRoles()) {
-			MainLg.debug(this.getKey(), "Role : " + role.getName() + " " + role.getWaitedPlayers());
-			while(role.getWaitedPlayers() > 0) {
+			for (int i = 0; i < getConfig().getRoles().get(role.getClass()); i++) {
 				int randomized = random.nextInt(toGive.size());
 				LGPlayer player = toGive.remove(randomized);
 

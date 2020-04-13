@@ -87,7 +87,7 @@ public class VariousUtils {
 		p.updateInventory();
 		p.closeInventory();
 		for(PotionEffect effect : p.getActivePotionEffects())
-			p.removePotionEffect(effect.getType());
+			p.removePotionEffect(effect.getType());//FIXME Seems like not in game
 		
 		lgp.showView();
 		lgp.updateSkin();

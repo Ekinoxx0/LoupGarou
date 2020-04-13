@@ -199,15 +199,16 @@ public class LGPlayer extends LGPlayerSimple {
 		//Enfin, on le téléporte à sa potion actuelle car sinon il se verra dans le vide
 		getPlayer().teleport(getPlayer().getLocation());
 		float speed = getPlayer().getWalkSpeed();
-		getPlayer().setWalkSpeed(0.2f);
+		getPlayer().setWalkSpeed(0.201f);
 		new BukkitRunnable() {
 			
 			@Override
 			public void run() {
 				if(getPlayer() == null) return;
 				getPlayer().updateInventory();
-				if(getPlayer().getWalkSpeed() == 0.2f)
+				if(getPlayer().getWalkSpeed() == 0.201f) {
 					getPlayer().setWalkSpeed(speed);
+				}
 			}
 		}.runTaskLater(MainLg.getInstance(), 5);
 	
