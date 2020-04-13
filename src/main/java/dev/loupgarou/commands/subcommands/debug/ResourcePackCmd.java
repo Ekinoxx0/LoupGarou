@@ -4,10 +4,11 @@ import java.util.Arrays;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
 
+import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.commands.LoupGarouCommand;
 import dev.loupgarou.commands.SubCommand;
+import dev.loupgarou.utils.CommonText.PrefixType;
 import us.myles.ViaVersion.api.Via;
 import us.myles.ViaVersion.api.ViaAPI;
 import us.myles.ViaVersion.api.protocol.ProtocolVersion;
@@ -34,16 +35,29 @@ public class ResourcePackCmd extends SubCommand {
 		return null;
 	}
 	
-	public static void reset(@NotNull Player p) {
+	public static void reset(Player p) {
+		if(p == null || !p.isOnline()) return;
+		LGPlayer lgp = LGPlayer.thePlayer(p);
+		if(lgp.getLoadedRessourcePack() == null) return;
+		
+		p.sendMessage(PrefixType.RESOURCEPACK + "§7Remise à zéro du pack de ressources...");
 		p.setResourcePack(url + commitIdLGRessource + "/empty.zip", "");
+		lgp.setLoadedRessourcePack(null);
 	}
 
-	public static void load(@NotNull Player p) {
+	public static void load(Player p) {
+		if(p == null || !p.isOnline()) return;
+		LGPlayer lgp = LGPlayer.thePlayer(p);
+		if(lgp.getLoadedRessourcePack() != null) return;
+		
 		ProtocolVersion v = ProtocolVersion.getProtocol(api.getPlayerVersion(p.getUniqueId()));
+		p.sendMessage(PrefixType.RESOURCEPACK + "§7Chargement du pack de ressources " + v.getName());
 		if(v.getId() < ProtocolVersion.v1_13.getId()) {
 			p.setResourcePack(url + commitIdLGRessource + "/generated-pre13.zip", "");
+			lgp.setLoadedRessourcePack(url + commitIdLGRessource + "/generated.zip");
 		} else {
 			p.setResourcePack(url + commitIdLGRessource + "/generated.zip", "");
+			lgp.setLoadedRessourcePack(url + commitIdLGRessource + "/generated.zip");
 		}
 	}
 	

@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -69,6 +68,7 @@ import dev.loupgarou.utils.RandomString;
 import fr.xephi.authme.events.LoginEvent;
 import lombok.Getter;
 import lombok.NonNull;
+import lombok.Setter;
 
 public class MainLg extends JavaPlugin {
 	
@@ -77,6 +77,7 @@ public class MainLg extends JavaPlugin {
 	@Getter private LinkedHashMap<Class<? extends Role>, Constructor<? extends Role>> roles = new LinkedHashMap<Class<? extends Role>, Constructor<? extends Role>>();
 	
 	@Getter private List<LGGame> games = new ArrayList<LGGame>();
+	@Getter @Setter private boolean maintenanceMode;
 	@Getter private DiscordManager discord;
 	@Getter private LGChat lobbyChat = new LGChat(new LGChatCallback() {
 		@Override
@@ -228,9 +229,6 @@ public class MainLg extends JavaPlugin {
 			 * 
 			 * Spécial:
 			 * Garde champêtre
-			 * 
-			 * Garde->Salvateur
-			 * 
 			 */
 	}
 	
@@ -250,7 +248,7 @@ public class MainLg extends JavaPlugin {
 	}
 	
 	public static void debug(String s) {
-		getInstance().getLogger().log(Level.INFO, s);
+		Bukkit.getConsoleSender().sendMessage("[LG] " + s);
 		for(Player p : DEBUGS) {
 			if(p != null)
 				p.sendMessage("§7" + s);

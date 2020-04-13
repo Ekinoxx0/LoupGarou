@@ -15,7 +15,6 @@ import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerLoginEvent.Result;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerResourcePackStatusEvent;
-import org.bukkit.event.player.PlayerResourcePackStatusEvent.Status;
 
 import com.comphenix.protocol.wrappers.EnumWrappers.NativeGameMode;
 import com.comphenix.protocol.wrappers.EnumWrappers.PlayerInfoAction;
@@ -31,6 +30,7 @@ import dev.loupgarou.packetwrapper.WrapperPlayServerPlayerInfo;
 import dev.loupgarou.packetwrapper.WrapperPlayServerScoreboardTeam;
 import dev.loupgarou.packetwrapper.WrapperPlayServerScoreboardTeam.Mode;
 import dev.loupgarou.utils.CommonText.PrefixType;
+import dev.loupgarou.utils.CharManager;
 import dev.loupgarou.utils.VariousUtils;
 import fr.xephi.authme.events.LoginEvent;
 
@@ -53,6 +53,7 @@ public class JoinListener implements Listener {
 	@EventHandler
 	public void onJoin(LoginEvent e) {
 		Player p = e.getPlayer();
+		ResourcePackCmd.load(e.getPlayer());
 		
 		WrapperPlayServerScoreboardTeam myTeam = new WrapperPlayServerScoreboardTeam();
 		myTeam.setName(p.getDisplayName());
@@ -96,19 +97,25 @@ public class JoinListener implements Listener {
 			}
 		}
 		
-		if(MainLg.getInstance().getDiscord().getLinkServer().getLinked(lgp) < 0) {
+		if(MainLg.getInstance().getDiscord().getLinkServer().getLinked(lgp) < 0)
 			MainLg.getInstance().getDiscord().getLinkServer().generateLink(lgp);
-		}
 	}
 	@EventHandler
 	public void onResoucePack(PlayerResourcePackStatusEvent e) {
-		if(e.getStatus() == Status.SUCCESSFULLY_LOADED) {
-			LGPlayer lgp = LGPlayer.thePlayer(e.getPlayer());
-			lgp.showView();
-		} else if(e.getStatus() == Status.DECLINED) {
-			e.getPlayer().sendMessage(PrefixType.RESOURCEPACK + "§cVous avez refuser le pack de ressources !");
-		} else if(e.getStatus() == Status.FAILED_DOWNLOAD) {
-			e.getPlayer().kickPlayer(PrefixType.RESOURCEPACK + "§cIl vous faut le pack de ressources pour jouer !");
+		switch(e.getStatus()) {
+		case SUCCESSFULLY_LOADED:
+			e.getPlayer().sendMessage(PrefixType.RESOURCEPACK + "§aChargé §l" + CharManager.CHECKED);
+			break;
+		case ACCEPTED:
+			break;
+		case DECLINED:
+			e.getPlayer().sendMessage(PrefixType.RESOURCEPACK + "§cVous avez refusé le pack de ressources ! §l" + CharManager.CROSS);
+			LGPlayer.thePlayer(e.getPlayer()).setLoadedRessourcePack(null);
+			break;
+		case FAILED_DOWNLOAD:
+			e.getPlayer().sendMessage(PrefixType.RESOURCEPACK + "§cLe téléchargement du pack de ressources a échoué ! §l" + CharManager.CROSS);
+			LGPlayer.thePlayer(e.getPlayer()).setLoadedRessourcePack(null);
+			break;
 		}
 	}
 	@EventHandler

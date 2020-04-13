@@ -19,6 +19,7 @@ import dev.loupgarou.commands.subcommands.config.RoleCmd;
 import dev.loupgarou.commands.subcommands.debug.DebugCmd;
 import dev.loupgarou.commands.subcommands.debug.DebugRPCmd;
 import dev.loupgarou.commands.subcommands.debug.DisableResourcePackCmd;
+import dev.loupgarou.commands.subcommands.debug.MaintenanceCmd;
 import dev.loupgarou.commands.subcommands.debug.NextDayCmd;
 import dev.loupgarou.commands.subcommands.debug.NextNightCmd;
 import dev.loupgarou.commands.subcommands.debug.QuickCmd;
@@ -65,6 +66,7 @@ public class LoupGarouCommand implements CommandExecutor, TabExecutor {
 		this.subs.add(new ResourcePackCmd(this));
 		this.subs.add(new ResourcePackAllCmd(this));
 		this.subs.add(new DisableResourcePackCmd(this));
+		this.subs.add(new MaintenanceCmd(this));
 		this.subs.add(new DebugCmd(this));
 		this.subs.add(new DebugRPCmd(this));
 		this.subs.add(new NextDayCmd(this));

@@ -23,6 +23,7 @@ import dev.loupgarou.classes.LGCustomItems;
 import dev.loupgarou.classes.LGCustomItems.SpecialItems;
 import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.packetwrapper.WrapperPlayServerEntityDestroy;
+import dev.loupgarou.utils.CommonText.PrefixType;
 import lombok.Getter;
 import lombok.NonNull;
 
@@ -101,6 +102,7 @@ public class VariousUtils {
 		Player p = lgp.getPlayer();
 		if(p == null) return;
 		MainLg.debug("setupLobby(" + lgp.getName() + ");");
+		p.sendMessage(PrefixType.LOBBY + "Connexion au lobby...");
 
 		lgp.leaveAllChat();
 		lgp.reset();

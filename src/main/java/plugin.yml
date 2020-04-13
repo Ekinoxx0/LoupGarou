@@ -1,5 +1,5 @@
 name: LoupGarou
-version: v1.4.16
+version: v1.4.17
 description: Plugin de loup garou
 author: Ekinoxx
 website: https://github.com/Ekinoxx0/LoupGarou
@@ -14,6 +14,8 @@ commands:
     aliases: [loup, loupgarou]
   join:
   autorole:
+  roles:
+  role:
   menu:
   start:
   end:

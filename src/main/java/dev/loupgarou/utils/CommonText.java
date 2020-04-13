@@ -9,7 +9,6 @@ public class CommonText {
 
 	public enum PrefixType{
 		
-		GENERAL("", "§7" , "§7"),
 		WONDALIA(TextType.SERVER_NAME_COLORED.getText(), "§7", "§7"),
 		SHOP("Boutique", "§6", "§7"),
 
@@ -19,15 +18,9 @@ public class CommonText {
 		
 		STAFF("Staff", "§5", "§7"),
 		SERVER("Serveur", "§5", "§7"),
-		LOGIN("Login", "§9", "§7"),
-		
-		SANCTION("Sanction", "§c", "§c"),
-		WARN("Avertissement", "§4", "§c"),
-
-		SHOUT("Annonce", "§3", "§b"),
+		LOBBY("Lobby", "§9", "§7"),
 		
 		ANNONCE("ANNONCE", "§4§l", "§7"),
-		
 		SONDAGE("Sondage", "§6", "§6");
 		
 		private String name;

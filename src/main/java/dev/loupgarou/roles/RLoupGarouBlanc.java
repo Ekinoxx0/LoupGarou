@@ -105,6 +105,13 @@ public class RLoupGarouBlanc extends Role{
 				break;
 			}
 		
+		if(lg_ == null) {
+			player.sendMessage("§cERREUR! #4565123453");
+			player.sendMessage("§cAucun rôle loup garou défini dans la partie !");
+			callback.run();
+			return;
+		}
+		
 		RLoupGarou lg = lg_;
 		player.showView();
 		player.getPlayer().getInventory().setItem(8, skip);

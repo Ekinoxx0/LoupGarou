@@ -16,6 +16,7 @@ import dev.loupgarou.utils.SoundUtils.LGSound;
 import dev.loupgarou.utils.TComponent;
 import lombok.Getter;
 import lombok.NonNull;
+import lombok.Setter;
 import lombok.ToString;
 
 @ToString
@@ -24,6 +25,7 @@ public class LGPlayerSimple {
 	@Getter private Player player;
 	@NonNull private String name;
 	@Getter private CustomScoreboard scoreboard;
+	@Getter @Setter private String loadedRessourcePack = null;
 	
 	public LGPlayerSimple(@NonNull Player player) {
 		this.player = player;
@@ -111,17 +113,20 @@ public class LGPlayerSimple {
 	
 	public void hidePlayer(LGPlayer lgp) {
 		if(getPlayer() == null || lgp.getPlayer() == null) return;
-		getPlayer().hidePlayer(MainLg.getInstance(), lgp.getPlayer());
+		if(canSeePlayer(lgp))
+			getPlayer().hidePlayer(MainLg.getInstance(), lgp.getPlayer());
 	}
 	
 	public void showPlayer(LGPlayer lgp) {
 		if(getPlayer() == null || lgp.getPlayer() == null) return;
-		getPlayer().showPlayer(MainLg.getInstance(), lgp.getPlayer());
+		if(!canSeePlayer(lgp))
+			getPlayer().showPlayer(MainLg.getInstance(), lgp.getPlayer());
 	}
 	
 	public void destroy() {
 		LGPlayer.removePlayer(this.player);//TODO Remove player each destroy ?
 		this.player = null;
+		this.loadedRessourcePack = null;
 	}
 
 }

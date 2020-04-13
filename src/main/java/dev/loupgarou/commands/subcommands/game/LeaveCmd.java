@@ -13,6 +13,7 @@ import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.commands.LoupGarouCommand;
 import dev.loupgarou.commands.SubCommand;
+import dev.loupgarou.utils.VariousUtils;
 import dev.loupgarou.utils.CommonText.PrefixType;
 
 public class LeaveCmd extends SubCommand {
@@ -27,8 +28,7 @@ public class LeaveCmd extends SubCommand {
 			if(cs instanceof Player) {
 				LGGame gameTarget = LGPlayer.thePlayer((Player) cs).getGame();
 				if (gameTarget == null) {
-					((Player) cs).teleport(Bukkit.getWorlds().get(0).getSpawnLocation());
-					cs.sendMessage(PrefixType.PARTIE + "§2Téléportation au lobby");
+					VariousUtils.setupLobby(LGPlayer.thePlayer((Player) cs));
 					return;
 				}
 
@@ -46,7 +46,7 @@ public class LeaveCmd extends SubCommand {
 			
 			LGGame gameTarget = LGPlayer.thePlayer(target).getGame();
 			if (gameTarget == null) {
-				target.teleport(Bukkit.getWorlds().get(0).getSpawnLocation());
+				VariousUtils.setupLobby(LGPlayer.thePlayer(target));
 				cs.sendMessage(PrefixType.PARTIE + "§2Téléportation au lobby du joueur");
 				return;
 			}

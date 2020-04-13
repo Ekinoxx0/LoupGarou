@@ -26,6 +26,11 @@ import lombok.NonNull;
 public class CreateServerMenu {
 	
 	public static void openMenu(@NonNull LGPlayer lgp) {
+		if(MainLg.getInstance().isMaintenanceMode()) {
+			lgp.sendMessage(PrefixType.PARTIE + "§4§lDémarrage impossible car une maintenance serveur va bientôt démarrer.");
+			lgp.sendMessage(PrefixType.PARTIE + "§4§lPendant cette période, les parties sont suspendues et nous vous demandons de patienter.");
+			return;
+		}
 		if(lgp.getGame() != null) {
 			lgp.sendMessage(PrefixType.PARTIE + "§cVous êtes déjà en partie...");
 			return;

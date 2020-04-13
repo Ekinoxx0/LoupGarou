@@ -200,6 +200,12 @@ public class LGGame implements Listener{
 			return false;
 		}
 		
+		if(MainLg.getInstance().isMaintenanceMode()) {
+			lgp.sendMessage(PrefixType.PARTIE + "§4§lRejoindre la partie est impossible car une maintenance serveur va bientôt démarrer.");
+			lgp.sendMessage(PrefixType.PARTIE + "§4§lPendant cette période, les parties sont suspendues et nous vous demandons de patienter.");
+			return false;
+		}
+		
 		if(lgp.getGame() != null) {
 			lgp.sendMessage(PrefixType.PARTIE + "§cVous devez d'abord quitter votre partie...");
 			return false;
@@ -267,8 +273,6 @@ public class LGGame implements Listener{
 		if(!isStarted())
 			broadcastMessage(PrefixType.PARTIE + "§7Le joueur §8"+lgp.getName()+"§7 a quitté la partie §9(§8"+inGame.size()+"§7/§8"+config.getMap().getSpawns().size()+"§9)");
 		
-		VariousUtils.setupLobby(lgp);
-		
 		if(startingTask != null) {
 			startingTask.cancel();
 			startingTask = null;
@@ -278,9 +282,13 @@ public class LGGame implements Listener{
 		if(this.getInGame().isEmpty()) {
 			this.endGame(LGWinType.NONE);
 		} else {
-			if(this.owner == lgp)
+			if(this.owner == lgp) {
 				this.owner = this.getInGame().get(0);
+				broadcastMessage(PrefixType.PARTIE + "§6Nouveau propriétaire de partie : " + this.owner.getName());
+			}
 		}
+		
+		VariousUtils.setupLobby(lgp);
 	}
 	
 	public void updateStart() {
@@ -302,6 +310,12 @@ public class LGGame implements Listener{
 		}
 		if(inGame.size() != config.getTotalConfiguredRoles()) {
 			broadcastMessage(PrefixType.PARTIE + "§cDémarrage impossible car le nombre de joueur ne correspond pas aux rôles configurés");
+			return;
+		}
+		
+		if(MainLg.getInstance().isMaintenanceMode()) {
+			broadcastMessage(PrefixType.PARTIE + "§4§lDémarrage impossible car une maintenance serveur va bientôt démarrer.");
+			broadcastMessage(PrefixType.PARTIE + "§4§lPendant cette période, les parties sont suspendues et nous vous demandons de patienter.");
 			return;
 		}
 		
@@ -666,7 +680,7 @@ public class LGGame implements Listener{
 		if(event.isCancelled())
 			return;
 
-		MainLg.debug(getKey(), "Ending game " + toString());
+		MainLg.debug(getKey(), "Endgame > "+event.getWinType());
 		cancelWait();
 		ended = true;
 		
@@ -895,7 +909,6 @@ public class LGGame implements Listener{
 		Bukkit.getPluginManager().callEvent(event);
 		if(doEndGame && event.getWinType() != LGWinType.NONE)
 			endGame(event.getWinType());
-		MainLg.debug(getKey(), "Endgame > "+event.getWinType()+" ("+doEndGame+")");
 		return event.getWinType() != LGWinType.NONE;
 	}
 	
