@@ -5,10 +5,10 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import dev.loupgarou.MainLg;
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.classes.LGWinType;
@@ -42,15 +42,9 @@ public class EndCmd extends SubCommand {
 				cs.sendMessage(PrefixType.PARTIE + "§cMerci de donner le nom d'un joueur en argument");
 			}
 		} else if (args.length == 2 && cs.hasPermission(BASE_PERM + "." + getAliases().get(0))) {
-			Player target = Bukkit.getPlayer(args[1]);
-			if (target == null) {
-				cs.sendMessage(PrefixType.PARTIE + "§cJoueur inconnu !");
-				return;
-			}
-			
-			LGGame gameTarget = LGPlayer.thePlayer(target).getGame();
+			LGGame gameTarget = MainLg.getInstance().findGame(args[1], false);
 			if (gameTarget == null) {
-				cs.sendMessage(PrefixType.PARTIE + "§cLe joueur n'est pas en partie !");
+				cs.sendMessage(PrefixType.PARTIE + "§cPartie inconnue !");
 				return;
 			}
 

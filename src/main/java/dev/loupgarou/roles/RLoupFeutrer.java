@@ -102,8 +102,8 @@ public class RLoupFeutrer extends Role {
     }
 
     @Override
-    public void join(LGPlayer player, boolean sendMessage) {
-        super.join(player, sendMessage);
+    public void join(LGPlayer player, boolean sendMessage, boolean leavePrecedentRole) {
+        super.join(player, sendMessage, leavePrecedentRole);
         player.setRole(this);
         LGCustomItems.updateItem(player);
         RLoupGarou lgRole = null;
@@ -122,7 +122,7 @@ public class RLoupFeutrer extends Role {
             });
         }
 
-        lgRole.join(player, false);
+        lgRole.join(player, false, false);
     }
     
     @EventHandler

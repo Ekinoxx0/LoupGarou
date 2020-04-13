@@ -262,7 +262,7 @@ public class RPretre extends Role{
 							villagers = (RVillageois)role;
 					if(villagers == null)
 						getGame().getRoles().add(villagers = new RVillageois(getGame()));
-					villagers.join(lgp, false);//Le joueur réssuscité rejoint les villageois.
+					villagers.join(lgp, false, true);//Le joueur réssuscité rejoint les villageois.
 					lgp.setRole(villagers);
 					lgp.getPlayer().removePotionEffect(PotionEffectType.INVISIBILITY);
 					lgp.getPlayer().getInventory().setHelmet(null);

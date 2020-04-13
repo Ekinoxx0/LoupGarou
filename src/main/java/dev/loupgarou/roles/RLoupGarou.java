@@ -94,8 +94,8 @@ public class RLoupGarou extends Role{
 	boolean showSkins = false;
 	LGVote vote;
 	@Override
-	public void join(LGPlayer player, boolean sendMessage) {
-		super.join(player, sendMessage);
+	public void join(LGPlayer player, boolean sendMessage, boolean leavePrecedentRole) {
+		super.join(player, sendMessage, leavePrecedentRole);
 		//On peut créer des cheats grâce à ça (qui permettent de savoir qui est lg/inf)
 		for(LGPlayer p : getPlayers())
 			p.updateTab();
@@ -177,12 +177,9 @@ public class RLoupGarou extends Role{
 	
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onUpdatePrefix(LGUpdatePrefixEvent e) {
-		if(e.getGame() == getGame()) {
-			if(getPlayers().contains(e.getTo()) && getPlayers().contains(e.getPlayer())) {
-				MainLg.debug("onUpdatePrefix: " + e.getPlayer().getName() + "->" + e.getTo().getName());
+		if(e.getGame() == getGame())
+			if(getPlayers().contains(e.getTo()) && getPlayers().contains(e.getPlayer()))
 				e.setColor(ChatColor.RED);
-			}
-		}
 	}
 	
 	@EventHandler

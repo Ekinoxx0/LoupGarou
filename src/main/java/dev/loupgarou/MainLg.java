@@ -137,12 +137,12 @@ public class MainLg extends JavaPlugin {
 		ProtocolLibrary.getProtocolManager().removePacketListeners(this);
 	}
 
-	public LGGame findGame(@NonNull String key) {
+	public LGGame findGame(@NonNull String value, boolean withPrivates) {
 		for(LGGame game : this.games) {
-			if(!game.getConfig().isPrivateGame() && game.getOwner().getName().equalsIgnoreCase(key))
+			if((!game.getConfig().isPrivateGame() || withPrivates) && game.getOwner().getName().equalsIgnoreCase(value))
 				return game;
 			
-			if(game.getKey().equalsIgnoreCase(key))
+			if(game.getKey().equalsIgnoreCase(value))
 				return game;
 		}
 		

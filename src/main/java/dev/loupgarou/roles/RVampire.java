@@ -96,8 +96,8 @@ public class RVampire extends Role{
 	int nextCanInfect = 0;
 	LGVote vote;
 	@Override
-	public void join(LGPlayer player, boolean sendMessage) {
-		super.join(player, sendMessage);
+	public void join(LGPlayer player, boolean sendMessage, boolean leavePrecedentRole) {
+		super.join(player, sendMessage, leavePrecedentRole);
 		for(LGPlayer p : getPlayers())
 			p.updateTab();
 	}
@@ -178,7 +178,7 @@ public class RVampire extends Role{
 			choosen.sendMessage("§6§oTu gagnes désormais avec les §5§l§oVampires§6§o.");
 			choosen.getCache().set(CacheType.JUST_VAMPIRE, true);
 			nextCanInfect = getGame().getNight()+1;
-			join(choosen, false);
+			join(choosen, false, true);
 			LGCustomItems.updateItem(choosen);
 		}else
 			for(LGPlayer player : getPlayers())

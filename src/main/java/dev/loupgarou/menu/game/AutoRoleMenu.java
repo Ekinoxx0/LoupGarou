@@ -224,9 +224,9 @@ public class AutoRoleMenu {
 		}
 		
 		ii.registerItem(
-				new ItemBuilder(LGCustomItems.getSpecialItem(invalidCompo == null ? SpecialItems.CHECK : SpecialItems.CROSS))
+				new ItemBuilder(LGCustomItems.getSpecialItem(invalidCompo == null ? SpecialItems.CHECK : SpecialItems.RED_ROLE_Q))
 					.name("§aTotal : " + total())
-					.glow(invalidCompo == null)
+					.glow(invalidCompo != null)
 					.lore(Arrays.asList(
 							invalidCompo != null ? "§7" + invalidCompo : "§aComposition valide.",
 							"",
@@ -238,6 +238,11 @@ public class AutoRoleMenu {
 					
 					@Override
 					public void click(HumanEntity human, ItemStack item, ClickType clickType) {
+						if(game.getOwner() != lgp) {
+							lgp.sendMessage(PrefixType.PARTIE + "§cVous n'êtes pas le propriétaire de la partie...");
+							return;
+						}
+						
 						if(generateRandom(lgp) == null) {
 							game.getGameMenu().openGameMenu(lgp);
 						} else {

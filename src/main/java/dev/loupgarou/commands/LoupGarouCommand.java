@@ -16,6 +16,7 @@ import dev.loupgarou.commands.subcommands.config.HideRoleCmd;
 import dev.loupgarou.commands.subcommands.config.HideVoteCmd;
 import dev.loupgarou.commands.subcommands.config.HideVoteExtraCmd;
 import dev.loupgarou.commands.subcommands.config.RoleCmd;
+import dev.loupgarou.commands.subcommands.debug.CurrentRolesCmd;
 import dev.loupgarou.commands.subcommands.debug.DebugCmd;
 import dev.loupgarou.commands.subcommands.debug.DebugDiscordLinkCmd;
 import dev.loupgarou.commands.subcommands.debug.DebugRPCmd;
@@ -69,6 +70,7 @@ public class LoupGarouCommand implements CommandExecutor, TabExecutor {
 		this.subs.add(new ResourcePackAllCmd(this));
 		this.subs.add(new DisableResourcePackCmd(this));
 		this.subs.add(new MaintenanceCmd(this));
+		this.subs.add(new CurrentRolesCmd(this));
 		this.subs.add(new DebugCmd(this));
 		this.subs.add(new DebugRPCmd(this));
 		this.subs.add(new DebugDiscordLinkCmd(this));

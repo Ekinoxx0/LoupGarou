@@ -10,7 +10,9 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.HashMap;
+import java.util.Map.Entry;
 import java.util.Scanner;
+import java.util.UUID;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -27,6 +29,7 @@ import dev.loupgarou.utils.TComponent;
 import dev.loupgarou.utils.TComponent.HEvent;
 import lombok.Getter;
 import lombok.NonNull;
+import net.dv8tion.jda.api.entities.Member;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import okhttp3.FormBody;
@@ -276,6 +279,13 @@ public class DiscordLinkServer {
 		if(lgp.getPlayer() == null) return -1;
 		if(!config.contains(lgp.getPlayer().getUniqueId().toString())) return -1;
 		return config.getLong(lgp.getPlayer().getUniqueId().toString());
+	}
+
+	public UUID getLinked(@NonNull Member member) {
+		for(Entry<String, Object> entry : config.getValues(false).entrySet())
+			if(entry.getValue().equals(member.getIdLong()))
+				return UUID.fromString(entry.getKey());
+		return null;
 	}
 
 	public void close() {

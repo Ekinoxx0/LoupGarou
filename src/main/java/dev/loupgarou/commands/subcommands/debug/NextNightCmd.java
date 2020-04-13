@@ -32,13 +32,11 @@ public class NextNightCmd extends SubCommand {
 		}
 		
 		cs.sendMessage(PrefixType.PARTIE + "§aVous êtes passé à la prochaine nuit");
-		if(lgp.getGame() != null) {
-			lgp.getGame().broadcastMessage(PrefixType.PARTIE + "§2§lLe passage à la prochaine nuit a été forcé !");
-			for(LGPlayer l : lgp.getGame().getInGame())
-				l.stopChoosing();
-			lgp.getGame().cancelWait();
-			lgp.getGame().nextPreNight();
-		}
+		lgp.getGame().broadcastMessage(PrefixType.PARTIE + "§2§lLe passage à la prochaine nuit a été forcé !");
+		for(LGPlayer l : lgp.getGame().getInGame())
+			l.stopChoosing();
+		lgp.getGame().cancelWait();
+		lgp.getGame().nextPreNight();
 	}
 	
 }

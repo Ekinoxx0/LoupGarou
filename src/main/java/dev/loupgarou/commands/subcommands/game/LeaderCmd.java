@@ -9,6 +9,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import dev.loupgarou.MainLg;
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.commands.LoupGarouCommand;
@@ -57,15 +58,9 @@ public class LeaderCmd extends SubCommand {
 			target.sendMessage(PrefixType.PARTIE + "§6Vous êtes maintenant le propriétaire de la partie !");
 			cs.sendMessage(PrefixType.PARTIE + "§a" + target.getDisplayName() + " est maintenant le propriétaire.");
 		} else if (args.length == 3 && cs.hasPermission(BASE_PERM + "." + getAliases().get(0))) {
-			Player leaderTarget = Bukkit.getPlayer(args[1]);
-			if (leaderTarget == null) {
-				cs.sendMessage(PrefixType.PARTIE + "§cJoueur leader inconnu !");
-				return;
-			}
-			
-			LGGame gameTarget = LGPlayer.thePlayer(leaderTarget).getGame();
+			LGGame gameTarget = MainLg.getInstance().findGame(args[1], false);
 			if (gameTarget == null) {
-				cs.sendMessage(PrefixType.PARTIE + "§cLe joueur leader n'est pas en partie !");
+				cs.sendMessage(PrefixType.PARTIE + "§cPartie inconnue !");
 				return;
 			}
 			
@@ -80,9 +75,9 @@ public class LeaderCmd extends SubCommand {
 				return;
 			}
 			
+			cs.sendMessage(PrefixType.PARTIE + "§6Le leader de la partie de " + gameTarget.getOwner().getName() + " est maintenant " + normalTarget.getDisplayName());
 			gameTarget.setOwner(LGPlayer.thePlayer(normalTarget));
 			normalTarget.sendMessage(PrefixType.PARTIE + "§6Vous êtes maintenant le propriétaire de la partie !");
-			cs.sendMessage(PrefixType.PARTIE + "§6Le leader de la partie de " + leaderTarget.getDisplayName() + " est maintenant " + normalTarget.getDisplayName());
 		} else {
 			cs.sendMessage(PrefixType.PARTIE + "§c/" + label + " <Nouveau-Propriétaire>");
 		}

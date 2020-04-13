@@ -150,8 +150,6 @@ public class RoleMenu {
 					
 					@Override
 					public void click(HumanEntity human, ItemStack item, ClickType clickType) {
-						human.closeInventory();
-						
 						if(invalidCompo != null) {
 							lgp.sendMessage(PrefixType.PARTIE + "§cComposition des rôles impossible... " + invalidCompo);
 							lgp.playAudio(Sound.ENTITY_VILLAGER_NO);
@@ -159,6 +157,7 @@ public class RoleMenu {
 						}
 						
 						lgp.playAudio(Sound.ENTITY_VILLAGER_YES);
+						game.getGameMenu().openGameMenu(lgp);
 					}
 				});
 		ii.registerItem(

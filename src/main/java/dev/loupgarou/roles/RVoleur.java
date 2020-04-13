@@ -110,8 +110,7 @@ public class RVoleur extends Role {
 					choosen.updateTab();
 					choosen.hideView(); // Sinon il regagne la vue
 
-					getPlayers().remove(player);
-					choosenRole.join(player, false);
+					choosenRole.join(player, false, true);
 					player.setRole(choosenRole);
 					LGCustomItems.updateItem(player);
 					player.updateOwnSkin();

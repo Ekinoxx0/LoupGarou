@@ -123,7 +123,7 @@ public class REnfantSauvage extends Role{
 					if(lgEnfantSvg == null)
 						getGame().getRoles().add(lgEnfantSvg = new REnfantSauvageLG(getGame()));
 					
-					lgEnfantSvg.join(enfant, false);
+					lgEnfantSvg.join(enfant, false, false);
 				}
 			}
 	}

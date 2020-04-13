@@ -139,7 +139,7 @@ public class RChienLoup extends Role{
 				if(lgChienLoup == null)
 					getGame().getRoles().add(lgChienLoup = new RChienLoupLG(getGame()));
 				
-				lgChienLoup.join(lgp, false);
+				lgChienLoup.join(lgp, false, false);
 				lgp.updateOwnSkin();
 				
 				lgp.hideView();

@@ -86,7 +86,7 @@ public class JoinListener implements Listener {
 			
 			if(hostn.length == 4) {
 				//Connecting on custom
-				LGGame custom = MainLg.getInstance().findGame(hostn[0]);
+				LGGame custom = MainLg.getInstance().findGame(hostn[0], false);
 				
 				if(custom == null) {
 					lgp.sendMessage(PrefixType.PARTIE + "§cAucune partie avec le code : §4§l" + hostn[0]);

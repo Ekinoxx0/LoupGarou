@@ -17,11 +17,12 @@ public class DebugCmd extends SubCommand {
 
 	@Override
 	public void execute(CommandSender cs, String label, String[] args) {
-		Player d = (Player) cs;
-		if(MainLg.getDEBUGS().contains(d)) {
-			MainLg.getDEBUGS().remove(d);
+		if(!(cs instanceof Player)) return;
+		Player p = (Player) cs;
+		if(MainLg.getDEBUGS().contains(p)) {
+			MainLg.getDEBUGS().remove(p);
 		} else {
-			MainLg.getDEBUGS().add(d);
+			MainLg.getDEBUGS().add(p);
 		}
 	}
 	

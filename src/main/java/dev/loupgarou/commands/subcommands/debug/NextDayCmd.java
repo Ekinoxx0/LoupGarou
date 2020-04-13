@@ -32,13 +32,10 @@ public class NextDayCmd extends SubCommand {
 		}
 		
 		cs.sendMessage(PrefixType.PARTIE + "§aVous êtes passé à la prochaine journée");
-		if(lgp.getGame() != null) {
-			lgp.getGame().broadcastMessage(PrefixType.PARTIE + "§2§lLe passage à la prochaine journée a été forcé !");
-			lgp.getGame().cancelWait();
-			for(LGPlayer l : lgp.getGame().getInGame())
-				l.stopChoosing();
-			lgp.getGame().endNight();
-		}
-	}
-	
+		lgp.getGame().broadcastMessage(PrefixType.PARTIE + "§2§lLe passage à la prochaine journée a été forcé !");
+		lgp.getGame().cancelWait();
+		for(LGPlayer l : lgp.getGame().getInGame())
+			l.stopChoosing();
+		lgp.getGame().endNight();
+	}	
 }

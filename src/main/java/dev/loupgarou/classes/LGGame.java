@@ -132,6 +132,7 @@ public class LGGame implements Listener{
 			chat.sendPacket(lgp.getPlayer());
 	}
 	public void broadcastMessage(String msg) {
+		MainLg.debug(this.getKey(), msg);
 		for(LGPlayer lgp : inGame)
 			lgp.sendMessage(msg);
 	}
@@ -374,7 +375,7 @@ public class LGGame implements Listener{
 				lgp.getScoreboard().getLine(0).setDisplayName("§6Attribution des rôles...");
 			}
 		} catch(Exception ex) {
-			broadcastMessage("§4§lUne erreur est survenue lors de la tp aux spawns... Regardez la console !");
+			broadcastMessage("§4§lUne erreur est survenue lors de la tp aux spawns...");
 			ex.printStackTrace();
 		}
 		
@@ -383,7 +384,7 @@ public class LGGame implements Listener{
 				if(getConfig().getRoles().get(role.getKey()) > 0)
 					roles.add(role.getValue().newInstance(this));
 		}catch(Exception err) {
-			broadcastMessage("§4§lUne erreur est survenue lors de la création des roles... Regardez la console !");
+			broadcastMessage("§4§lUne erreur est survenue lors de la création des roles...");
 			err.printStackTrace();
 		}
 
@@ -403,7 +404,7 @@ public class LGGame implements Listener{
 			public void run() {
 				if(--timeLeft == 0) {
 					cancel();
-					_start();
+					actualStart();
 					return;
 				}
 				
@@ -416,23 +417,20 @@ public class LGGame implements Listener{
 			}
 		}.runTaskTimer(MainLg.getInstance(), 0, 4);
 	}
-	private void _start() {
+	private void actualStart() {
 		broadcastMessage("§8§oDébut de la partie...");
 		//Give roles...
 		List<LGPlayer> toGive = new ArrayList<LGPlayer>(inGame);
 		started = false;
-		for(Role role : getRoles())
+		for(Role role : getRoles()) {
+			MainLg.debug(this.getKey(), "Role : " + role.getName() + " " + role.getWaitedPlayers());
 			while(role.getWaitedPlayers() > 0) {
 				int randomized = random.nextInt(toGive.size());
 				LGPlayer player = toGive.remove(randomized);
 
-				role.join(player);
-				WrapperPlayServerUpdateHealth update = new WrapperPlayServerUpdateHealth();
-				update.setFood(20);
-				update.setFoodSaturation(1);
-				update.setHealth(20);
-				update.sendPacket(player.getPlayer());
+				role.join(player, true, true);
 			}
+		}
 		started = true;
 		
 		updateRoleScoreboard();

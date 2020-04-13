@@ -188,10 +188,8 @@ public class RLoupGarouNoir extends Role{
 					player.sendMessage("§6§oTu gagnes désormais avec les §c§l§oLoups-Garous§6§o.");
 					for(Role role : getGame().getRoles())
 						if(role instanceof RLoupGarou)
-							if(!player.isDead()) {//Si il n'a pas été tué je ne sais comment
-								role.join(player, false);
-								LGCustomItems.updateItem(player);
-							}
+							if(!player.isDead())//Si il n'a pas été tué je ne sais comment
+								role.join(player, false, false);//FIXME Not sure about leaveprecedentRole
 					
 					for(LGPlayer lgp : getGame().getInGame()) {
 						if(lgp.getRoleType() == RoleType.LOUP_GAROU)
@@ -207,11 +205,11 @@ public class RLoupGarouNoir extends Role{
 	}
 	
 	@Override
-	public void join(LGPlayer player, boolean sendMessage) {
-		super.join(player, sendMessage);
+	public void join(LGPlayer player, boolean sendMessage, boolean leavePrecedentRole) {
+		super.join(player, sendMessage, leavePrecedentRole);
 		for(Role role : getGame().getRoles())
 			if(role instanceof RLoupGarou)
-				role.join(player, false);
+				role.join(player, false, leavePrecedentRole);
 	}
 
 	@EventHandler

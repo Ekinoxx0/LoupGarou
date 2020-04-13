@@ -4,8 +4,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import javax.annotation.Nonnull;
+
+import org.bukkit.Bukkit;
 
 import com.google.common.io.CharStreams;
 
@@ -190,11 +193,15 @@ public class DiscordManager extends ListenerAdapter {
 		if(this.jda == null) return null;
 		if(this.voices == null) return null;
 		
+		UUID uuid = this.linkServer.getLinked(member);
+		if(uuid != null && Bukkit.getPlayer(uuid) != null) 
+			return LGPlayer.thePlayer(Bukkit.getPlayer(uuid));
+		
 		for(LGPlayer lgp : LGPlayer.all()) {
-			if(member.getUser().getName().toLowerCase().contains(lgp.getName().toLowerCase()))
+			if(member.getUser().getName().toLowerCase().equals(lgp.getName().toLowerCase()))
 				return lgp;
 			
-			if(member.getEffectiveName().toLowerCase().contains(lgp.getName().toLowerCase()))
+			if(member.getEffectiveName().toLowerCase().equals(lgp.getName().toLowerCase()))
 				return lgp;
 			
 			for(Role r : member.getRoles())
@@ -256,7 +263,7 @@ public class DiscordManager extends ListenerAdapter {
 					find = m;
 		}
 		
-		return null;
+		return find;
 	}
 
 }

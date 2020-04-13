@@ -69,7 +69,8 @@ public class DiscordChannelHandler implements Listener {
 									Permission.VOICE_MOVE_OTHERS,
 									Permission.VOICE_MUTE_OTHERS,
 									Permission.VOICE_USE_VAD,
-									Permission.PRIORITY_SPEAKER
+									Permission.PRIORITY_SPEAKER,
+									Permission.MANAGE_CHANNEL
 									), 
 							Collections.emptyList()).queue(
 									(success) -> {},
@@ -93,7 +94,7 @@ public class DiscordChannelHandler implements Listener {
 			move(lgp);
 		
 		if(this.voice != null)
-			this.voice.getManager().setUserLimit(this.game.getInGame().size()).queue();
+			this.voice.getManager().setUserLimit(this.voice.getMembers().size()).queue();
 	}
 	
 	@EventHandler

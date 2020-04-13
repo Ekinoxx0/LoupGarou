@@ -108,8 +108,8 @@ public class RSurvivant extends Role{
 		player.openInventory(inventory);
 	}
 	@Override
-	public void join(LGPlayer player) {
-		super.join(player);
+	public void join(LGPlayer player, boolean displayMsg, boolean leavePrecedentRole) {
+		super.join(player, displayMsg, leavePrecedentRole);
 		player.getCache().set(CacheType.SURVIVANT_LEFT, 2);
 	}
 

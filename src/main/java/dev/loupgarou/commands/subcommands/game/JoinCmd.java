@@ -33,7 +33,7 @@ public class JoinCmd extends SubCommand {
 					return;
 				}
 				
-				gameTarget = MainLg.getInstance().findGame(args[1]);
+				gameTarget = MainLg.getInstance().findGame(args[1], false);
 				
 				if(gameTarget == null) {
 					if(Bukkit.getPlayer(args[1]) == null) {
@@ -79,7 +79,7 @@ public class JoinCmd extends SubCommand {
 				return;
 			}
 
-			gameTarget = MainLg.getInstance().findGame(args[1]);
+			gameTarget = MainLg.getInstance().findGame(args[1], false);
 			
 			if(gameTarget == null) {
 				cs.sendMessage(PrefixType.PARTIE + "§cAucune partie avec ce code ou la partie est privée");

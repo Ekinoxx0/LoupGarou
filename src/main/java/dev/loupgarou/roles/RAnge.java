@@ -93,8 +93,7 @@ public class RAnge extends Role{
 				for(LGPlayer lgp : getPlayers()) {
 					if(lgp.isRoleActive())
 						lgp.sendMessage("§4§oTu as échoué, tu deviens §a§l§oVillageois§4§o...");
-					lgp.setRole(villageois);
-					villageois.join(lgp);
+					villageois.join(lgp, true, false);
 				}
 				
 				getPlayers().clear();

@@ -91,10 +91,10 @@ public abstract class Role implements Listener{
 		}.run();
 	}
 	 
-	public void join(LGPlayer player, boolean sendMessage) {
-		MainLg.debug(getGame().getKey(), player.getName() + " est " + getName());
+	public void join(LGPlayer player, boolean sendMessage, boolean leavePrecedentRole) {
+		MainLg.debug(getGame().getKey(), getName() + "§7.join(" + player.getName() + ", " + sendMessage + ")");
 		players.add(player);
-		if(player.getRole() != null)
+		if(player.getRole() != null && leavePrecedentRole)
 			player.getRole().getPlayers().remove(player);
 		
 		player.setRole(this);
@@ -104,12 +104,10 @@ public abstract class Role implements Listener{
 			player.sendMessage("§6Tu es "+getName()+"§6.");
 			player.sendMessage("§6Description : §f"+getDescription());
 		}
-	}
-	
-	public void join(LGPlayer player) {
-		join(player, !getGame().isStarted());
+		
 		LGCustomItems.updateItem(player);
 	}
+	
 	public boolean hasPlayersLeft() {
 		return getPlayers().size() > 0;
 	}

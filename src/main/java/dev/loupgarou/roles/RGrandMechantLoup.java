@@ -113,11 +113,11 @@ public class RGrandMechantLoup extends Role{
 	}
 	
 	@Override
-	public void join(LGPlayer player, boolean sendMessage) {
-		super.join(player, sendMessage);
+    public void join(LGPlayer player, boolean sendMessage, boolean leavePrecedentRole) {
+		super.join(player, sendMessage, leavePrecedentRole);
 		for(Role role : getGame().getRoles())
 			if(role instanceof RLoupGarou)
-				role.join(player, false);
+				role.join(player, false, false);
 	}
 	
 }

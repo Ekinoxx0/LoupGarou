@@ -162,7 +162,7 @@ public class CreateServerMenu {
 								"§7salon vocal sur Discord qui sera automatisé pour les nuits",
 								"§7et les morts de joueurs.",
 								"",
-								MainLg.getInstance().getDiscord().get(lgp) == null ? "§cVous n'êtes pas lié à Discord" : "§2Vous êtes lié à Discord"
+								MainLg.getInstance().getDiscord().getLinkServer().isLinked(lgp) ? "§cVous n'êtes pas lié à Discord" : "§2Vous êtes lié à Discord"
 								)
 						)
 				.build(), 
