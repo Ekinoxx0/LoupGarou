@@ -120,7 +120,7 @@ public class RoleMenu {
 				new ItemBuilder(LGCustomItems.getSpecialItem(SpecialItems.GREY_ROLE_Q))
 					.name("§7Remise à zéro")
 					.build(), 
-				ii.getInv().getSize() - 2, true, new InventoryCall() {
+				ii.getInv().getSize() - 3, true, new InventoryCall() {
 					
 					@Override
 					public void click(HumanEntity human, ItemStack item, ClickType clickType) {
@@ -140,13 +140,13 @@ public class RoleMenu {
 				});
 		
 		ii.registerItem(
-				new ItemBuilder(LGCustomItems.getSpecialItem(invalidCompo == null ? SpecialItems.CHECK : SpecialItems.CROSS))
+				new ItemBuilder(LGCustomItems.getSpecialItem(invalidCompo == null ? SpecialItems.GREEN_ROLE_Q : SpecialItems.RED_ROLE_Q))
 					.name("§aTotal : " + total)
 					.lore(Arrays.asList("", invalidCompo != null ? "§7" + invalidCompo : "§aComposition valide."))
 					.amount(total > 1 ? total : 1)
 					.glow(invalidCompo == null)
 					.build(), 
-				ii.getInv().getSize() - 1, true, new InventoryCall() {
+				ii.getInv().getSize() - 2, true, new InventoryCall() {
 					
 					@Override
 					public void click(HumanEntity human, ItemStack item, ClickType clickType) {
@@ -159,6 +159,18 @@ public class RoleMenu {
 						}
 						
 						lgp.playAudio(Sound.ENTITY_VILLAGER_YES);
+					}
+				});
+		ii.registerItem(
+				new ItemBuilder(LGCustomItems.getSpecialItem(SpecialItems.BACKARROW))
+				.name("§7Retour")
+				.build(), 
+				ii.getInv().getSize() - 1, true, 
+				new InventoryCall() {
+					
+					@Override
+					public void click(HumanEntity human, ItemStack item, ClickType clickType) {
+						game.getGameMenu().openGameMenu(lgp);
 					}
 				});
 		

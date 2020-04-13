@@ -202,23 +202,22 @@ public class DiscordChannelHandler implements Listener {
 
 		HandlerList.unregisterAll(this);
 
-		final VoiceChannel currentVoice = voice;
-		for(Member m : currentVoice.getMembers()) {
-			try {
-				if(m.getVoiceState().isGuildMuted())
-					m.mute(false).queue();
-				
+		try {
+			for (Member m : voice.getMembers()) {
 				GuildVoiceState voiceState = m.getVoiceState();
-				if(!voiceState.inVoiceChannel())
+				if (!voiceState.inVoiceChannel())
 					continue;
-				
-				if(voiceState.getChannel() == voice)
-					continue;
-				
+
 				discord.getGuild().moveVoiceMember(m, discord.getEndGame()).queue();
-			} catch(Exception ex) {}
+
+				if (m.getVoiceState().isGuildMuted())
+					m.mute(false).queue();
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		}
-		
+
+		final VoiceChannel currentVoice = voice;
 		new BukkitRunnable() {
 			@Override
 			public void run() {

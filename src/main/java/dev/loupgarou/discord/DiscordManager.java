@@ -130,6 +130,8 @@ public class DiscordManager extends ListenerAdapter {
 			if(handler == null) {
 				MainLg.debug("Voice channel not recognize...");
 				lgp.sendMessage(PrefixType.DISCORD + "§cUne erreur est survenue... #544891");
+				if(!e.getEntity().getVoiceState().inVoiceChannel())
+					return;
 				this.guild.moveVoiceMember(e.getEntity(), this.endGame).queue();
 				e.getChannelJoined().delete().queue();
 				return;
