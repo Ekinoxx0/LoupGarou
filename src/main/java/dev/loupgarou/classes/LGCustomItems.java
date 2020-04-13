@@ -77,11 +77,7 @@ public class LGCustomItems {
 	}
 	
 	public static Material getItem(@NonNull Role role) {
-		if(!mappings.containsKey(role.getClass().getSimpleName().substring(1).toLowerCase())) {
-			MainLg.debug("No material specified in mappings(" + mappings.size() + ") for : '" + role.getClass().getSimpleName().substring(1).toLowerCase() + "'");
-			return getSpecialItem(SpecialItems.MID_ROLE_Q);
-		}
-		return mappings.get(role.getClass().getSimpleName().substring(1).toLowerCase()).get("role");
+		return getItem(role, new ArrayList<LGCustomItems.LGCustomItemsConstraints>());
 	}
 	
 	public static Material getItemMenu(@NonNull Role role) {
@@ -94,7 +90,8 @@ public class LGCustomItems {
 	
 	public static Material getItem(@NonNull Role r, @NonNull List<LGCustomItemsConstraints> constraints) {
 		if(constraints.isEmpty())
-			return getItem(r);
+			return mappings.get(r.getClass().getSimpleName().substring(1).toLowerCase()).get("role");
+		
 		Collections.sort(constraints);
 		
 		String roleName = r.getClass().getSimpleName().substring(1).toLowerCase();
@@ -116,6 +113,11 @@ public class LGCustomItems {
 	}
 	
 	public static void updateItem(@NonNull LGPlayer lgp) {
+		lgp.getPlayer().getInventory().setHeldItemSlot(0);
+		Material menuItem = getItemMenu(lgp.getRole());
+		for (int i = 1; i < 9; i++)
+			lgp.getPlayer().getInventory().setItem(i, new ItemStack(menuItem));
+		
 		List<LGCustomItemsConstraints> list = new ArrayList<LGCustomItems.LGCustomItemsConstraints>();
 		Bukkit.getPluginManager().callEvent(new LGCustomItemChangeEvent(lgp.getGame(), lgp, list));
 		updateItem(lgp, getItem(lgp.getRole(), list));
@@ -123,6 +125,8 @@ public class LGCustomItems {
 
 	@Deprecated
 	public static void updateItem(@NonNull LGPlayer lgp, Material material) {
+		if(lgp.getPlayer() == null) return;
+		
 		lgp.getPlayer().getInventory().setItemInOffHand(new ItemStack(material == null ? Material.AIR : material));
 		lgp.getPlayer().updateInventory();
 	}

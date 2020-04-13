@@ -101,11 +101,12 @@ public class ProtocolListener {
 				LGPlayer lgpTo = LGPlayer.thePlayer(e.getPlayer());
 				if(lgpTo.getGame() == null) return;
 				WrapperPlayServerEntityEquipment equip = new WrapperPlayServerEntityEquipment(e.getPacket());
+				if(equip.getEntityID() == lgpTo.getPlayer().getEntityId()) return;
+				
 				switch(equip.getSlot()) {
 				case MAINHAND:
 				case OFFHAND:
-					if(equip.getEntityID() != lgpTo.getPlayer().getEntityId())
-						equip.setItem(new ItemStack(Material.AIR));
+					equip.setItem(new ItemStack(Material.AIR));
 					break;
 				default:
 					break;

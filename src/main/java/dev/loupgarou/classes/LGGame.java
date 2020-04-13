@@ -55,7 +55,6 @@ import dev.loupgarou.menu.game.GameMenu;
 import dev.loupgarou.packetwrapper.WrapperPlayServerChat;
 import dev.loupgarou.packetwrapper.WrapperPlayServerExperience;
 import dev.loupgarou.packetwrapper.WrapperPlayServerSpawnEntityWeather;
-import dev.loupgarou.packetwrapper.WrapperPlayServerUpdateHealth;
 import dev.loupgarou.packetwrapper.WrapperPlayServerUpdateTime;
 import dev.loupgarou.roles.RChienLoupLG;
 import dev.loupgarou.roles.REnfantSauvageLG;
@@ -361,15 +360,14 @@ public class LGGame implements Listener{
 				LGLocation location = spawnList.remove(i++);
 				Player p = lgp.getPlayer();
 				p.setWalkSpeed(0);
+				lgp.getPlayer().getInventory().setHeldItemSlot(0);
 				p.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 99999, 180, false, false));
 				lgp.setPlace(original.indexOf(location));
 				placements.put(lgp.getPlace(), lgp);
 				p.teleport(location.toLocation(getConfig().getMap()));
-				WrapperPlayServerUpdateHealth update = new WrapperPlayServerUpdateHealth();
-				update.setFood(20);
-				update.setFoodSaturation(1);
-				update.setHealth(20);
-				update.sendPacket(p);
+				p.setFoodLevel(20);
+				p.setHealth(20);
+				p.setSaturation(Float.MAX_VALUE);
 				lgp.updateSkin();
 				lgp.updateOwnSkin();
 				lgp.getScoreboard().getLine(0).setDisplayName("§6Attribution des rôles...");
@@ -425,7 +423,6 @@ public class LGGame implements Listener{
 			for (int i = 0; i < getConfig().getRoles().get(role.getClass()); i++) {
 				int randomized = random.nextInt(toGive.size());
 				LGPlayer player = toGive.remove(randomized);
-
 				role.join(player, true, true);
 			}
 		}

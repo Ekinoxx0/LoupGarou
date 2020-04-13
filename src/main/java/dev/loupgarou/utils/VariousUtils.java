@@ -81,13 +81,15 @@ public class VariousUtils {
 		p.setFoodLevel(20);
 		p.setSaturation(Float.MAX_VALUE);
 		p.setHealth(20f);
+		p.setHealthScale(20f);
+		p.setHealthScaled(false);
 		p.getInventory().clear();
 		p.getInventory().setArmorContents(new ItemStack[] {});
 		p.getInventory().setItemInOffHand(null);
 		p.updateInventory();
 		p.closeInventory();
 		for(PotionEffect effect : p.getActivePotionEffects())
-			p.removePotionEffect(effect.getType());//FIXME Seems like not in game
+			p.removePotionEffect(effect.getType());
 		
 		lgp.showView();
 		lgp.updateSkin();
@@ -109,7 +111,8 @@ public class VariousUtils {
 		lgp.joinChat(MainLg.getInstance().getLobbyChat(), null, false);
 		
 		resetDisplay(lgp);
-		
+
+		lgp.getPlayer().getInventory().setHeldItemSlot(4);
 		p.teleport(Bukkit.getWorlds().get(0).getSpawnLocation());
 		p.getInventory().setItem(4, LOBBY_ITEM);
 		

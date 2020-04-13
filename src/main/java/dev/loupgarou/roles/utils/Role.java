@@ -6,6 +6,8 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import dev.loupgarou.MainLg;
@@ -88,7 +90,7 @@ public abstract class Role implements Listener{
 		}.run();
 	}
 	 
-	public void join(LGPlayer player, boolean sendMessage, boolean leavePrecedentRole) {
+	public void join(@NonNull LGPlayer player, boolean sendMessage, boolean leavePrecedentRole) {
 		MainLg.debug(getGame().getKey(), getName() + "§7.join(" + player.getName() + ", " + sendMessage + ")");
 		players.add(player);
 		if(player.getRole() != null && leavePrecedentRole)
@@ -101,6 +103,18 @@ public abstract class Role implements Listener{
 			player.sendTitle("§6Tu es "+getName(), "§e"+getShortDescription(), 200);
 			player.sendMessage("§6Tu es "+getName()+"§6.");
 			player.sendMessage("§6Description : §f"+getDescription());
+			
+			switch(this.getWinType()) {
+			case LOUP_GAROU:
+			case VAMPIRE:
+				player.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.WITHER, Integer.MAX_VALUE, 0, false, false));
+				break;
+			case SEUL:
+				player.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.POISON, Integer.MAX_VALUE, 0, false, false));
+				break;
+			default:
+				break;
+			}
 		}
 		
 		LGCustomItems.updateItem(player);

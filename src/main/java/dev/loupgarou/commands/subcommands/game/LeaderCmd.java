@@ -70,7 +70,7 @@ public class LeaderCmd extends SubCommand {
 				return;
 			}
 			
-			if (gameTarget.getInGame().contains(LGPlayer.thePlayer(normalTarget))) {
+			if (!gameTarget.getInGame().contains(LGPlayer.thePlayer(normalTarget))) {
 				cs.sendMessage(PrefixType.PARTIE + "§cLe joueur 2 n'est pas dans la partie du leader");
 				return;
 			}

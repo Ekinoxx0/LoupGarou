@@ -4,7 +4,6 @@ import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockBurnEvent;
 import org.bukkit.event.block.BlockDamageEvent;
@@ -50,8 +49,7 @@ public class CancelListener implements Listener{
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent e) {
 		if(e.getPlayer().getGameMode() == GameMode.CREATIVE) return;
-        if (e.getAction() == Action.PHYSICAL)
-        	e.setCancelled(true);
+        e.setCancelled(true);
     }
     
     @EventHandler
