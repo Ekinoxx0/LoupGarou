@@ -32,6 +32,7 @@ public abstract class SubCommand implements TabExecutor {
 				Bukkit.getPluginCommand(alias).setExecutor(this);
 				Bukkit.getPluginCommand(alias).setTabCompleter(this);
 				Bukkit.getPluginCommand(alias).setPermission(getPermission());
+				Bukkit.getPluginCommand(alias).setAliases(getAliases());
 			}
 		}
 	}

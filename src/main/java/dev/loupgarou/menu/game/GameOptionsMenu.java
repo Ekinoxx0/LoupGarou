@@ -137,6 +137,59 @@ public class GameOptionsMenu {
 						reloadMenu();
 					}
 				});
+		ii.registerItem(
+				new ItemBuilder(LGCustomItems.getSpecialItem(SpecialItems.GREY_ROLE_Q))
+				.name("§9Temps de vote par personne : " + this.game.getConfig().getTimerDayPerPlayer() + " secondes")
+				.lore(Arrays.asList(
+						"§7Permet d'augmenter ou de diminuer le temps",
+						"§7de vote par personne durant le vote de jour.",
+						"§7Par défaut : 15 secondes x 12 personnes = 3 minutes",
+						"",
+						"§8Clique gauche pour augmenter, droit pour diminuer"
+						))
+				.build(), 
+				5, 2, true, 
+				new InventoryCall() {
+					
+					@Override
+					public void click(HumanEntity human, ItemStack item, ClickType clickType) {
+						if(lgp.getGame().getOwner() != lgp) {
+							lgp.sendMessage(PrefixType.PARTIE + "§cVous n'êtes pas le propriétaire de la partie...");
+							return;
+						}
+						
+						int modif = 0;
+						
+						switch(clickType) {
+						
+						case RIGHT:
+						case SHIFT_RIGHT:
+							modif = -5;
+							if(lgp.getGame().getConfig().getTimerDayPerPlayer() <= 5)
+								modif = 0;
+							break;
+							
+						case LEFT:
+						case SHIFT_LEFT:
+							modif = 5;
+							if(lgp.getGame().getConfig().getTimerDayPerPlayer() >= 60)
+								modif = 0;
+							break;
+								
+						default:
+							return;
+						}
+						
+						if(modif == 0) {
+							lgp.sendMessage(PrefixType.PARTIE + "§cLimite atteinte");
+							return;
+						}
+
+						lgp.getGame().getConfig().setTimerDayPerPlayer(lgp.getGame().getConfig().getTimerDayPerPlayer() + modif);
+						lgp.sendMessage(PrefixType.PARTIE + "§9Temps de vote : " + lgp.getGame().getConfig().getTimerDayPerPlayer());
+						reloadMenu();
+					}
+				});
 		
 		ii.registerItem(
 				new ItemBuilder(LGCustomItems.getSpecialItem(SpecialItems.BACKARROW))

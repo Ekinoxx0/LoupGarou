@@ -1,4 +1,4 @@
-package dev.loupgarou.commands.subcommands.debug;
+package dev.loupgarou.commands.subcommands.game;
 
 import java.util.Arrays;
 
@@ -13,7 +13,7 @@ import dev.loupgarou.utils.CommonText.PrefixType;
 public class QuickCmd extends SubCommand {
 
 	public QuickCmd(LoupGarouCommand cmd) {
-		super(cmd, Arrays.asList("quick", "veryquick"));
+		super(cmd, Arrays.asList("quick", "veryquick", "rapide", "voterapide", "quickvote", "votequick", "rapidevote"));
 	}
 
 	@Override
