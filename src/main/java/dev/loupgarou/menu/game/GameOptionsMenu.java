@@ -18,6 +18,9 @@ import dev.loupgarou.utils.CommonText.PrefixType;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
+/*
+ * TODO Ninja vote
+ */
 @RequiredArgsConstructor
 public class GameOptionsMenu {
 	
@@ -113,7 +116,7 @@ public class GameOptionsMenu {
 						"§7aux rôles tel que Loup Garou ou Vampires.",
 						"",
 						"§7Nous recommandons l'activation de cette option",
-						"§7si la Petite Fille est active car il forcera les Loup Garou",
+						"§7si une Petite Fille est présente car elle forcera les Loups Garous",
 						"§7à utiliser leur chat textuel"
 						))
 				.build(), 
@@ -140,6 +143,7 @@ public class GameOptionsMenu {
 		ii.registerItem(
 				new ItemBuilder(LGCustomItems.getSpecialItem(SpecialItems.GREY_ROLE_Q))
 				.name("§9Temps de vote par personne : " + this.game.getConfig().getTimerDayPerPlayer() + " secondes")
+				.amount(this.game.getConfig().getTimerDayPerPlayer() <= LGCustomItems.getSpecialItem(SpecialItems.GREY_ROLE_Q).getMaxStackSize() ? this.game.getConfig().getTimerDayPerPlayer() : 1)
 				.lore(Arrays.asList(
 						"§7Permet d'augmenter ou de diminuer le temps",
 						"§7de vote par personne durant le vote de jour.",
@@ -186,7 +190,7 @@ public class GameOptionsMenu {
 						}
 
 						lgp.getGame().getConfig().setTimerDayPerPlayer(lgp.getGame().getConfig().getTimerDayPerPlayer() + modif);
-						lgp.sendMessage(PrefixType.PARTIE + "§9Temps de vote : " + lgp.getGame().getConfig().getTimerDayPerPlayer());
+						lgp.sendMessage(PrefixType.PARTIE + "§9Temps de vote : " + lgp.getGame().getConfig().getTimerDayPerPlayer() + " secondes");
 						reloadMenu();
 					}
 				});

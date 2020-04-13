@@ -59,6 +59,7 @@ public class JoinListener implements Listener {
 		myTeam.setName(p.getDisplayName());
 		myTeam.setPlayers(Arrays.asList(p.getName()));
 		myTeam.setMode(Mode.TEAM_CREATED);
+		myTeam.setCollisionRule("never");
 		
 		WrapperPlayServerScoreboardTeam team = new WrapperPlayServerScoreboardTeam();
 		team.setMode(Mode.TEAM_CREATED);
@@ -66,11 +67,11 @@ public class JoinListener implements Listener {
 		myTeam.sendPacket(p);
 		for(Player allPlayer : Bukkit.getOnlinePlayers()) {
 			if(allPlayer == p) continue;
-			if(allPlayer.getGameMode() != GameMode.SPECTATOR)
-				allPlayer.hidePlayer(MainLg.getInstance(), p);
+			allPlayer.hidePlayer(MainLg.getInstance(), p);
 			
 			team.setName(allPlayer.getDisplayName());
 			team.setPlayers(Arrays.asList(allPlayer.getName()));
+			team.setCollisionRule("never");
 			
 			team.sendPacket(p);
 			myTeam.sendPacket(allPlayer);

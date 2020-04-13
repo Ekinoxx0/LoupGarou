@@ -280,9 +280,8 @@ public class RCupidon extends Role{
 	@EventHandler(priority = EventPriority.HIGH)
 	public void onUpdatePrefix (LGUpdatePrefixEvent e) {
 		if(e.getGame() == getGame())
-			if(e.getTo().getCache().get(CacheType.INLOVE) == e.getPlayer() || ((e.getTo() == e.getPlayer() || e.getTo().getRole() == this) && e.getPlayer().getCache().has(CacheType.INLOVE))) {
+			if(e.getTo().getCache().get(CacheType.INLOVE) == e.getPlayer() || e.getTo() == e.getPlayer())
 				e.setPrefix("§d\u2764 " + e.getPrefix());
-			}
 	}
 	
 }

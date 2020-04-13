@@ -12,6 +12,9 @@ import org.bukkit.entity.Player;
 import dev.loupgarou.classes.LGPlayer;
 import dev.loupgarou.commands.LoupGarouCommand;
 import dev.loupgarou.commands.SubCommand;
+import dev.loupgarou.utils.TComponent;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ClickEvent.Action;
 import dev.loupgarou.utils.CommonText.PrefixType;
 
 public class InviteCmd extends SubCommand {
@@ -50,7 +53,7 @@ public class InviteCmd extends SubCommand {
 			lgp.getGame().getConfig().getInvited().add(target.getName());
 			lgp.getGame().getConfig().getInvited().add(target.getDisplayName());
 			target.sendMessage(PrefixType.PARTIE + "§6Vous avez été invité par " + lgp.getName());
-			target.sendMessage(PrefixType.PARTIE + "§6Faites /join " + lgp.getName() + " pour le rejoindre");
+			lgp.sendMessage(new TComponent(PrefixType.PARTIE), new TComponent("§6Cliquez §lICI§6 pour rejoindre !").setClickEvent(new ClickEvent(Action.RUN_COMMAND, "/join " + lgp.getGame().getKey())));
 			cs.sendMessage(PrefixType.PARTIE + "§aVous avez invité " + target.getDisplayName() + " à votre partie");
 		}else {
 			cs.sendMessage(PrefixType.PARTIE + "§c/" + label + " <Joueur>");

@@ -23,21 +23,28 @@ import lombok.ToString;
 public class LGPlayerSimple {
 
 	@Getter private Player player;
+	@NonNull private String displayName;
 	@NonNull private String name;
 	@Getter private CustomScoreboard scoreboard;
 	@Getter @Setter private String loadedRessourcePack = null;
 	
 	public LGPlayerSimple(@NonNull Player player) {
 		this.player = player;
-		this.name = player.getDisplayName();
+		this.displayName = player.getDisplayName();
+		this.name = player.getName();
 	}
 	@Deprecated
-	public LGPlayerSimple(String name) {
-		this.name = name;
+	public LGPlayerSimple(String displayName) {
+		this.name = displayName;
+		this.displayName = displayName;
 	}
 	
 	public String getName() {
-		return player != null ? name = getPlayer().getDisplayName() : name;
+		return player != null ? displayName = getPlayer().getDisplayName() : displayName;
+	}
+	
+	public String getRealName() {
+		return name;
 	}
 
 	public void sendActionBarMessage(String msg) {

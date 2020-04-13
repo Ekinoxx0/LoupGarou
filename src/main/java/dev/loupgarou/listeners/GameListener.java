@@ -6,6 +6,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerItemHeldEvent;
 
 import dev.loupgarou.classes.LGCustomItems.LGCustomItemsConstraints;
 import dev.loupgarou.classes.LGCustomSkin;
@@ -28,6 +29,13 @@ public class GameListener implements Listener {
 		for(String line : sign.getLines())
 			if(line.contains("Menu"))
 				MainMenu.openMenu(LGPlayer.thePlayer(e.getPlayer()));
+	}
+	
+	@EventHandler
+	public void onPlayerItemHeld(PlayerItemHeldEvent e) {
+		if(e.getNewSlot() == 0) return;
+		LGPlayer lgp = LGPlayer.thePlayer(e.getPlayer());
+		if(lgp.getGame() != null && lgp.getGame().isStarted()) e.setCancelled(true);
 	}
 	
 	@EventHandler

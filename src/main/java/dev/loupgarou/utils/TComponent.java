@@ -1,5 +1,6 @@
 package dev.loupgarou.utils;
 
+import dev.loupgarou.utils.CommonText.PrefixType;
 import lombok.NonNull;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -10,6 +11,10 @@ public class TComponent {
 
 	private final TextComponent text;
 
+	public TComponent(@NonNull PrefixType value) {
+		this.text = new TextComponent(value.toString());
+	}
+	
 	public TComponent(@NonNull String value) {
 		this.text = new TextComponent(value);
 	}

@@ -13,7 +13,6 @@ import java.util.Map.Entry;
 import java.util.Random;
 
 import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -216,11 +215,6 @@ public class LGGame implements Listener{
 			return false;
 		}
 
-		if(lgp.getPlayer().getGameMode() == GameMode.SPECTATOR) {
-			lgp.sendMessage(PrefixType.PARTIE + "§cÉtant en mode spectateur, vous ne rejoignez pas la partie !");
-			return false;
-		}
-		
 		if(started) {
 			lgp.sendMessage(PrefixType.PARTIE + "§cPartie déjà démarrée !");
 			return false;

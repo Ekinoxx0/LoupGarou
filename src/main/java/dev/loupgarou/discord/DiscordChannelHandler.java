@@ -70,7 +70,8 @@ public class DiscordChannelHandler implements Listener {
 									Permission.VOICE_MUTE_OTHERS,
 									Permission.VOICE_USE_VAD,
 									Permission.PRIORITY_SPEAKER,
-									Permission.MANAGE_CHANNEL
+									Permission.MANAGE_CHANNEL,
+									Permission.MANAGE_PERMISSIONS
 									), 
 							Collections.emptyList()).queue(
 									(success) -> {},
