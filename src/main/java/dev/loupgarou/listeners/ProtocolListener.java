@@ -15,7 +15,6 @@ import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketEvent;
-import com.comphenix.protocol.wrappers.EnumWrappers.ItemSlot;
 import com.comphenix.protocol.wrappers.PlayerInfoData;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 
@@ -102,8 +101,15 @@ public class ProtocolListener {
 				LGPlayer lgpTo = LGPlayer.thePlayer(e.getPlayer());
 				if(lgpTo.getGame() == null) return;
 				WrapperPlayServerEntityEquipment equip = new WrapperPlayServerEntityEquipment(e.getPacket());
-				if(equip.getSlot() == ItemSlot.OFFHAND && equip.getEntityID() != lgpTo.getPlayer().getEntityId())
-					equip.setItem(new ItemStack(Material.AIR));
+				switch(equip.getSlot()) {
+				case MAINHAND:
+				case OFFHAND:
+					if(equip.getEntityID() != lgpTo.getPlayer().getEntityId())
+						equip.setItem(new ItemStack(Material.AIR));
+					break;
+				default:
+					break;
+				}
 			}
 		});
 	}

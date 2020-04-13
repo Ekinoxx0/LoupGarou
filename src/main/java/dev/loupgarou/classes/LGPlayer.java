@@ -14,6 +14,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 
 import com.comphenix.protocol.wrappers.EnumWrappers.NativeGameMode;
 import com.comphenix.protocol.wrappers.EnumWrappers.PlayerInfoAction;
@@ -182,8 +183,11 @@ public class LGPlayer extends LGPlayerSimple {
 			}
 	}
 	
+	private BukkitTask updatingSkin = null;
 	public void updateOwnSkin() {
 		if(getPlayer() == null) return;
+		if(updatingSkin != null)
+			updatingSkin.cancel();
 		WrapperPlayServerPlayerInfo infos = new WrapperPlayServerPlayerInfo();
 		infos.setAction(PlayerInfoAction.ADD_PLAYER);
 		WrappedGameProfile gameProfile = new WrappedGameProfile(getPlayer().getUniqueId(), getPlayer().getName());
@@ -200,15 +204,13 @@ public class LGPlayer extends LGPlayerSimple {
 		getPlayer().teleport(getPlayer().getLocation());
 		float speed = getPlayer().getWalkSpeed();
 		getPlayer().setWalkSpeed(0.201f);
-		new BukkitRunnable() {
+		updatingSkin = new BukkitRunnable() {
 			
 			@Override
 			public void run() {
 				if(getPlayer() == null) return;
-				getPlayer().updateInventory();
-				if(getPlayer().getWalkSpeed() == 0.201f) {
+				if(getPlayer().getWalkSpeed() == 0.201f)
 					getPlayer().setWalkSpeed(speed);
-				}
 			}
 		}.runTaskLater(MainLg.getInstance(), 5);
 	
