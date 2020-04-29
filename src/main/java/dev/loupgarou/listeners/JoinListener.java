@@ -32,7 +32,6 @@ import dev.loupgarou.packetwrapper.WrapperPlayServerScoreboardTeam.Mode;
 import dev.loupgarou.utils.CommonText.PrefixType;
 import dev.loupgarou.utils.CharManager;
 import dev.loupgarou.utils.VariousUtils;
-import fr.xephi.authme.events.LoginEvent;
 
 public class JoinListener implements Listener {
 	
