@@ -48,10 +48,6 @@ public class JoinListener implements Listener {
 	public void onJoin(PlayerJoinEvent e) {
 		ResourcePackCmd.load(e.getPlayer());
 		e.setJoinMessage(null);
-	}
-	
-	@EventHandler
-	public void onJoin(LoginEvent e) {
 		Player p = e.getPlayer();
 		ResourcePackCmd.load(e.getPlayer());
 		
