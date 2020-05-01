@@ -67,6 +67,7 @@ public abstract class Role implements Listener{
 							Role.this.onNightTurnTimeout(player);
 						}catch(Exception err) {
 							System.out.println("Error when timeout role");
+							System.err.println("Error related to game : " + game.getKey());
 							err.printStackTrace();
 						}
 						this.run();

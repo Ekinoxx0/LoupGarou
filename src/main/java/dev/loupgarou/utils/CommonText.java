@@ -120,7 +120,7 @@ public class CommonText {
 	/*
 	 * Texts
 	 */
-
+	
 	public static String getKickBungee(String msg){
 		return "§4§l§m" + CommonText.repeat(" ", 6) + "§r " + TextType.SERVER_NAME_COLORED.getText() + " §4§l§m" + CommonText.repeat(" ", 6) + "§r"
 				+ "\n"

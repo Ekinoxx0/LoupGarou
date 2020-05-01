@@ -374,6 +374,7 @@ public class LGGame implements Listener{
 			}
 		} catch(Exception ex) {
 			broadcastMessage("§4§lUne erreur est survenue lors de la tp aux spawns...");
+			System.err.println("Error related to game : " + this.key);
 			ex.printStackTrace();
 		}
 		
@@ -382,6 +383,7 @@ public class LGGame implements Listener{
 				roles.add(role.getValue().newInstance(this));
 		}catch(Exception err) {
 			broadcastMessage("§4§lUne erreur est survenue lors de la création des roles...");
+			System.err.println("Error related to game : " + this.key);
 			err.printStackTrace();
 		}
 
