@@ -24,9 +24,6 @@ Le mode Loup-Garou est un mode inspiré du jeu de société [Les Loups-Garous de
 
 ## Installation
 
-**Minecraft 1.15.2 est requis.**  
-Déplacez simplement le plugin [LoupGarou.jar](https://github.com/Ekinoxx0/LoupGarou/releases) dans le dossier `plugins` de votre serveur avant de le redémarrer.
-
 ### Dépendances requises
 
 - [ProtocolLib](https://www.spigotmc.org/resources/protocollib.1997/)
