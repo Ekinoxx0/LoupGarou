@@ -15,7 +15,7 @@
 
 ## License
 
-Ré-utiliser du code autorisé, les modifications et utilisations du code doivent être publique.
+Utilisation du code autorisé, les modifications et utilisations du code doivent être publique.
 Ce projet ne peut pas être utilisé de manière commerciale (Serveur minecraft monétisé) sans avoir obtenu l'autorisation préalable.
 
 ## A propos
