@@ -3,6 +3,8 @@ package dev.loupgarou.menu;
 import java.util.Arrays;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
@@ -14,6 +16,8 @@ import dev.loupgarou.classes.LGCustomItems.SpecialItems;
 import dev.loupgarou.classes.LGGame;
 import dev.loupgarou.classes.LGGameConfig;
 import dev.loupgarou.classes.LGGameConfig.CommunicationType;
+import dev.loupgarou.classes.LGGameConfig.MusicType;
+import dev.loupgarou.classes.LGGameConfig.SkinType;
 import dev.loupgarou.classes.LGMaps;
 import dev.loupgarou.classes.LGMaps.LGMap;
 import dev.loupgarou.classes.LGPlayer;
@@ -41,7 +45,12 @@ public class CreateServerMenu {
 		
 		ii.registerItem(
 				new ItemBuilder(LGCustomItems.getSpecialItem(SpecialItems.GREEN_ROLE))
-				.name("§aPartie publique")
+				.name("§a§lPartie publique")
+				.lore(Arrays.asList(
+						"",
+						"§7Liste la partie en publique dans la liste des serveurs,",
+						"§7joignable par le pseudo."
+						))
 				.build(), 
 				3, 1, true, 
 				new InventoryCall() {
@@ -54,7 +63,12 @@ public class CreateServerMenu {
 		
 		ii.registerItem(
 				new ItemBuilder(LGCustomItems.getSpecialItem(SpecialItems.RED_ROLE))
-				.name("§cPartie privée")
+				.name("§c§lPartie privée")
+				.lore(Arrays.asList(
+						"",
+						"§7Ne liste pas la partie dans la liste des serveurs,",
+						"§7joignable par le code ou par invitation."
+						))
 				.build(), 
 				5, 1, true, 
 				new InventoryCall() {
@@ -153,7 +167,7 @@ public class CreateServerMenu {
 		
 		ii.registerItem(
 				new ItemBuilder(LGCustomItems.getSpecialItem(SpecialItems.DISCORD))
-				.name("§6Sélection du type de tchat")
+				.name("§6§lSélection du type de tchat")
 				.lore(
 						Arrays.asList(
 								"§9Vocal sur Discord",
@@ -172,13 +186,13 @@ public class CreateServerMenu {
 					@Override
 					public void click(HumanEntity human, ItemStack item, ClickType clickType) {
 						config.setCom(CommunicationType.DISCORD);
-						validate(lgp, config);
+						chooseOptional(lgp, config);
 					}
 				});
 		
 		ii.registerItem(
 				new ItemBuilder(LGCustomItems.getSpecialItem(SpecialItems.TEXTUAL))
-				.name("§6Sélection du type de tchat")
+				.name("§6§lSélection du type de tchat")
 				.lore(
 						Arrays.asList(
 								"§dTextuel",
@@ -189,6 +203,91 @@ public class CreateServerMenu {
 						)
 				.build(), 
 				5, 1, true, 
+				new InventoryCall() {
+					
+					@Override
+					public void click(HumanEntity human, ItemStack item, ClickType clickType) {
+						chooseOptional(lgp, config);
+					}
+				});
+		
+		ii.openTo(lgp.getPlayer());
+	}
+	
+	private static void chooseOptional(@NonNull LGPlayer lgp, LGGameConfig config) {
+		InteractInventory ii = new InteractInventory(Bukkit.createInventory(null, 9 * 3, "Sélection des options facultatives"));
+		
+		ii.fill(null, true, null);
+		
+		ii.registerItem(
+				new ItemBuilder(Material.MUSIC_DISC_CAT)
+				.name("§6§lSélection du pack de musiques")
+				.lore(
+						Arrays.asList(
+								"§6Musique : " + config.getMusicType(),
+								"",
+								"§7§oCliquez pour changer de pack de musique"
+								)
+						)
+				.build(), 
+				3, 1, true, 
+				new InventoryCall() {
+					
+					@Override
+					public void click(HumanEntity human, ItemStack item, ClickType clickType) {
+						if(!human.hasPermission("loupgarou.option.music")) {
+							lgp.sendMessage(PrefixType.PARTIE + "§cCette option n'est pas disponible pour votre grade...");
+							lgp.playAudio(Sound.ENTITY_VILLAGER_NO);
+							return;
+						}
+						
+						int nextOne = config.getMusicType().ordinal() + 1;
+						if(nextOne >= MusicType.values().length) nextOne = 0;
+						config.setMusicType(MusicType.values()[nextOne]);
+						lgp.sendMessage(PrefixType.PARTIE + "§9Musique : §7" + config.getMusicType());
+					}
+				});
+		
+		ii.registerItem(
+				new ItemBuilder(Material.PLAYER_HEAD)
+				.name("§6§lSélection du pack de skin")
+				.lore(
+						Arrays.asList(
+								"§6Skin : " + config.getSkinType(),
+								"",
+								"§7§oCliquez pour changer de pack de skin"
+								)
+						)
+				.build(), 
+				4, 1, true, 
+				new InventoryCall() {
+					
+					@Override
+					public void click(HumanEntity human, ItemStack item, ClickType clickType) {
+						if(!human.hasPermission("loupgarou.option.skin")) {
+							lgp.sendMessage(PrefixType.PARTIE + "§cCette option n'est pas disponible pour votre grade...");
+							lgp.playAudio(Sound.ENTITY_VILLAGER_NO);
+							return;
+						}
+						
+						int nextOne = config.getSkinType().ordinal() + 1;
+						if(nextOne >= SkinType.values().length) nextOne = 0;
+						config.setSkinType(SkinType.values()[nextOne]);
+						lgp.sendMessage(PrefixType.PARTIE + "§9Skin : §7" + config.getSkinType());
+					}
+				});
+		
+		ii.registerItem(
+				new ItemBuilder(LGCustomItems.getSpecialItem(SpecialItems.CHECK))
+				.name("§f§lSuivant...")
+				.lore(
+						Arrays.asList(
+								"",
+								"§7§oCliquez pour accèder au prochaines options"
+								)
+						)
+				.build(), 
+				6, 1, true, 
 				new InventoryCall() {
 					
 					@Override
@@ -207,7 +306,7 @@ public class CreateServerMenu {
 		
 		ii.registerItem(
 				new ItemBuilder(LGCustomItems.getSpecialItem(SpecialItems.CHECK))
-				.name("§2Valider la configuration :")
+				.name("§2§lValider la configuration :")
 				.lore(
 						Arrays.asList(
 								"",

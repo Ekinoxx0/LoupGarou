@@ -41,6 +41,8 @@ public class LGGameConfig {
 	@Getter @Setter private boolean hideVoteRole = false;
 	@Getter @Setter private int timerDayPerPlayer = 15;
 	@Getter @Setter @NonNull private CommunicationType com = CommunicationType.TEXTUEL;
+	@Getter @Setter @NonNull private SkinType skinType = SkinType.DEFAULT;
+	@Getter @Setter @NonNull private MusicType musicType = MusicType.DEFAULT;
 	
 	@Getter @NonNull @ToString.Exclude private final LGMap map;
 	@Getter private final boolean privateGame;
@@ -171,6 +173,26 @@ public class LGGameConfig {
 	public enum CommunicationType {
 		TEXTUEL,
 		DISCORD;
+	}
+	
+	@AllArgsConstructor
+	public enum MusicType {
+		DEFAULT("Pack Basique"),
+		VIP_1("Pack VIP 1"),
+		VIP_2("Pack VIP 2");
+		private final String name;
+		@Override
+		public String toString() {return this.name;}
+	}
+
+	@AllArgsConstructor
+	public enum SkinType {
+		DEFAULT("Pack Basique"),
+		CUSTOM("Skins des joueurs"),
+		OTHER("Pack Autre");
+		private final String name;
+		@Override
+		public String toString() {return this.name;}
 	}
 
 }

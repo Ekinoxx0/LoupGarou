@@ -123,7 +123,7 @@ public class MainLg extends JavaPlugin {
 	public void onDisable() {
 		try {
 			this.discord.getJda().removeEventListener(this.discord);
-			this.discord.getJda().shutdown();
+			this.discord.getJda().shutdownNow();
 		} catch(Exception ex) {
 			ex.printStackTrace();
 		}

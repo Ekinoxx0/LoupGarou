@@ -12,6 +12,7 @@ import lombok.NonNull;
 
 /**
  * TODO Auto invite prec game
+ * FIXME Saved
  */
 public class LGSavedPlayer {
 
