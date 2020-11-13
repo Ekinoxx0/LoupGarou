@@ -57,6 +57,7 @@ public class DiscordChannelHandler implements Listener {
 					 },
 					 (failure) -> {
 						 game.broadcastMessage(PrefixType.DISCORD + "§cSalon créé, mais une erreur est survenue lors de la création de l'invitation...");
+						 System.err.println("Error related to game : " + game.getKey());
 						 failure.printStackTrace();
 					 });
 				
@@ -83,6 +84,7 @@ public class DiscordChannelHandler implements Listener {
 			},
 			(failure) -> {
 				game.broadcastMessage(PrefixType.DISCORD + "§cUne erreur est survenue sur lors de la création du salon discord...");
+				System.err.println("Error related to game : " + game.getKey());
 				failure.printStackTrace();
 				this.destroy();
 			});
@@ -216,6 +218,7 @@ public class DiscordChannelHandler implements Listener {
 					m.mute(false).queue();
 			}
 		} catch (Exception ex) {
+			System.err.println("Error related to game : " + game.getKey());
 			ex.printStackTrace();
 		}
 

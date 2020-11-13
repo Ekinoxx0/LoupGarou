@@ -238,10 +238,18 @@ public class LGPlayer extends LGPlayerSimple {
 	}
 	
 	public RoleType getRoleType() {
-		return this.getCache().getBoolean(CacheType.INFECTED) ? RoleType.LOUP_GAROU : getRole().getType(this);
+		if(this.getCache().getBoolean(CacheType.INFECTED))
+			return RoleType.LOUP_GAROU;
+		if(getRole() == null)
+			return null;
+		return getRole().getType(this);
 	}
 	public RoleWinType getRoleWinType() {
-		return this.getCache().getBoolean(CacheType.INFECTED) ? RoleWinType.LOUP_GAROU : getRole().getWinType(this);
+		if(this.getCache().getBoolean(CacheType.INFECTED))
+			return RoleWinType.LOUP_GAROU;
+		if(getRole() == null)
+			return null;
+		return getRole().getWinType(this);
 	}
 	public boolean isRoleActive() {
 		return true;//TODO Old Vampire

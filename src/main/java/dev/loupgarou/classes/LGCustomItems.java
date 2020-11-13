@@ -121,6 +121,7 @@ public class LGCustomItems {
 		List<LGCustomItemsConstraints> list = new ArrayList<LGCustomItems.LGCustomItemsConstraints>();
 		Bukkit.getPluginManager().callEvent(new LGCustomItemChangeEvent(lgp.getGame(), lgp, list));
 		updateItem(lgp, getItem(lgp.getRole(), list));
+		lgp.getPlayer().updateInventory();
 	}
 
 	@Deprecated

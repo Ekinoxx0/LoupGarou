@@ -13,6 +13,11 @@
   - [Publier un rôle](#publier-un-rôle)
  	 - [Quelques classes utiles](#quelques-classes-utiles)
 
+## License
+
+Utilisation du code autorisé, les modifications et utilisations du code doivent être publique.
+Ce projet ne peut pas être utilisé de manière commerciale (Serveur minecraft monétisé) sans avoir obtenu l'autorisation préalable.
+
 ## A propos
 
 Le mode Loup-Garou est un mode inspiré du jeu de société [Les Loups-Garous de Thiercelieux](https://fr.wikipedia.org/wiki/Les_Loups-garous_de_Thiercelieux) reprenant son fonctionnement ainsi que sa manière d'être joué, à la seule différence qu'aucun maître du jeu n'est requis, le déroulement de chaque partie étant entièrement automatisé.
@@ -23,9 +28,6 @@ Le mode Loup-Garou est un mode inspiré du jeu de société [Les Loups-Garous de
 - Utilisable sur n'importe quelle map sous condition d'ajouter les positions grâces aux commandes
 
 ## Installation
-
-**Minecraft 1.15.2 est requis.**  
-Déplacez simplement le plugin [LoupGarou.jar](https://github.com/Ekinoxx0/LoupGarou/releases) dans le dossier `plugins` de votre serveur avant de le redémarrer.
 
 ### Dépendances requises
 

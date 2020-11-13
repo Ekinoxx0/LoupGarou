@@ -7,7 +7,7 @@ public enum CharManager {
 
 	GUIL_RIGHT('»'),
 	GUIL_LEFT('«'),
-	CHECKED('✓'),
+	CHECKED('✅'),
 	CROSS('✖'),
 	ARROW_RIGHT('→'),
 	ARROW_LEFT('←'),
