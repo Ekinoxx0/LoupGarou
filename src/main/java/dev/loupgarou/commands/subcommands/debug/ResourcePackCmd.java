@@ -17,7 +17,8 @@ public class ResourcePackCmd extends SubCommand {
 
 	private static final ViaAPI<?> api = Via.getAPI();
 	
-	private static final String url = "https://github.com/Ekinoxx0/LoupGarouRessourcePack/raw/";
+	private static final String githubRawSuffix = "?raw=true";
+	private static final String url = "https://github.com/Ekinoxx0/LoupGarouRessourcePack/blob/";
 	private static final String commitIdLGRessource = "ce6bd2814b04b84665a23dcc2829b5e24eab86b8";
 
 	public ResourcePackCmd(LoupGarouCommand cmd) {
@@ -41,7 +42,7 @@ public class ResourcePackCmd extends SubCommand {
 		if(lgp.getLoadedRessourcePack() == null) return;
 		
 		p.sendMessage(PrefixType.RESOURCEPACK + "§7Remise à zéro du pack de ressources...");
-		p.setResourcePack(url + commitIdLGRessource + "/empty.zip", "");
+		p.setResourcePack(url + commitIdLGRessource + "/empty.zip" + githubRawSuffix, "");
 		lgp.setLoadedRessourcePack(null);
 	}
 
@@ -53,11 +54,11 @@ public class ResourcePackCmd extends SubCommand {
 		ProtocolVersion v = ProtocolVersion.getProtocol(api.getPlayerVersion(p.getUniqueId()));
 		p.sendMessage(PrefixType.RESOURCEPACK + "§7Chargement du pack de ressources " + v.getName());
 		if(v.getId() < ProtocolVersion.v1_13.getId()) {
-			p.setResourcePack(url + commitIdLGRessource + "/generated-pre13.zip", "");
-			lgp.setLoadedRessourcePack(url + commitIdLGRessource + "/generated.zip");
+			p.setResourcePack(url + commitIdLGRessource + "/generated-pre13.zip" + githubRawSuffix, "");
+			lgp.setLoadedRessourcePack(url + commitIdLGRessource + "/generated.zip" + githubRawSuffix);
 		} else {
-			p.setResourcePack(url + commitIdLGRessource + "/generated.zip", "");
-			lgp.setLoadedRessourcePack(url + commitIdLGRessource + "/generated.zip");
+			p.setResourcePack(url + commitIdLGRessource + "/generated.zip" + githubRawSuffix, "");
+			lgp.setLoadedRessourcePack(url + commitIdLGRessource + "/generated.zip" + githubRawSuffix);
 		}
 	}
 	
